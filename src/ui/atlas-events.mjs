@@ -1,4 +1,4 @@
-export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, applyTheme }) {
+export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, applyTheme, setEditorOpen }) {
   const toast = (message) => onToast?.(message);
 
   root.railButtons.forEach((button) => {
@@ -15,6 +15,14 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const open = root.settings.hidden;
     root.settings.hidden = !open;
     root.actions.toggleSettings.setAttribute('aria-expanded', String(open));
+    if (open) {
+      root.drawMenu.hidden = true;
+      root.actions.draw.setAttribute('aria-expanded', 'false');
+    }
+  });
+  root.actions.closeSettings.addEventListener('click', () => {
+    root.settings.hidden = true;
+    root.actions.toggleSettings.setAttribute('aria-expanded', 'false');
   });
   root.actions.add.addEventListener('click', () => {
     const id = `node_${Date.now()}`;
@@ -24,6 +32,14 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const open = root.drawMenu.hidden;
     root.drawMenu.hidden = !open;
     root.actions.draw.setAttribute('aria-expanded', String(open));
+    if (open) {
+      root.settings.hidden = true;
+      root.actions.toggleSettings.setAttribute('aria-expanded', 'false');
+    }
+  });
+  root.actions.closeDraw.addEventListener('click', () => {
+    root.drawMenu.hidden = true;
+    root.actions.draw.setAttribute('aria-expanded', 'false');
   });
   root.drawMenu.querySelectorAll('[data-draw-shape]').forEach((shapeButton) => {
     shapeButton.addEventListener('click', () => {
@@ -65,6 +81,8 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const visible = view.toggleWires();
     toast(visible ? 'Conexiones visibles' : 'Conexiones ocultas');
   });
+  root.actions.toggleEditor.addEventListener('click', () => setEditorOpen(root.editorPanel.hidden));
+  root.actions.closeEditor.addEventListener('click', () => setEditorOpen(false));
   root.fileInput.addEventListener('change', async () => {
     const file = root.fileInput.files?.[0];
     if (!file) return;
@@ -137,6 +155,7 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
       event.preventDefault();
       store.redo();
     } else if (event.key === 'Escape') {
+      view.cancelModes();
       if (root.viewer.dialog.open) root.viewer.dialog.close();
       if (root.modal.dialog.open) root.modal.dialog.close();
       root.settings.hidden = true;

@@ -20,6 +20,8 @@ const root = {
   cards: rootElement.querySelector('[data-atlas-cards]'),
   wires: rootElement.querySelector('[data-atlas-wires]'),
   editor: rootElement.querySelector('[data-atlas-editor]'),
+  editorActions: rootElement.querySelector('[data-atlas-editor-actions]'),
+  editorPanel: rootElement.querySelector('[data-atlas-editor-panel]'),
   count: rootElement.querySelector('[data-atlas-count]'),
   status: rootElement.querySelector('[data-atlas-status]'),
   search: rootElement.querySelector('[data-atlas-search]'),
@@ -55,6 +57,7 @@ const root = {
   actions: {
     toggleRail: rootElement.querySelector('[data-action="toggle-rail"]'),
     toggleSettings: rootElement.querySelector('[data-action="toggle-settings"]'),
+    closeSettings: rootElement.querySelector('[data-action="close-settings"]'),
     add: rootElement.querySelector('[data-action="add"]'),
     draw: rootElement.querySelector('[data-action="draw"]'),
     connect: rootElement.querySelector('[data-action="connect"]'),
@@ -69,6 +72,9 @@ const root = {
     import: rootElement.querySelector('[data-action="import"]'),
     toggleMinimap: rootElement.querySelector('[data-action="toggle-minimap"]'),
     toggleWires: rootElement.querySelector('[data-action="toggle-wires"]'),
+    toggleEditor: rootElement.querySelector('[data-action="toggle-editor"]'),
+    closeEditor: rootElement.querySelector('[data-action="close-editor"]'),
+    closeDraw: rootElement.querySelector('[data-action="close-draw"]'),
   },
   modal: {
     dialog: rootElement.querySelector('[data-atlas-dialog]'),
@@ -147,5 +153,13 @@ const view = createAtlasView({
   onMediaOpen: openViewer,
 });
 
-bindAtlasEvents({ root, store, view, knownLinks: KNOWN_LINKS, onToast: toast, applyTheme });
-store.subscribe((snapshot) => view.render(snapshot));
+const setEditorOpen = (open) => {
+  root.editorPanel.hidden = !open;
+  root.actions.toggleEditor.setAttribute('aria-expanded', String(open));
+};
+
+bindAtlasEvents({ root, store, view, knownLinks: KNOWN_LINKS, onToast: toast, applyTheme, setEditorOpen });
+store.subscribe((snapshot) => {
+  if (snapshot.reason === 'select') setEditorOpen(true);
+  view.render(snapshot);
+});

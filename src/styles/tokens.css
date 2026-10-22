@@ -16,6 +16,9 @@
   --rr-space-4: 16px;
   --rr-space-5: 24px;
   --rr-space-6: 32px;
+  --rr-space-7: 40px;
+  --rr-header-height: 76px;
+  --rr-sidebar-width: 360px;
   --rr-font: "Arial Nova", "Helvetica Neue", Arial, sans-serif;
   --rr-bezel: #0b0108;
   --rr-well: #11020c;
@@ -39,6 +42,7 @@ body.atlas-theme-light {
 }
 
 * { box-sizing: border-box; }
+*[hidden] { display: none !important; }
 html, body { min-height: 100%; }
 body {
   margin: 0;
@@ -46,6 +50,7 @@ body {
   color: var(--rr-paper);
   font-family: var(--rr-font);
   font-size: 14px;
+  overflow: hidden;
 }
 button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }

@@ -13,22 +13,27 @@
 <body>
   <div id="atlas-app" class="atlas-app">
     <header class="atlas-header" aria-label="Barra principal">
-      <div class="atlas-header-side" aria-hidden="true"></div>
       <div class="atlas-brand">
         <span class="atlas-logo-frame"><img class="atlas-logo-image" src="/rr-logo-mark.png" alt="Símbolo oficial de RR Aliados"></span>
         <div><strong>RR ALIADOS</strong><span>Atlas operativo / Workspace</span></div>
       </div>
+      <label class="atlas-search"><span class="sr-only">Buscar nodos</span><input data-atlas-search aria-label="Buscar nodos" placeholder="Buscar personas, proyectos, procesos…"></label>
       <div class="atlas-header-tools">
-        <label class="atlas-search"><span class="sr-only">Buscar nodos</span><input data-atlas-search aria-label="Buscar nodos" placeholder="Buscar personas, proyectos, procesos…"></label>
-        <button class="atlas-button atlas-button--primary" data-action="toggle-settings" aria-expanded="false">⚙ Configuración</button>
-        <div class="atlas-settings-panel" data-atlas-settings hidden>
-          <div class="atlas-settings-head"><span class="kind">Configuración del Atlas</span><strong>Herramientas de trabajo</strong></div>
-          <button class="atlas-button" data-action="export">↓ Exportar mapa</button>
-          <button class="atlas-button" data-action="import">↑ Importar mapa</button>
-          <button class="atlas-button" data-action="reset">↶ Restaurar base</button>
-          <button class="atlas-button" data-action="toggle-theme">◐ Cambiar tema</button>
-          <button class="atlas-button" data-action="toggle-minimap">▦ Mostrar/ocultar minimapa</button>
-          <button class="atlas-button" data-action="toggle-wires">⌁ Mostrar/ocultar conexiones</button>
+        <button class="atlas-button atlas-button--secondary" data-action="toggle-settings" aria-expanded="false" aria-controls="atlas-settings">⚙ Configuración</button>
+        <div id="atlas-settings" class="atlas-settings-panel" data-atlas-settings hidden role="region" aria-label="Configuración del Atlas">
+          <div class="atlas-settings-head"><div><span class="kind">Configuración del Atlas</span><strong>Herramientas de trabajo</strong></div><button class="atlas-button atlas-button--icon" data-action="close-settings" aria-label="Cerrar configuración">×</button></div>
+          <div class="atlas-settings-group" aria-label="Datos">
+            <span class="atlas-settings-label">Datos</span>
+            <button class="atlas-button" data-action="export">↓ Exportar mapa</button>
+            <button class="atlas-button" data-action="import">↑ Importar mapa</button>
+            <button class="atlas-button atlas-button--danger" data-action="reset">↶ Restaurar base</button>
+          </div>
+          <div class="atlas-settings-group" aria-label="Vista">
+            <span class="atlas-settings-label">Vista</span>
+            <button class="atlas-button" data-action="toggle-theme">◐ Cambiar tema</button>
+            <button class="atlas-button" data-action="toggle-minimap">▦ Mostrar/ocultar minimapa</button>
+            <button class="atlas-button" data-action="toggle-wires">⌁ Mostrar/ocultar conexiones</button>
+          </div>
         </div>
       </div>
       <input data-atlas-file type="file" accept="application/json,.json" hidden>
@@ -49,25 +54,34 @@
       </nav>
 
       <main class="atlas-canvas" data-atlas-work aria-label="Lienzo visual interactivo">
+        <h1 class="sr-only">RR Aliados · Atlas operativo</h1>
         <div class="atlas-toolbar" aria-label="Controles del mapa">
-          <button class="atlas-button atlas-button--primary" data-action="add">＋ Nuevo nodo</button>
-          <button class="atlas-button" data-action="draw" aria-expanded="false">✎ Dibujar</button>
-          <div class="atlas-draw-menu" data-atlas-draw-menu hidden>
-            <span class="kind">Insertar figura en el lienzo</span>
-            <button class="atlas-button" data-draw-shape="rectangle">Rectángulo</button>
-            <button class="atlas-button" data-draw-shape="rounded">Redondeada</button>
-            <button class="atlas-button" data-draw-shape="circle">Círculo</button>
-            <button class="atlas-button" data-draw-shape="diamond">Rombo</button>
-            <button class="atlas-button" data-draw-shape="hexagon">Hexágono</button>
-            <button class="atlas-button" data-draw-shape="note">Nota</button>
+          <div class="atlas-toolbar-group" aria-label="Crear y editar">
+            <button class="atlas-button atlas-button--primary" data-action="add">＋ Nuevo nodo</button>
+            <button class="atlas-button" data-action="draw" aria-expanded="false" aria-controls="atlas-draw-menu">✎ Dibujar</button>
+            <div id="atlas-draw-menu" class="atlas-draw-menu" data-atlas-draw-menu hidden role="region" aria-label="Insertar figura en el lienzo">
+              <div class="atlas-draw-menu-head"><span class="kind">Insertar figura en el lienzo</span><button class="atlas-button atlas-button--icon" data-action="close-draw" aria-label="Cerrar selector de figuras">×</button></div>
+              <p class="atlas-muted">Elige una figura y luego pulsa el lienzo para colocarla.</p>
+              <button class="atlas-button" data-draw-shape="rectangle">Rectángulo</button>
+              <button class="atlas-button" data-draw-shape="rounded">Redondeada</button>
+              <button class="atlas-button" data-draw-shape="circle">Círculo</button>
+              <button class="atlas-button" data-draw-shape="diamond">Rombo</button>
+              <button class="atlas-button" data-draw-shape="hexagon">Hexágono</button>
+              <button class="atlas-button" data-draw-shape="note">Nota</button>
+            </div>
+            <button class="atlas-button" data-action="connect">↗ Conectar</button>
           </div>
-          <button class="atlas-button" data-action="connect">↗ Conectar</button>
-          <button class="atlas-button atlas-button--icon" data-action="zoom-out" title="Alejar">−</button>
-          <button class="atlas-button atlas-button--icon" data-action="zoom-in" title="Acercar">＋</button>
-          <button class="atlas-button" data-action="center">Centrar</button>
-          <button class="atlas-button" data-action="flow">Ver flujo comercial</button>
-          <button class="atlas-button" data-action="undo">↶ Deshacer</button>
-          <button class="atlas-button" data-action="redo">↷ Rehacer</button>
+          <div class="atlas-toolbar-group" aria-label="Vista del mapa">
+            <button class="atlas-button atlas-button--icon" data-action="zoom-out" aria-label="Alejar" title="Alejar">−</button>
+            <button class="atlas-button atlas-button--icon" data-action="zoom-in" aria-label="Acercar" title="Acercar">＋</button>
+            <button class="atlas-button" data-action="center">Centrar selección</button>
+            <button class="atlas-button" data-action="flow">Ver flujo comercial</button>
+            <button class="atlas-button" data-action="toggle-editor" aria-expanded="true" aria-controls="atlas-editor-panel">Inspector</button>
+          </div>
+          <div class="atlas-toolbar-group" aria-label="Historial">
+            <button class="atlas-button" data-action="undo">↶ Deshacer</button>
+            <button class="atlas-button" data-action="redo">↷ Rehacer</button>
+          </div>
         </div>
         <div class="atlas-world" data-atlas-world>
           <svg class="atlas-wires" width="4300" height="3200" viewBox="0 0 4300 3200" aria-hidden="true">
@@ -80,7 +94,14 @@
         <aside class="atlas-minimap" aria-label="Minimapa del Atlas"><div class="atlas-minimap-title"><span>Minimapa</span><span data-atlas-minimap-count>0</span></div><div class="atlas-minimap-canvas" data-atlas-minimap-canvas></div></aside>
       </main>
 
-      <aside class="atlas-sidebar" aria-label="Editor de entidad"><div data-atlas-editor></div></aside>
+      <aside id="atlas-editor-panel" class="atlas-sidebar" data-atlas-editor-panel aria-label="Editor de entidad">
+        <header class="atlas-sidebar-header">
+          <div><span class="kind">Inspector activo</span><strong>Detalle del nodo</strong></div>
+          <button class="atlas-button atlas-button--icon" data-action="close-editor" aria-label="Cerrar inspector">×</button>
+        </header>
+        <div data-atlas-editor></div>
+        <div class="atlas-editor-actions" data-atlas-editor-actions></div>
+      </aside>
     </div>
 
     <dialog data-atlas-dialog aria-labelledby="dialog-title">

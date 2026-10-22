@@ -95,7 +95,7 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       const node = effectiveNode(rawNode);
       const marker = button('', 'atlas-minimap-node');
       marker.classList.toggle('is-active', node.id === currentSnapshot.selectedId);
-      marker.style.background = NODE_COLORS[node.color] ?? NODE_COLORS.fuchsia;
+      marker.style.setProperty('--node-color', NODE_COLORS[node.color] ?? NODE_COLORS.fuchsia);
       marker.title = node.title;
       marker.setAttribute('aria-label', `Seleccionar ${node.title}`);
       marker.style.left = `${Math.min(98, Math.max(2, (node.x / 4200) * 100))}%`;
@@ -193,6 +193,7 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
 
   const renderEditor = () => {
     root.editor.replaceChildren();
+    root.editorActions.replaceChildren();
     const node = getNode(currentSnapshot.selectedId);
     if (!node) {
       const empty = document.createElement('p');
@@ -204,7 +205,7 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
 
     const kind = document.createElement('span');
     kind.className = 'kind';
-    kind.textContent = `Editar nodo · ${node.id}`;
+    kind.textContent = 'Inspector de nodo';
     const heading = document.createElement('h2');
     heading.textContent = node.title;
     root.editor.append(kind, heading);
@@ -324,7 +325,7 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       }
     });
     actions.append(save, discard, remove);
-    root.editor.appendChild(actions);
+    root.editorActions.appendChild(actions);
 
     const mediaSection = document.createElement('section');
     mediaSection.className = 'atlas-editor-section';
@@ -405,7 +406,8 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     const visible = visibleNodes();
     const mediaCount = snapshot.state.data.reduce((total, node) => total + (node.media?.length ?? 0), 0);
     root.count.textContent = `${visible.length} de ${snapshot.state.data.length} nodos · ${snapshot.state.lines.length} conexiones · ${mediaCount} recursos`;
-    root.status.textContent = snapshot.reason === 'init' ? 'Selecciona un nodo para editarlo · Desplazar: fondo · Zoom: rueda' : 'Cambios guardados localmente';
+    const mode = drawingShape ? `Modo dibujo activo · ${drawingShape}` : connecting ? 'Modo conexión activo · selecciona el nodo destino' : snapshot.selectedId ? `Nodo seleccionado · ${getNode(snapshot.selectedId)?.title ?? 'sin título'}` : 'Selecciona un nodo para editarlo';
+    root.status.textContent = `${mode} · ${visible.length} visibles · ${snapshot.state.lines.length} conexiones`;
     root.railButtons.forEach((buttonElement) => {
       buttonElement.setAttribute('aria-pressed', String(buttonElement.dataset.atlasFilter === snapshot.filter));
     });
@@ -485,12 +487,22 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     startConnecting() {
       if (!currentSnapshot.selectedId) { toast('Selecciona un nodo primero'); return; }
       connecting = currentSnapshot.selectedId;
+      root.status.textContent = 'Modo conexión activo · selecciona el nodo destino';
       toast('Selecciona un segundo nodo para crear la conexión');
     },
     startDrawing(shape) {
       drawingShape = shape;
       root.work.classList.add('is-drawing');
+      root.status.textContent = `Modo dibujo activo · ${shape} · pulsa Esc para cancelar`;
       toast(`Dibujar ${shape}: haz clic en el lienzo`);
+    },
+    cancelModes() {
+      connecting = null;
+      drawingShape = null;
+      root.work.classList.remove('is-drawing');
+      root.status.textContent = currentSnapshot.selectedId
+        ? `Nodo seleccionado · ${getNode(currentSnapshot.selectedId)?.title ?? 'sin título'}`
+        : 'Selecciona un nodo para editarlo';
     },
     previewAppearance(id, shape, color) {
       appearancePreview = { id, shape, color };
