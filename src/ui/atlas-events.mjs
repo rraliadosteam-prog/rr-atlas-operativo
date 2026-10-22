@@ -1,4 +1,4 @@
-export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, applyTheme, setEditorOpen }) {
+export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, applyTheme }) {
   const toast = (message) => onToast?.(message);
 
   root.railButtons.forEach((button) => {
@@ -15,14 +15,6 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const open = root.settings.hidden;
     root.settings.hidden = !open;
     root.actions.toggleSettings.setAttribute('aria-expanded', String(open));
-    if (open) {
-      root.drawMenu.hidden = true;
-      root.actions.draw.setAttribute('aria-expanded', 'false');
-    }
-  });
-  root.actions.closeSettings.addEventListener('click', () => {
-    root.settings.hidden = true;
-    root.actions.toggleSettings.setAttribute('aria-expanded', 'false');
   });
   root.actions.add.addEventListener('click', () => {
     const id = `node_${Date.now()}`;
@@ -32,14 +24,6 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const open = root.drawMenu.hidden;
     root.drawMenu.hidden = !open;
     root.actions.draw.setAttribute('aria-expanded', String(open));
-    if (open) {
-      root.settings.hidden = true;
-      root.actions.toggleSettings.setAttribute('aria-expanded', 'false');
-    }
-  });
-  root.actions.closeDraw.addEventListener('click', () => {
-    root.drawMenu.hidden = true;
-    root.actions.draw.setAttribute('aria-expanded', 'false');
   });
   root.drawMenu.querySelectorAll('[data-draw-shape]').forEach((shapeButton) => {
     shapeButton.addEventListener('click', () => {
@@ -52,11 +36,29 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
   root.actions.zoomIn.addEventListener('click', () => view.zoomIn());
   root.actions.zoomOut.addEventListener('click', () => view.zoomOut());
   root.actions.center.addEventListener('click', () => view.center());
+  root.actions.locate?.addEventListener('click', () => {
+    view.center();
+    toast('Nodo seleccionado en el centro');
+  });
+  const app = root.layout.closest('#atlas-app');
+  root.actions.toggleTools?.addEventListener('click', () => {
+    const open = !app?.classList.contains('is-tools-open');
+    app?.classList.toggle('is-tools-open', open);
+    root.actions.toggleTools.setAttribute('aria-expanded', String(open));
+  });
   root.actions.flow.addEventListener('click', () => {
     store.setFilter('Todo');
     store.setQuery('');
-    store.select('comercial');
-    toast('Proceso comercial seleccionado');
+    if (root.search) root.search.value = '';
+    const snapshot = store.getSnapshot();
+    const node = snapshot.state.data.find((item) => item.type === 'Proceso');
+    if (node && store.select(node.id)) {
+      view.frameNode(node.id);
+      toast('Proceso en el centro del mapa');
+    } else {
+      toast('No hay un proceso de ejemplo en este mapa');
+    }
+    app?.classList.remove('is-tools-open');
   });
   root.actions.undo.addEventListener('click', () => store.undo());
   root.actions.redo.addEventListener('click', () => store.redo());
@@ -81,8 +83,6 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const visible = view.toggleWires();
     toast(visible ? 'Conexiones visibles' : 'Conexiones ocultas');
   });
-  root.actions.toggleEditor.addEventListener('click', () => setEditorOpen(root.editorPanel.hidden));
-  root.actions.closeEditor.addEventListener('click', () => setEditorOpen(false));
   root.fileInput.addEventListener('change', async () => {
     const file = root.fileInput.files?.[0];
     if (!file) return;
@@ -155,7 +155,6 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
       event.preventDefault();
       store.redo();
     } else if (event.key === 'Escape') {
-      view.cancelModes();
       if (root.viewer.dialog.open) root.viewer.dialog.close();
       if (root.modal.dialog.open) root.modal.dialog.close();
       root.settings.hidden = true;
@@ -166,11 +165,12 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
   });
 
   document.addEventListener('click', (event) => {
-    if (!root.settings.hidden && !root.settings.contains(event.target) && event.target !== root.actions.toggleSettings) {
+    if (event.target instanceof Element && event.target.matches('input[type="file"]')) return;
+    if (!root.settings.hidden && !root.settings.contains(event.target) && !root.actions.toggleSettings.contains(event.target)) {
       root.settings.hidden = true;
       root.actions.toggleSettings.setAttribute('aria-expanded', 'false');
     }
-    if (!root.drawMenu.hidden && !root.drawMenu.contains(event.target) && event.target !== root.actions.draw) {
+    if (!root.drawMenu.hidden && !root.drawMenu.contains(event.target) && !root.actions.draw.contains(event.target)) {
       root.drawMenu.hidden = true;
       root.actions.draw.setAttribute('aria-expanded', 'false');
     }
