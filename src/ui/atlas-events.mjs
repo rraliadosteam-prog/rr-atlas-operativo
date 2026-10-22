@@ -1,4 +1,4 @@
-export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, applyTheme }) {
+export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, applyTheme, onConfirm }) {
   const toast = (message) => onToast?.(message);
 
   root.railButtons.forEach((button) => {
@@ -15,6 +15,10 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const open = root.settings.hidden;
     root.settings.hidden = !open;
     root.actions.toggleSettings.setAttribute('aria-expanded', String(open));
+    if (open) {
+      app?.classList.remove('is-tools-open');
+      root.actions.toggleTools?.setAttribute('aria-expanded', 'false');
+    }
   });
   root.actions.add.addEventListener('click', () => {
     const id = `node_${Date.now()}`;
@@ -45,6 +49,7 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     const open = !app?.classList.contains('is-tools-open');
     app?.classList.toggle('is-tools-open', open);
     root.actions.toggleTools.setAttribute('aria-expanded', String(open));
+    root.layout.querySelector('[data-atlas-tools]')?.setAttribute('aria-hidden', String(!open));
   });
   root.actions.flow.addEventListener('click', () => {
     store.setFilter('Todo');
@@ -62,9 +67,12 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
   });
   root.actions.undo.addEventListener('click', () => store.undo());
   root.actions.redo.addEventListener('click', () => store.redo());
-  root.actions.reset.addEventListener('click', () => {
-    if (window.confirm('¿Restaurar el mapa inicial? Exporta tu JSON antes si quieres conservar los cambios.')) store.reset();
-  });
+  root.actions.reset.addEventListener('click', () => onConfirm?.({
+    title: 'Restaurar el mapa inicial',
+    message: 'Esta acción reemplaza tus cambios locales. Exporta el mapa antes si quieres conservarlos.',
+    confirmLabel: 'Restaurar base',
+    onConfirm: () => store.reset(),
+  }));
   root.actions.export.addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(store.exportPayload(), null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -82,6 +90,10 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
   root.actions.toggleWires.addEventListener('click', () => {
     const visible = view.toggleWires();
     toast(visible ? 'Conexiones visibles' : 'Conexiones ocultas');
+  });
+  root.actions.closeDetail?.addEventListener('click', () => {
+    app?.classList.remove('is-detail-open');
+    root.search?.focus({ preventScroll: true });
   });
   root.fileInput.addEventListener('change', async () => {
     const file = root.fileInput.files?.[0];
@@ -148,6 +160,35 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
 
   document.addEventListener('keydown', (event) => {
     const modifier = event.ctrlKey || event.metaKey;
+    const editingField = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+    if (!modifier && !editingField) {
+      if (event.key === '+' || event.key === '=') {
+        event.preventDefault();
+        view.zoomIn();
+      } else if (event.key === '-' || event.key === '_') {
+        event.preventDefault();
+        view.zoomOut();
+      } else if (event.key === '0') {
+        event.preventDefault();
+        view.center();
+      } else if (event.key === '1') {
+        event.preventDefault();
+        view.zoomTo(1);
+      } else if (event.key.toLowerCase() === 'f') {
+        event.preventDefault();
+        view.frameSelected();
+      } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.preventDefault();
+        const amount = event.shiftKey ? 120 : 48;
+        const delta = {
+          ArrowUp: [0, amount],
+          ArrowDown: [0, -amount],
+          ArrowLeft: [amount, 0],
+          ArrowRight: [-amount, 0],
+        }[event.key];
+        view.panBy(delta[0], delta[1]);
+      }
+    }
     if (modifier && event.key.toLowerCase() === 'z') {
       event.preventDefault();
       event.shiftKey ? store.redo() : store.undo();
@@ -157,10 +198,14 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     } else if (event.key === 'Escape') {
       if (root.viewer.dialog.open) root.viewer.dialog.close();
       if (root.modal.dialog.open) root.modal.dialog.close();
+      if (root.confirm.dialog.open) root.confirm.dialog.close();
       root.settings.hidden = true;
       root.drawMenu.hidden = true;
       root.actions.toggleSettings.setAttribute('aria-expanded', 'false');
       root.actions.draw.setAttribute('aria-expanded', 'false');
+      app?.classList.remove('is-tools-open', 'is-detail-open');
+      root.actions.toggleTools?.setAttribute('aria-expanded', 'false');
+      root.layout.querySelector('[data-atlas-tools]')?.setAttribute('aria-hidden', 'true');
     }
   });
 
@@ -173,6 +218,11 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     if (!root.drawMenu.hidden && !root.drawMenu.contains(event.target) && !root.actions.draw.contains(event.target)) {
       root.drawMenu.hidden = true;
       root.actions.draw.setAttribute('aria-expanded', 'false');
+    }
+    if (app?.classList.contains('is-tools-open') && !root.actions.toggleTools?.contains(event.target) && !root.layout.querySelector('[data-atlas-tools]')?.contains(event.target)) {
+      app.classList.remove('is-tools-open');
+      root.actions.toggleTools?.setAttribute('aria-expanded', 'false');
+      root.layout.querySelector('[data-atlas-tools]')?.setAttribute('aria-hidden', 'true');
     }
   });
 }

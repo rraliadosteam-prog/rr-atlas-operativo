@@ -35,7 +35,10 @@ body.atlas-theme-light .atlas-button--primary { background: var(--rr-mustard); b
   text-align: left;
   box-shadow: var(--rr-shadow);
   touch-action: none;
+  cursor: grab;
 }
+.atlas-card:active { cursor: grabbing; }
+.atlas-card:focus-visible { outline: 2px solid var(--rr-focus); outline-offset: 4px; }
 .atlas-card:hover { border-color: var(--rr-mustard); }
 .atlas-card.is-active { border-color: var(--rr-mustard); box-shadow: 0 0 0 2px #ded11655, var(--rr-shadow); }
 .atlas-card .kind, .kind { display: block; color: var(--rr-accent-text); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
@@ -130,8 +133,10 @@ body.atlas-theme-light .atlas-card.shape-note { color: var(--rr-paper); }
 .atlas-viewer-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--rr-hairline); }
 
 @media (max-width: 900px) {
-  .atlas-layout { grid-template-columns: 160px minmax(0, 1fr) 280px; }
-  .atlas-layout.is-collapsed { grid-template-columns: 0 minmax(0, 1fr) 280px; }
+  .atlas-layout { grid-template-columns: 160px minmax(0, 1fr) 0; }
+  .atlas-app.is-detail-open .atlas-layout { grid-template-columns: 160px minmax(0, 1fr) 280px; }
+  .atlas-layout.is-collapsed { grid-template-columns: 0 minmax(0, 1fr) 0; }
+  .atlas-app.is-detail-open .atlas-layout.is-collapsed { grid-template-columns: 0 minmax(0, 1fr) 280px; }
   .atlas-minimap { width: 100%; transform: none; }
 }
 @media (max-width: 760px) {

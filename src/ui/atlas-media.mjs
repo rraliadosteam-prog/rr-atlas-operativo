@@ -1,4 +1,4 @@
-import { drivePreviewUrl } from '../core/atlas-state.mjs?v=bpmn-3';
+import { drivePreviewUrl } from '../core/atlas-state.mjs?v=bpmn-5';
 
 const iconFor = Object.freeze({
   image: '▧',

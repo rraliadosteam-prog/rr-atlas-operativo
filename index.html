@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Atlas Operativo v3.0 Alfa - RR Aliados -->
+<!-- Atlas Operativo v4.1 - RR Aliados -->
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -8,10 +8,10 @@
   <title>RR Aliados · Atlas operativo</title>
   <link rel="icon" href="/rr-logo-mark.png">
   <link rel="stylesheet" href="/src/styles/tokens.css">
-  <link rel="stylesheet" href="/src/styles/layout.css?v=bpmn-4">
-  <link rel="stylesheet" href="/src/styles/components.css?v=bpmn-4">
+  <link rel="stylesheet" href="/src/styles/layout.css?v=bpmn-5">
+  <link rel="stylesheet" href="/src/styles/components.css?v=bpmn-5">
   <link rel="stylesheet" href="/src/styles/bpmn.css">
-  <link rel="stylesheet" href="/src/styles/motion.css?v=bpmn-4">
+  <link rel="stylesheet" href="/src/styles/motion.css?v=bpmn-5">
   <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
@@ -45,30 +45,31 @@
     <div class="atlas-layout" data-atlas-layout>
       <nav class="atlas-rail" aria-label="Explorar el sistema">
         <div class="atlas-rail-head"><h2>Explorar el sistema</h2></div><button class="atlas-rail-toggle" data-action="toggle-rail" aria-label="Contraer navegación" aria-pressed="false" title="Contraer navegación">‹</button>
-        <button data-atlas-filter="Todo" aria-pressed="true">◈ Toda la empresa</button>
-        <button data-atlas-filter="Gobierno" aria-pressed="false">◉ Gobierno</button>
-        <button data-atlas-filter="Proceso" aria-pressed="false">⇄ Procesos</button>
-        <button data-atlas-filter="Cliente" aria-pressed="false">▣ Clientes</button>
-        <button data-atlas-filter="Producto" aria-pressed="false">◇ Productos</button>
-        <button data-atlas-filter="Area" aria-pressed="false">☷ Áreas</button>
-        <button data-atlas-filter="Talento" aria-pressed="false">♙ Talento</button>
-        <button data-atlas-filter="Herramienta" aria-pressed="false">⚙ Herramientas</button>
-        <button type="button" data-atlas-section-target="procesos" aria-pressed="false">▦ Procesos BPMN</button>
+        <button data-atlas-filter="Todo" aria-pressed="true"><span class="atlas-rail-mark" aria-hidden="true"></span>Toda la empresa</button>
+        <button data-atlas-filter="Gobierno" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Gobierno</button>
+        <button data-atlas-filter="Proceso" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos</button>
+        <button data-atlas-filter="Cliente" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Clientes</button>
+        <button data-atlas-filter="Producto" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Productos</button>
+        <button data-atlas-filter="Area" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Áreas</button>
+        <button data-atlas-filter="Talento" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Talento</button>
+        <button data-atlas-filter="Herramienta" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Herramientas</button>
+        <button type="button" data-atlas-section-target="procesos" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos BPMN</button>
         <p class="atlas-hint">La estructura definitiva de RR queda fuera de esta fase. Este mapa organiza capacidades sin convertir borradores en verdad empresarial.</p>
       </nav>
 
       <main class="atlas-canvas" aria-label="Lienzo visual interactivo">
+        <h1 class="sr-only">RR Aliados · Atlas operativo</h1>
         <div class="atlas-toolbar" aria-label="Controles del mapa">
           <div class="atlas-toolbar-bar">
             <button class="atlas-button atlas-button--icon" data-action="zoom-out" aria-label="Alejar">−</button>
             <button class="atlas-button atlas-button--icon" data-action="zoom-in" aria-label="Acercar">＋</button>
             <button class="atlas-button" data-action="center">Reencuadrar</button>
-            <button class="atlas-button atlas-mobile-only" data-action="toggle-tools" aria-expanded="false">Acciones</button>
+            <button class="atlas-button atlas-button--primary" data-action="add">＋ Nuevo nodo</button>
+            <button class="atlas-button atlas-toolbar-more" data-action="toggle-tools" aria-expanded="false" aria-controls="atlas-tools">Más</button>
           </div>
-          <div class="atlas-toolbar-extra" data-atlas-tools>
+          <div id="atlas-tools" class="atlas-toolbar-extra" data-atlas-tools aria-hidden="true">
             <button class="atlas-button" data-action="undo">↶ Deshacer</button>
             <button class="atlas-button" data-action="redo">↷ Rehacer</button>
-            <button class="atlas-button atlas-button--primary" data-action="add">＋ Nuevo nodo</button>
             <button class="atlas-button" data-action="draw" aria-expanded="false">✎ Dibujar</button>
             <div class="atlas-draw-menu" data-atlas-draw-menu hidden>
               <span class="kind">Insertar figura en el lienzo</span>
@@ -80,7 +81,6 @@
               <button class="atlas-button" data-draw-shape="note">Nota</button>
             </div>
             <button class="atlas-button" data-action="connect">↗ Conectar</button>
-            <button class="atlas-button atlas-mobile-only" data-action="toggle-detail">Detalle</button>
             <button class="atlas-button" data-action="flow">Ir a un proceso</button>
           </div>
         </div>
@@ -96,9 +96,18 @@
         <div class="atlas-status" data-atlas-status role="status" aria-live="polite"><span class="atlas-where" data-atlas-where>Arrastra el fondo o pellizca para acercar.</span><button type="button" class="atlas-button atlas-button--icon" data-action="locate" aria-label="Volver al nodo seleccionado"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
       </main>
 
-      <aside class="atlas-sidebar" aria-label="Editor de entidad"><button type="button" class="atlas-sheet-handle" data-press-skip aria-label="Arrastra hacia abajo para cerrar la ficha"></button><button type="button" class="atlas-button atlas-mobile-only" data-action="close-detail">Cerrar ficha</button><aside class="atlas-minimap" aria-label="Minimapa del Atlas"><div class="atlas-minimap-title"><span>Minimapa</span><span data-atlas-minimap-count>0</span></div><div class="atlas-minimap-canvas" data-atlas-minimap-canvas></div></aside><div data-atlas-editor></div></aside>
+      <aside class="atlas-sidebar" aria-label="Editor de entidad">
+        <button type="button" class="atlas-sheet-handle" data-press-skip aria-label="Arrastra hacia abajo para cerrar la ficha"></button>
+        <header class="atlas-sidebar-header">
+          <div><span class="kind">Inspector</span><strong>Detalle del nodo</strong></div>
+          <button type="button" class="atlas-button atlas-button--icon" data-action="close-detail" aria-label="Cerrar detalle">×</button>
+        </header>
+        <aside class="atlas-minimap" aria-label="Minimapa del Atlas"><div class="atlas-minimap-title"><span>Minimapa</span><span data-atlas-minimap-count>0</span></div><div class="atlas-minimap-canvas" data-atlas-minimap-canvas></div></aside>
+        <div data-atlas-editor></div>
+      </aside>
       <section class="atlas-processes" data-atlas-process hidden>
         <div class="atlas-process-list">
+          <button type="button" class="atlas-button atlas-button--secondary atlas-process-map-link" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
           <label class="atlas-process-search">Buscar proceso<input data-atlas-process-search placeholder="Nombre o área" aria-label="Buscar proceso"></label>
           <div class="atlas-process-actions">
             <button type="button" class="atlas-button atlas-button--primary" data-action="new-process">Nuevo proceso</button>
@@ -114,10 +123,10 @@
               <button type="button" class="atlas-button" data-action="bpmn-next" aria-label="Paso siguiente">Siguiente</button>
               <p class="atlas-step-label" data-atlas-step>Inicio</p>
               <button type="button" class="atlas-button" data-action="bpmn-fit">Reencuadrar</button>
-              <button type="button" class="atlas-button atlas-mobile-only" data-action="bpmn-meta">Validación</button>
-              <button type="button" class="atlas-button atlas-mobile-only" data-action="bpmn-more" aria-expanded="false">Más</button>
+              <button type="button" class="atlas-button" data-action="bpmn-meta" aria-expanded="false">Validación</button>
+              <button type="button" class="atlas-button" data-action="bpmn-more" aria-expanded="false" aria-controls="atlas-bpmn-more">Más</button>
             </div>
-            <div class="atlas-toolbar-extra" data-atlas-bpmn-more>
+            <div id="atlas-bpmn-more" class="atlas-toolbar-extra" data-atlas-bpmn-more aria-hidden="true">
               <button type="button" class="atlas-button" data-action="bpmn-play" aria-pressed="false">Recorrer</button>
               <button type="button" class="atlas-button atlas-button--icon" data-action="bpmn-zoom-out" aria-label="Alejar diagrama">−</button>
               <button type="button" class="atlas-button atlas-button--icon" data-action="bpmn-zoom-in" aria-label="Acercar diagrama">+</button>
@@ -173,6 +182,13 @@
         <div class="row"><button class="atlas-button" value="cancel">Cancelar</button><button class="atlas-button atlas-button--primary" data-action="create-process" value="default">Crear</button></div>
       </form>
     </dialog>
+    <dialog data-atlas-confirm aria-labelledby="confirm-title">
+      <form method="dialog" class="atlas-dialog-form">
+        <h2 id="confirm-title" data-atlas-confirm-title>Confirmar acción</h2>
+        <p class="atlas-muted" data-atlas-confirm-help></p>
+        <div class="row"><button class="atlas-button" value="cancel">Cancelar</button><button class="atlas-button atlas-button--danger" data-action="confirm-action" value="default">Confirmar</button></div>
+      </form>
+    </dialog>
     <div class="atlas-tour" data-atlas-tour hidden>
       <h2 data-atlas-tour-title>El mapa</h2>
       <p data-atlas-tour-copy>Toca un nodo para abrir su ficha.</p>
@@ -183,6 +199,6 @@
     </div>
     <div class="atlas-toast" data-atlas-toast role="status" hidden></div>
   </div>
-  <script type="module" src="/src/app/main.mjs?v=bpmn-4"></script>
+  <script type="module" src="/src/app/main.mjs?v=bpmn-5"></script>
 </body>
 </html>

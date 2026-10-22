@@ -11,6 +11,8 @@ const VIEWPORTS = [
   { name: '360x800', width: 360, height: 800 },
   { name: '390x844', width: 390, height: 844 },
   { name: '430x932', width: 430, height: 932 },
+  { name: '768x900', width: 768, height: 900 },
+  { name: '1024x768', width: 1024, height: 768 },
   { name: '1440x900', width: 1440, height: 900 },
 ];
 
@@ -273,12 +275,13 @@ async function measure(page, name) {
 }
 
 async function goMapa(page) {
-  const tab = page.locator('.atlas-tabbar [data-atlas-section-target="mapa"]');
-  if (await tab.isVisible()) {
-    await tab.click();
+  const target = page.locator('[data-atlas-section-target="mapa"]:visible').first();
+  if (await target.count()) {
+    await target.click();
     return;
   }
-  await page.locator('[data-atlas-filter="Todo"]').click();
+  const filter = page.locator('[data-atlas-filter="Todo"]:visible').first();
+  if (await filter.count()) await filter.click();
 }
 
 async function openProcesos(page) {
@@ -286,7 +289,7 @@ async function openProcesos(page) {
   const selector = mobile
     ? '.atlas-tabbar [data-atlas-section-target="procesos"]'
     : '.atlas-rail [data-atlas-section-target="procesos"]';
-  await page.locator(selector).click();
+  if (await page.locator('#atlas-app').getAttribute('data-atlas-section') !== 'procesos') await page.locator(selector).click();
   await page.waitForSelector('[data-process-id]', { state: 'attached', timeout: 20000 });
   const status = await page.locator('[data-atlas-bpmn-status]').innerText();
   if (!status.includes('Validación')) {
@@ -322,24 +325,25 @@ for (const vp of VIEWPORTS) {
   const mobile = vp.width < 760;
   await record(page, report, `${vp.name} mapa`);
 
+  const detailCard = page.locator('.atlas-card').first();
+  if (await detailCard.count() && await detailCard.isVisible()) {
+    await detailCard.click();
+    await page.evaluate(() => {
+      document.querySelector('#atlas-app')?.classList.remove('is-tools-open');
+      document.querySelector('[data-action="toggle-tools"]')?.setAttribute('aria-expanded', 'false');
+    });
+    await page.waitForTimeout(200);
+    await record(page, report, `${vp.name} detalle`);
+    const close = page.locator('[data-action="close-detail"]');
+    if (await close.isVisible()) await close.click();
+  }
+
   if (mobile) {
     const tools = page.locator('[data-action="toggle-tools"]');
     if (await tools.isVisible()) {
       await tools.click();
       await page.waitForTimeout(150);
       await record(page, report, `${vp.name} acciones`);
-    }
-    const detail = page.locator('[data-action="toggle-detail"]');
-    if (await detail.count()) {
-      await detail.click();
-      await page.evaluate(() => {
-        document.querySelector('#atlas-app')?.classList.remove('is-tools-open');
-        document.querySelector('[data-action="toggle-tools"]')?.setAttribute('aria-expanded', 'false');
-      });
-      await page.waitForTimeout(200);
-      await record(page, report, `${vp.name} detalle`);
-      const close = page.locator('[data-action="close-detail"]');
-      if (await close.isVisible()) await close.click();
     }
     await page.locator('.atlas-tabbar [data-atlas-section-target="menu"]').click();
     await page.waitForTimeout(200);
@@ -358,8 +362,6 @@ for (const vp of VIEWPORTS) {
   await record(page, report, `${vp.name} busqueda`);
   await search.fill('');
 
-  if (mobile) await page.locator('.atlas-tabbar [data-atlas-section-target="procesos"]').click();
-  else await page.locator('.atlas-rail [data-atlas-section-target="procesos"]').click();
   await openProcesos(page);
   const back = page.locator('[data-action="bpmn-back"]');
   if (await back.isVisible()) await back.click();
@@ -372,7 +374,7 @@ for (const vp of VIEWPORTS) {
   await record(page, report, `${vp.name} bpmn-grande`);
 
   const metaButton = page.locator('[data-action="bpmn-meta"]');
-  if (mobile && await metaButton.count() && await metaButton.isVisible()) {
+  if (await metaButton.count() && await metaButton.isVisible()) {
     await metaButton.click();
     await page.waitForTimeout(150);
   }
@@ -392,8 +394,7 @@ for (const vp of VIEWPORTS) {
   await goMapa(page);
   await page.waitForSelector('.atlas-card');
   await record(page, report, `${vp.name} tema-claro-mapa`);
-  if (mobile) await page.locator('.atlas-tabbar [data-atlas-section-target="procesos"]').click();
-  else await page.locator('.atlas-rail [data-atlas-section-target="procesos"]').click();
+  await openProcesos(page);
   await page.waitForSelector('[data-process-id]', { state: 'attached' });
   await openProcess(page, 'alianzas_como_nace_una_alianza');
   await record(page, report, `${vp.name} tema-claro-bpmn`);

@@ -82,7 +82,7 @@ function download(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function createBpmnWorkspace({ container, onReport }) {
+export function createBpmnWorkspace({ container, onReport, onElement }) {
   let viewer = null;
   let mode = 'view';
   let currentXml = '';
@@ -105,6 +105,17 @@ export function createBpmnWorkspace({ container, onReport }) {
       },
     });
     mode = nextMode;
+    viewer.on('element.click', ({ element }) => {
+      const business = element.businessObject || {};
+      onElement?.({
+        id: element.id,
+        type: element.type,
+        name: business.name || 'Sin nombre',
+        documentation: (business.documentation || []).map((item) => item.text || '').join(' ').trim(),
+        incoming: element.incoming?.length || 0,
+        outgoing: element.outgoing?.length || 0,
+      });
+    });
     if (!pinchBound) {
       bindPinch(container, () => viewer?.get('canvas'));
       pinchBound = true;
@@ -134,7 +145,7 @@ export function createBpmnWorkspace({ container, onReport }) {
   }
 
   let stepIndex = 0;
-  const narrow = () => container.clientWidth < 761;
+  const narrow = () => container.clientWidth < 540;
 
   function flowElements() {
     if (!viewer) return [];
@@ -180,7 +191,7 @@ export function createBpmnWorkspace({ container, onReport }) {
     if (!viewer) return;
     const registry = viewer.get('elementRegistry');
     const shapes = registry.filter((element) => !element.labelTarget && !element.waypoints && element.width && element.type !== 'bpmn:Lane' && element.type !== 'bpmn:Participant');
-    const labels = registry.filter((element) => element.labelTarget && element.width);
+    const labels = registry.filter((element) => element.labelTarget && element.width && !['bpmn:Lane', 'bpmn:Participant'].includes(element.labelTarget?.type));
     for (const label of labels) {
       for (let guard = 0; guard < 6; guard += 1) {
         const shape = shapes.find((item) => item.id !== label.labelTarget?.id && intersects(label, item));
@@ -219,6 +230,7 @@ export function createBpmnWorkspace({ container, onReport }) {
       viewer.get('canvas').zoom('fit-viewport', 'auto');
       stepIndex = 0;
       nudgeLabels();
+      if (container.clientWidth < 800) viewer.get('canvas').zoom(Math.max(0.2, viewer.get('canvas').zoom() * 0.9));
       return describeStep();
     }
     return showStep(0);

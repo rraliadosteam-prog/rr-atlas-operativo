@@ -1,17 +1,17 @@
-import { STORAGE_KEY, createLocalRepository, PALETTE_COLORS } from '../core/atlas-state.mjs?v=bpmn-3';
-import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=bpmn-3';
-import { KNOWN_LINKS } from '../data/known-links.mjs?v=bpmn-3';
-import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=bpmn-3';
-import { NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=bpmn-3';
-import { createAtlasShell } from '../ui/atlas-shell.mjs?v=bpmn-3';
-import { createAtlasView } from '../ui/atlas-view.mjs?v=bpmn-3';
-import { createMediaFrame } from '../ui/atlas-media.mjs?v=bpmn-3';
-import { bindAtlasEvents } from '../ui/atlas-events.mjs?v=bpmn-3';
-import { createProcessView } from '../ui/atlas-process-view.mjs?v=bpmn-3';
-import { bindAtlasNavigation } from '../ui/atlas-nav.mjs?v=bpmn-3';
-import { bindPressables } from '../ui/pressable.mjs?v=bpmn-3';
-import { bindBottomSheet } from '../ui/sheet.mjs?v=bpmn-3';
-import { bindTour } from '../ui/tour.mjs?v=bpmn-4';
+import { STORAGE_KEY, createLocalRepository, PALETTE_COLORS } from '../core/atlas-state.mjs?v=bpmn-5';
+import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=bpmn-5';
+import { KNOWN_LINKS } from '../data/known-links.mjs?v=bpmn-5';
+import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=bpmn-5';
+import { NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=bpmn-5';
+import { createAtlasShell } from '../ui/atlas-shell.mjs?v=bpmn-5';
+import { createAtlasView } from '../ui/atlas-view.mjs?v=bpmn-5';
+import { createMediaFrame } from '../ui/atlas-media.mjs?v=bpmn-5';
+import { bindAtlasEvents } from '../ui/atlas-events.mjs?v=bpmn-5';
+import { createProcessView } from '../ui/atlas-process-view.mjs?v=bpmn-5';
+import { bindAtlasNavigation } from '../ui/atlas-nav.mjs?v=bpmn-5';
+import { bindPressables } from '../ui/pressable.mjs?v=bpmn-5';
+import { bindBottomSheet } from '../ui/sheet.mjs?v=bpmn-5';
+import { bindTour } from '../ui/tour.mjs?v=bpmn-5';
 
 const rootElement = document.querySelector('#atlas-app');
 document.body.append(rootElement.querySelector('[data-atlas-toast]'));
@@ -78,6 +78,7 @@ const root = {
     import: rootElement.querySelector('[data-action="import"]'),
     toggleMinimap: rootElement.querySelector('[data-action="toggle-minimap"]'),
     toggleWires: rootElement.querySelector('[data-action="toggle-wires"]'),
+    closeDetail: rootElement.querySelector('[data-action="close-detail"]'),
   },
   modal: {
     dialog: rootElement.querySelector('[data-atlas-dialog]'),
@@ -104,6 +105,12 @@ const root = {
     toggle: rootElement.querySelector('[data-action="toggle-theme"]'),
     label: rootElement.querySelector('[data-atlas-theme-label]'),
   },
+  confirm: {
+    dialog: rootElement.querySelector('[data-atlas-confirm]'),
+    title: rootElement.querySelector('[data-atlas-confirm-title]'),
+    help: rootElement.querySelector('[data-atlas-confirm-help]'),
+    action: rootElement.querySelector('[data-action="confirm-action"]'),
+  },
 };
 
 let undoLast = () => false;
@@ -127,7 +134,7 @@ const toast = (message, options = {}) => {
   }
   el.hidden = false;
   window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => { el.hidden = true; }, 3200);
+  toastTimer = window.setTimeout(() => { el.hidden = true; }, 1800);
 };
 
 const applyTheme = (mode) => {
@@ -167,6 +174,23 @@ const openViewer = (asset) => {
   root.viewer.dialog.showModal();
 };
 
+let confirmHandler = null;
+const requestConfirm = ({ title, message, confirmLabel = 'Confirmar', onConfirm }) => {
+  confirmHandler = onConfirm;
+  root.confirm.title.textContent = title;
+  root.confirm.help.textContent = message;
+  root.confirm.action.textContent = confirmLabel;
+  root.confirm.dialog.showModal();
+};
+
+root.confirm.action.addEventListener('click', (event) => {
+  event.preventDefault();
+  const handler = confirmHandler;
+  confirmHandler = null;
+  root.confirm.dialog.close('confirm');
+  handler?.();
+});
+
 const store = createAtlasStore({ repository, initialGraph: DEFAULT_GRAPH });
 undoLast = () => store.undo();
 const view = createAtlasView({
@@ -175,15 +199,15 @@ const view = createAtlasView({
   onToast: toast,
   onInspect(id) {
     rootElement.classList.add('is-detail-open');
-    rootElement.querySelector('.atlas-sidebar')?.classList.remove('is-shown');
     requestAnimationFrame(() => view.frameNode(id));
   },
+  onConfirm: requestConfirm,
   onLinkRequest(nodeId) { openAssetDialog(nodeId, 'link'); },
   onMediaRequest(nodeId) { openAssetDialog(nodeId, 'media'); },
   onMediaOpen: openViewer,
 });
 
-bindAtlasEvents({ root, store, view, knownLinks: KNOWN_LINKS, onToast: toast, applyTheme });
+bindAtlasEvents({ root, store, view, knownLinks: KNOWN_LINKS, onToast: toast, applyTheme, onConfirm: requestConfirm });
 const processView = createProcessView({ app: rootElement, onToast: toast });
 bindAtlasNavigation({ app: rootElement, search: root.search, processView });
 bindPressables(rootElement);

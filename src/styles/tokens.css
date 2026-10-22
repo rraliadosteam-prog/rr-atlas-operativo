@@ -93,7 +93,7 @@ body {
 h1, h2, h3, .atlas-brand strong { font-family: var(--rr-font-display); letter-spacing: -.04em; }
 button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }
-button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible {
+button:focus-visible, [role="button"]:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible {
   outline: 2px solid var(--rr-focus);
   outline-offset: 2px;
 }

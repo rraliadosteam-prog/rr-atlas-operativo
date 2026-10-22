@@ -100,7 +100,7 @@ function paint(parent, element) {
   if (kind === 'dato') addWord(parent, 'dato', theme.muted, 4, Math.max(16, (element.height || 50) - 6));
   if (kind === 'lane') {
     const pool = element.type === 'bpmn:Participant';
-    unrotateLaneLabel(parent, pool ? 8 : 12, pool ? 16 : 18);
+    unrotateLaneLabel(parent, pool ? 2 : 22, pool ? 6 : 20);
     parent.querySelectorAll('text').forEach((text) => text.classList.add('rr-lane-label'));
   }
   parent.querySelectorAll('text').forEach((text) => {

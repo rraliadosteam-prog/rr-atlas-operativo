@@ -1,5 +1,5 @@
-import { NODE_COLORS } from '../core/atlas-state.mjs?v=bpmn-3';
-import { createMediaTile, isDirectMedia } from './atlas-media.mjs?v=bpmn-3';
+import { NODE_COLORS } from '../core/atlas-state.mjs?v=bpmn-5';
+import { createMediaTile, isDirectMedia } from './atlas-media.mjs?v=bpmn-5';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -27,7 +27,7 @@ function sectionHeading(text) {
   return heading;
 }
 
-export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, onMediaOpen, onToast, onInspect }) {
+export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, onMediaOpen, onToast, onInspect, onConfirm }) {
   const viewport = { x: 60, y: 50, z: 0.72 };
   let moving = null;
   let connecting = null;
@@ -65,6 +65,8 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const setWorldTransform = () => {
     root.world.style.transform = `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.z})`;
+    const where = root.status?.querySelector('[data-atlas-where]');
+    if (where) where.textContent = where.textContent.replace(/ · Zoom \d+%$/, '') + ` · Zoom ${Math.round(viewport.z * 100)}%`;
   };
   const animateViewport = (next) => {
     const token = ++motionToken;
@@ -90,6 +92,14 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     requestAnimationFrame(run);
   };
 
+  const cardBox = (node) => {
+    const card = root.cards.querySelector(`[data-id="${node.id}"]`);
+    return {
+      width: card?.offsetWidth || 238,
+      height: card?.offsetHeight || 125,
+    };
+  };
+
   const renderWires = (visible) => {
     const valid = new Set(visible.map((node) => node.id));
     root.wires.replaceChildren();
@@ -99,11 +109,13 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       const source = getNode(sourceId);
       const target = getNode(targetId);
       if (!source || !target || !valid.has(sourceId) || !valid.has(targetId)) continue;
+      const sourceSize = cardBox(source);
+      const targetSize = cardBox(target);
       const path = document.createElementNS(SVG_NS, 'path');
       const context = sourceId === currentSnapshot.selectedId || targetId === currentSnapshot.selectedId;
-      const ax = source.x + 119;
-      const ay = source.y + 118;
-      const bx = target.x + 119;
+      const ax = source.x + sourceSize.width / 2;
+      const ay = source.y + sourceSize.height;
+      const bx = target.x + targetSize.width / 2;
       const by = target.y;
       path.setAttribute('class', context ? 'context' : 'dim');
       path.dataset.source = sourceId;
@@ -136,10 +148,14 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       const node = effectiveNode(rawNode);
       const shape = node.shape || 'rectangle';
       const color = node.color || 'fuchsia';
-      const card = button('', `atlas-card shape-${shape} tone-${color}${node.id === currentSnapshot.selectedId ? ' is-active' : ''}`);
+      const card = document.createElement('article');
+      card.className = `atlas-card shape-${shape} tone-${color}${node.id === currentSnapshot.selectedId ? ' is-active' : ''}`;
       card.dataset.id = node.id;
       card.dataset.shape = shape;
       card.dataset.color = color;
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-pressed', String(node.id === currentSnapshot.selectedId));
       card.style.left = `${Number(node.x) || 0}px`;
       card.style.top = `${Number(node.y) || 0}px`;
       card.style.setProperty('--node-color', NODE_COLORS[color] ?? NODE_COLORS.fuchsia);
@@ -217,6 +233,12 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       });
       card.addEventListener('pointercancel', () => { moving = null; });
       card.addEventListener('click', () => { if (!moving) store.select(node.id); });
+      card.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        store.select(node.id);
+        onInspect?.(node.id);
+      });
       root.cards.appendChild(card);
     }
   };
@@ -352,10 +374,15 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       toast('Cambios descartados');
     });
     remove.addEventListener('click', () => {
-      if (window.confirm('¿Eliminar este nodo y sus conexiones?')) {
-        store.deleteNode(node.id);
-        toast('Nodo eliminado', { undo: true });
-      }
+      onConfirm?.({
+        title: 'Eliminar nodo',
+        message: `Se eliminará «${node.title}» y sus conexiones. Esta acción se puede deshacer desde el aviso.`,
+        confirmLabel: 'Eliminar nodo',
+        onConfirm: () => {
+          store.deleteNode(node.id);
+          toast('Nodo eliminado', { undo: true });
+        },
+      });
     });
     actions.append(save, discard, remove);
     root.editor.appendChild(actions);
@@ -374,10 +401,15 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
         asset,
         onOpen: onMediaOpen,
         onRemove: (selected) => {
-          if (window.confirm(`¿Quitar ${selected.label}?`)) {
-            store.removeMedia(node.id, selected.id);
-            toast('Recurso multimedia quitado');
-          }
+          onConfirm?.({
+            title: 'Quitar recurso',
+            message: `Se quitará «${selected.label}» de este nodo.`,
+            confirmLabel: 'Quitar recurso',
+            onConfirm: () => {
+              store.removeMedia(node.id, selected.id);
+              toast('Recurso multimedia quitado');
+            },
+          });
         },
       }));
     }
@@ -445,11 +477,12 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       ? `${visible.length} de ${snapshot.state.data.length} · ${selected.type}`
       : `${visible.length} de ${snapshot.state.data.length} en pantalla`;
     const where = root.status.querySelector('[data-atlas-where]') || root.status;
-    if (snapshot.query && !visible.length) where.textContent = 'Ningún nodo coincide con la búsqueda.';
-    else if (snapshot.reason === 'init') where.textContent = narrow
+    const zoomLabel = ` · Zoom ${Math.round(viewport.z * 100)}%`;
+    if (snapshot.query && !visible.length) where.textContent = 'Ningún nodo coincide con la búsqueda.' + zoomLabel;
+    else if (snapshot.reason === 'init') where.textContent = (narrow
       ? 'Arrastra el fondo o pellizca para acercar.'
-      : 'Arrastra el fondo o usa la rueda para acercar.';
-    else where.textContent = place;
+      : 'Arrastra el fondo o usa la rueda para acercar.') + zoomLabel;
+    else where.textContent = place + zoomLabel;
     root.railButtons.forEach((buttonElement) => {
       buttonElement.setAttribute('aria-pressed', String(buttonElement.dataset.atlasFilter === snapshot.filter));
     });
@@ -459,6 +492,30 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     renderEditor();
     setWorldTransform();
     if (snapshot.reason === 'init') requestAnimationFrame(() => frameReadable());
+  };
+
+  const clampZoom = (zoom) => {
+    const floor = root.work.clientWidth < 761 ? 0.55 : 0.25;
+    return Math.max(floor, Math.min(3, zoom));
+  };
+
+  const zoomAt = (factor, clientX = root.work.getBoundingClientRect().left + root.work.clientWidth / 2, clientY = root.work.getBoundingClientRect().top + root.work.clientHeight / 2) => {
+    const rect = root.work.getBoundingClientRect();
+    const px = clientX - rect.left;
+    const py = clientY - rect.top;
+    const next = clampZoom(viewport.z * factor);
+    animateViewport({
+      z: next,
+      x: px - ((px - viewport.x) / viewport.z) * next,
+      y: py - ((py - viewport.y) / viewport.z) * next,
+    });
+  };
+
+  const panBy = (dx, dy) => {
+    motionToken += 1;
+    viewport.x += dx;
+    viewport.y += dy;
+    setWorldTransform();
   };
 
   const pan = (event) => {
@@ -555,6 +612,7 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
   root.work.addEventListener('pointerdown', (event) => {
     if (event.target.closest('button, input, textarea, select, a, .atlas-minimap')) return;
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    try { root.work.setPointerCapture(event.pointerId); } catch { /* captura opcional */ }
     if (pointers.size === 2) {
       pinch = { distance: pinchDistance(), z: viewport.z };
       return;
@@ -565,10 +623,17 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     if (!pointers.has(event.pointerId) || pointers.size < 2) return;
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     event.preventDefault();
+    const values = [...pointers.values()];
+    const [a, b] = values;
     const distance = pinchDistance();
     if (!pinch) pinch = { distance, z: viewport.z };
-    const floor = root.work.clientWidth < 761 ? 0.55 : 0.35;
-    viewport.z = Math.max(floor, Math.min(2.4, pinch.z * (distance / pinch.distance)));
+    const rect = root.work.getBoundingClientRect();
+    const px = ((a.x + b.x) / 2) - rect.left;
+    const py = ((a.y + b.y) / 2) - rect.top;
+    const next = clampZoom(pinch.z * (distance / pinch.distance));
+    viewport.x = px - ((px - viewport.x) / viewport.z) * next;
+    viewport.y = py - ((py - viewport.y) / viewport.z) * next;
+    viewport.z = next;
     setWorldTransform();
   }, { passive: false });
   const releasePointer = (event) => {
@@ -577,11 +642,23 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
   };
   root.work.addEventListener('pointerup', releasePointer);
   root.work.addEventListener('pointercancel', releasePointer);
+  window.addEventListener('blur', () => {
+    pointers.clear();
+    pinch = null;
+    moving = null;
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) return;
+    pointers.clear();
+    pinch = null;
+    moving = null;
+  });
   root.work.addEventListener('wheel', (event) => {
+    if (event.target.closest('input, textarea, select')) return;
     event.preventDefault();
-    const floor = root.work.clientWidth < 761 ? 0.55 : 0.35;
-    viewport.z = Math.max(floor, Math.min(2.4, viewport.z * (event.deltaY < 0 ? 1.1 : .9)));
-    setWorldTransform();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? root.work.clientHeight : 100;
+    const normalized = Math.max(-4, Math.min(4, event.deltaY / unit));
+    zoomAt(Math.exp(-normalized * 0.16), event.clientX, event.clientY);
   }, { passive: false });
 
   const refreshMap = () => {
@@ -595,9 +672,10 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
   const frameNode = (node) => {
     if (!node || !root.work.clientWidth) return;
     const narrow = root.work.clientWidth < 761;
+    const size = cardBox(node);
     const zoom = narrow ? 1 : 0.85;
-    const cx = (Number(node.x) || 0) + 119;
-    const cy = (Number(node.y) || 0) + 70;
+    const cx = (Number(node.x) || 0) + size.width / 2;
+    const cy = (Number(node.y) || 0) + size.height / 2;
     animateViewport({
       z: zoom,
       x: root.work.clientWidth / 2 - cx * zoom,
@@ -611,24 +689,30 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     frameNode(selected);
   };
 
-  const focusVisible = () => {
+  const fitVisible = () => {
     const visible = visibleNodes();
     if (!visible.length || !root.work.clientWidth) return;
-    const narrow = root.work.clientWidth < 761;
-    if (narrow || visible.length > 8) {
-      frameNode(visible.find((node) => node.id === currentSnapshot.selectedId) || visible[0]);
-      return;
-    }
-    const minX = Math.min(...visible.map((node) => node.x));
-    const maxX = Math.max(...visible.map((node) => node.x + 238));
-    const minY = Math.min(...visible.map((node) => node.y));
-    const maxY = Math.max(...visible.map((node) => node.y + 150));
-    const width = Math.max(320, root.work.clientWidth - 48);
-    const height = Math.max(220, root.work.clientHeight - 48);
-    viewport.z = Math.max(0.7, Math.min(1.05, Math.min(width / Math.max(280, maxX - minX), height / Math.max(180, maxY - minY))));
-    viewport.x = root.work.clientWidth / 2 - ((minX + maxX) / 2) * viewport.z;
-    viewport.y = root.work.clientHeight / 2 - ((minY + maxY) / 2) * viewport.z;
-    setWorldTransform();
+    const boxes = visible.map((node) => ({ node, size: cardBox(node) }));
+    const minX = Math.min(...boxes.map(({ node }) => node.x));
+    const maxX = Math.max(...boxes.map(({ node, size }) => node.x + size.width));
+    const minY = Math.min(...boxes.map(({ node }) => node.y));
+    const maxY = Math.max(...boxes.map(({ node, size }) => node.y + size.height));
+    const width = Math.max(320, root.work.clientWidth - 64);
+    const height = Math.max(220, root.work.clientHeight - 64);
+    const next = clampZoom(Math.min(width / Math.max(280, maxX - minX), height / Math.max(180, maxY - minY)));
+    animateViewport({
+      z: next,
+      x: root.work.clientWidth / 2 - ((minX + maxX) / 2) * next,
+      y: root.work.clientHeight / 2 - ((minY + maxY) / 2) * next,
+    });
+  };
+
+  const focusVisible = () => fitVisible();
+
+  const frameSelected = () => {
+    const selected = getNode(currentSnapshot.selectedId);
+    if (selected) frameNode(selected);
+    else fitVisible();
   };
 
   return Object.freeze({
@@ -653,17 +737,19 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     },
     focusVisible,
     frameNode(id) { frameNode(getNode(id) || visibleNodes()[0]); },
+    frameSelected,
+    panBy,
     toggleWires() {
       wiresVisible = !wiresVisible;
       refreshMap();
       return wiresVisible;
     },
-    center() { frameReadable(); },
-    zoomIn() { viewport.z = Math.min(2.4, viewport.z * 1.2); setWorldTransform(); },
-    zoomOut() {
-      const floor = root.work.clientWidth < 761 ? 0.55 : 0.35;
-      viewport.z = Math.max(floor, viewport.z / 1.2);
-      setWorldTransform();
+    center() { fitVisible(); },
+    zoomIn() { zoomAt(1.2); },
+    zoomOut() { zoomAt(1 / 1.2); },
+    zoomTo(level) {
+      const factor = level / Math.max(0.01, viewport.z);
+      zoomAt(factor);
     },
     getSnapshot: () => clone(currentSnapshot),
   });

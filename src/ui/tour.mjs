@@ -4,7 +4,7 @@
  * un paso a la vez, se puede omitir, y reduced-motion no esconde el contenido.
  */
 
-import { setPressLabel } from './pressable.mjs?v=bpmn-4';
+import { setPressLabel } from './pressable.mjs?v=bpmn-5';
 
 const KEY = 'rr-atlas-tour-v1';
 

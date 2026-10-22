@@ -10,8 +10,8 @@ import {
   parseProcessMeta,
   presentSource,
   purposeFromDocumentation,
-} from '../core/process-model.mjs?v=bpmn-3';
-import { issueLabel } from '../bpmn/lint/messages.mjs?v=bpmn-3';
+} from '../core/process-model.mjs?v=bpmn-6';
+import { issueLabel } from '../bpmn/lint/messages.mjs?v=bpmn-6';
 
 const ESTADO = {
   borrador: 'Borrador',
@@ -51,6 +51,8 @@ export function createProcessView({ app, onToast }) {
   let query = '';
   let ready = null;
   let debt = null;
+  let selectedElement = null;
+  let lastReport = null;
 
   const records = () => [...locals, ...seeds];
 
@@ -90,13 +92,19 @@ export function createProcessView({ app, onToast }) {
     if (workspace) return workspace;
     if (!ready) {
       setStatus('Cargando el visor BPMN…');
-      ready = import('/src/bpmn/bpmn-bundle.mjs?v=bpmn-3')
+      ready = import('/src/bpmn/bpmn-bundle.mjs?v=bpmn-6')
         .then((module) => {
           workspace = module.createBpmnWorkspace({
             container: canvas,
             onReport: (report) => {
+              lastReport = report;
               renderReport(report);
               if (editing && current?.source === 'local') persistCurrent();
+            },
+            onElement: (element) => {
+              selectedElement = element;
+              if (lastReport) renderMeta(lastReport);
+              onToast?.(`Elemento seleccionado: ${element.name}`);
             },
           });
           workspace.setDebt(debt);
@@ -174,6 +182,27 @@ export function createProcessView({ app, onToast }) {
       : 'Borrador local. Lo que no se conoce queda en DESCONOCIDO.');
     meta.append(note);
 
+    if (selectedElement) {
+      const elementTitle = document.createElement('h3');
+      elementTitle.textContent = 'Elemento seleccionado';
+      const elementFields = document.createElement('dl');
+      elementFields.className = 'atlas-process-fields atlas-process-element-fields';
+      for (const [label, value] of [
+        ['Nombre', selectedElement.name],
+        ['Tipo', selectedElement.type.replace(/^bpmn:/, '')],
+        ['Entrada', String(selectedElement.incoming)],
+        ['Salida', String(selectedElement.outgoing)],
+        ['Notas', selectedElement.documentation || UNKNOWN],
+      ]) {
+        const term = document.createElement('dt');
+        term.textContent = label;
+        const detail = document.createElement('dd');
+        detail.textContent = value || UNKNOWN;
+        elementFields.append(term, detail);
+      }
+      meta.append(elementTitle, elementFields);
+    }
+
     const lintTitle = document.createElement('h3');
     lintTitle.textContent = 'Validación';
     meta.append(lintTitle);
@@ -250,6 +279,8 @@ export function createProcessView({ app, onToast }) {
   const openRecord = async (record, { editable = false } = {}) => {
     current = record;
     editing = editable;
+    selectedElement = null;
+    lastReport = null;
     section.classList.add('is-diagram');
     renderList();
     const tool = section.querySelector('[data-action="bpmn-edit"]');
@@ -314,14 +345,17 @@ export function createProcessView({ app, onToast }) {
   section.querySelectorAll('[data-action="bpmn-meta"]').forEach((button) => {
     button.addEventListener('click', () => {
       section.classList.toggle('is-meta-open');
+      button.setAttribute('aria-expanded', String(section.classList.contains('is-meta-open')));
       app?.classList.remove('is-bpmn-more');
       section.querySelector('[data-action="bpmn-more"]')?.setAttribute('aria-expanded', 'false');
+      section.querySelector('[data-atlas-bpmn-more]')?.setAttribute('aria-hidden', 'true');
     });
   });
   section.querySelector('[data-action="bpmn-more"]')?.addEventListener('click', (event) => {
     const open = !app.classList.contains('is-bpmn-more');
     app.classList.toggle('is-bpmn-more', open);
     event.currentTarget.setAttribute('aria-expanded', String(open));
+    section.querySelector('[data-atlas-bpmn-more]')?.setAttribute('aria-hidden', String(!open));
   });
   section.querySelector('[data-action="bpmn-zoom-in"]').addEventListener('click', () => workspace?.zoom(1.2));
   section.querySelector('[data-action="bpmn-zoom-out"]').addEventListener('click', () => workspace?.zoom(1 / 1.2));
@@ -354,6 +388,11 @@ export function createProcessView({ app, onToast }) {
   section.querySelector('[data-action="bpmn-back"]').addEventListener('click', () => {
     stopPlay();
     section.classList.remove('is-diagram');
+    section.classList.remove('is-meta-open');
+    app.classList.remove('is-bpmn-more');
+    section.querySelector('[data-action="bpmn-meta"]')?.setAttribute('aria-expanded', 'false');
+    section.querySelector('[data-action="bpmn-more"]')?.setAttribute('aria-expanded', 'false');
+    section.querySelector('[data-atlas-bpmn-more]')?.setAttribute('aria-hidden', 'true');
   });
   section.querySelector('[data-action="new-process"]').addEventListener('click', () => dialog.showModal());
   section.querySelector('[data-action="import-bpmn"]').addEventListener('click', () => fileInput.click());
