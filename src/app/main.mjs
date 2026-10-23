@@ -1,17 +1,18 @@
-import { STORAGE_KEY, createLocalRepository, PALETTE_COLORS } from '../core/atlas-state.mjs?v=bpmn-5';
-import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=bpmn-5';
-import { KNOWN_LINKS } from '../data/known-links.mjs?v=bpmn-5';
-import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=bpmn-5';
-import { NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=bpmn-5';
-import { createAtlasShell } from '../ui/atlas-shell.mjs?v=bpmn-5';
-import { createAtlasView } from '../ui/atlas-view.mjs?v=bpmn-5';
-import { createMediaFrame } from '../ui/atlas-media.mjs?v=bpmn-5';
-import { bindAtlasEvents } from '../ui/atlas-events.mjs?v=bpmn-5';
-import { createProcessView } from '../ui/atlas-process-view.mjs?v=bpmn-5';
-import { bindAtlasNavigation } from '../ui/atlas-nav.mjs?v=bpmn-5';
-import { bindPressables } from '../ui/pressable.mjs?v=bpmn-5';
-import { bindBottomSheet } from '../ui/sheet.mjs?v=bpmn-5';
-import { bindTour } from '../ui/tour.mjs?v=bpmn-5';
+import { STORAGE_KEY, createLocalRepository, PALETTE_COLORS } from '../core/atlas-state.mjs?v=bpmn-6';
+import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=bpmn-6';
+import { KNOWN_LINKS } from '../data/known-links.mjs?v=bpmn-6';
+import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=bpmn-6';
+import { NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=bpmn-6';
+import { createAtlasShell } from '../ui/atlas-shell.mjs?v=bpmn-6';
+import { createAtlasView } from '../ui/atlas-view.mjs?v=bpmn-6';
+import { createMediaFrame } from '../ui/atlas-media.mjs?v=bpmn-6';
+import { bindAtlasEvents } from '../ui/atlas-events.mjs?v=bpmn-6';
+import { createProcessView } from '../ui/atlas-process-view.mjs?v=bpmn-6';
+import { createPlanView } from '../ui/atlas-plan.mjs?v=bpmn-6';
+import { bindAtlasNavigation } from '../ui/atlas-nav.mjs?v=bpmn-6';
+import { bindPressables } from '../ui/pressable.mjs?v=bpmn-6';
+import { bindBottomSheet } from '../ui/sheet.mjs?v=bpmn-6';
+import { bindTour } from '../ui/tour.mjs?v=bpmn-6';
 
 const rootElement = document.querySelector('#atlas-app');
 document.body.append(rootElement.querySelector('[data-atlas-toast]'));
@@ -75,6 +76,9 @@ const root = {
     redo: rootElement.querySelector('[data-action="redo"]'),
     reset: rootElement.querySelector('[data-action="reset"]'),
     export: rootElement.querySelector('[data-action="export"]'),
+    exportView: rootElement.querySelector('[data-action="export-view"]'),
+    exportNeighborhood: rootElement.querySelector('[data-action="export-neighborhood"]'),
+    exportSvgView: rootElement.querySelector('[data-action="export-svg-view"]'),
     import: rootElement.querySelector('[data-action="import"]'),
     toggleMinimap: rootElement.querySelector('[data-action="toggle-minimap"]'),
     toggleWires: rootElement.querySelector('[data-action="toggle-wires"]'),
@@ -209,7 +213,8 @@ const view = createAtlasView({
 
 bindAtlasEvents({ root, store, view, knownLinks: KNOWN_LINKS, onToast: toast, applyTheme, onConfirm: requestConfirm });
 const processView = createProcessView({ app: rootElement, onToast: toast });
-bindAtlasNavigation({ app: rootElement, search: root.search, processView });
+const planView = createPlanView({ app: rootElement, onToast: toast });
+bindAtlasNavigation({ app: rootElement, search: root.search, processView, planView });
 bindPressables(rootElement);
 bindBottomSheet(rootElement.querySelector('.atlas-sidebar'), {
   app: rootElement,

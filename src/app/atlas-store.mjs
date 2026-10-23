@@ -1,4 +1,4 @@
-import { normalizeGraph, parseSnapshot } from '../core/atlas-state.mjs?v=bpmn-5';
+import { normalizeGraph, parseSnapshot } from '../core/atlas-state.mjs?v=bpmn-6';
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const same = (left, right) => JSON.stringify(left) === JSON.stringify(right);
@@ -127,6 +127,40 @@ export function createAtlasStore({ repository, initialGraph, historyLimit = 20 }
       node.media.push(asset);
       return commit(next, 'add-media');
     },
+    addComment(id, text) {
+      const value = String(text ?? '').trim();
+      if (!value) return false;
+      const next = clone(state);
+      const node = next.data.find((item) => item.id === id);
+      if (!node) return false;
+      node.comments ??= [];
+      const now = new Date().toISOString();
+      node.comments.push({
+        id: `comment_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        text: value,
+        createdAt: now,
+        updatedAt: now,
+      });
+      return commit(next, 'add-comment');
+    },
+    updateComment(nodeId, commentId, text) {
+      const value = String(text ?? '').trim();
+      if (!value) return false;
+      const next = clone(state);
+      const node = next.data.find((item) => item.id === nodeId);
+      const comment = node?.comments?.find((item) => item.id === commentId);
+      if (!comment) return false;
+      comment.text = value;
+      comment.updatedAt = new Date().toISOString();
+      return commit(next, 'update-comment');
+    },
+    removeComment(nodeId, commentId) {
+      const next = clone(state);
+      const node = next.data.find((item) => item.id === nodeId);
+      if (!node?.comments?.some((item) => item.id === commentId)) return false;
+      node.comments = node.comments.filter((item) => item.id !== commentId);
+      return commit(next, 'remove-comment');
+    },
     removeMedia(id, mediaId) {
       const next = clone(state);
       const node = next.data.find((item) => item.id === id);
@@ -167,13 +201,20 @@ export function createAtlasStore({ repository, initialGraph, historyLimit = 20 }
       emit('redo');
       return true;
     },
-    exportPayload() {
+    exportPayload({ nodeIds = null, scope = 'full', originNodeId = null } = {}) {
+      const selected = nodeIds ? new Set(nodeIds) : null;
+      const nodes = selected
+        ? state.data.filter((node) => selected.has(node.id))
+        : state.data;
+      const allowed = new Set(nodes.map((node) => node.id));
       return {
         schemaVersion: 1,
         exportedAt: new Date().toISOString(),
-        nodes: clone(state.data),
-        edges: clone(state.lines),
+        nodes: clone(nodes),
+        edges: clone(state.lines.filter(([source, target]) => allowed.has(source) && allowed.has(target))),
         source: 'RR Atlas · local export',
+        scope,
+        ...(originNodeId ? { originNodeId } : {}),
       };
     },
   });

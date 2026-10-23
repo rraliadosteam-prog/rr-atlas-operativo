@@ -8,6 +8,7 @@ export const LIMITS = Object.freeze({
   edges: 6000,
   links: 200,
   media: 400,
+  comments: 100,
   jsonBytes: 5_000_000,
 });
 
@@ -127,6 +128,18 @@ export function validateMediaAsset(asset) {
   return { id, label, url: rawUrl, kind };
 }
 
+export function validateComment(comment) {
+  requireValue(record(comment), 'Invalid comment');
+  keys(comment, ['id', 'text', 'createdAt', 'updatedAt'], 'comment');
+  const id = string(comment.id, 'comment id', 200);
+  const text = string(comment.text, 'comment text', 5_000);
+  const createdAt = string(comment.createdAt, 'comment creation date', 100);
+  const updatedAt = string(comment.updatedAt, 'comment update date', 100);
+  requireValue(id.trim().length > 0, 'Empty comment id');
+  requireValue(text.trim().length > 0, 'Empty comment text');
+  return { id, text, createdAt, updatedAt };
+}
+
 export function drivePreviewUrl(rawUrl) {
   const [url, value] = safeUrl(rawUrl, 'media URL');
   const fileMatch = url.pathname.match(/\/file\/d\/([^/]+)/);
@@ -161,7 +174,7 @@ export function normalizeGraph(input) {
 
   if (Object.hasOwn(input, 'schemaVersion')) {
     requireValue(input.schemaVersion === 1, 'Unsupported schema version; migration required');
-    keys(input, ['schemaVersion', 'exportedAt', 'nodes', 'edges', 'source'], 'export');
+    keys(input, ['schemaVersion', 'exportedAt', 'nodes', 'edges', 'source', 'scope', 'originNodeId'], 'export');
     ({ nodes: data, edges: lines } = input);
   } else {
     keys(input, ['data', 'lines'], 'graph');
@@ -176,7 +189,7 @@ export function normalizeGraph(input) {
     requireValue(record(node), `Invalid node ${index}`);
     keys(
       node,
-      ['id', 'title', 'type', 'desc', 'owner', 'status', 'notes', 'x', 'y', 'links', 'shape', 'color', 'media'],
+      ['id', 'title', 'type', 'desc', 'owner', 'status', 'notes', 'x', 'y', 'links', 'shape', 'color', 'media', 'width', 'height', 'comments'],
       `node ${index}`,
     );
     const id = string(node.id, 'node id', 200);
@@ -187,6 +200,20 @@ export function normalizeGraph(input) {
     requireValue(Number.isFinite(node.x) && Number.isFinite(node.y), 'Node coordinates must be finite numbers');
     requireValue(Math.abs(node.x) <= 1_000_000 && Math.abs(node.y) <= 1_000_000, 'Node coordinates out of range');
     requireValue(Array.isArray(node.links) && node.links.length <= LIMITS.links, 'Invalid node links');
+
+    const width = node.width === undefined ? 238 : node.width;
+    const height = node.height === undefined ? 125 : node.height;
+    requireValue(Number.isFinite(width) && width >= 120 && width <= 640, 'Node width out of range');
+    requireValue(Number.isFinite(height) && height >= 64 && height <= 480, 'Node height out of range');
+    const rawComments = node.comments ?? [];
+    requireValue(Array.isArray(rawComments) && rawComments.length <= LIMITS.comments, 'Invalid comment list');
+    const commentIds = new Set();
+    const comments = rawComments.map((comment, commentIndex) => {
+      const normalized = validateComment(comment);
+      requireValue(!commentIds.has(normalized.id), `Duplicate comment id in node ${index} at ${commentIndex}`);
+      commentIds.add(normalized.id);
+      return normalized;
+    });
 
     const rawMedia = node.media ?? [];
     requireValue(Array.isArray(rawMedia) && rawMedia.length <= LIMITS.media, 'Invalid media list');
@@ -203,10 +230,13 @@ export function normalizeGraph(input) {
       title,
       x: node.x,
       y: node.y,
+      width,
+      height,
       links: node.links.map(validateDriveLink),
       shape: NODE_SHAPES.includes(node.shape) ? node.shape : 'rectangle',
       color: Object.hasOwn(NODE_COLORS, node.color) ? node.color : 'fuchsia',
       media,
+      comments,
     };
     for (const field of ['type', 'desc', 'owner', 'status', 'notes']) {
       if (Object.hasOwn(node, field)) result[field] = string(node[field], field);

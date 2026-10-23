@@ -8,10 +8,10 @@
   <title>RR Aliados · Atlas operativo</title>
   <link rel="icon" href="/rr-logo-mark.png">
   <link rel="stylesheet" href="/src/styles/tokens.css">
-  <link rel="stylesheet" href="/src/styles/layout.css?v=bpmn-5">
-  <link rel="stylesheet" href="/src/styles/components.css?v=bpmn-5">
+  <link rel="stylesheet" href="/src/styles/layout.css?v=bpmn-6">
+  <link rel="stylesheet" href="/src/styles/components.css?v=bpmn-6">
   <link rel="stylesheet" href="/src/styles/bpmn.css">
-  <link rel="stylesheet" href="/src/styles/motion.css?v=bpmn-5">
+  <link rel="stylesheet" href="/src/styles/motion.css?v=bpmn-6">
   <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
@@ -30,6 +30,9 @@
         <div class="atlas-settings-panel" data-atlas-settings hidden>
           <div class="atlas-settings-head"><span class="kind">Configuración del Atlas</span><strong>Herramientas de trabajo</strong></div>
           <button class="atlas-button" data-action="export">↓ Exportar mapa</button>
+          <button class="atlas-button" data-action="export-view">↳ Exportar vista actual</button>
+          <button class="atlas-button" data-action="export-neighborhood">◎ Exportar vecindario</button>
+          <button class="atlas-button" data-action="export-svg-view">▧ Exportar vista SVG</button>
           <button class="atlas-button" data-action="import">↑ Importar mapa</button>
           <button class="atlas-button" data-action="reset">↶ Restaurar base</button>
           <button class="atlas-button" data-action="toggle-theme">◐ Cambiar tema</button>
@@ -54,6 +57,7 @@
         <button data-atlas-filter="Talento" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Talento</button>
         <button data-atlas-filter="Herramienta" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Herramientas</button>
         <button type="button" data-atlas-section-target="procesos" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos BPMN</button>
+        <button type="button" data-atlas-section-target="plan" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Plan local</button>
         <p class="atlas-hint">La estructura definitiva de RR queda fuera de esta fase. Este mapa organiza capacidades sin convertir borradores en verdad empresarial.</p>
       </nav>
 
@@ -142,6 +146,19 @@
         </div>
         <aside class="atlas-process-meta" data-atlas-process-meta aria-label="Dueño, KPI y validación"><p class="atlas-muted">Selecciona un proceso.</p></aside>
       </section>
+      <section class="atlas-plan" data-atlas-plan hidden>
+        <div class="atlas-plan-header mat-panel">
+          <div><span class="kind">Mesa RR · fixture local</span><h1>Plan de trabajo</h1><p class="atlas-muted">Una superficie de organización para ordenar próximos pasos sin cargar información real.</p></div>
+          <button type="button" class="atlas-button atlas-button--secondary atlas-plan-map-link" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
+          <div class="atlas-plan-filters" data-atlas-plan-filters aria-label="Filtrar plan">
+            <button type="button" class="atlas-button" data-plan-filter="Todo" aria-pressed="true">Todo</button>
+            <button type="button" class="atlas-button" data-plan-filter="Pendiente" aria-pressed="false">Pendiente</button>
+            <button type="button" class="atlas-button" data-plan-filter="En curso" aria-pressed="false">En curso</button>
+            <button type="button" class="atlas-button" data-plan-filter="Hecho" aria-pressed="false">Hecho</button>
+          </div>
+        </div>
+        <div class="atlas-plan-list" data-atlas-plan-list></div>
+      </section>
     </div>
 
     <dialog data-atlas-dialog aria-labelledby="dialog-title">
@@ -169,6 +186,7 @@
     <nav class="atlas-tabbar" aria-label="Navegación principal">
       <button type="button" data-atlas-section-target="mapa" aria-pressed="true">Mapa</button>
       <button type="button" data-atlas-section-target="procesos" aria-pressed="false">Procesos</button>
+      <button type="button" data-atlas-section-target="plan" aria-pressed="false">Plan</button>
       <button type="button" data-atlas-section-target="buscar" aria-pressed="false">Buscar</button>
       <button type="button" data-atlas-section-target="menu" aria-pressed="false" aria-expanded="false">Menú</button>
     </nav>
@@ -199,6 +217,6 @@
     </div>
     <div class="atlas-toast" data-atlas-toast role="status" hidden></div>
   </div>
-  <script type="module" src="/src/app/main.mjs?v=bpmn-5"></script>
+  <script type="module" src="/src/app/main.mjs?v=bpmn-6"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ import {
   classifyMediaUrl,
   drivePreviewUrl,
   validateMediaAsset,
+  validateComment,
 } from './atlas-state.mjs';
 
 const graph = {
@@ -23,10 +24,13 @@ const graph = {
       notes: '',
       x: 0,
       y: 0,
+      width: 238,
+      height: 125,
       links: [],
       shape: 'rectangle',
       color: 'fuchsia',
       media: [],
+      comments: [],
     },
     {
       id: 'b',
@@ -38,10 +42,13 @@ const graph = {
       notes: '',
       x: 100,
       y: 100,
+      width: 238,
+      height: 125,
       links: [['Drive', 'https://drive.google.com/file/d/example/view']],
       shape: 'hexagon',
       color: 'blue',
       media: [],
+      comments: [],
     },
   ],
   lines: [['a', 'b']],
@@ -84,6 +91,12 @@ test('validates multimedia assets without allowing unsafe URLs', () => {
   assert.equal(asset.kind, 'video');
   assert.throws(() => validateMediaAsset({ id: 'm2', label: 'Unsafe', url: 'javascript:alert(1)', kind: 'auto' }), AtlasDataError);
   assert.throws(() => validateMediaAsset({ id: 'm3', label: 'Creds', url: 'https://user:pass@example.com/file.pdf', kind: 'auto' }), AtlasDataError);
+});
+
+test('validates local comments without allowing empty content', () => {
+  const comment = validateComment({ id: 'c1', text: 'Revisar con el equipo', createdAt: '2026-10-22T00:00:00.000Z', updatedAt: '2026-10-22T00:00:00.000Z' });
+  assert.equal(comment.text, 'Revisar con el equipo');
+  assert.throws(() => validateComment({ id: 'c2', text: '', createdAt: 'x', updatedAt: 'x' }), AtlasDataError);
 });
 
 test('rejects unsafe Drive hosts and credentials', () => {

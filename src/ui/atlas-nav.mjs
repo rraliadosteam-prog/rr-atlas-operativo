@@ -1,4 +1,4 @@
-export function bindAtlasNavigation({ app, search, processView }) {
+export function bindAtlasNavigation({ app, search, processView, planView }) {
   const backdrop = app.querySelector('[data-atlas-backdrop]');
   const menuButtons = [...app.querySelectorAll('[data-atlas-section-target="menu"]')];
 
@@ -23,7 +23,9 @@ export function bindAtlasNavigation({ app, search, processView }) {
   const setSection = (section) => {
     app.dataset.atlasSection = section;
     const processes = app.querySelector('[data-atlas-process]');
+    const plan = app.querySelector('[data-atlas-plan]');
     processes.hidden = section !== 'procesos';
+    plan.hidden = section !== 'plan';
     app.classList.remove('is-tools-open', 'is-bpmn-more');
     app.querySelectorAll('[data-atlas-section-target]').forEach((button) => {
       if (button.dataset.atlasSectionTarget === 'menu') return;
@@ -35,9 +37,12 @@ export function bindAtlasNavigation({ app, search, processView }) {
     });
     closeMenu();
     if (section === 'procesos') processView.activate();
+    if (section === 'plan') planView?.activate();
     const surface = section === 'procesos'
-      ? app.querySelector('[data-atlas-process]')
-      : app.querySelector('.atlas-canvas');
+      ? processes
+      : section === 'plan'
+        ? plan
+        : app.querySelector('.atlas-canvas');
     surface?.classList.remove('is-entering');
     requestAnimationFrame(() => surface?.classList.add('is-entering'));
   };

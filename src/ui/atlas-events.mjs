@@ -73,14 +73,27 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
     confirmLabel: 'Restaurar base',
     onConfirm: () => store.reset(),
   }));
-  root.actions.export.addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(store.exportPayload(), null, 2)], { type: 'application/json' });
+  const download = (content, type, fileName) => {
+    const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'rr-atlas-datos.json';
+    anchor.download = fileName;
     anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const exportJson = (scope, fileName) => {
+    const nodeIds = view.exportNodeIds(scope);
+    const originNodeId = scope === 'neighborhood' ? view.getSnapshot().selectedId : null;
+    download(JSON.stringify(store.exportPayload({ nodeIds, scope, originNodeId }), null, 2), 'application/json', fileName);
+    toast(`Exportado: ${fileName}`);
+  };
+  root.actions.export.addEventListener('click', () => exportJson('full', 'rr-atlas-mapa-completo.json'));
+  root.actions.exportView?.addEventListener('click', () => exportJson('visible', 'rr-atlas-vista-actual.json'));
+  root.actions.exportNeighborhood?.addEventListener('click', () => exportJson('neighborhood', 'rr-atlas-vecindario.json'));
+  root.actions.exportSvgView?.addEventListener('click', () => {
+    download(view.exportSvg('visible'), 'image/svg+xml', 'rr-atlas-vista-actual.svg');
+    toast('SVG de la vista actual exportado');
   });
   root.actions.import.addEventListener('click', () => root.fileInput.click());
   root.actions.toggleMinimap.addEventListener('click', () => {

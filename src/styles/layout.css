@@ -191,6 +191,32 @@ body.atlas-theme-light .atlas-logo-frame { background: var(--rr-paper-fixed); bo
 .atlas-process-fields dt { color: var(--rr-accent-text); font-size: 12px; }
 .atlas-process-fields dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .atlas-process-head h2, .atlas-process-card, .atlas-lint-item, .atlas-muted, .atlas-notice, .atlas-status, .atlas-bpmn-status { overflow-wrap: normal; word-break: normal; }
+.atlas-plan:not([hidden]) { grid-column: 1 / -1; min-width: 0; min-height: 0; overflow: auto; padding: clamp(16px, 3vw, 40px); background: var(--rr-bezel); }
+.atlas-app[data-atlas-section="plan"] .atlas-rail,
+.atlas-app[data-atlas-section="plan"] .atlas-footer,
+.atlas-app[data-atlas-section="plan"] .atlas-canvas,
+.atlas-app[data-atlas-section="plan"] .atlas-sidebar { display: none; }
+.atlas-plan-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 18px; max-width: 1100px; margin: 0 auto 24px; padding: clamp(16px, 3vw, 28px); border: 1px solid var(--rr-hairline); }
+.atlas-plan-header h1 { margin: 6px 0 8px; font-size: clamp(28px, 5vw, 52px); }
+.atlas-plan-header p { max-width: 58ch; margin: 0; }
+.atlas-plan-map-link { align-self: start; }
+.atlas-plan-filters { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.atlas-plan-filters .atlas-button[aria-pressed="true"] { background: var(--rr-fuchsia); border-color: var(--rr-fuchsia); color: var(--rr-paper-fixed); }
+.atlas-plan-list { max-width: 1100px; margin: 0 auto; }
+.atlas-plan-group { margin: 0 0 28px; }
+.atlas-plan-group > h2 { margin: 0 0 10px; color: var(--rr-accent-text); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+.atlas-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.atlas-plan-card { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--rr-hairline); }
+.atlas-plan-card h3 { margin: 0; font-size: 18px; }
+.atlas-plan-card p { margin: 0; }
+.atlas-plan-card select, .atlas-plan-card textarea { width: 100%; padding: 8px; border: 1px solid var(--rr-orchid); border-radius: 3px; background: var(--rr-input); color: var(--rr-paper); }
+.atlas-plan-card textarea { min-height: 62px; resize: vertical; }
+.atlas-plan-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.atlas-plan-state { display: inline-flex; align-items: center; padding: 4px 7px; border: 1px solid var(--rr-orchid); color: var(--rr-paper); font-size: 11px; }
+.atlas-plan-state--en-curso { border-color: var(--rr-mustard); color: var(--rr-accent-text); }
+.atlas-plan-state--hecho { border-color: var(--rr-orchid); }
+.atlas-plan-state--bloqueada { border-color: var(--rr-fuchsia); }
+.atlas-plan-empty { max-width: 1100px; margin: 40px auto; }
 .atlas-state { display: inline-flex; align-items: center; min-height: 28px; padding: 2px 8px; border: 1px solid var(--rr-orchid); color: var(--rr-paper); font-size: 12px; }
 .atlas-state--borrador { border-color: var(--rr-mustard); color: var(--rr-accent-text); }
 .atlas-state--validado { border-color: var(--rr-orchid); }
@@ -256,6 +282,9 @@ body.atlas-theme-light .atlas-logo-frame { background: var(--rr-paper-fixed); bo
   }
   .atlas-footer { display: none; }
   .atlas-header, .atlas-layout, .atlas-processes, .atlas-process-stage, .atlas-process-list, .atlas-process-meta, .atlas-bpmn-canvas, .atlas-canvas { max-width: 100%; }
+  .atlas-plan:not([hidden]) { padding: 12px 12px calc(var(--rr-tabbar) + 20px); }
+  .atlas-plan-header { grid-template-columns: 1fr; align-items: stretch; margin-bottom: 16px; padding: 16px; }
+  .atlas-plan-filters { justify-content: flex-start; }
   .atlas-search input, .atlas-process-search input { min-width: 0; max-width: 100%; }
   .atlas-tabbar {
     display: grid;
@@ -263,7 +292,7 @@ body.atlas-theme-light .atlas-logo-frame { background: var(--rr-paper-fixed); bo
     z-index: 36;
     width: 100%;
     min-width: 0;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 4px;
     margin-bottom: var(--rr-keyboard, 0px);
     padding: 6px 4px calc(6px + env(safe-area-inset-bottom));

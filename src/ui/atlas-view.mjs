@@ -1,5 +1,5 @@
-import { NODE_COLORS } from '../core/atlas-state.mjs?v=bpmn-5';
-import { createMediaTile, isDirectMedia } from './atlas-media.mjs?v=bpmn-5';
+import { NODE_COLORS } from '../core/atlas-state.mjs?v=bpmn-6';
+import { createMediaTile, isDirectMedia } from './atlas-media.mjs?v=bpmn-6';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -158,6 +158,8 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       card.setAttribute('aria-pressed', String(node.id === currentSnapshot.selectedId));
       card.style.left = `${Number(node.x) || 0}px`;
       card.style.top = `${Number(node.y) || 0}px`;
+      card.style.width = `${Number(node.width) || 238}px`;
+      card.style.minHeight = `${Number(node.height) || 125}px`;
       card.style.setProperty('--node-color', NODE_COLORS[color] ?? NODE_COLORS.fuchsia);
       card.setAttribute('aria-label', `${node.title}, ${node.type}`);
 
@@ -174,6 +176,13 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
         mediaBadge.textContent = `▧ ${node.media.length}`;
         mediaBadge.title = `${node.media.length} recursos multimedia`;
         marker.appendChild(mediaBadge);
+      }
+      if (node.comments?.length) {
+        const commentBadge = document.createElement('span');
+        commentBadge.className = 'atlas-comment-badge';
+        commentBadge.textContent = `✎ ${node.comments.length}`;
+        commentBadge.title = `${node.comments.length} comentarios`;
+        marker.appendChild(commentBadge);
       }
       const title = document.createElement('h3');
       title.textContent = node.title;
@@ -387,6 +396,65 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     actions.append(save, discard, remove);
     root.editor.appendChild(actions);
 
+    const commentsSection = document.createElement('section');
+    commentsSection.className = 'atlas-editor-section';
+    commentsSection.appendChild(sectionHeading(`Comentarios · ${(node.comments ?? []).length}`));
+    const commentsHelp = document.createElement('p');
+    commentsHelp.className = 'atlas-muted';
+    commentsHelp.textContent = 'Notas locales de coordinación. No se sincronizan con una fuente externa todavía.';
+    commentsSection.appendChild(commentsHelp);
+    const commentsList = document.createElement('div');
+    commentsList.className = 'atlas-comments-list';
+    for (const comment of node.comments ?? []) {
+      const item = document.createElement('article');
+      item.className = 'atlas-comment-item mat-row';
+      const date = document.createElement('span');
+      date.className = 'kind';
+      date.textContent = comment.updatedAt ? `Actualizado ${new Date(comment.updatedAt).toLocaleString('es-CO')}` : 'Comentario local';
+      const input = document.createElement('textarea');
+      input.value = comment.text;
+      input.setAttribute('aria-label', 'Comentario');
+      const commentActions = document.createElement('div');
+      commentActions.className = 'row';
+      const saveComment = button('Guardar comentario', 'atlas-button atlas-button--primary');
+      saveComment.addEventListener('click', () => {
+        if (store.updateComment(node.id, comment.id, input.value)) toast('Comentario actualizado');
+      });
+      const removeComment = button('Quitar', 'atlas-button atlas-button--danger');
+      removeComment.addEventListener('click', () => onConfirm?.({
+        title: 'Quitar comentario',
+        message: 'Esta nota local se quitará del nodo.',
+        confirmLabel: 'Quitar comentario',
+        onConfirm: () => {
+          store.removeComment(node.id, comment.id);
+          toast('Comentario quitado');
+        },
+      }));
+      commentActions.append(saveComment, removeComment);
+      item.append(date, input, commentActions);
+      commentsList.appendChild(item);
+    }
+    if (!(node.comments ?? []).length) {
+      const emptyComments = document.createElement('p');
+      emptyComments.className = 'atlas-muted';
+      emptyComments.textContent = 'Todavía no hay comentarios en este nodo.';
+      commentsList.appendChild(emptyComments);
+    }
+    commentsSection.appendChild(commentsList);
+    const newComment = document.createElement('textarea');
+    newComment.placeholder = 'Deja una nota para el siguiente recorrido';
+    newComment.setAttribute('aria-label', 'Nuevo comentario');
+    commentsSection.appendChild(newComment);
+    const addComment = button('＋ Dejar comentario', 'atlas-button atlas-button--primary');
+    addComment.addEventListener('click', () => {
+      if (store.addComment(node.id, newComment.value)) {
+        newComment.value = '';
+        toast('Comentario guardado en este navegador');
+      }
+    });
+    commentsSection.appendChild(addComment);
+    root.editor.appendChild(commentsSection);
+
     const mediaSection = document.createElement('section');
     mediaSection.className = 'atlas-editor-section';
     mediaSection.appendChild(sectionHeading(`Multimedia · ${(node.media ?? []).length}`));
@@ -518,29 +586,75 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     setWorldTransform();
   };
 
-  const pan = (event) => {
-    if (event.target.closest('button, input, textarea, select, a')) return;
-    if (drawingShape) {
-      const rect = root.work.getBoundingClientRect();
-      const x = Math.round((event.clientX - rect.left - viewport.x) / viewport.z - 119);
-      const y = Math.round((event.clientY - rect.top - viewport.y) / viewport.z - 70);
-      const labels = { rectangle: 'Rectángulo', rounded: 'Marcador redondeado', circle: 'Círculo', diamond: 'Rombo', hexagon: 'Hexágono', note: 'Nota' };
+  const beginDrawing = (event) => {
+    const rect = root.work.getBoundingClientRect();
+    const start = {
+      x: (event.clientX - rect.left - viewport.x) / viewport.z,
+      y: (event.clientY - rect.top - viewport.y) / viewport.z,
+    };
+    const preview = document.createElement('div');
+    preview.className = `atlas-draw-preview shape-${drawingShape}`;
+    preview.style.left = `${start.x}px`;
+    preview.style.top = `${start.y}px`;
+    preview.style.width = '120px';
+    preview.style.height = '64px';
+    root.cards.appendChild(preview);
+    try { root.work.setPointerCapture(event.pointerId); } catch { /* captura opcional */ }
+    const update = (next) => {
+      const current = {
+        x: (next.clientX - rect.left - viewport.x) / viewport.z,
+        y: (next.clientY - rect.top - viewport.y) / viewport.z,
+      };
+      const x = Math.min(start.x, current.x);
+      const y = Math.min(start.y, current.y);
+      const width = Math.max(120, Math.abs(current.x - start.x));
+      const height = Math.max(64, Math.abs(current.y - start.y));
+      preview.style.left = `${Math.max(0, x)}px`;
+      preview.style.top = `${Math.max(0, y)}px`;
+      preview.style.width = `${width}px`;
+      preview.style.height = `${height}px`;
+    };
+    const finish = (next) => {
+      root.work.removeEventListener('pointermove', update);
+      root.work.removeEventListener('pointerup', finish);
+      root.work.removeEventListener('pointercancel', finish);
+      preview.remove();
+      if (next.type === 'pointercancel') {
+        drawingShape = null;
+        root.work.classList.remove('is-drawing');
+        return;
+      }
+      update(next);
+      const width = Math.round(Number.parseFloat(preview.style.width));
+      const height = Math.round(Number.parseFloat(preview.style.height));
+      const x = Math.round(Number.parseFloat(preview.style.left));
+      const y = Math.round(Number.parseFloat(preview.style.top));
       const shape = drawingShape;
+      const labels = { rectangle: 'Rectángulo', rounded: 'Marcador redondeado', circle: 'Círculo', diamond: 'Rombo', hexagon: 'Hexágono', note: 'Nota' };
       drawingShape = null;
       root.work.classList.remove('is-drawing');
       store.addNode({
         id: `draw_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-        title: labels[shape] ?? 'Elemento dibujado',
+        title: shape === 'note' ? 'Nueva nota' : `Dibujo ${labels[shape] ?? 'libre'}`,
         type: 'Otro',
-        desc: 'Elemento creado desde la herramienta Dibujar.',
+        desc: shape === 'note' ? 'Anotación local del mapa.' : 'Elemento creado desde la herramienta Dibujar.',
         x: Math.max(20, x),
         y: Math.max(20, y),
+        width: Math.min(640, Math.max(120, width)),
+        height: Math.min(480, Math.max(64, height)),
         shape,
         color: 'orchid',
       });
-      toast(`${labels[shape] ?? 'Elemento'} creado en el lienzo`);
-      return;
-    }
+      toast(`${labels[shape] ?? 'Elemento'} creado; puedes editarlo y comentar`);
+    };
+    root.work.addEventListener('pointermove', update);
+    root.work.addEventListener('pointerup', finish);
+    root.work.addEventListener('pointercancel', finish);
+    update(event);
+  };
+
+  const pan = (event) => {
+    if (event.target.closest('button, input, textarea, select, a')) return;
     motionToken += 1;
     const start = { x: event.clientX, y: event.clientY, ox: viewport.x, oy: viewport.y };
     let last = { x: event.clientX, y: event.clientY, t: performance.now(), vx: 0, vy: 0 };
@@ -611,6 +725,10 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
   };
   root.work.addEventListener('pointerdown', (event) => {
     if (event.target.closest('button, input, textarea, select, a, .atlas-minimap')) return;
+    if (drawingShape) {
+      beginDrawing(event);
+      return;
+    }
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     try { root.work.setPointerCapture(event.pointerId); } catch { /* captura opcional */ }
     if (pointers.size === 2) {
@@ -715,6 +833,51 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     else fitVisible();
   };
 
+  const exportNodeIds = (scope = 'visible') => {
+    const selected = currentSnapshot.selectedId;
+    if (scope === 'full') return currentSnapshot.state.data.map((node) => node.id);
+    if (scope === 'visible') return visibleNodes().map((node) => node.id);
+    if (!selected) return visibleNodes().map((node) => node.id);
+    const ids = new Set([selected]);
+    for (const [source, target] of currentSnapshot.state.lines) {
+      if (source === selected) ids.add(target);
+      if (target === selected) ids.add(source);
+    }
+    return [...ids];
+  };
+
+  const escapeXml = (value) => String(value ?? '').replace(/[<>&'"]/g, (character) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[character]));
+  const exportSvg = (scope = 'visible') => {
+    const ids = new Set(exportNodeIds(scope));
+    const nodes = currentSnapshot.state.data.filter((node) => ids.has(node.id));
+    if (!nodes.length) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><text x="32" y="48">Sin nodos para exportar</text></svg>';
+    const padding = 56;
+    const boxes = nodes.map((node) => ({ node, width: Number(node.width) || 238, height: Number(node.height) || 125 }));
+    const minX = Math.min(...boxes.map(({ node }) => node.x));
+    const minY = Math.min(...boxes.map(({ node }) => node.y));
+    const maxX = Math.max(...boxes.map(({ node, width }) => node.x + width));
+    const maxY = Math.max(...boxes.map(({ node, height }) => node.y + height));
+    const width = Math.max(640, maxX - minX + padding * 2);
+    const height = Math.max(360, maxY - minY + padding * 2);
+    const point = (value, offset) => value - offset + padding;
+    const edges = currentSnapshot.state.lines.filter(([source, target]) => ids.has(source) && ids.has(target)).map(([source, target]) => {
+      const a = boxes.find(({ node }) => node.id === source);
+      const b = boxes.find(({ node }) => node.id === target);
+      const ax = point(a.node.x + a.width / 2, minX);
+      const ay = point(a.node.y + a.height, minY);
+      const bx = point(b.node.x + b.width / 2, minX);
+      const by = point(b.node.y, minY);
+      return `<path d="M${ax} ${ay} C${ax} ${(ay + by) / 2} ${bx} ${(ay + by) / 2} ${bx} ${by}"/>`;
+    }).join('');
+    const cards = boxes.map(({ node, width: nodeWidth, height: nodeHeight }) => {
+      const color = NODE_COLORS[node.color] ?? NODE_COLORS.fuchsia;
+      const x = point(node.x, minX);
+      const y = point(node.y, minY);
+      return `<g><rect x="${x}" y="${y}" width="${nodeWidth}" height="${nodeHeight}" rx="10" fill="#200b1b" stroke="${color}" stroke-width="3"/><text x="${x + 16}" y="${y + 26}" fill="#ded116" font-size="12" font-family="Arial" letter-spacing="1">${escapeXml(node.type)}</text><text x="${x + 16}" y="${y + 52}" fill="#fffff3" font-size="17" font-family="Arial">${escapeXml(node.title)}</text><text x="${x + 16}" y="${y + 78}" fill="#d2abc2" font-size="12" font-family="Arial">${escapeXml(node.desc).slice(0, 120)}</text></g>`;
+    }).join('');
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="#0e030b"/><g fill="none" stroke="#973d8f" stroke-width="2" opacity=".7">${edges}</g>${cards}<text x="${padding}" y="${height - 18}" fill="#d2abc2" font-size="11" font-family="Arial">RR Atlas · ${escapeXml(scope)} · fixture local</text></svg>`;
+  };
+
   return Object.freeze({
     render,
     startConnecting() {
@@ -725,7 +888,7 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     startDrawing(shape) {
       drawingShape = shape;
       root.work.classList.add('is-drawing');
-      toast(`Dibujar ${shape}: haz clic en el lienzo`);
+      toast(`Dibujar ${shape}: arrastra para definir tamaño`);
     },
     previewAppearance(id, shape, color) {
       appearancePreview = { id, shape, color };
@@ -738,6 +901,8 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     focusVisible,
     frameNode(id) { frameNode(getNode(id) || visibleNodes()[0]); },
     frameSelected,
+    exportNodeIds,
+    exportSvg,
     panBy,
     toggleWires() {
       wiresVisible = !wiresVisible;

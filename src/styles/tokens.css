@@ -33,6 +33,11 @@
   --rr-sidebar: #150613;
   --rr-hairline: rgba(255, 255, 255, .16);
   --rr-panel-shadow: 0 1px 2px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .05), 0 0 0 1px rgba(255, 255, 255, .05);
+  --rr-shadow-float: 0 28px 56px -22px rgba(0, 0, 0, .72), 0 0 0 1px rgba(255, 255, 255, .05);
+  --rr-shadow-lift: var(--rr-panel-shadow);
+  --rr-shadow-well: inset 0 1px 3px rgba(0, 0, 0, .4), inset 0 0 0 1px rgba(255, 255, 255, .03);
+  --rr-shadow-cap: 0 1.5px 0 rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .1);
+  --rr-shadow-row: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 1px 2px rgba(0, 0, 0, .25);
   --rr-dot: #973d8f73;
   --rr-accent-text: var(--rr-mustard);
   --rr-focus: var(--rr-mustard);
@@ -66,6 +71,11 @@ body.atlas-theme-light {
   --rr-sidebar: var(--rr-paper-fixed);
   --rr-hairline: rgba(7, 0, 1, .14);
   --rr-panel-shadow: 0 1px 2px rgba(7, 0, 1, .08), 0 0 0 1px rgba(7, 0, 1, .12);
+  --rr-shadow-float: 0 28px 56px -24px rgba(7, 0, 1, .22), 0 0 0 1px rgba(7, 0, 1, .06);
+  --rr-shadow-lift: var(--rr-panel-shadow);
+  --rr-shadow-well: inset 0 1px 2px rgba(7, 0, 1, .05), inset 0 0 0 1px rgba(7, 0, 1, .1);
+  --rr-shadow-cap: 0 1.5px 0 rgba(7, 0, 1, .09), inset 0 0 0 1px rgba(7, 0, 1, .11);
+  --rr-shadow-row: inset 0 0 0 1px rgba(7, 0, 1, .07), 0 1px 2px rgba(7, 0, 1, .05);
   --rr-dot: #973d8f55;
   --rr-accent-text: var(--rr-orchid);
   --rr-focus: var(--rr-orchid);

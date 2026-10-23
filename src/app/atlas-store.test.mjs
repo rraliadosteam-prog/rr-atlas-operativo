@@ -59,3 +59,16 @@ test('store persists marker appearance and multimedia assets', () => {
   assert.equal(store.removeMedia('a', 'm1'), true);
   assert.equal(store.getSnapshot().state.data[0].media.length, 0);
 });
+
+test('store persists comments and exports a selected fragment', () => {
+  const store = createAtlasStore({ repository: memoryRepository(), initialGraph: { ...base, lines: [['a', 'b']] } });
+  store.addComment('a', 'Revisar antes de sincronizar');
+  const comment = store.getSnapshot().state.data[0].comments[0];
+  assert.equal(comment.text, 'Revisar antes de sincronizar');
+  store.updateComment('a', comment.id, 'Comentario actualizado');
+  const fragment = store.exportPayload({ nodeIds: ['a'], scope: 'neighborhood', originNodeId: 'a' });
+  assert.equal(fragment.scope, 'neighborhood');
+  assert.equal(fragment.nodes.length, 1);
+  assert.deepEqual(fragment.edges, []);
+  assert.equal(store.removeComment('a', comment.id), true);
+});
