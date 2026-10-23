@@ -45,6 +45,13 @@ export const MEDIA_KINDS = Object.freeze([
   'embed',
   'link',
 ]);
+// Final iframe destinations must stay within the deployed frame-src policy.
+export const ALLOWED_EMBED_HOSTS = Object.freeze([
+  'drive.google.com',
+  'docs.google.com',
+  'www.youtube.com',
+  'player.vimeo.com',
+]);
 
 export class AtlasDataError extends Error {
   constructor(code, message, cause) {
@@ -123,6 +130,7 @@ export function validateMediaAsset(asset) {
   const label = string(asset.label, 'media label', 500);
   const [, rawUrl] = safeUrl(asset.url, 'media URL');
   const kind = classifyMediaUrl(rawUrl, asset.kind || 'auto');
+  // Storage accepts safe HTTPS references; embedding policy belongs to the renderer.
   requireValue(id.trim().length > 0, 'Empty media id');
   requireValue(label.trim().length > 0, 'Empty media label');
   return { id, label, url: rawUrl, kind };
@@ -142,13 +150,15 @@ export function validateComment(comment) {
 
 export function drivePreviewUrl(rawUrl) {
   const [url, value] = safeUrl(rawUrl, 'media URL');
-  const fileMatch = url.pathname.match(/\/file\/d\/([^/]+)/);
+  const fileMatch = url.hostname === 'drive.google.com'
+    ? url.pathname.match(/^\/file\/d\/([^/]+)/) : null;
   if (fileMatch) return `https://drive.google.com/file/d/${encodeURIComponent(fileMatch[1])}/preview`;
   if (['drive.google.com', 'docs.google.com'].includes(url.hostname) && url.searchParams.get('id')) {
     return `https://drive.google.com/file/d/${encodeURIComponent(url.searchParams.get('id'))}/preview`;
   }
 
-  const documentMatch = url.pathname.match(/\/(document|spreadsheets|presentation)\/d\/([^/]+)/);
+  const documentMatch = url.hostname === 'docs.google.com'
+    ? url.pathname.match(/^\/(document|spreadsheets|presentation)\/d\/([^/]+)/) : null;
   if (documentMatch) {
     const type = documentMatch[1];
     return `https://docs.google.com/${type}/d/${encodeURIComponent(documentMatch[2])}/preview`;
@@ -158,6 +168,10 @@ export function drivePreviewUrl(rawUrl) {
   if (url.hostname === 'youtube.com' || url.hostname === 'www.youtube.com') {
     const id = url.searchParams.get('v');
     if (id) return `https://www.youtube.com/embed/${encodeURIComponent(id)}`;
+    if (url.hostname === 'youtube.com') {
+      url.hostname = 'www.youtube.com';
+      return url.href;
+    }
   }
   if (url.hostname === 'vimeo.com') {
     const id = url.pathname.split('/').filter(Boolean).at(-1);

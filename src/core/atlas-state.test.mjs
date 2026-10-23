@@ -89,9 +89,80 @@ test('adds safe defaults to legacy nodes and classifies media', () => {
 test('validates multimedia assets without allowing unsafe URLs', () => {
   const asset = validateMediaAsset({ id: 'm1', label: 'Demo', url: 'https://cdn.example.com/demo.mp4', kind: 'auto' });
   assert.equal(asset.kind, 'video');
+  assert.equal(validateMediaAsset({ id: 'm1b', label: 'Video', url: 'https://www.youtube.com/watch?v=demo', kind: 'auto' }).kind, 'video');
+  const external = { id: 'm1c', label: 'Embed', url: 'https://external.example.com/app', kind: 'embed' };
+  assert.deepEqual(validateMediaAsset(external), external);
   assert.throws(() => validateMediaAsset({ id: 'm2', label: 'Unsafe', url: 'javascript:alert(1)', kind: 'auto' }), AtlasDataError);
   assert.throws(() => validateMediaAsset({ id: 'm3', label: 'Creds', url: 'https://user:pass@example.com/file.pdf', kind: 'auto' }), AtlasDataError);
 });
+
+test('preserves legacy HTTPS media and version 1 imports independently of embed policy', () => {
+  const legacy = structuredClone(graph);
+  legacy.data[0].media = ['embed', 'link', 'video', 'pdf', 'image', 'audio'].map((kind) => ({
+    id: `legacy-${kind}`, label: `Referencia ${kind}`,
+    url: `https://external.example.com/reference?kind=${kind}&keep=%2F#original`, kind,
+  }));
+  const before = structuredClone(legacy);
+  assert.deepEqual(normalizeGraph(legacy), before);
+  const snapshot = { schemaVersion: 1, nodes: legacy.data, edges: legacy.lines, source: 'test' };
+  assert.deepEqual(parseSnapshot(JSON.stringify(snapshot)), before);
+  assert.equal(snapshot.schemaVersion, 1);
+  assert.deepEqual(legacy, before);
+  const values = new Map();
+  const repository = createLocalRepository({
+    getItem: (key) => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value),
+  });
+  repository.save(legacy);
+  assert.deepEqual(repository.load(), before);
+});
+
+for (const url of ['http://external.example.com/file', 'data:text/html,test', 'https://external.example.com:8443/file']) {
+  test(`rejects unsafe media URL ${url}`, () => {
+    for (const kind of ['embed', 'link', 'video', 'pdf']) {
+      assert.throws(() => validateMediaAsset({ id: 'unsafe', label: 'Unsafe', url, kind }), AtlasDataError);
+    }
+  });
+}
+
+for (const url of [
+  'https://external.example.com/file/d/fixture/view',
+  'https://external.example.com/document/d/fixture/edit',
+  'https://external.example.com/spreadsheets/d/fixture/edit',
+  'https://external.example.com/presentation/d/fixture/edit',
+  'https://drive.google.com.external.example/file/d/fixture/view',
+  'https://docs.google.com.external.example/document/d/fixture/edit',
+  'https://drive.usercontent.google.com/file/d/fixture/view',
+  'https://drive.usercontent.google.com/document/d/fixture/edit',
+  'https://www.youtube.com/file/d/fixture/view',
+  'https://player.vimeo.com/document/d/fixture/edit',
+  'https://drive.google.com/document/d/fixture/edit',
+  'https://docs.google.com/file/d/fixture/view',
+  'https://external.example.com/open?id=fixture',
+  'https://youtube.com.external.example/watch?v=fixture',
+  'https://youtu.be.external.example/fixture',
+  'https://vimeo.com.external.example/123456',
+]) {
+  test(`preview transformation does not impersonate a provider: ${url}`, () => {
+    assert.equal(drivePreviewUrl(url), url);
+  });
+}
+
+for (const [url, expected] of [
+  ['https://drive.google.com/file/d/fixture/view', 'https://drive.google.com/file/d/fixture/preview'],
+  ['https://drive.google.com/open?id=fixture', 'https://drive.google.com/file/d/fixture/preview'],
+  ['https://docs.google.com/document/d/fixture/edit', 'https://docs.google.com/document/d/fixture/preview'],
+  ['https://docs.google.com/spreadsheets/d/fixture/edit', 'https://docs.google.com/spreadsheets/d/fixture/preview'],
+  ['https://docs.google.com/presentation/d/fixture/edit', 'https://docs.google.com/presentation/d/fixture/preview'],
+  ['https://youtu.be/fixture', 'https://www.youtube.com/embed/fixture'],
+  ['https://youtube.com/embed/fixture?start=10', 'https://www.youtube.com/embed/fixture?start=10'],
+  ['https://www.youtube.com/watch?v=fixture', 'https://www.youtube.com/embed/fixture'],
+  ['https://vimeo.com/123456', 'https://player.vimeo.com/video/123456'],
+]) {
+  test(`preview transformation keeps its real provider: ${url}`, () => {
+    assert.equal(drivePreviewUrl(url), expected);
+  });
+}
 
 test('validates local comments without allowing empty content', () => {
   const comment = validateComment({ id: 'c1', text: 'Revisar con el equipo', createdAt: '2026-10-22T00:00:00.000Z', updatedAt: '2026-10-22T00:00:00.000Z' });

@@ -1,4 +1,7 @@
-import { drivePreviewUrl } from '../core/atlas-state.mjs?v=bpmn-6';
+import { ALLOWED_EMBED_HOSTS, drivePreviewUrl } from '../core/atlas-state.mjs?v=bpmn-6';
+
+// These aliases are accepted only when normalized to an allowed iframe host.
+const EMBED_SOURCE_HOSTS = Object.freeze([...ALLOWED_EMBED_HOSTS, 'youtube.com', 'youtu.be', 'vimeo.com']);
 
 const iconFor = Object.freeze({
   image: '▧',
@@ -20,7 +23,8 @@ const labelFor = Object.freeze({
 
 function safeUrl(url) {
   try {
-    return new URL(url);
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' && !parsed.username && !parsed.password && !parsed.port ? parsed : null;
   } catch {
     return null;
   }
@@ -104,6 +108,17 @@ export function createMediaTile({ asset, onOpen, onRemove }) {
   return tile;
 }
 
+function createExternalFallback(asset) {
+  const panel = document.createElement('div');
+  panel.className = 'atlas-viewer-external';
+  const explanation = document.createElement('p');
+  explanation.textContent = asset.kind === 'link'
+    ? 'Este recurso es un enlace externo; no se carga una vista previa incrustada.'
+    : 'Vista previa no disponible: este dominio no está permitido para contenido incrustado. Abre la fuente en una pestaña nueva.';
+  panel.append(explanation, createExternalAssetLink(asset));
+  return panel;
+}
+
 export function createMediaFrame(asset) {
   const kind = asset.kind;
   const source = previewUrl(asset);
@@ -111,36 +126,45 @@ export function createMediaFrame(asset) {
 
   if (kind === 'image' && assetIsDirect(asset, 'image')) {
     frame = document.createElement('img');
-    frame.src = source;
+    frame.src = asset.url;
     frame.alt = asset.label;
     frame.decoding = 'async';
     frame.className = 'atlas-viewer-image';
   } else if (kind === 'video' && assetIsDirect(asset, 'video')) {
     frame = document.createElement('video');
-    frame.src = source;
+    frame.src = asset.url;
     frame.controls = true;
     frame.playsInline = true;
     frame.className = 'atlas-viewer-video';
   } else if (kind === 'audio' && assetIsDirect(asset, 'audio')) {
     frame = document.createElement('audio');
-    frame.src = source;
+    frame.src = asset.url;
     frame.controls = true;
     frame.className = 'atlas-viewer-audio';
   } else {
+    // Check both the original host and the normalized target, regardless of kind.
+    const originalUrl = safeUrl(asset.url);
+    const frameUrl = safeUrl(source);
+    if (kind === 'link' || !EMBED_SOURCE_HOSTS.includes(originalUrl?.hostname) ||
+        !ALLOWED_EMBED_HOSTS.includes(frameUrl?.hostname)) {
+      return createExternalFallback(asset);
+    }
     frame = document.createElement('iframe');
     frame.src = source;
     frame.title = asset.label;
     frame.loading = 'lazy';
     frame.referrerPolicy = 'no-referrer';
-    frame.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-read; clipboard-write';
+    frame.allow = 'autoplay; fullscreen; picture-in-picture';
     frame.setAttribute('allowfullscreen', '');
-    frame.setAttribute('sandbox', 'allow-forms allow-modals allow-popups allow-presentation allow-scripts allow-same-origin');
+    // Only the external providers above receive script/origin support; no forms, dialogs or popups.
+    frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
     frame.className = 'atlas-viewer-iframe';
   }
   return frame;
 }
 
 export function createExternalAssetLink(asset) {
+  if (!safeUrl(asset.url)) throw new TypeError('Only safe HTTPS media URLs are allowed');
   const link = document.createElement('a');
   link.href = asset.url;
   link.target = '_blank';

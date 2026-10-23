@@ -41,7 +41,7 @@ export function bindAtlasEvents({ root, store, view, knownLinks = [], onToast, a
   root.actions.zoomOut.addEventListener('click', () => view.zoomOut());
   root.actions.center.addEventListener('click', () => view.center());
   root.actions.locate?.addEventListener('click', () => {
-    view.center();
+    view.frameSelected();
     toast('Nodo seleccionado en el centro');
   });
   const app = root.layout.closest('#atlas-app');

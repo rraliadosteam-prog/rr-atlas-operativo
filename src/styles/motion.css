@@ -91,6 +91,9 @@ button.rr-press.atlas-button--danger:hover .rr-press-face {
 .atlas-toolbar-extra .rr-press,
 .atlas-process-list .rr-press,
 .atlas-process-actions .rr-press { width: 100%; }
+.atlas-rail button.rr-press { padding-right: 0; }
+.atlas-rail button.rr-press .rr-press-face { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 6px; padding: 8px; white-space: normal; border-color: transparent; background: transparent; border-radius: 3px; }
+.atlas-rail button.rr-press .rr-press-shadow { background: transparent; }
 .atlas-tabbar .rr-press[aria-pressed="true"] .rr-press-face,
 .atlas-rail .rr-press[aria-pressed="true"] .rr-press-face,
 .atlas-process-card.rr-press[aria-pressed="true"] .rr-press-face,

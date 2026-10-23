@@ -186,6 +186,17 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
       }
       const title = document.createElement('h3');
       title.textContent = node.title;
+      const cardMeta = document.createElement('div');
+      cardMeta.className = 'atlas-card-meta';
+      const state = document.createElement('span');
+      state.className = `atlas-card-status atlas-card-status--${String(node.status || 'Por validar').toLowerCase().replaceAll(' ', '-')}`;
+      state.textContent = node.status || 'Por validar';
+      const owner = document.createElement('span');
+      owner.className = 'atlas-card-owner';
+      const ownerText = String(node.owner || 'DESCONOCIDO').trim();
+      owner.textContent = ownerText === 'DESCONOCIDO' ? '—' : ownerText.split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase();
+      owner.title = ownerText;
+      cardMeta.append(state, owner);
       const description = document.createElement('p');
       description.textContent = node.desc;
       const previewAsset = node.media?.[0];
@@ -204,9 +215,9 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
           icon.textContent = previewAsset.kind === 'video' ? '▶' : previewAsset.kind === 'audio' ? '♪' : '↗';
           preview.appendChild(icon);
         }
-        card.append(title, marker, description, preview);
+        card.append(title, marker, cardMeta, description, preview);
       } else {
-        card.append(title, marker, description);
+        card.append(title, marker, cardMeta, description);
       }
 
       card.addEventListener('pointerdown', (event) => {
@@ -554,17 +565,26 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     root.railButtons.forEach((buttonElement) => {
       buttonElement.setAttribute('aria-pressed', String(buttonElement.dataset.atlasFilter === snapshot.filter));
     });
+    root.layout?.closest('#atlas-app')?.querySelectorAll?.('[data-atlas-filter-count]')?.forEach((countElement) => {
+      const filter = countElement.dataset.atlasFilterCount;
+      const count = filter === 'Todo'
+        ? snapshot.state.data.length
+        : snapshot.state.data.filter((node) => node.type.toLowerCase().includes(filter.toLowerCase())).length;
+      countElement.textContent = String(count);
+    });
     renderCards(visible);
     renderWires(visible);
     renderMinimap(visible);
     renderEditor();
     setWorldTransform();
-    if (snapshot.reason === 'init') requestAnimationFrame(() => frameReadable());
+    if (snapshot.reason === 'init') requestAnimationFrame(() => {
+      if (window.matchMedia('(min-width: 761px)').matches && visible.length > 12) fitVisible();
+      else frameReadable();
+    });
   };
 
   const clampZoom = (zoom) => {
-    const floor = root.work.clientWidth < 761 ? 0.55 : 0.25;
-    return Math.max(floor, Math.min(3, zoom));
+    return Math.max(0.1, Math.min(3, zoom));
   };
 
   const zoomAt = (factor, clientX = root.work.getBoundingClientRect().left + root.work.clientWidth / 2, clientY = root.work.getBoundingClientRect().top + root.work.clientHeight / 2) => {
@@ -815,8 +835,8 @@ export function createAtlasView({ root, store, onLinkRequest, onMediaRequest, on
     const maxX = Math.max(...boxes.map(({ node, size }) => node.x + size.width));
     const minY = Math.min(...boxes.map(({ node }) => node.y));
     const maxY = Math.max(...boxes.map(({ node, size }) => node.y + size.height));
-    const width = Math.max(320, root.work.clientWidth - 64);
-    const height = Math.max(220, root.work.clientHeight - 64);
+    const width = Math.max(1, root.work.clientWidth - 64);
+    const height = Math.max(1, root.work.clientHeight - 64);
     const next = clampZoom(Math.min(width / Math.max(280, maxX - minX), height / Math.max(180, maxY - minY)));
     animateViewport({
       z: next,

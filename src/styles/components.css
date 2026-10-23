@@ -44,12 +44,21 @@ body.atlas-theme-light .atlas-button--primary { background: var(--rr-mustard); b
 .atlas-card .kind, .kind { display: block; color: var(--rr-accent-text); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
 .atlas-card h3 { margin: 9px 0 7px; font-size: 16px; overflow-wrap: normal; word-break: normal; }
 .atlas-card p { margin: 0; color: var(--rr-muted); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.atlas-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 22px; margin: 2px 0 7px; }
+.atlas-card-status { display: inline-flex; align-items: center; max-width: 80%; padding: 3px 6px; overflow: hidden; border: 1px solid var(--rr-orchid); border-radius: 3px; color: var(--rr-muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.atlas-card-status--validado { border-color: var(--rr-orchid); color: var(--rr-paper); }
+.atlas-card-status--por-validar, .atlas-card-status--por-definir { border-color: var(--rr-mustard); color: var(--rr-accent-text); }
+.atlas-card-status--desconocido { border-style: dashed; color: var(--rr-muted); }
+.atlas-card-owner { display: grid; place-items: center; width: 26px; height: 26px; flex: 0 0 auto; border: 1px solid var(--rr-orchid); border-radius: 50%; color: var(--rr-accent-text); font-size: 12px; font-weight: 800; }
 
 .atlas-doc { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
 .atlas-doc a { flex: 1; color: var(--rr-paper); }
 .atlas-doc button { padding: 3px 8px; }
 .atlas-notice { margin-top: 16px; padding: 10px; border: 1px solid var(--rr-orchid); color: var(--rr-muted); font-size: 12px; line-height: 1.5; }
 .atlas-toast { position: fixed; right: 18px; bottom: 18px; z-index: 38; display: none; max-width: 360px; padding: 10px 12px; border: 1px solid var(--rr-mustard); background: var(--rr-ink); color: var(--rr-paper); }
+.atlas-news { display: grid; gap: 5px; margin: 2px 0 4px; padding: 10px; border: 1px solid var(--rr-hairline); }
+.atlas-news strong { font-size: 13px; }
+.atlas-news p { margin: 0; color: var(--rr-muted); font-size: 12px; line-height: 1.4; }
 .atlas-toast:not([hidden]) { display: block; }
 .atlas-sidebar hr { margin: 22px 0; border: 0; border-top: 1px solid var(--rr-orchid); }
 .atlas-dialog-form { min-width: 0; width: min(520px, calc(100vw - 32px)); padding: 8px; }
