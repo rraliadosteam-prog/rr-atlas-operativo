@@ -45,6 +45,7 @@
     areas: new Set(),
     kinds: new Set(),
     estados: new Set(),
+    flags: new Set(),
     tipo: '',
     com: '',
     selected: null,
@@ -161,6 +162,23 @@
       o.textContent = c.nombre + ' (' + c.tam + ')';
       coms.appendChild(o);
     }
+    const flagsHost = el('f-flags');
+    const FLAGS = [
+      ['sin_owner', 'Sin owner'],
+      ['sin_corte', 'Sin corte'],
+      ['huerfano', 'Huérfano'],
+      ['enlace_sin_resolver', 'Enlace roto'],
+      ['enlace_excluido', 'Enlace excluido']
+    ];
+    for (const [key, label] of FLAGS) {
+      const n = state.nodes.filter((x) => x.kind === 'page' && (x.flags || []).includes(key)).length;
+      if (!n) continue;
+      chip(flagsHost, label, n, 'flag', key, (v) => {
+        state.flags.has(v) ? state.flags.delete(v) : state.flags.add(v);
+        apply();
+        return state.flags.has(v);
+      });
+    }
     const legend = el('legend');
     const items = [
       ['Documento', '#be076d'],
@@ -186,6 +204,10 @@
     if (state.estados.size && (!isPage || !state.estados.has(n.estado))) return false;
     if (state.tipo && (!isPage || n.tipo !== state.tipo)) return false;
     if (state.com && n.community_name !== state.com) return false;
+    if (state.flags.size) {
+      if (!isPage) return false;
+      if (!(n.flags || []).some((f) => state.flags.has(f))) return false;
+    }
     if (!state.q) return true;
     const q = state.q.toLowerCase();
     return (n.label + ' ' + (n.file || '') + ' ' + (n.owner || '') + ' ' + (n.tipo || '') + ' ' + n.community_name)
@@ -294,6 +316,19 @@
     }
     mk(n.degree + ' vínculos');
     if (isPage && n.drive_url) mk('Drive ✓');
+    if (isPage) {
+      const FLAG_LABEL = {
+        sin_owner: 'Sin owner',
+        sin_corte: 'Sin corte',
+        huerfano: 'Huérfano',
+        duplicado: 'Duplicado',
+        enlace_sin_resolver: 'Enlace roto',
+        enlace_excluido: 'Enlace excluido'
+      };
+      for (const f of n.flags || []) {
+        if (FLAG_LABEL[f]) mk(FLAG_LABEL[f], f === 'enlace_excluido' ? '' : 'vencido');
+      }
+    }
 
     const kv = document.createElement('dl');
     kv.className = 'g-kv';
@@ -486,7 +521,7 @@
     el('f-com').addEventListener('change', (e) => { state.com = e.target.value; apply(); });
     el('reset').addEventListener('click', () => {
       state.q = ''; q.value = '';
-      state.areas.clear(); state.kinds.clear(); state.estados.clear();
+      state.areas.clear(); state.kinds.clear(); state.estados.clear(); state.flags.clear();
       state.tipo = ''; state.com = '';
       document.querySelectorAll('.g-chips button').forEach((b) => b.setAttribute('aria-pressed', 'false'));
       el('f-tipo').value = ''; el('f-com').value = '';

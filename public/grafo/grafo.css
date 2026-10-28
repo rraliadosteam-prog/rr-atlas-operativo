@@ -104,3 +104,5 @@ body{
   .g-rail{display:none}
   .g-head{flex-wrap:wrap;gap:10px}
 }
+.g-report{display:block;margin-top:8px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;color:var(--mostaza);font-size:12px;text-decoration:none;text-align:center}
+.g-report:hover{border-color:var(--mostaza)}
