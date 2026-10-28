@@ -22,3 +22,5 @@ jobs:
       - run: cargo test --workspace
       - run: cargo deny check
       - run: cargo audit --ignore RUSTSEC-2024-0436
+      - run: cargo install trunk --version 0.21.14 --locked
+      - run: npm run build:rust

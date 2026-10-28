@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "npm run build:rust",
+    "build:legacy": "node scripts/build.mjs",
+    "build:rust": "bash scripts/build-rust-web.sh",
     "test": "node --test src/core/atlas-state.test.mjs src/app/atlas-store.test.mjs",
-    "check": "for f in $(find src -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && node scripts/build.mjs"
+    "check": "for f in $(find src -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build:legacy && npm run build:rust"
   }
 }
