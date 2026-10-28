@@ -294,6 +294,7 @@
     .atlas-app[data-atlas-section="mapa"] .atlas-canvas,
     .atlas-app[data-atlas-section="procesos"] .atlas-processes,
     .atlas-app[data-atlas-section="plan"] .atlas-plan,
+    .atlas-app[data-atlas-section="explore"] .atlas-explore,
     .atlas-app[data-atlas-section="rr-grafo"] .rr-view[data-rr-section="grafo"],
     .atlas-app[data-atlas-section="rr-bpmn"] .rr-view[data-rr-section="bpmn"],
     .atlas-app[data-atlas-section="rr-flujos"] .rr-view[data-rr-section="flujos"] {
@@ -301,7 +302,12 @@
       transform: translateY(0);
     }
 
-    /* Hide other sections when RR view is active */
+    /* Hide other sections when explore is active */
+    .atlas-app[data-atlas-section="explore"] .atlas-canvas,
+    .atlas-app[data-atlas-section="explore"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="explore"] .atlas-processes,
+    .atlas-app[data-atlas-section="explore"] .atlas-plan,
+    .atlas-app[data-atlas-section="explore"] .atlas-home,
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-canvas,
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-sidebar,
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-processes,
@@ -426,13 +432,253 @@
       box-shadow: 0 1.5px 0 rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.1);
     }
 
-    /* ── Responsive home grid ── */
+    /* ── Vista Explorar (grid organizado) ── */
+    .atlas-explore {
+      grid-column: 2 / -1;
+      display: none;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 20px 28px;
+      background: var(--rr-bezel);
+      position: relative;
+    }
+    .atlas-explore:not([hidden]) { display: block; }
+    .atlas-explore-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .atlas-explore-back {
+      flex-shrink: 0;
+    }
+    .atlas-explore-title {
+      flex: 1;
+      min-width: 200px;
+    }
+    .atlas-explore-title h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--rr-paper);
+      margin: 4px 0;
+      letter-spacing: -0.02em;
+    }
+    .atlas-explore-count {
+      font-size: 12px;
+      color: var(--rr-orchid);
+    }
+    .atlas-explore-search input {
+      width: 240px;
+      padding: 8px 14px;
+      border-radius: var(--rr-radius);
+      border: 1px solid var(--rr-hairline);
+      background: var(--rr-well);
+      color: var(--rr-paper);
+      font-size: 13px;
+      outline: none;
+    }
+    .atlas-explore-search input:focus { border-color: var(--rr-fuchsia); }
+    .atlas-explore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      max-width: 1400px;
+      padding-bottom: 40px;
+    }
+    .explore-card {
+      background: var(--rr-card);
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-lift);
+      padding: 18px;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease, transform 0.15s ease, background 0.15s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+    .explore-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--rr-fuchsia);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .explore-card:hover {
+      box-shadow: var(--rr-shadow-float);
+      transform: translateY(-2px);
+      background: #2a0f24;
+      border-color: rgba(190, 7, 109, 0.3);
+    }
+    .explore-card:hover::before { opacity: 1; }
+    .explore-card:active { transform: translateY(0); }
+    .explore-card-type {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--rr-orchid);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .explore-card-type .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--rr-fuchsia);
+    }
+    .explore-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--rr-paper);
+      margin: 0 0 8px 0;
+      line-height: 1.3;
+    }
+    .explore-card p {
+      font-size: 12.5px;
+      color: var(--rr-muted);
+      margin: 0 0 12px 0;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .explore-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--rr-muted);
+    }
+    .explore-card-meta span {
+      background: var(--rr-well);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .explore-card-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .explore-card:hover .explore-card-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .explore-card-actions button {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      border: none;
+      border-radius: var(--rr-radius-sm);
+      background: var(--rr-well);
+      color: var(--rr-paper);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .explore-card-actions button:hover { background: var(--rr-fuchsia); }
+
+    /* ── Panel de detalle deslizable ── */
+    .atlas-explore-panel {
+      position: fixed;
+      top: 56px; right: 0;
+      width: 420px;
+      height: calc(100vh - 56px);
+      background: #0d0d0d;
+      border-left: 1px solid var(--rr-fuchsia);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 90;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .atlas-explore-panel.open { transform: translateX(0); }
+    .atlas-explore-panel-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--rr-muted);
+      font-size: 20px;
+      cursor: pointer;
+      width: 32px; height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+    }
+    .atlas-explore-panel-close:hover { color: var(--rr-paper); background: rgba(190,7,109,0.2); }
+    .atlas-explore-panel-content h2 {
+      font-size: 20px;
+      margin-bottom: 4px;
+      padding-right: 30px;
+      color: var(--rr-paper);
+    }
+    .atlas-explore-panel-content .panel-type {
+      color: var(--rr-fuchsia);
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+    .atlas-explore-panel-content .panel-section {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #222;
+    }
+    .atlas-explore-panel-content .panel-section h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--rr-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+    .atlas-explore-panel-content .panel-section p,
+    .atlas-explore-panel-content .panel-section li {
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+    .atlas-explore-panel-content .panel-section ul { padding-left: 16px; }
+    .atlas-explore-panel-content .meta-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #1a1a1a;
+      font-size: 13px;
+    }
+    .atlas-explore-panel-content .meta-row .label { color: var(--rr-muted); }
+    .atlas-explore-panel-content .meta-row .value { color: var(--rr-paper); text-align: right; }
+    .atlas-explore-panel-content .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--rr-fuchsia);
+      color: var(--rr-paper);
+      border: none;
+      border-radius: var(--rr-radius);
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .atlas-explore-panel-content .action-btn:hover { background: #d0087a; }
+
     @media (max-width: 760px) {
-      .atlas-home { padding: 16px; }
-      .atlas-home-header h1 { font-size: 22px; }
-      .atlas-home-grid {
-        grid-template-columns: 1fr;
-      }
+      .atlas-explore { padding: 12px; }
+      .atlas-explore-header { flex-direction: column; align-items: flex-start; }
+      .atlas-explore-search input { width: 100%; }
+      .atlas-explore-grid { grid-template-columns: 1fr; }
+      .atlas-explore-panel { width: 100%; top: 0; height: 100vh; }
     }
   </style>
 </head>
@@ -719,7 +965,29 @@
         </div>
       </section>
 
-      <!-- GRAFO -->
+      <!-- EXPLORE (grid de tarjetas organizado) -->
+      <section class="atlas-explore" data-atlas-explore hidden>
+        <div class="atlas-explore-header mat-panel">
+          <button type="button" class="atlas-button press atlas-explore-back" data-action="explore-back">&#8592; Volver</button>
+          <div class="atlas-explore-title">
+            <span class="kind" data-explore-kind>Categoria</span>
+            <h1 data-explore-heading>Clientes</h1>
+            <span class="atlas-explore-count" data-explore-count>0 items</span>
+          </div>
+          <label class="atlas-explore-search">
+            <input type="text" data-explore-search placeholder="Buscar..." aria-label="Buscar en categoria">
+          </label>
+        </div>
+        <div class="atlas-explore-grid" data-explore-grid></div>
+      </section>
+
+      <!-- EXPLORE DETAIL PANEL (deslizable) -->
+      <aside class="atlas-explore-panel" data-explore-panel aria-label="Detalle del item">
+        <button type="button" class="atlas-explore-panel-close press" data-action="close-explore-panel" aria-label="Cerrar panel">&#215;</button>
+        <div class="atlas-explore-panel-content" data-explore-panel-content>
+          <p class="atlas-muted">Selecciona un item para ver detalles.</p>
+        </div>
+      </aside>
       <section class="rr-view" data-rr-section="grafo" hidden>
         <div class="rr-loader" id="loader-grafo">
           <div class="rr-loader-logo">
@@ -836,17 +1104,44 @@
       const tabbarTabs = document.querySelectorAll('.atlas-tabbar button');
       const allNavButtons = [...navTabs, ...tabbarTabs];
       let currentSection = 'inicio';
+      let currentFilter = 'all';
+      let exploreNodes = [];
+
+      // Datos del grafo (se cargaran desde DEFAULT_GRAPH o fallback)
+      const TYPE_MAP = {
+        'clientes': ['Cliente'],
+        'procesos': ['Proceso'],
+        'productos': ['Producto propio', 'Producto reutilizable'],
+        'areas': ['Area'],
+        'talento': ['Talento'],
+        'herramientas': ['Herramienta'],
+        'gobierno': ['Gobierno', 'Control'],
+        'finanzas': ['Finanzas']
+      };
+      const TYPE_LABELS = {
+        'clientes': 'Clientes',
+        'procesos': 'Procesos',
+        'productos': 'Productos',
+        'areas': 'Areas',
+        'talento': 'Talento',
+        'herramientas': 'Herramientas',
+        'gobierno': 'Gobierno',
+        'finanzas': 'Finanzas'
+      };
 
       function switchTo(section) {
         if (currentSection === section) return;
         currentSection = section;
         app.dataset.atlasSection = section;
-        // Update all nav buttons
         allNavButtons.forEach(b => {
           const isMatch = b.dataset.atlasSectionTarget === section;
           b.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
           b.classList.toggle('active', isMatch);
         });
+        // Close explore panel when switching sections
+        if (section !== 'explore') {
+          document.querySelector('[data-explore-panel]').classList.remove('open');
+        }
       }
 
       allNavButtons.forEach(btn => {
@@ -855,17 +1150,15 @@
         });
       });
 
-      // Home card navigation
+      // Home card navigation → goes to EXPLORE instead of Mapa
       document.querySelectorAll('.atlas-home-card').forEach(card => {
         card.addEventListener('click', (e) => {
           if (e.target.closest('button')) return;
           const nav = card.dataset.homeNav;
           if (nav === 'procesos') {
-            switchTo('procesos');
-          } else if (nav === 'gobierno') {
-            switchTo('plan');
+            switchTo('procesos'); // BPM has its own view
           } else {
-            switchTo('mapa');
+            openExplore(nav);
           }
         });
       });
@@ -878,12 +1171,183 @@
           if (action === 'bpm' || action === 'flujos') {
             switchTo('procesos');
           } else if (action === 'grafo') {
-            switchTo('plan');
+            openExplore('gobierno');
+          } else if (action.startsWith('mapa-')) {
+            const cat = action.replace('mapa-', '');
+            openExplore(cat);
           } else {
-            switchTo('mapa');
+            openExplore('clientes');
           }
         });
       });
+
+      // EXPLORE functionality
+      function openExplore(category) {
+        const types = TYPE_MAP[category] || ['Cliente'];
+        const label = TYPE_LABELS[category] || 'Items';
+        document.querySelector('[data-explore-kind]').textContent = 'Categoria';
+        document.querySelector('[data-explore-heading]').textContent = label;
+        
+        // Try to get nodes from DEFAULT_GRAPH if available
+        const allNodes = (window.DEFAULT_GRAPH && window.DEFAULT_GRAPH.data) ? window.DEFAULT_GRAPH.data : [];
+        exploreNodes = allNodes.filter(n => types.includes(n.type));
+        
+        // Fallback: generate sample nodes if no data
+        if (exploreNodes.length === 0) {
+          exploreNodes = generateSampleNodes(category);
+        }
+        
+        document.querySelector('[data-explore-count]').textContent = exploreNodes.length + ' items';
+        renderExploreGrid(exploreNodes);
+        switchTo('explore');
+      }
+
+      function generateSampleNodes(category) {
+        const samples = {
+          'clientes': [
+            {id:'c1', title:'TechCorp SAS', type:'Cliente', desc:'Cliente tecnologico con proyectos de IA', owner:'Comercial', status:'Activo'},
+            {id:'c2', title:'Fundacion Educa', type:'Cliente', desc:'Organizacion sin animo de lucro', owner:'Comercial', status:'Activo'},
+            {id:'c3', title:'Alcaldia Mayor', type:'Cliente', desc:'Contrato de servicios digitales', owner:'Direccion', status:'Vigente'},
+            {id:'c4', title:'Startup FinTech', type:'Cliente', desc:'Prospecto en negociacion', owner:'Comercial', status:'Prospecto'},
+          ],
+          'productos': [
+            {id:'p1', title:'DashWeb CRM', type:'Producto propio', desc:'Sistema de gestion de clientes', owner:'Tech', status:'Activo'},
+            {id:'p2', title:'Buen Puente', type:'Producto propio', desc:'Plataforma de conexion ciudadana', owner:'Direccion', status:'En desarrollo'},
+            {id:'p3', title:'Sazon Alacena', type:'Producto reutilizable', desc:'Tienda digital para emprendedores', owner:'Operaciones', status:'Activo'},
+          ],
+          'talento': [
+            {id:'t1', title:'Santiago Rosas', type:'Talento', desc:'CEO y fundador', owner:'Direccion', status:'Activo'},
+            {id:'t2', title:'Manuel Mesa', type:'Talento', desc:'COO y orquestador', owner:'Operaciones', status:'Activo'},
+            {id:'t3', title:'Martin Lopez', type:'Talento', desc:'Desarrollador interno', owner:'Tech', status:'Internship'},
+          ],
+          'herramientas': [
+            {id:'h1', title:'Supabase', type:'Herramienta', desc:'Base de datos y backend', owner:'Tech', status:'Activo'},
+            {id:'h2', title:'DashWeb', type:'Herramienta', desc:'CRM propio de RR', owner:'Operaciones', status:'Activo'},
+            {id:'h3', title:'Obsidian', type:'Herramienta', desc:'Vault de conocimiento', owner:'Direccion', status:'Activo'},
+          ],
+          'gobierno': [
+            {id:'g1', title:'Politica de datos', type:'Gobierno', desc:'Manejo de informacion sensible', owner:'Direccion', status:'Documentado'},
+            {id:'g2', title:'Modelo de negocio', type:'Gobierno', desc:'Canvas y propuesta de valor', owner:'Direccion', status:'Validado'},
+          ],
+          'areas': [
+            {id:'a1', title:'Direccion', type:'Area', desc:'Toma de decisiones estrategicas', owner:'CEO', status:'Activo'},
+            {id:'a2', title:'Operaciones', type:'Area', desc:'Ejecucion y coordinacion', owner:'COO', status:'Activo'},
+            {id:'a3', title:'Tech', type:'Area', desc:'Desarrollo e infraestructura', owner:'CTO', status:'Activo'},
+          ]
+        };
+        return samples[category] || [];
+      }
+
+      function renderExploreGrid(nodes) {
+        const grid = document.querySelector('[data-explore-grid]');
+        if (!grid) return;
+        grid.innerHTML = nodes.map(node => `
+          <article class="explore-card" data-node-id="${node.id}" data-node-type="${node.type}">
+            <div class="explore-card-type"><span class="dot"></span>${node.type}</div>
+            <h3>${node.title}</h3>
+            <p>${node.desc || ''}</p>
+            <div class="explore-card-meta">
+              ${node.owner ? `<span>${node.owner}</span>` : ''}
+              ${node.status ? `<span>${node.status}</span>` : ''}
+            </div>
+            <div class="explore-card-actions">
+              <button data-action="view-detail" data-id="${node.id}">Ver detalle</button>
+              <button data-action="view-map" data-id="${node.id}">Ver en mapa</button>
+            </div>
+          </article>
+        `).join('');
+
+        // Add click handlers to cards
+        grid.querySelectorAll('.explore-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            openDetail(card.dataset.nodeId);
+          });
+        });
+
+        grid.querySelectorAll('[data-action="view-detail"]').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openDetail(btn.dataset.id);
+          });
+        });
+
+        grid.querySelectorAll('[data-action="view-map"]').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToMap(btn.dataset.id);
+          });
+        });
+      }
+
+      function openDetail(nodeId) {
+        const node = exploreNodes.find(n => n.id === nodeId);
+        if (!node) return;
+        const panel = document.querySelector('[data-explore-panel]');
+        const content = document.querySelector('[data-explore-panel-content]');
+        
+        content.innerHTML = `
+          <div class="panel-type">${node.type}</div>
+          <h2>${node.title}</h2>
+          <div class="panel-section">
+            <h4>Descripcion</h4>
+            <p>${node.desc || 'Sin descripcion'}</p>
+          </div>
+          <div class="panel-section">
+            <h4>Informacion</h4>
+            <div class="meta-row"><span class="label">Responsable</span><span class="value">${node.owner || 'DESCONOCIDO'}</span></div>
+            <div class="meta-row"><span class="label">Estado</span><span class="value">${node.status || 'Por validar'}</span></div>
+            <div class="meta-row"><span class="label">ID</span><span class="value">${node.id}</span></div>
+          </div>
+          <div class="panel-section">
+            <h4>Acciones</h4>
+            <button class="action-btn" data-action="panel-view-map" data-id="${node.id}">Ver en mapa</button>
+            <button class="action-btn" data-action="panel-close">Cerrar</button>
+          </div>
+        `;
+        
+        content.querySelector('[data-action="panel-view-map"]').addEventListener('click', () => goToMap(node.id));
+        content.querySelector('[data-action="panel-close"]').addEventListener('click', closeDetail);
+        
+        panel.classList.add('open');
+      }
+
+      function closeDetail() {
+        document.querySelector('[data-explore-panel]').classList.remove('open');
+      }
+
+      function goToMap(nodeId) {
+        // Navigate to Mapa and (in future) focus on the node
+        closeDetail();
+        switchTo('mapa');
+        // Store selected node for main app to pick up
+        window.__atlas_selected_node = nodeId;
+      }
+
+      // Search in explore
+      const searchInput = document.querySelector('[data-explore-search]');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const q = e.target.value.toLowerCase();
+          const filtered = exploreNodes.filter(n => 
+            (n.title || '').toLowerCase().includes(q) ||
+            (n.desc || '').toLowerCase().includes(q) ||
+            (n.owner || '').toLowerCase().includes(q)
+          );
+          renderExploreGrid(filtered);
+        });
+      }
+
+      // Back button from explore
+      document.querySelector('[data-action="explore-back"]')?.addEventListener('click', () => {
+        switchTo('inicio');
+      });
+
+      // Close panel button
+      document.querySelector('[data-action="close-explore-panel"]')?.addEventListener('click', closeDetail);
+
+      // Overlay click to close panel
+      document.querySelector('[data-atlas-backdrop]')?.addEventListener('click', closeDetail);
     })();
   </script>
 </body>
