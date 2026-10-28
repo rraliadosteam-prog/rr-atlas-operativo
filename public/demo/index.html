@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RR Aliados · Atlas Operativo v2 (Mockup)</title>
+<link rel="icon" href="/rr-logo-mark.png">
+<style>
+/* ===== TOKENS RR ===== */
+:root {
+  --negro: #070001;
+  --blanco: #FFFFF3;
+  --fucsia: #BE076D;
+  --mostaza: #DED116;
+  --orquidea: #973D8F;
+  --gris: #2a2a2a;
+  --gris-medio: #555;
+  --gris-claro: #888;
+  --radius: 8px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --transition: 0.2s ease;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--negro);
+  color: var(--blanco);
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.atlas-header {
+  height: 56px;
+  background: var(--negro);
+  border-bottom: 2px solid var(--fucsia);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+}
+.atlas-header img { height: 32px; }
+.atlas-header .brand { font-size: 18px; font-weight: 700; }
+.atlas-header .brand span { color: var(--fucsia); font-weight: 400; font-size: 14px; margin-left: 8px; }
+.atlas-header .nav-tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.atlas-header .nav-tabs button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--gris-claro);
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  transition: var(--transition);
+}
+.atlas-header .nav-tabs button:hover { color: var(--blanco); }
+.atlas-header .nav-tabs button.active {
+  background: var(--fucsia);
+  color: var(--blanco);
+  border-color: var(--fucsia);
+}
+
+/* ===== LAYOUT ===== */
+.atlas-body {
+  display: flex;
+  height: calc(100vh - 56px);
+  margin-top: 56px;
+}
+
+/* ===== SIDEBAR ===== */
+.atlas-sidebar {
+  width: 220px;
+  background: #0d0d0d;
+  border-right: 1px solid #333;
+  padding: 16px 12px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.atlas-sidebar h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--gris-claro);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.atlas-sidebar .filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--gris-claro);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: var(--transition);
+}
+.atlas-sidebar .filter-btn:hover { background: #1a1a1a; color: var(--blanco); }
+.atlas-sidebar .filter-btn.active {
+  background: rgba(190,7,109,0.15);
+  color: var(--fucsia);
+  border-color: var(--fucsia);
+}
+.atlas-sidebar .filter-btn .count {
+  margin-left: auto;
+  font-size: 11px;
+  background: var(--gris);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+.atlas-sidebar .filter-btn.active .count { background: var(--fucsia); color: var(--blanco); }
+.atlas-sidebar .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== CANVAS ===== */
+.atlas-canvas-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #1a0a12 0%, var(--negro) 70%);
+}
+.atlas-canvas-area .canvas-label {
+  position: absolute;
+  top: 12px; left: 16px;
+  font-size: 12px;
+  color: var(--gris-claro);
+  z-index: 10;
+}
+.atlas-canvas-area .search-bar {
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.atlas-canvas-area .search-bar input {
+  width: 320px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--gris-medio);
+  background: rgba(7,0,1,0.8);
+  color: var(--blanco);
+  font-size: 13px;
+  outline: none;
+}
+.atlas-canvas-area .search-bar input:focus { border-color: var(--fucsia); }
+
+/* ===== NODES ===== */
+.node-layer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: auto;
+  padding: 60px 40px 40px;
+}
+.node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.node-card {
+  background: linear-gradient(145deg, #121212, #0a0a0a);
+  border: 1px solid #333;
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.node-card:hover {
+  border-color: var(--fucsia);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.node-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--fucsia);
+  opacity: 0;
+  transition: var(--transition);
+}
+.node-card:hover::before { opacity: 1; }
+.node-card .node-type {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--gris-claro);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.node-card .node-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--blanco);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.node-card .node-meta {
+  font-size: 12px;
+  color: var(--gris-claro);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.node-card .node-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  margin-top: 8px;
+}
+.status-vigente { background: rgba(76,175,80,0.2); color: #4caf50; }
+.status-activo { background: rgba(76,175,80,0.2); color: #4caf50; }
+.status-prospecto { background: rgba(255,152,0,0.2); color: #ff9800; }
+.status-vencido { background: rgba(244,67,54,0.2); color: #f44336; }
+.status-pendiente { background: rgba(255,152,0,0.2); color: #ff9800; }
+.status-por_confirmar { background: rgba(136,136,136,0.2); color: #888; }
+.status-documentado { background: rgba(76,175,80,0.2); color: #4caf50; }
+
+/* ===== DETAIL PANEL ===== */
+.detail-panel {
+  position: fixed;
+  top: 56px; right: 0;
+  width: 420px;
+  height: calc(100vh - 56px);
+  background: #0d0d0d;
+  border-left: 1px solid var(--fucsia);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 90;
+  overflow-y: auto;
+  padding: 20px;
+}
+.detail-panel.open { transform: translateX(0); }
+.detail-panel .close-btn {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--gris-claro);
+  font-size: 20px;
+  cursor: pointer;
+}
+.detail-panel .close-btn:hover { color: var(--blanco); }
+.detail-panel h2 {
+  font-size: 20px;
+  margin-bottom: 4px;
+  padding-right: 30px;
+}
+.detail-panel .panel-type {
+  color: var(--fucsia);
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.detail-panel .panel-section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #222;
+}
+.detail-panel .panel-section h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--gris-claro);
+  margin-bottom: 8px;
+}
+.detail-panel .panel-section p, .detail-panel .panel-section li {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.6;
+}
+.detail-panel .panel-section ul { padding-left: 16px; }
+.detail-panel .action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--fucsia);
+  color: var(--blanco);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 8px;
+  text-decoration: none;
+}
+.detail-panel .action-btn:hover { background: #d0087a; }
+.detail-panel .meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #1a1a1a;
+  font-size: 13px;
+}
+.detail-panel .meta-row .label { color: var(--gris-claro); }
+.detail-panel .meta-row .value { color: var(--blanco); text-align: right; }
+
+/* ===== BPMN SECTION ===== */
+.bpmn-container {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+}
+.bpmn-container.active { display: flex; }
+.bpmn-canvas-wrap {
+  flex: 1;
+  position: relative;
+  background: var(--blanco);
+  overflow: hidden;
+}
+.bpmn-canvas-wrap svg {
+  width: 100%;
+  height: 100%;
+}
+.bpmn-step-panel {
+  height: 200px;
+  background: #0d0d0d;
+  border-top: 1px solid var(--fucsia);
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+.bpmn-step-panel h4 { color: var(--fucsia); font-size: 14px; margin-bottom: 8px; }
+.bpmn-step-panel p { font-size: 13px; color: #ccc; line-height: 1.5; }
+.bpmn-step-panel .step-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+.bpmn-step-panel .step-grid .step-item {
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: var(--radius);
+  border-left: 3px solid var(--mostaza);
+}
+.bpmn-step-panel .step-grid .step-item label {
+  font-size: 10px;
+  color: var(--gris-claro);
+  text-transform: uppercase;
+}
+.bpmn-step-panel .step-grid .step-item div {
+  font-size: 13px;
+  color: var(--blanco);
+  margin-top: 4px;
+}
+
+/* ===== FLOWS SECTION ===== */
+.flows-container {
+  display: none;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px 40px;
+}
+.flows-container.active { display: block; }
+.flow-card {
+  background: linear-gradient(145deg, #121212, #0a0a0a);
+  border: 1px solid #333;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.flow-card-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  background: rgba(151,61,143,0.1);
+  border-bottom: 1px solid transparent;
+  transition: var(--transition);
+}
+.flow-card-header:hover { background: rgba(151,61,143,0.2); }
+.flow-card-header .flow-num {
+  width: 28px; height: 28px;
+  background: var(--mostaza);
+  color: var(--negro);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.flow-card-header .flow-title { font-size: 15px; font-weight: 600; }
+.flow-card-header .flow-toggle {
+  margin-left: auto;
+  font-size: 18px;
+  color: var(--gris-claro);
+  transition: var(--transition);
+}
+.flow-card.open .flow-card-header { border-bottom-color: #333; }
+.flow-card.open .flow-toggle { transform: rotate(180deg); }
+.flow-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.flow-card.open .flow-card-body { max-height: 2000px; }
+.flow-card-body-inner {
+  padding: 20px;
+}
+.flow-step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.flow-step::before {
+  content: '';
+  position: absolute;
+  left: 11px; top: 24px; bottom: -16px;
+  width: 2px;
+  background: var(--gris-medio);
+}
+.flow-step:last-child::before { display: none; }
+.flow-step-dot {
+  width: 24px; height: 24px;
+  background: var(--fucsia);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 2;
+}
+.flow-step-content {
+  flex: 1;
+  background: #1a1a1a;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border-left: 3px solid var(--fucsia);
+}
+.flow-step-content h5 {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--blanco);
+}
+.flow-step-content p {
+  font-size: 12px;
+  color: var(--gris-claro);
+  line-height: 1.5;
+}
+.flow-step-content .step-meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 11px;
+}
+.flow-step-content .step-meta span { color: var(--gris-claro); }
+.flow-step-content .step-meta span strong { color: var(--mostaza); }
+
+/* ===== OVERLAY ===== */
+.overlay {
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 80;
+  display: none;
+}
+.overlay.show { display: block; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gris-medio); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header class="atlas-header">
+  <img src="/rr-logo-mark.png" alt="RR">
+  <div class="brand">RR ALIADOS <span>· Atlas Operativo v2</span></div>
+  <div class="nav-tabs">
+    <button class="active" data-tab="mapa">Mapa</button>
+    <button data-tab="bpmn">BPMN</button>
+    <button data-tab="flujos">Flujos</button>
+  </div>
+</header>
+
+<div class="atlas-body">
+
+  <!-- SIDEBAR -->
+  <aside class="atlas-sidebar" id="sidebar">
+    <h3>Filtrar por</h3>
+    <button class="filter-btn active" data-filter="all">
+      <span class="dot" style="background:#fff"></span> Toda la empresa
+      <span class="count" id="count-all">0</span>
+    </button>
+    <button class="filter-btn" data-filter="cliente">
+      <span class="dot" style="background:#ff9f1c"></span> Clientes
+      <span class="count" id="count-cliente">0</span>
+    </button>
+    <button class="filter-btn" data-filter="proyecto">
+      <span class="dot" style="background:#4cc9f0"></span> Proyectos
+      <span class="count" id="count-proyecto">0</span>
+    </button>
+    <button class="filter-btn" data-filter="producto">
+      <span class="dot" style="background:#8bd450"></span> Productos
+      <span class="count" id="count-producto">0</span>
+    </button>
+    <button class="filter-btn" data-filter="talento">
+      <span class="dot" style="background:#DED116"></span> Talento
+      <span class="count" id="count-talento">0</span>
+    </button>
+    <button class="filter-btn" data-filter="proceso">
+      <span class="dot" style="background:#973D8F"></span> Procesos
+      <span class="count" id="count-proceso">0</span>
+    </button>
+    <button class="filter-btn" data-filter="documento">
+      <span class="dot" style="background:#BE076D"></span> Documentos
+      <span class="count" id="count-documento">0</span>
+    </button>
+  </aside>
+
+  <!-- CANVAS AREA -->
+  <div class="atlas-canvas-area" id="canvas-area">
+    <div class="canvas-label">Hacé clic en cualquier nodo para ver detalles, responsables y enlaces a Drive</div>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Buscar cliente, proyecto, proceso...">
+    </div>
+
+    <!-- Mapa Tab -->
+    <div class="node-layer" id="mapa-layer">
+      <div class="node-grid" id="node-grid"></div>
+    </div>
+
+    <!-- BPMN Tab -->
+    <div class="bpmn-container" id="bpmn-layer">
+      <div class="bpmn-canvas-wrap" id="bpmn-canvas">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#070001;font-size:18px;">
+          🔄 Cargando BPMN interactivo...
+        </div>
+      </div>
+      <div class="bpmn-step-panel" id="bpmn-step-panel">
+        <h4>Hacé clic en cualquier paso del diagrama para ver detalles</h4>
+        <p>Cada elemento muestra: responsable, herramienta, documento de entrada/salida, checklist y estado.</p>
+      </div>
+    </div>
+
+    <!-- Flujos Tab -->
+    <div class="flows-container" id="flujos-layer"></div>
+  </div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="overlay" id="overlay"></div>
+<div class="detail-panel" id="detail-panel">
+  <button class="close-btn" onclick="closePanel()">×</button>
+  <div id="panel-content"></div>
+</div>
+
+<script>
+// ===== DATOS REALES DE RR (inyectados desde Directus) =====
+const RR_DATA = {
+  clientes: [
+    {id:1, nombre:"Wundeer", estado:"prospecto", valor:"Pago 15/10", notas:"Tienda de ropa. Contrato revisado por abogada, pendiente verificación final.", contacto:"soporte@rraliados.com", drive:"#"},
+    {id:2, nombre:"BOGA", estado:"activo", valor:"COP 12M", notas:"Pago inicial recibido. Contrato AÚN sin firma. 🔴 RIESGO CRÍTICO.", contacto:"+57 310 443 5375", drive:"#"},
+    {id:3, nombre:"Shoes Colombia", estado:"prospecto", valor:"Precontrato", notas:"Preparar precontrato antes/durante onboarding.", contacto:"", drive:"#"},
+    {id:4, nombre:"Candilejas + 553", estado:"activo", valor:"COP 15M", notas:"Sistema multi-sede. 6 sedes + 553. Cadencia: una sede cada 15 días.", contacto:"", drive:"#"},
+    {id:5, nombre:"Unidos Fundación Social", estado:"espera", valor:"Prototipo", notas:"Prospecto histórico con prototipo. En espera.", contacto:"", drive:"#"},
+    {id:6, nombre:"Alcaldía PQR", estado:"espera", valor:"Prototipo", notas:"Prospecto histórico con prototipo. En espera.", contacto:"", drive:"#"},
+    {id:7, nombre:"Alejandra Paternina", estado:"aliado", valor:"Referido", notas:"IMF Visions, Amsterdam. Aliado documentado.", contacto:"", drive:"#"},
+    {id:8, nombre:"Alejandra Suárez", estado:"aliado", valor:"4% comisión", notas:"Harbin, La Carreta, Turismo Anheyca, Satiro Sushi.", contacto:"", drive:"#"},
+    {id:9, nombre:"IMF Visions", estado:"aliado", valor:"", notas:"Aliado de RR Aliados.", contacto:"", drive:"#"},
+    {id:10, nombre:"Harbin", estado:"aliado", valor:"", notas:"Aliado de Alejandra Suárez.", contacto:"", drive:"#"},
+    {id:11, nombre:"La Carreta", estado:"aliado", valor:"", notas:"Aliado de Alejandra Suárez.", contacto:"", drive:"#"},
+    {id:12, nombre:"Turismo Anheyca", estado:"aliado", valor:"", notas:"Aliado de Alejandra Suárez.", contacto:"", drive:"#"}
+  ],
+  proyectos: [
+    {id:1, nombre:"Candilejas + 553 - Sistema Multi-sede", cliente:"Candilejas + 553", estado:"activo", valor:"COP 15.000.000", proximo_hito:"Levantamiento funcional", fecha:"2026-10-05", notas:"6 sedes + 553. Cadencia: una sede cada 15 días."},
+    {id:2, nombre:"Wundeer - Tienda Online", cliente:"Wundeer", estado:"prospecto", valor:"Pago 15/10", proximo_hito:"Firma contrato", fecha:"", notas:"Contrato revisado por abogada, pendiente verificación final y subida a BD."},
+    {id:3, nombre:"BOGA - Desarrollo Web", cliente:"BOGA", estado:"activo", valor:"COP 12.000.000", proximo_hito:"Onboarding completo", fecha:"", notas:"🔴 Pago inicial recibido, contrato AÚN sin firma. Riesgo contractual."},
+    {id:4, nombre:"Shoes Colombia - Precontrato", cliente:"Shoes Colombia", estado:"prospecto", valor:"Precontrato", proximo_hito:"Preparar precontrato", fecha:"", notas:"Preparar precontrato antes/durante onboarding."}
+  ],
+  productos: [
+    {id:1, nombre:"Desarrollo Web/App", tipo:"servicio", estado:"activo", desc:"Desarrollo de páginas web, aplicaciones y sistemas tecnológicos a medida."},
+    {id:2, nombre:"Producción de Contenido", tipo:"servicio", estado:"activo", desc:"Creación de contenido audiovisual, fotografía, video y piezas gráficas."},
+    {id:3, nombre:"Branding y Diseño", tipo:"servicio", estado:"activo", desc:"Identidad de marca, diseño gráfico y sistemas visuales."},
+    {id:4, nombre:"Marketing Digital", tipo:"servicio", estado:"activo", desc:"Estrategias de marketing, redes sociales y campañas publicitarias."},
+    {id:5, nombre:"Consultoría Tecnológica", tipo:"servicio", estado:"activo", desc:"Asesoría en arquitectura de software, automatizaciones e IA."},
+    {id:6, nombre:"Sazón", tipo:"proyecto-altruismo", estado:"activo", desc:"Proyecto de altruismo. Tienda + alacena digital."},
+    {id:7, nombre:"DashWeb CRM", tipo:"producto-interno", estado:"activo", desc:"CRM interno de RR Aliados."},
+    {id:8, nombre:"RR Commander / Chatbot", tipo:"producto-interno", estado:"activo", desc:"Sistema de automatización con IA."}
+  ],
+  equipo: [
+    {id:1, nombre:"Santiago Rosas", rol:"Dirección / CEO", estado:"activo", alcance:"Estrategia, operaciones, finanzas, toma de decisiones ejecutivas."},
+    {id:2, nombre:"Manuel Mesa", rol:"COO / Orquestador", estado:"activo", alcance:"Operación diaria, producción, onboarding, calendario. Mayor carga creativa y operativa."},
+    {id:3, nombre:"Isabela Morales", rol:"Producción", estado:"activo", alcance:"Ideación y supervisión de sesiones."},
+    {id:4, nombre:"Estefanía", rol:"Producción", estado:"activo", alcance:"Supervisión histórica en sesiones."},
+    {id:5, nombre:"Juan Martín", rol:"Desarrollador Interno", estado:"internship", alcance:"Desarrollo web, apps, sistemas tecnológicos. Internship."}
+  ],
+  procesos: [
+    {id:1, nombre:"Proceso Comercial", area:"comercial", version:"actual", estado:"documentado", desc:"Del prospecto al cierre. Registro en pipeline, diagnóstico, propuesta, negociación, firma."},
+    {id:2, nombre:"Proceso Onboarding", area:"onboarding", version:"actual", estado:"documentado", desc:"Cierre → carpeta en Drive → _CONTEXTO.md → contrato → levantamiento → brand kit → alcance → plan → calendario → inicio."},
+    {id:3, nombre:"Proceso Producción", area:"produccion", version:"actual", estado:"documentado", desc:"Brief creativo → ideación → guiones → aprobación → preproducción → grabación → edición → revisión → publicación → medición."},
+    {id:4, nombre:"Proceso Desarrollo", area:"desarrollo", version:"actual", estado:"documentado", desc:"Brief técnico → arquitectura → prototipo → implementación → QA → revisión → ajustes → deploy → documentación → mantenimiento."},
+    {id:5, nombre:"Proceso Finanzas", area:"finanzas", version:"actual", estado:"documentado", desc:"Cotización → contrato → factura → pago → conciliación → Drive → dashboard → cartera → reporte semanal."},
+    {id:6, nombre:"Proceso Legal", area:"legal", version:"actual", estado:"documentado", desc:"Solicitud → plantilla → revisión interna → abogada → aprobación → firma → Drive → control de renovación."}
+  ]
+};
+
+const FLOWS_DATA = [
+  {
+    num: 1, title: "Comercial", responsible: "Comercial", approves: "Dirección", consulted: "Finanzas, Legal, Operaciones", informed: "equipo",
+    steps: [
+      {name:"Prospecto / referido", who:"Comercial", tool:"Pipeline", input:"Contacto", output:"Lead calificado"},
+      {name:"Registro en pipeline", who:"Comercial", tool:"DashWeb", input:"Lead", output:"Oportunidad"},
+      {name:"Diagnóstico rápido", who:"Comercial", tool:"Plantilla RR", input:"Oportunidad", output:"Diagnóstico"},
+      {name:"Prototipo o propuesta", who:"Dirección", tool:"Canva/Figma", input:"Diagnóstico", output:"Propuesta"},
+      {name:"Precontrato", who:"Legal", tool:"Plantilla legal", input:"Propuesta", output:"Precontrato"},
+      {name:"Negociación", who:"Comercial + Dirección", tool:"Email/Meet", input:"Precontrato", output:"Acuerdo"},
+      {name:"Firma / aprobación", who:"Dirección", tool:"DocuSign/Firma", input:"Acuerdo", output:"Contrato firmado"},
+      {name:"Onboarding", who:"Operaciones", tool:"Checklist RR", input:"Contrato", output:"Cliente activo"}
+    ]
+  },
+  {
+    num: 2, title: "Onboarding de cliente", responsible: "Operaciones", approves: "Dirección", consulted: "Comercial, Legal", informed: "Producción",
+    steps: [
+      {name:"Cierre comercial", who:"Comercial", tool:"Contrato", input:"Firma", output:"Cliente nuevo"},
+      {name:"Carpeta cliente en Drive", who:"Operaciones", tool:"Google Drive", input:"Cliente nuevo", output:"Estructura de carpetas"},
+      {name:"_CONTEXTO.md", who:"Operaciones", tool:"Obsidian/Vault", input:"Carpeta", output:"Documento de contexto"},
+      {name:"Contrato / precontrato", who:"Legal", tool:"Plantilla", input:"Contexto", output:"Contrato firmado"},
+      {name:"Levantamiento", who:"Operaciones", tool:"Meet/Form", input:"Contrato", output:"Requerimientos"},
+      {name:"Brand kit", who:"Diseño", tool:"Figma/Canva", input:"Requerimientos", output:"Kit de marca"},
+      {name:"Alcance y entregables", who:"Dirección", tool:"Documento RR", input:"Brand kit", output:"Alcance firmado"},
+      {name:"Plan de ejecución", who:"Operaciones", tool:"Notion/Gantt", input:"Alcance", output:"Cronograma"},
+      {name:"Calendario de hitos", who:"Operaciones", tool:"Calendar", input:"Cronograma", output:"Hitos agendados"},
+      {name:"Inicio producción / dev", who:"Equipo", tool:"Repositorio", input:"Hitos", output:"Sprint 1"}
+    ]
+  },
+  {
+    num: 3, title: "Aliados y referidos", responsible: "Comercial", approves: "Dirección", consulted: "-", informed: "equipo",
+    steps: [
+      {name:"Identificar aliado", who:"Comercial", tool:"Redes/Eventos", input:"-", output:"Potencial aliado"},
+      {name:"Validar reputación y encaje", who:"Dirección", tool:"Research", input:"Potencial", output:"Aliado validado"},
+      {name:"Definir tipo de relación", who:"Dirección", tool:"Acuerdo", input:"Validado", output:"Tipo de alianza"},
+      {name:"Registrar origen", who:"Comercial", tool:"DashWeb", input:"Alianza", output:"Aliado en sistema"},
+      {name:"Acordar comisión", who:"Dirección", tool:"Contrato", input:"Aliado", output:"% acordado"},
+      {name:"Recibir prospecto", who:"Aliado", tool:"Referido", input:"-", output:"Lead calificado"},
+      {name:"Seguimiento comercial", who:"Comercial", tool:"Pipeline", input:"Lead", output:"Oportunidad"},
+      {name:"Cierre o archivo", who:"Comercial", tool:"DashWeb", input:"Oportunidad", output:"Cierre/Archivo"},
+      {name:"Reporte a aliado", who:"Comercial", tool:"Email", input:"Cierre", output:"Comisión/reporte"}
+    ]
+  },
+  {
+    num: 4, title: "Producción y contenido", responsible: "Manuel + Santiago", approves: "Cliente", consulted: "Isabel, Estefanía", informed: "Dirección",
+    steps: [
+      {name:"Brief creativo", who:"Cliente/Comercial", tool:"Formulario RR", input:"-", output:"Brief"},
+      {name:"Ideación", who:"Manuel", tool:"Miro/FigJam", input:"Brief", output:"Conceptos"},
+      {name:"Guiones / conceptos", who:"Manuel", tool:"Docs", input:"Conceptos", output:"Guión"},
+      {name:"Aprobación cliente", who:"Cliente", tool:"Email/Meet", input:"Guión", output:"Aprobación"},
+      {name:"Preproducción", who:"Santiago", tool:"Planning", input:"Aprobación", output:"Plan de rodaje"},
+      {name:"Modelos / cámaras / locación", who:"Santiago", tool:"Agenda", input:"Plan", output:"Equipo listo"},
+      {name:"Sesión de grabación", who:"Equipo", tool:"Cámara", input:"Equipo", output:"Material crudo"},
+      {name:"Edición", who:"Editor", tool:"Premiere/DaVinci", input:"Crudo", output:"Edición"},
+      {name:"Revisión", who:"Manuel + Cliente", tool:"Frame.io", input:"Edición", output:"Aprobación final"},
+      {name:"Publicación / entrega", who:"Santiago", tool:"Redes/Drive", input:"Final", output:"Publicado"},
+      {name:"Medición", who:"Comercial", tool:"Analytics", input:"Publicado", output:"Métricas"}
+    ]
+  },
+  {
+    num: 5, title: "Desarrollo web y tecnología", responsible: "Juan Martín", approves: "Dirección", consulted: "Cliente", informed: "Operaciones",
+    steps: [
+      {name:"Brief técnico", who:"Comercial", tool:"Form RR", input:"-", output:"Requerimientos técnicos"},
+      {name:"Arquitectura", who:"Juan Martín", tool:"Draw.io", input:"Brief", output:"Diagrama de arquitectura"},
+      {name:"Prototipo", who:"Juan Martín", tool:"Figma", input:"Arquitectura", output:"Prototipo navegable"},
+      {name:"Implementación", who:"Juan Martín", tool:"VS Code", input:"Prototipo", output:"Código"},
+      {name:"QA interno", who:"Juan Martín", tool:"Testing", input:"Código", output:"Reporte de bugs"},
+      {name:"Revisión cliente", who:"Cliente", tool:"Staging", input:"Bug-free", output:"Feedback"},
+      {name:"Ajustes", who:"Juan Martín", tool:"VS Code", input:"Feedback", output:"Versión final"},
+      {name:"Deploy", who:"Juan Martín", tool:"Vercel/Railway", input:"Final", output:"Producción"},
+      {name:"Documentación técnica", who:"Juan Martín", tool:"Markdown", input:"Deploy", output:"Docs"},
+      {name:"Mantenimiento", who:"Juan Martín", tool:"Monitoreo", input:"Docs", output:"Soporte"}
+    ]
+  },
+  {
+    num: 6, title: "Finanzas y cobranza", responsible: "Dirección", approves: "Dirección", consulted: "-", informed: "equipo",
+    steps: [
+      {name:"Cotización / acuerdo", who:"Comercial", tool:"Plantilla RR", input:"-", output:"Cotización"},
+      {name:"Contrato o soporte", who:"Legal", tool:"Plantilla", input:"Cotización", output:"Contrato"},
+      {name:"Factura / cuenta de cobro", who:"Dirección", tool:"Siigo", input:"Contrato", output:"Factura"},
+      {name:"Pago", who:"Cliente", tool:"Transferencia", input:"Factura", output:"Consignación"},
+      {name:"Conciliación", who:"Dirección", tool:"Excel", input:"Consignación", output:"Pago registrado"},
+      {name:"Actualización Drive", who:"Dirección", tool:"Drive", input:"Registro", output:"Documentación"},
+      {name:"Dashboard espejo", who:"Automático", tool:"Supabase", input:"Drive", output:"Dashboard"},
+      {name:"Seguimiento cartera", who:"Dirección", tool:"Excel", input:"Dashboard", output:"Cartera actualizada"},
+      {name:"Reporte semanal", who:"Dirección", tool:"Email/Slack", input:"Cartera", output:"Reporte"}
+    ]
+  },
+  {
+    num: 7, title: "Legal y contratos", responsible: "Legal externo", approves: "Dirección", consulted: "Comercial", informed: "Cliente",
+    steps: [
+      {name:"Solicitud contrato", who:"Comercial", tool:"Email", input:"-", output:"Solicitud"},
+      {name:"Plantilla", who:"Legal", tool:"Plantilla RR", input:"Solicitud", output:"Borrador"},
+      {name:"Revisión interna", who:"Dirección", tool:"Comments", input:"Borrador", output:"Borrador aprobado"},
+      {name:"Revisión abogada si aplica", who:"Abogada", tool:"Word", input:"Borrador", output:"Contrato legal"},
+      {name:"Aprobación dirección", who:"Dirección", tool:"Firma", input:"Legal", output:"Aprobación"},
+      {name:"Firma", who:"Cliente + RR", tool:"DocuSign/Físico", input:"Aprobación", output:"Contrato firmado"},
+      {name:"Archivo en Drive", who:"Operaciones", tool:"Drive", input:"Firmado", output:"Copia digital"},
+      {name:"Control de renovación", who:"Dirección", tool:"Calendar", input:"Digital", output:"Alerta"}
+    ]
+  },
+  {
+    num: 8, title: "Soporte y escalamiento", responsible: "Operaciones", approves: "Dirección", consulted: "-📋", informed: "Cliente",
+    steps: [
+      {name:"Solicitud / problema", who:"Cliente", tool:"WhatsApp/Email", input:"-", output:"Ticket"},
+      {name:"Registro", who:"Operaciones", tool:"DashWeb", input:"Ticket", output:"Ticket registrado"},
+      {name:"Clasificación prioridad", who:"Operaciones", tool:"Matriz RR", input:"Ticket", output:"Prioridad"},
+      {name:"Asignación responsable", who:"Dirección", tool:"DashWeb", input:"Prioridad", output:"Asignado"},
+      {name:"Respuesta al cliente", who:"Responsable", tool:"WhatsApp/Email", input:"Asignado", output:"Ack"},
+      {name:"Solución", who:"Responsable", tool:"Varía", input:"Ack", output:"Fix"},
+      {name:"Validación", who:"Cliente", tool:"-", input:"Fix", output:"Aprobación"},
+      {name:"Cierre", who:"Operaciones", tool:"DashWeb", input:"Aprobación", output:"Cerrado"},
+      {name:"Aprendizaje / mejora SOP", who:"Operaciones", tool:"Vault", input:"Cerrado", output:"SOP actualizado"}
+    ]
+  },
+  {
+    num: 9, title: "Gobierno documental", responsible: "Dirección", approves: "Dirección", consulted: "-📋", informed: "equipo",
+    steps: [
+      {name:"Nuevo documento / proyecto", who:"Cualquiera", tool:"Vault", input:"-", output:"Borrador"},
+      {name:"Decidir área canónica", who:"Dirección", tool:"Mapa RR", input:"Borrador", output:"Ubicación"},
+      {name:"Crear o actualizar _CONTEXTO", who:"Autor", tool:"Obsidian", input:"Ubicación", output:"Contexto"},
+      {name:"Evitar duplicados", who:"Autor", tool:"Búsqueda", input:"Contexto", output:"Único"},
+      {name:"Registrar historial si cambia", who:"Autor", tool:"Git/Drive", input:"Cambio", output:"Historial"},
+      {name:"Actualizar índices", who:"Automático", tool:"Script", input:"Historial", output:"Índice"},
+      {name:"Archivar espejos o deprecados", who:"Dirección", tool:"Drive", input:"Índice", output:"Limpio"}
+    ]
+  },
+  {
+    num: 10, title: "IA y automatizaciones", responsible: "Dirección", approves: "Dirección", consulted: "-📋", informed: "equipo",
+    steps: [
+      {name:"Necesidad repetitiva", who:"Cualquiera", tool:"Observación", input:"-", output:"Patrón"},
+      {name:"Definir tarea", who:"Dirección", tool:"Documento", input:"Patrón", output:"Tarea clara"},
+      {name:"Elegir herramienta / agente", who:"Dirección", tool:"Evaluación", input:"Tarea", output:"Herramienta"},
+      {name:"Documentar prompt o skill", who:"Dirección", tool:"Vault", input:"Herramienta", output:"Skill"},
+      {name:"Probar con caso pequeño", who:"Dirección", tool:"Sandbox", input:"Skill", output:"Resultado"},
+      {name:"Conectar a fuente de verdad", who:"Tech", tool:"API", input:"Resultado", output:"Integrado"},
+      {name:"Revisión humana", who:"Dirección", tool:"-", input:"Integrado", output:"Validado"},
+      {name:"Automatizar si es estable", who:"Tech", tool:"Cron/Deploy", input:"Validado", output:"Automático"}
+    ]
+  }
+];
+
+// ===== STATE =====
+let currentFilter = 'all';
+let currentTab = 'mapa';
+let allNodes = [];
+
+// ===== INIT =====
+function init() {
+  buildNodes();
+  renderNodes();
+  updateCounts();
+  renderFlows();
+  setupEvents();
+}
+
+function buildNodes() {
+  allNodes = [];
+  RR_DATA.clientes.forEach(c => allNodes.push({...c, type:'cliente', color:'#ff9f1c', icon:'🤝'}));
+  RR_DATA.proyectos.forEach(p => allNodes.push({...p, type:'proyecto', color:'#4cc9f0', icon:'🚀'}));
+  RR_DATA.productos.forEach(p => allNodes.push({...p, type:'producto', color:'#8bd450', icon:'📦'}));
+  RR_DATA.equipo.forEach(e => allNodes.push({...e, type:'talento', color:'#DED116', icon:'👤'}));
+  RR_DATA.procesos.forEach(p => allNodes.push({...p, type:'proceso', color:'#973D8F', icon:'⚙️'}));
+}
+
+function getStatusClass(status) {
+  if (!status) return 'status-por_confirmar';
+  const s = status.toLowerCase().replace(/\s/g,'_');
+  if (['activo','vigente','documentado'].includes(s)) return 'status-activo';
+  if (['prospecto','pendiente'].includes(s)) return 'status-pendiente';
+  if (['vencido','riesgo'].includes(s)) return 'status-vencido';
+  if (['espera','por_confirmar'].includes(s)) return 'status-por_confirmar';
+  if (['aliado'].includes(s)) return 'status-vigente';
+  return 'status-por_confirmar';
+}
+
+function renderNodes() {
+  const grid = document.getElementById('node-grid');
+  const q = (document.getElementById('search-input')?.value || '').toLowerCase();
+  
+  let nodes = allNodes;
+  if (currentFilter !== 'all') {
+    nodes = nodes.filter(n => n.type === currentFilter);
+  }
+  if (q) {
+    nodes = nodes.filter(n => 
+      (n.nombre||'').toLowerCase().includes(q) ||
+      (n.notas||'').toLowerCase().includes(q) ||
+      (n.cliente||'').toLowerCase().includes(q) ||
+      (n.rol||'').toLowerCase().includes(q) ||
+      (n.area||'').toLowerCase().includes(q)
+    );
+  }
+  
+  grid.innerHTML = nodes.map(node => `
+    <div class="node-card" onclick="openNodeDetail('${node.type}', ${node.id})">
+      <div class="node-type">
+        <span style="font-size:16px">${node.icon}</span>
+        <span>${node.type.toUpperCase()}</span>
+      </div>
+      <div class="node-title">${node.nombre}</div>
+      <div class="node-meta">
+        ${node.cliente ? `<span>👤 ${node.cliente}</span>` : ''}
+        ${node.valor ? `<span>💰 ${node.valor}</span>` : ''}
+        ${node.rol ? `<span>🎯 ${node.rol}</span>` : ''}
+        ${node.area ? `<span>📍 ${node.area}</span>` : ''}
+      </div>
+      <span class="node-status ${getStatusClass(node.estado)}">${node.estado}</span>
+    </div>
+  `).join('');
+}
+
+function updateCounts() {
+  const types = ['all','cliente','proyecto','producto','talento','proceso'];
+  types.forEach(t => {
+    const count = t === 'all' ? allNodes.length : allNodes.filter(n => n.type === t).length;
+    const el = document.getElementById(`count-${t}`);
+    if (el) el.textContent = count;
+  });
+}
+
+function openNodeDetail(type, id) {
+  const collection = type + (type === 'talento' ? '' : 's');
+  const items = RR_DATA[collection] || RR_DATA[type + 's'];
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  
+  const panel = document.getElementById('panel-content');
+  const detailPanel = document.getElementById('detail-panel');
+  const overlay = document.getElementById('overlay');
+  
+  let html = `
+    <div class="panel-type">${type.toUpperCase()}</div>
+    <h2>${item.nombre}</h2>
+  `;
+  
+  if (type === 'cliente') {
+    html += `
+      <div class="panel-section">
+        <h4>Estado</h4>
+        <span class="node-status ${getStatusClass(item.estado)}">${item.estado}</span>
+      </div>
+      <div class="panel-section">
+        <h4>Información</h4>
+        <div class="meta-row"><span class="label">Valor</span><span class="value">${item.valor}</span></div>
+        <div class="meta-row"><span class="label">Contacto</span><span class="value">${item.contacto || 'No registrado'}</span></div>
+      </div>
+      <div class="panel-section">
+        <h4>Notas</h4>
+        <p>${item.notas}</p>
+      </div>
+      <div class="panel-section">
+        <h4>Acciones</h4>
+        <a href="${item.drive}" class="action-btn">📁 Abrir carpeta en Drive</a>
+        <button class="action-btn" onclick="alert('Ver proyectos de ${item.nombre}')">📋 Ver proyectos</button>
+      </div>
+    `;
+  } else if (type === 'proyecto') {
+    html += `
+      <div class="panel-section">
+        <h4>Estado</h4>
+        <span class="node-status ${getStatusClass(item.estado)}">${item.estado}</span>
+      </div>
+      <div class="panel-section">
+        <h4>Información</h4>
+        <div class="meta-row"><span class="label">Cliente</span><span class="value">${item.cliente}</span></div>
+        <div class="meta-row"><span class="label">Valor</span><span class="value">${item.valor}</span></div>
+        <div class="meta-row"><span class="label">Próximo hito</span><span class="value">${item.proximo_hito}</span></div>
+        <div class="meta-row"><span class="label">Fecha</span><span class="value">${item.fecha || 'Sin fecha'}</span></div>
+      </div>
+      <div class="panel-section">
+        <h4>Notas</h4>
+        <p>${item.notas}</p>
+      </div>
+    `;
+  } else if (type === 'talento') {
+    html += `
+      <div class="panel-section">
+        <h4>Estado</h4>
+        <span class="node-status ${getStatusClass(item.estado)}">${item.estado}</span>
+      </div>
+      <div class="panel-section">
+        <h4>Rol</h4>
+        <p>${item.rol}</p>
+      </div>
+      <div class="panel-section">
+        <h4>Alcance</h4>
+        <p>${item.alcance}</p>
+      </div>
+    `;
+  } else if (type === 'producto') {
+    html += `
+      <div class="panel-section">
+        <h4>Información</h4>
+        <div class="meta-row"><span class="label">Tipo</span><span class="value">${item.tipo}</span></div>
+        <div class="meta-row"><span class="label">Estado</span><span class="value">${item.estado}</span></div>
+      </div>
+      <div class="panel-section">
+        <h4>Descripción</h4>
+        <p>${item.desc}</p>
+      </div>
+    `;
+  } else if (type === 'proceso') {
+    html += `
+      <div class="panel-section">
+        <h4>Información</h4>
+        <div class="meta-row"><span class="label">Área</span><span class="value">${item.area}</span></div>
+        <div class="meta-row"><span class="label">Versión</span><span class="value">${item.version}</span></div>
+        <div class="meta-row"><span class="label">Estado</span><span class="value">${item.estado}</span></div>
+      </div>
+      <div class="panel-section">
+        <h4>Descripción</h4>
+        <p>${item.desc}</p>
+      </div>
+    `;
+  }
+  
+  panel.innerHTML = html;
+  detailPanel.classList.add('open');
+  overlay.classList.add('show');
+}
+
+function closePanel() {
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function setupEvents() {
+  // Filters
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderNodes();
+    });
+  });
+  
+  // Search
+  document.getElementById('search-input').addEventListener('input', renderNodes);
+  
+  // Tabs
+  document.querySelectorAll('.nav-tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTab = btn.dataset.tab;
+      showTab(currentTab);
+    });
+  });
+  
+  // Overlay click to close
+  document.getElementById('overlay').addEventListener('click', closePanel);
+}
+
+function showTab(tab) {
+  document.getElementById('mapa-layer').style.display = tab === 'mapa' ? 'block' : 'none';
+  document.getElementById('bpmn-layer').classList.toggle('active', tab === 'bpmn');
+  document.getElementById('flujos-layer').classList.toggle('active', tab === 'flujos');
+  document.getElementById('sidebar').style.display = tab === 'mapa' ? 'block' : 'none';
+  
+  if (tab === 'bpmn') loadBPMN();
+}
+
+function loadBPMN() {
+  const canvas = document.getElementById('bpmn-canvas');
+  if (canvas.dataset.loaded) return;
+  
+  // Simulación visual de BPMN (en el real usaría bpmn-js)
+  canvas.innerHTML = `
+    <div style="padding:40px; color:#070001;">
+      <h3 style="margin-bottom:20px;">Playbook Comercial BPMN</h3>
+      <div style="display:flex; flex-direction:column; gap:12px; max-width:800px;">
+        ${[
+          {name:'Prospecto / referido', who:'Comercial', next:'→'},
+          {name:'Registro en pipeline', who:'Comercial', next:'→'},
+          {name:'Diagnóstico rápido', who:'Comercial', next:'→'},
+          {name:'Prototipo o propuesta', who:'Dirección', next:'→'},
+          {name:'Precontrato', who:'Legal', next:'→'},
+          {name:'Negociación', who:'Comercial', next:'→'},
+          {name:'Firma / aprobación', who:'Dirección', next:'→'},
+          {name:'Onboarding', who:'Operaciones', next:'✅'}
+        ].map((step,i) => `
+          <div class="bpmn-step-row" data-step="${i}" style="display:flex; align-items:center; gap:16px; padding:14px 18px; background:#f5f5f5; border-radius:8px; border-left:4px solid var(--fucsia); cursor:pointer;" onclick="showBPMNStep(${i})">
+            <div style="width:32px; height:32px; background:#BE076D; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;">${i+1}</div>
+            <div style="flex:1;">
+              <div style="font-weight:600; font-size:14px;">${step.name}</div>
+              <div style="font-size:12px; color:#666; margin-top:2px;">Responsable: ${step.who}</div>
+            </div>
+            <div style="font-size:20px; color:#BE076D;">${step.next}</div>
+          </div>
+        `).join('')}
+      </div>
+      <p style="margin-top:20px; font-size:13px; color:#666;">💡 Hacé clic en cualquier paso para ver detalles completos: herramientas, documentos de entrada/salida, checklist y estado.
+      </p>
+    </div>
+  `;
+  canvas.dataset.loaded = 'true';
+}
+
+function showBPMNStep(stepIndex) {
+  const steps = [
+    {name:'Prospecto / referido', who:'Comercial', tool:'Pipeline', input:'Contacto', output:'Lead calificado', checklist:['Identificar fuente','Validar contacto']},
+    {name:'Registro en pipeline', who:'Comercial', tool:'DashWeb', input:'Lead', output:'Oportunidad', checklist:['Crear oportunidad','Asignar valor estimado']},
+    {name:'Diagnóstico rápido', who:'Comercial', tool:'Plantilla RR', input:'Oportunidad', output:'Diagnóstico', checklist:['Entender necesidad','Definir alcance aproximado']},
+    {name:'Prototipo o propuesta', who:'Dirección', tool:'Canva/Figma', input:'Diagnóstico', output:'Propuesta', checklist:['Diseñar propuesta','Definir precio']},
+    {name:'Precontrato', who:'Legal', tool:'Plantilla legal', input:'Propuesta', output:'Precontrato', checklist:['Redactar cláusulas','Revisar términos']},
+    {name:'Negociación', who:'Comercial + Dirección', tool:'Email/Meet', input:'Precontrato', output:'Acuerdo', checklist:['Reunión con cliente','Ajustar términos']},
+    {name:'Firma / aprobación', who:'Dirección', tool:'DocuSign/Firma', input:'Acuerdo', output:'Contrato firmado', checklist:['Firmar','Archivar en Drive']},
+    {name:'Onboarding', who:'Operaciones', tool:'Checklist RR', input:'Contrato', output:'Cliente activo', checklist:['Crear carpeta','_CONTEXTO.md','Brand kit','Calendario']}
+  ];
+  const step = steps[stepIndex];
+  const panel = document.getElementById('bpmn-step-panel');
+  panel.innerHTML = `
+    <h4>Paso ${stepIndex+1}: ${step.name}</h4>
+    <div class="step-grid">
+      <div class="step-item"><label>Responsable</label><div>${step.who}</div></div>
+      <div class="step-item"><label>Herramienta</label><div>${step.tool}</div></div>
+      <div class="step-item"><label>Documento entrada</label><div>${step.input}</div></div>
+      <div class="step-item"><label>Documento salida</label><div>${step.output}</div></div>
+    </div>
+    <div style="margin-top:12px;">
+      <label style="font-size:11px; color:var(--gris-claro); text-transform:uppercase;">Checklist</label>
+      <ul style="margin-top:6px; padding-left:18px; font-size:13px; color:#ccc;">
+        ${step.checklist.map(c => `<li>${c}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+function renderFlows() {
+  const container = document.getElementById('flujos-layer');
+  container.innerHTML = FLOWS_DATA.map(flow => `
+    <div class="flow-card" id="flow-${flow.num}">
+      <div class="flow-card-header" onclick="toggleFlow(${flow.num})">
+        <div class="flow-num">${flow.num}</div>
+        <div class="flow-title">${flow.title}</div>
+        <div class="flow-toggle">▼</div>
+      </div>
+      <div class="flow-card-body">
+        <div class="flow-card-body-inner">
+          <div style="display:flex; gap:20px; margin-bottom:16px; font-size:12px; color:var(--gris-claro); flex-wrap:wrap;">
+            <span><strong style="color:var(--mostaza)">Responsable:</strong> ${flow.responsible}</span>
+            <span><strong style="color:var(--mostaza)">Aprueba:</strong> ${flow.approves}</span>
+            <span><strong style="color:var(--mostaza)">Consultado:</strong> ${flow.consulted}</span>
+            <span><strong style="color:var(--mostaza)">Informado:</strong> ${flow.informed}</span>
+          </div>
+          ${flow.steps.map((step,i) => `
+            <div class="flow-step">
+              <div class="flow-step-dot">${i+1}</div>
+              <div class="flow-step-content">
+                <h5>${step.name}</h5>
+                <div class="step-meta">
+                  <span><strong>Quién:</strong> ${step.who}</span>
+                  <span><strong>Herramienta:</strong> ${step.tool}</span>
+                  <span><strong>Entrada:</strong> ${step.input}</span>
+                  <span><strong>Salida:</strong> ${step.output}</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleFlow(num) {
+  const card = document.getElementById(`flow-${num}`);
+  card.classList.toggle('open');
+}
+
+// Start
+init();
+</script>
+</body>
+</html>
