@@ -61,28 +61,37 @@
     /* ── Nav-tabs en header (estilo v2) ── */
     .atlas-nav-tabs {
       display: flex;
-      gap: 4px;
+      gap: 2px;
       margin-left: auto;
       margin-right: 16px;
+      background: rgba(7, 0, 1, 0.6);
+      padding: 3px;
+      border-radius: var(--rr-radius);
+      border: 1px solid var(--rr-hairline);
     }
     .atlas-nav-tabs button {
       background: transparent;
-      border: 1px solid transparent;
+      border: none;
       color: var(--rr-muted);
-      padding: 6px 16px;
+      padding: 7px 18px;
       border-radius: var(--rr-radius-sm);
       cursor: pointer;
       font-size: 13px;
       font-weight: 500;
-      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      letter-spacing: -0.01em;
+      transition: all 0.2s ease;
       white-space: nowrap;
+      position: relative;
     }
-    .atlas-nav-tabs button:hover { color: var(--rr-paper); }
+    .atlas-nav-tabs button:hover { 
+      color: var(--rr-paper); 
+      background: rgba(190, 7, 109, 0.1);
+    }
     .atlas-nav-tabs button.active,
     .atlas-nav-tabs button[aria-pressed="true"] {
       background: var(--rr-fuchsia);
       color: var(--rr-paper);
-      border-color: var(--rr-fuchsia);
+      box-shadow: 0 2px 8px rgba(190, 7, 109, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
     }
     @media (max-width: 760px) {
       .atlas-nav-tabs { display: none; }
@@ -91,11 +100,11 @@
     /* ── Tabbar mobile (solo 4 botones) ── */
     .atlas-tabbar {
       display: none;
-      justify-content: center;
-      gap: 4px;
-      padding: 6px 12px;
-      background: var(--rr-ink);
-      border-top: 1px solid var(--rr-hairline);
+      justify-content: space-around;
+      gap: 0;
+      padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(21,6,18,0.98) 0%, rgba(7,0,1,0.99) 100%);
+      border-top: 1px solid rgba(190, 7, 109, 0.2);
       overflow-x: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -106,17 +115,18 @@
     .atlas-tabbar::-webkit-scrollbar { display: none; }
     .atlas-tabbar button {
       position: relative;
-      flex: 0 0 auto;
-      min-width: 64px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: -0.01em;
+      flex: 1;
+      max-width: 80px;
+      padding: 6px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
       border: none;
       border-radius: var(--rr-radius-sm);
       background: transparent;
       color: var(--rr-muted);
-      transition: color 0.2s ease, background 0.2s ease;
+      transition: all 0.2s ease;
       white-space: nowrap;
       cursor: pointer;
     }
@@ -125,20 +135,18 @@
       background: rgba(190, 7, 109, 0.08);
     }
     .atlas-tabbar button[aria-pressed="true"] {
-      color: var(--rr-paper);
-      background: rgba(190, 7, 109, 0.18);
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+      color: var(--rr-fuchsia);
+      background: rgba(190, 7, 109, 0.12);
     }
     .atlas-tabbar button[aria-pressed="true"]::after {
       content: '';
       position: absolute;
-      bottom: 4px;
-      left: 25%;
-      right: 25%;
-      height: 3px;
+      bottom: 2px;
+      left: 30%;
+      right: 30%;
+      height: 2px;
       background: var(--rr-fuchsia);
-      border-radius: 2px;
-      animation: rr-tab-in 0.25s ease;
+      border-radius: 1px;
     }
     @keyframes rr-tab-in {
       from { transform: scaleX(0); }
@@ -247,6 +255,129 @@
       background: rgba(151, 61, 143, 0.15);
       padding: 2px 8px;
       border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* Timeline en cards */
+    .atlas-home-card-timeline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 12px;
+    }
+    .timeline-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--rr-well);
+      border: 2px solid var(--rr-hairline);
+    }
+    .timeline-dot.active {
+      background: var(--rr-fuchsia);
+      border-color: var(--rr-fuchsia);
+      box-shadow: 0 0 6px rgba(190, 7, 109, 0.5);
+    }
+    .timeline-line {
+      flex: 1;
+      height: 2px;
+      background: var(--rr-well);
+      border-radius: 1px;
+    }
+
+    /* Progress bar */
+    .atlas-home-card-progress {
+      margin-top: 12px;
+    }
+    .progress-bar {
+      height: 4px;
+      background: var(--rr-well);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+    .progress-label {
+      font-size: 11px;
+      color: var(--rr-muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* Status pills */
+    .atlas-home-card-status {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .status-pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .status-pill.active {
+      background: rgba(76, 175, 80, 0.15);
+      color: #4caf50;
+    }
+    .status-pill.dev {
+      background: rgba(255, 152, 0, 0.15);
+      color: #ff9800;
+    }
+
+    /* Avatars */
+    .atlas-home-card-avatars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 12px;
+    }
+    .avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--rr-fuchsia);
+      color: var(--rr-paper);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      border: 2px solid var(--rr-card);
+      margin-left: -6px;
+    }
+    .avatar:first-child { margin-left: 0; }
+    .avatar.more {
+      background: var(--rr-well);
+      color: var(--rr-muted);
+      font-size: 9px;
+    }
+
+    /* Alert */
+    .atlas-home-card-alert {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 6px 10px;
+      background: rgba(244, 67, 54, 0.1);
+      border-radius: var(--rr-radius-sm);
+      border-left: 3px solid #f44336;
+    }
+    .alert-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #f44336;
+      animation: pulse-alert 2s ease-in-out infinite;
+    }
+    @keyframes pulse-alert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .alert-text {
+      font-size: 11px;
+      color: #f44336;
       font-weight: 500;
     }
     .atlas-home-actions {
@@ -733,9 +864,7 @@
         <button data-atlas-filter="Area" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Areas</button>
         <button data-atlas-filter="Talento" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Talento</button>
         <button data-atlas-filter="Herramienta" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Herramientas</button>
-        <button type="button" data-atlas-section-target="procesos" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos BPMN</button>
-        <button type="button" data-atlas-section-target="plan" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Plan local</button>
-        <p class="atlas-hint">Navega entre las vistas usando el menu inferior. Cada seccion muestra un aspecto diferente de RR Aliados.</p>
+        <p class="atlas-hint">Filtra el mapa por tipo de entidad. Usa el menu superior para navegar entre vistas.</p>
       </nav>
 
       <!-- MAPA -->
@@ -847,119 +976,96 @@
       <section class="atlas-home" data-atlas-home hidden>
         <div class="atlas-home-header">
           <h1>Atlas Operativo RR</h1>
-          <p>Explora la estructura de RR Aliados. Selecciona una categoria para ver sus detalles.</p>
+          <p>Centro de comando de RR Aliados. Explora cada area para ver detalles, estados y acciones.</p>
         </div>
         <div class="atlas-home-grid">
           <!-- Clientes -->
           <article class="atlas-home-card" data-home-nav="clientes">
-            <div class="atlas-home-card-icon">&#9781;</div>
+            <div class="atlas-home-card-icon" style="background: rgba(255, 159, 28, 0.15); color: #ff9f1c;">&#9781;</div>
             <h3>Clientes</h3>
-            <p>Empresas y organizaciones aliadas con RR Aliados.</p>
+            <p>Empresas y organizaciones aliadas. TechCorp, Fundacion Educa, Alcaldia y mas.</p>
             <div class="atlas-home-card-meta">
-              <span class="count">12 activos</span>
-              <span>3 prospectos</span>
+              <span class="count" style="background: rgba(255, 159, 28, 0.15); color: #ff9f1c;">4 activos</span>
+              <span>1 prospecto</span>
             </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="mapa-clientes">Ver en mapa</button>
-              <button data-home-action="lista-clientes">Lista</button>
+            <div class="atlas-home-card-timeline">
+              <div class="timeline-dot active"></div>
+              <div class="timeline-line"></div>
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+              <div class="timeline-dot"></div>
             </div>
           </article>
           <!-- Procesos -->
           <article class="atlas-home-card" data-home-nav="procesos">
-            <div class="atlas-home-card-icon">&#9851;</div>
-            <h3>Procesos</h3>
-            <p>Flujos de trabajo documentados de la operacion.</p>
+            <div class="atlas-home-card-icon" style="background: rgba(151, 61, 143, 0.15); color: #973d8f;">&#9851;</div>
+            <h3>Procesos BPM</h3>
+            <p>Flujos documentados: comercial, legal, soporte, gobierno documental e IA.</p>
             <div class="atlas-home-card-meta">
-              <span class="count">18 BPMN</span>
-              <span>6 areas</span>
+              <span class="count" style="background: rgba(151, 61, 143, 0.15); color: #973d8f;">10 flujos</span>
+              <span>5 de 10 BPMN</span>
             </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="bpm">Ver BPM</button>
-              <button data-home-action="flujos">Flujos</button>
+            <div class="atlas-home-card-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width: 50%; background: #973d8f;"></div></div>
+              <span class="progress-label">50% documentado</span>
             </div>
           </article>
           <!-- Productos -->
           <article class="atlas-home-card" data-home-nav="productos">
-            <div class="atlas-home-card-icon">&#9733;</div>
+            <div class="atlas-home-card-icon" style="background: rgba(139, 212, 80, 0.15); color: #8bd450;">&#9733;</div>
             <h3>Productos</h3>
-            <p>Servicios y soluciones que ofrece RR Aliados.</p>
+            <p>DashWeb CRM, Buen Puente, Sazon Alacena y soluciones reutilizables.</p>
             <div class="atlas-home-card-meta">
-              <span class="count">8 activos</span>
-              <span>2 en desarrollo</span>
+              <span class="count" style="background: rgba(139, 212, 80, 0.15); color: #8bd450;">3 activos</span>
+              <span>1 en desarrollo</span>
             </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="mapa-productos">Ver en mapa</button>
-              <button data-home-action="lista-productos">Catalogo</button>
-            </div>
-          </article>
-          <!-- Areas -->
-          <article class="atlas-home-card" data-home-nav="areas">
-            <div class="atlas-home-card-icon">&#9733;</div>
-            <h3>Areas</h3>
-            <p>Departamentos y funciones dentro de la empresa.</p>
-            <div class="atlas-home-card-meta">
-              <span class="count">5 areas</span>
-              <span>1 nueva</span>
-            </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="mapa-areas">Ver en mapa</button>
-              <button data-home-action="organigrama">Organigrama</button>
+            <div class="atlas-home-card-status">
+              <span class="status-pill active">DashWeb OK</span>
+              <span class="status-pill dev">Buen Puente dev</span>
             </div>
           </article>
           <!-- Talento -->
           <article class="atlas-home-card" data-home-nav="talento">
-            <div class="atlas-home-card-icon">&#9823;</div>
+            <div class="atlas-home-card-icon" style="background: rgba(222, 209, 22, 0.15); color: #ded116;">&#9823;</div>
             <h3>Talento</h3>
-            <p>Equipo humano y colaboradores de RR Aliados.</p>
+            <p>Equipo interno y colaboradores. Santiago, Manuel, Martin e Isabela.</p>
             <div class="atlas-home-card-meta">
-              <span class="count">8 internos</span>
+              <span class="count" style="background: rgba(222, 209, 22, 0.15); color: #ded116;">3 internos</span>
               <span>4 externos</span>
             </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="mapa-talento">Ver en mapa</button>
-              <button data-home-action="skills">Skills</button>
-            </div>
-          </article>
-          <!-- Herramientas -->
-          <article class="atlas-home-card" data-home-nav="herramientas">
-            <div class="atlas-home-card-icon">&#9881;</div>
-            <h3>Herramientas</h3>
-            <p>Stack tecnologico y aplicaciones utilizadas.</p>
-            <div class="atlas-home-card-meta">
-              <span class="count">15 tools</span>
-              <span>3 en evaluacion</span>
-            </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="mapa-herramientas">Ver en mapa</button>
-              <button data-home-action="stack">Stack</button>
-            </div>
-          </article>
-          <!-- Gobierno -->
-          <article class="atlas-home-card" data-home-nav="gobierno">
-            <div class="atlas-home-card-icon">&#9878;</div>
-            <h3>Gobierno</h3>
-            <p>Documentacion, politicas y normativas de la empresa.</p>
-            <div class="atlas-home-card-meta">
-              <span class="count">157 docs</span>
-              <span>25 canvas</span>
-            </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="grafo">Grafo documental</button>
-              <button data-home-action="drive">Drive</button>
+            <div class="atlas-home-card-avatars">
+              <span class="avatar" title="Santiago">SR</span>
+              <span class="avatar" title="Manuel">MM</span>
+              <span class="avatar" title="Martin">ML</span>
+              <span class="avatar more">+4</span>
             </div>
           </article>
           <!-- Finanzas -->
           <article class="atlas-home-card" data-home-nav="finanzas">
-            <div class="atlas-home-card-icon">&#9733;</div>
+            <div class="atlas-home-card-icon" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">&#9733;</div>
             <h3>Finanzas</h3>
-            <p>Estado financiero, cobranza y proyecciones.</p>
+            <p>Estado de caja, cobranza Q4, runway y proyecciones.</p>
             <div class="atlas-home-card-meta">
-              <span class="count">Caja activa</span>
+              <span class="count" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">Caja activa</span>
               <span>Runway: 3 meses</span>
             </div>
-            <div class="atlas-home-actions">
-              <button data-home-action="finance-controller">Finance</button>
-              <button data-home-action="reporte">Reporte</button>
+            <div class="atlas-home-card-alert">
+              <span class="alert-dot"></span>
+              <span class="alert-text">3 facturas vencidas</span>
+            </div>
+          </article>
+          <!-- Plan -->
+          <article class="atlas-home-card" data-home-nav="plan">
+            <div class="atlas-home-card-icon" style="background: rgba(190, 7, 109, 0.15); color: #be076d;">&#9881;</div>
+            <h3>Plan de Trabajo</h3>
+            <p>10 tareas activas: Atlas, Buen Puente, cobranza, flujos BPMN, NEXORA.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(190, 7, 109, 0.15); color: #be076d;">4 en curso</span>
+              <span>4 pendientes</span>
+            </div>
+            <div class="atlas-home-card-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width: 40%; background: #be076d;"></div></div>
+              <span class="progress-label">40% avance</span>
             </div>
           </article>
         </div>
@@ -1150,13 +1256,15 @@
         });
       });
 
-      // Home card navigation → goes to EXPLORE instead of Mapa
+      // Home card navigation
       document.querySelectorAll('.atlas-home-card').forEach(card => {
         card.addEventListener('click', (e) => {
           if (e.target.closest('button')) return;
           const nav = card.dataset.homeNav;
           if (nav === 'procesos') {
-            switchTo('procesos'); // BPM has its own view
+            switchTo('procesos');
+          } else if (nav === 'plan') {
+            switchTo('plan');
           } else {
             openExplore(nav);
           }

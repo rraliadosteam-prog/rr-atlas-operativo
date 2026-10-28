@@ -1,11 +1,16 @@
 const PLAN_KEY = 'rr-atlas-plan-v1';
 
 const SEED = [
-  { id: 'task_01', date: 'Fecha por decidir', area: 'Producto', title: 'Definir el primer fragmento exportable', criteria: 'La vista actual puede exportarse sin tocar el mapa completo.', status: 'Pendiente', note: '' },
-  { id: 'task_02', date: 'Fecha por decidir', area: 'Procesos', title: 'Revisar la validación BPMN antes de sincronizar', criteria: 'Los errores y avisos siguen visibles y explicados.', status: 'En curso', note: '' },
-  { id: 'task_03', date: 'Fecha por decidir', area: 'Experiencia', title: 'Probar comentarios y notas del mapa', criteria: 'Una persona puede crear, editar y quitar un comentario local.', status: 'Pendiente', note: '' },
-  { id: 'task_04', date: 'Fecha por decidir', area: 'Assets', title: 'Ordenar la biblioteca visual del Atlas', criteria: 'Los recursos tienen nombre, tipo, fuente y estado local.', status: 'Pendiente', note: '' },
-  { id: 'task_05', date: 'Fecha por decidir', area: 'Entrega', title: 'Sincronizar datos reales solo después de aprobar la estructura', criteria: 'No hay fixtures de ejemplo mezclados con información real.', status: 'Pendiente', note: '' },
+  { id: 'task_01', date: 'Octubre 2026', area: 'Producto', title: 'Atlas Operativo v4 — vista Explorar con datos reales', criteria: 'Grid de tarjetas con datos del grafo, no fixtures. Panel de detalle funcional.', status: 'En curso', note: 'Pendiente conectar DEFAULT_GRAPH a la vista Explorar' },
+  { id: 'task_02', date: 'Octubre 2026', area: 'Producto', title: 'Buen Puente — MVP ciudadano funcional', criteria: 'Login, perfil, solicitudes y panel de administracion operativo.', status: 'En curso', note: 'En desarrollo interno' },
+  { id: 'task_03', date: 'Octubre 2026', area: 'Finanzas', title: 'Cobranza Q4 — conciliar cartera vencida', criteria: 'Todos los clientes con facturas >30 dias tienen plan de pago o acuerdo.', status: 'En curso', note: 'Seguimiento semanal en Excel' },
+  { id: 'task_04', date: 'Noviembre 2026', area: 'Procesos', title: 'Documentar 10 flujos operativos en BPMN', criteria: 'Cada flujo tiene diagrama, RACI, checklist y responsable asignado.', status: 'En curso', note: '5 de 10 completados' },
+  { id: 'task_05', date: 'Noviembre 2026', area: 'Tech', title: 'Migrar DashWeb a Supabase stable', criteria: 'Sin errores de conexion, sync automatico de tareas y usuarios.', status: 'Pendiente', note: 'Esperando validacion de schema' },
+  { id: 'task_06', date: 'Noviembre 2026', area: 'Gobierno', title: 'Auditoria de documentacion Vault — Q4', criteria: 'Todos los _CONTEXTO.md actualizados, sin duplicados, indices al dia.', status: 'Pendiente', note: 'Revisar 157 documentos' },
+  { id: 'task_07', date: 'Diciembre 2026', area: 'Entrega', title: 'Sazon Alacena — lanzamiento tienda', criteria: 'Tienda online con pagos, inventario y panel de administrador.', status: 'Pendiente', note: 'Depende de definir modelo de comisiones' },
+  { id: 'task_08', date: 'Diciembre 2026', area: 'Experiencia', title: 'NEXORA — dashboard de flota estable', criteria: 'Todos los bots reportando estado, misiones trackeables, alertas por WhatsApp.', status: 'En curso', note: '11 perfiles adoptados, falta automatizar reportes' },
+  { id: 'task_09', date: 'Enero 2027', area: 'Talento', title: 'Onboarding Martin (internship) — plan de 90 dias', criteria: 'Roadmap claro de aprendizaje, mentor asignado, PRs en produccion.', status: 'En curso', note: 'Semana 3 de 12' },
+  { id: 'task_10', date: 'Enero 2027', area: 'Producto', title: 'Content Hub — hub interno + externo unificado', criteria: 'Un solo CMS para contenido de RR, clientes y ciudadanos.', status: 'Pendiente', note: 'En fase de definicion de arquitectura' },
 ];
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
