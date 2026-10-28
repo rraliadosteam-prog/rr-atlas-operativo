@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RR Aliados · Flujos Operativos</title>
+<link rel="icon" href="/rr-logo-mark.png">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: system-ui,-apple-system,sans-serif; background:#070001; color:#FFFFF3; }
+header { background:#070001; border-bottom:2px solid #BE076D; padding:12px 20px; display:flex; align-items:center; gap:16px; position:fixed; top:0; left:0; right:0; z-index:10; }
+header img { height:28px; }
+header h1 { font-size:16px; }
+header span { font-size:12px; color:#BE076D; }
+main { padding:70px 20px 40px; max-width:1200px; margin:0 auto; }
+.flow { background:#0a0002; border:1px solid #973D8F; border-radius:8px; margin-bottom:24px; overflow:hidden; }
+.flow-header { background:#973D8F; padding:12px 16px; display:flex; align-items:center; gap:12px; }
+.flow-num { background:#DED116; color:#070001; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px; }
+.flow-title { font-size:16px; font-weight:600; }
+.flow-body { padding:16px; }
+.flow-meta { display:flex; gap:20px; margin-bottom:16px; flex-wrap:wrap; font-size:13px; color:#ccc; }
+.flow-meta span { display:flex; align-items:center; gap:6px; }
+.mermaid { background:#FFFFF3; border-radius:6px; padding:16px; }
+table { width:100%; border-collapse:collapse; margin-top:12px; font-size:13px; }
+th, td { padding:8px 12px; text-align:left; border-bottom:1px solid #333; }
+th { background:#973D8F; color:#FFFFF3; }
+tr:hover { background:#1a0005; }
+.checklist { list-style:none; padding:0; margin-top:12px; }
+.checklist li { padding:6px 0; display:flex; align-items:center; gap:8px; }
+.checklist li::before { content:"☐"; color:#BE076D; font-size:16px; }
+.status-vigente { color:#4caf50; }
+.status-pendiente { color:#ff9800; }
+.status-riesgo { color:#f44336; }
+</style>
+</head>
+<body>
+<header>
+  <img src="/rr-logo-mark.png" alt="RR">
+  <h1>RR ALIADOS</h1>
+  <span>· 10 Flujos Operativos</span>
+</header>
+<main>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">1</div><div class="flow-title">Comercial</div></div>
+  <div class="flow-body">
+    <div class="flow-meta">
+      <span>👤 Comercial</span>
+      <span>✅ Direccion</span>
+      <span>📋 Finanzas, Legal, Operaciones</span>
+      <span>📢 equipo</span>
+    </div>
+    <div class="mermaid">
+flowchart LR
+  A["Prospecto / referido"] --> B["Registro en pipeline"] --> C["Diagnostico rapido"]
+  C --> D["Prototipo o propuesta"] --> E["Precontrato"] --> F["Negociacion"]
+  F --> G["Firma / aprobacion"] --> H["Onboarding"]
+    </div>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">2</div><div class="flow-title">Onboarding de cliente</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Cierre comercial"] --> B["Carpeta cliente en Drive"] --> C["_CONTEXTO.md"]
+  C --> D["Contrato / precontrato"] --> E["Levantamiento"] --> F["Brand kit"]
+  F --> G["Alcance y entregables"] --> H["Plan de ejecucion"] --> I["Calendario de hitos"]
+  I --> J["Inicio produccion / dev"]
+    </div>
+    <ul class="checklist">
+      <li>Responsable interno</li><li>Contacto cliente</li><li>Contrato o riesgo visible</li>
+      <li>Alcance</li><li>Fechas</li><li>Documentos</li><li>Rutas de Drive</li><li>Tablero si aplica</li>
+    </ul>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">3</div><div class="flow-title">Aliados y referidos</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Identificar aliado"] --> B["Validar reputacion y encaje"] --> C["Definir tipo de relacion"]
+  C --> D["Registrar origen"] --> E["Acordar comision"] --> F["Recibir prospecto"]
+  F --> G["Seguimiento comercial"] --> H["Cierre o archivo"] --> I["Reporte a aliado"]
+    </div>
+    <p style="margin-top:12px; font-size:13px; color:#ccc;">Aliados: Alejandra Paternina (IMF Visions), Alejandra Suarez (Harbin, La Carreta, Turismo Anheyca, Satiro Sushi — 4%)</p>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">4</div><div class="flow-title">Producción y contenido</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Brief creativo"] --> B["Ideacion"] --> C["Guiones / conceptos"]
+  C --> D["Aprobacion cliente"] --> E["Preproduccion"] --> F["Modelos / camaras / locacion"]
+  F --> G["Sesion de grabacion"] --> H["Edicion"] --> I["Revision"]
+  I --> J["Publicacion / entrega"] --> K["Medicion"]
+    </div>
+    <table>
+      <tr><th>Persona</th><th>Carga</th></tr>
+      <tr><td>Manuel</td><td>Creativa, guiones, dirección</td></tr>
+      <tr><td>Santiago</td><td>Operativa alta ⚠️</td></tr>
+      <tr><td>Isabel</td><td>Ideación y supervisión</td></tr>
+      <tr><td>Estefania</td><td>Supervisión histórica</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">5</div><div class="flow-title">Desarrollo web y tecnología</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Brief tecnico"] --> B["Arquitectura"] --> C["Prototipo"] --> D["Implementacion"]
+  D --> E["QA interno"] --> F["Revision cliente"] --> G["Ajustes"] --> H["Deploy"]
+  H --> I["Documentacion tecnica"] --> J["Mantenimiento"]
+    </div>
+    <p style="margin-top:12px; font-size:13px; color:#ccc;">Repos: 08_Dev/, dashweb/, primer_contacto_web/, match_numa/, chatbot/</p>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">6</div><div class="flow-title">Finanzas y cobranza</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Cotizacion / acuerdo"] --> B["Contrato o soporte"] --> C["Factura / cuenta de cobro"]
+  C --> D["Pago"] --> E["Conciliacion"] --> F["Actualizacion Drive"] --> G["Dashboard espejo"]
+  G --> H["Seguimiento cartera"] --> I["Reporte semanal"]
+    </div>
+    <p style="margin-top:12px; font-size:13px; color:#ccc;">Reglas: Todo en COP. No confundir pipeline con caja. Drive/Excel = fuente. 🔴 Riesgo: pago sin contrato.</p>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">7</div><div class="flow-title">Legal y contratos</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Solicitud contrato"] --> B["Plantilla"] --> C["Revision interna"]
+  C --> D["Revision abogada si aplica"] --> E["Aprobacion direccion"]
+  E --> F["Firma"] --> G["Archivo en Drive"] --> H["Control de renovacion"]
+    </div>
+    <table>
+      <tr><th>Alerta</th><th>Estado</th></tr>
+      <tr><td>BOGA</td><td class="status-riesgo">🔴 Pago recibido, sin firma</td></tr>
+      <tr><td>Wundeer</td><td class="status-pendiente">🟠 Revisado, pendiente verif</td></tr>
+      <tr><td>Shoes Colombia</td><td class="status-pendiente">🟠 Preparar precontrato</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">8</div><div class="flow-title">Soporte y escalamiento</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Solicitud / problema"] --> B["Registro"] --> C["Clasificacion prioridad"]
+  C --> D["Asignacion responsable"] --> E["Respuesta al cliente"] --> F["Solucion"]
+  F --> G["Validacion"] --> H["Cierre"] --> I["Aprendizaje / mejora SOP"]
+    </div>
+    <table>
+      <tr><th>Prioridad</th><th>Qué cubre</th></tr>
+      <tr><td class="status-riesgo">Alta</td><td>Bloqueo, cobro, contrato, entrega crítica</td></tr>
+      <tr><td class="status-pendiente">Media</td><td>Ajustes con fecha cercana</td></tr>
+      <tr><td class="status-vigente">Baja</td><td>Mejora sin fecha</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">9</div><div class="flow-title">Gobierno documental</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Nuevo documento / proyecto"] --> B["Decidir area canonica"] --> C["Crear o actualizar _CONTEXTO"]
+  C --> D["Evitar duplicados"] --> E["Registrar historial si cambia"] --> F["Actualizar indices"]
+  F --> G["Archivar espejos o deprecados"]
+    </div>
+    <p style="margin-top:12px; font-size:13px; color:#ccc;">Reglas: Un archivo = un hogar. Canónico gana. No mover sin confirmación. Diagrama no reemplaza Drive.</p>
+  </div>
+</div>
+
+<div class="flow">
+  <div class="flow-header"><div class="flow-num">10</div><div class="flow-title">IA y automatizaciones</div></div>
+  <div class="flow-body">
+    <div class="mermaid">
+flowchart LR
+  A["Necesidad repetitiva"] --> B["Definir tarea"] --> C["Elegir herramienta / agente"]
+  C --> D["Documentar prompt o skill"] --> E["Probar con caso pequeno"]
+  E --> F["Conectar a fuente de verdad"] --> G["Revision humana"] --> H["Automatizar si es estable"]
+    </div>
+    <p style="margin-top:12px; font-size:13px; color:#ccc;">Herramientas: ChatGPT/Codex, Whimsical MCP, RR Commander, Drive, dashboards, skills IA.</p>
+  </div>
+</div>
+
+</main>
+<script>mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{primaryColor:'#BE076D',primaryTextColor:'#FFFFF3',primaryBorderColor:'#070001',lineColor:'#973D8F',secondaryColor:'#DED116',tertiaryColor:'#973D8F'}});</script>
+</body>
+</html>

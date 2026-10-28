@@ -46,6 +46,7 @@ export async function build(root = resolve(dirname(fileURLToPath(import.meta.url
   await cp(resolve(root, 'rr-logo-mark.png'), resolve(dist, 'rr-logo-mark.png'));
   await cp(resolve(root, 'public/grafo'), resolve(dist, 'grafo'), { recursive: true });
   await cp(resolve(root, 'public/bpmn'), resolve(dist, 'bpmn'), { recursive: true });
+  await cp(resolve(root, 'public/flujos'), resolve(dist, 'flujos'), { recursive: true });
   await esbuild.build({
     entryPoints: [resolve(root, 'src/bpmn/entry.mjs')],
     bundle: true,
