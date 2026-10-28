@@ -11,14 +11,16 @@
   --rr-muted: #d2abc2;
   --rr-border: var(--rr-orchid);
   --rr-shadow: 7px 7px 0 var(--rr-ink-fixed);
-  --rr-radius: 3px;
+  --rr-radius: 12px;
+  --rr-radius-sm: 9px;
+  --rr-radius-lg: 16px;
   --rr-space-1: 4px;
   --rr-space-2: 8px;
   --rr-space-3: 12px;
   --rr-space-4: 16px;
   --rr-space-5: 24px;
   --rr-space-6: 32px;
-  /* Neue Haas Grotesk y Graphie cuando Dirección entregue la licencia web. */
+  /* Neue Haas Grotesk y Graphie cuando Direccion entregue la licencia web. */
   --rr-font-display: "Neue Haas Grotesk", "Arial Nova", "Helvetica Neue", Arial, sans-serif;
   --rr-font-body: "Graphie", "Arial Nova", "Helvetica Neue", Arial, sans-serif;
   --rr-font: var(--rr-font-body);
@@ -50,6 +52,12 @@
   --rr-bpmn-text: var(--rr-paper-fixed);
   --rr-bpmn-end: var(--rr-paper-fixed);
   --rr-tabbar: 0px;
+  /* interior.dev inspired */
+  --rr-mat-panel: var(--rr-card);
+  --rr-mat-well: var(--rr-well);
+  --rr-mat-float: var(--rr-panel);
+  --rr-ink-2: #c2c2ba;
+  --rr-ink-3: #93938b;
 }
 
 body.atlas-theme-light {

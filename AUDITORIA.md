@@ -1,175 +1,245 @@
-# AUDITORIA — Atlas Operativo RR
+# Auditoria Atlas Operativo RR — Fase 0
+> Fecha: 2026-10-27
+> Rama auditada: `atlas-bpmn-movil` (645fa62)
+> Produccion: https://rr-atlas-operativo.vercel.app (v=bpmn-4)
+> Auditor: Pingui (Hermes Agent)
 
-Fecha: 2026-10-23
-Rama de trabajo: `feat/atlas-reference-wave1`
-Corte auditado: producción `https://rr-atlas-operativo.vercel.app/?v=c3d336d`
-Commit auditado: `c3d336d`
-Base local: `c3d336d feat(atlas): añade colaboración y exportación parcial`
+---
 
-## Alcance y límites
+## 1. Reconciliacion de builds
 
-Esta auditoría se hizo sobre el código real de la rama y sobre el artefacto público servido por Vercel. No se cargó información real ni se modificó producción durante la auditoría. La implementación posterior queda en esta rama y debe terminar en preview y Pull Request.
+| Build | Commit | Estado | Notas |
+|-------|--------|--------|-------|
+| `feat/atlas-audit-ux` | `c3d336d` | **Mas avanzado** | Tiene "Plan local", boton "Mas", mejor UX, v=bpmn-6 |
+| `atlas-bpmn-movil` | `645fa62` | **En produccion** | Retroceso desde c3d336d: -1.168 lineas, +448. Perdio funcionalidades. |
 
-Evidencia visual:
+**Hallazgo P0:** La produccion actual es un rollback respecto a un build anterior mas pulido. Se perdieron:
+- Boton "Mas" con toolbar colapsable (cumplia limite de 6 controles)
+- Vista "Plan local"
+- Marcadores visuales en el rail (circulos por categoria)
+- Sidebar con header y estados visuales mejorados
+- Indicador de zoom dinamico en status
+- Mejor manejo de tamanos de tarjetas en conexiones
 
-- Escritorio: `/home/deadkiss/.hermes/cache/scratch/atlas-audit-production/1440x900-mapa.png`
-- Móvil: `/home/deadkiss/.hermes/cache/scratch/atlas-audit-production/390x844-mapa-sin-recorrido.png`
-- Auditoría completa: `/home/deadkiss/.hermes/cache/atlas-audit-production.log`
+**Accion propuesta:** Fusionar lo mejor de ambas ramas. `c3d336d` como base de UX, `atlas-bpmn-movil` como base de tabs Grafo/BPMN/Flujos.
 
-Verificación de baseline:
+---
 
-- `npm run check`: 32 pruebas pasan.
-- BPMN: 16 semillas, 0 errores fuera de la deuda documentada y 8 avisos conocidos de compuertas no-gateway-join-fork.
-- `cargo test --workspace`: todas las suites pasan.
-- `npm run audit:visual`: 0 solapes, 0 etiquetas sobre formas, 0 textos desbordados, 0 palabras partidas, 0 problemas de presión y sin overflow horizontal en 360, 390, 430, 768, 1024 y 1440 px.
-- Producción responde HTTP 200 y sirve `src/app/main.mjs?v=bpmn-6`.
+## 2. Arquitectura
 
-## P0 — bloquea producto profesional
+**P0 — Version inconsistente:** `package.json` dice `4.0.0-foundation`, el HTML dice `Versión 4.1`. Confusion para debugging.
 
-### P0.1 — Sin P0 visual o funcional demostrado en el corte
+**P1 — Build custom:** Script propio con esbuild. No hay bundler optimizado ni code-splitting. El bundle BPMN pesa lo que pese bpmn-js completo.
 
-El mapa, la navegación, los procesos BPMN, la validación, la importación y la exportación funcionan en el corte auditado. No se encontró un fallo que impida abrir la aplicación o abrir un BPMN.
+**P1 — Sin framework:** Vanilla JS con modulos ES. Esto es una decision valida pero exige mas disciplina. El codigo actual la mantiene razonablemente.
 
-Riesgo condicionado: si se cargan datos reales mientras el dominio siga público, los hallazgos P1 de seguridad pasan a ser P0 operativo.
+**P2 — Cache busting manual:** `?v=bpmn-4`, `?v=bpmn-3`, `?v=bpmn-6` mezclados en los imports. Esto puede causar caches desfasados en produccion.
 
-## P1 — alta prioridad
+---
 
-### P1.1 — La primera cámara no comunica el mapa completo
+## 3. Zoom y navegacion
 
-Evidencia: captura `1440x900-mapa.png`.
+**P0 — Zoom no anclado al cursor:** La rueda multiplica `viewport.z` por 1.1/0.9 pero no ajusta `x` e `y`. El zoom escala desde el origen (0,0), no desde el cursor del mouse. Esto es contraintuitivo.
 
-- El pie declara 55 nodos y 37 conexiones.
-- La primera vista deja solo una fracción de los nodos completamente legible.
-- Hay tarjetas cortadas a la derecha y en la zona inferior.
-- El encuadre inicial centra el primer nodo seleccionado, no una composición completa del contenido relevante.
+**P0 — deltaY no normalizado:** `event.deltaY < 0 ? 1.1 : 0.9` no considera la magnitud del scroll. En trackpads de Mac puede producir zooms extremos con un swipe.
 
-Código: `src/ui/atlas-view.mjs:686-707`, `src/ui/atlas-view.mjs:494`.
+**P1 — Pellizco rudimentario:** El pinch con dos dedos existe pero no hay inercia ni suavizado. En movil es dificil de controlar.
 
-Acción: implementar encuadre inicial inteligente por límites reales, margen de seguridad y memoria de última vista; mantener `Reencuadrar` como encuadre total filtrado.
+**P1 — Limites hardcodeados:** `0.35` / `0.55` (desktop/mobile) a `2.4`. No hay configuracion ni logica adaptativa.
 
-### P1.2 — La barra inferior y el pie consumen demasiado lienzo
+**P1 — Botones +/- sin animacion:** `zoomIn()` y `zoomOut()` cambian el scale bruscamente sin `animateViewport`.
 
-Evidencia: `1440x900-mapa.png`.
+**P2 — Doble click/tap para acercar:** Existe pero sin animacion suave hacia el nodo.
 
-Cabecera, toolbar, barra de estado y pie reducen el área vertical efectiva del lienzo. La barra de estado queda sobre el contenido inferior y el pie repite información de marca y versión.
+---
 
-Código: `src/styles/layout.css:89-147`.
+## 4. Conexiones
 
-Acción: fusionar estado y pie en una barra compacta, conservar zoom y métricas, retirar repetición de marca y añadir modo enfoque con `\\`.
+**P0 — Anclaje fijo incorrecto:** `ax = source.x + 119`, `ay = source.y + 118`. Asume tarjetas de 238x125px siempre. Si la tarjeta cambia de tamano (texto largo, preview de media), la linea no toca el borde.
 
-### P1.3 — Conexiones secundarias con contraste insuficiente
+**P0 — Contraste inaceptable:** `opacity: .16` en stroke `#973d8F` sobre `#070001`. Es casi invisible. El megaprompt pide 3:1 minimo.
 
-Evidencia: `1440x900-mapa.png`.
+**P0 — Flechas no renderizadas:** El marker `#atlas-arrow` esta definido en SVG pero las paths generadas NO usan `marker-end="url(#atlas-arrow)"`. Las conexiones son lineas sin direccion.
 
-Las conexiones principales destacan, pero las líneas moradas secundarias se mezclan con el fondo y no tienen leyenda semántica clara.
+**P1 — Sin enrutado inteligente:** Las curvas son Bezier simples que pueden pasar por encima de otras tarjetas.
 
-Código: `src/styles/layout.css:110-113`, `src/ui/atlas-view.mjs:103-125`.
+**P1 — Sin resalte de vecinos:** Al seleccionar un nodo, las conexiones cambian de clase (`context` vs `dim`) pero la diferencia visual es minima por el bajo contraste.
 
-Acción: definir jerarquía de relaciones, contraste mínimo, routing que evite tarjetas, estados de selección y leyenda contextual.
+---
 
-### P1.4 — Seguridad del dominio público antes de datos reales
+## 5. Renderizado y rendimiento
 
-Evidencia: la respuesta HTTP pública solo expone `strict-transport-security` y `cache-control`; no se observan `Content-Security-Policy`, `X-Frame-Options`, `Referrer-Policy` ni `Permissions-Policy`.
+**P1 — Reconstruccion total del DOM:** `renderCards()` hace `root.cards.replaceChildren()` y recrea TODAS las tarjetas en cada cambio (filtro, seleccion, zoom). Con 55 nodos pasa desapercibido; con 500 seria lento.
 
-Código/configuración: `vercel.json` solo define `buildCommand` y `outputDirectory`.
+**P1 — Sin virtualizacion:** Todas las tarjetas estan en el DOM aunque esten fuera del viewport. El SVG de wires tiene `width="4300" height="3200"` fijo.
 
-Acción: añadir encabezados de seguridad y mantener fixtures anónimos hasta contar con protección/autenticación y fuente privada.
+**P2 — Fugas potenciales:** Cada `renderCards` crea nuevos listeners `pointerdown`, `pointermove`, etc. Aunque `replaceChildren` elimina los nodos del DOM, no verifique si los listeners se limpian correctamente.
 
-### P1.5 — Visor multimedia permite cualquier HTTPS y un iframe amplio
+---
 
-Código: `src/core/atlas-state.mjs:76-115` acepta cualquier host HTTPS para assets; `src/ui/atlas-media.mjs:130-138` monta iframe con `allow-same-origin`, scripts, popups y permisos de portapapeles.
+## 6. Vistas y arquitectura de informacion
 
-Acción: definir lista de dominios permitidos, reducir `allow`, mantener `sandbox` mínimo y verificar `referrerPolicy` por tipo de recurso.
+**P0 — 7 botones en tabbar (excede limite):** Mapa, Procesos, Buscar, Grafo, BPMN, Flujos, Menu. El limite del megaprompt es 4 destinos de primer nivel.
 
-### P1.6 — Persistencia solo local
+**P0 — 8 controles visibles en header:** Buscar, Configuracion, Exportar, Importar, Restaurar, Tema, Minimapa, Conexiones. El limite es 6 controles permanentes. Deben ir en "Configuracion" o paleta de comandos.
 
-Código: `src/app/main.mjs:19`, `src/core/atlas-state.mjs:287-314` y `src/data/demo-plan.mjs:27-30` usan `localStorage`.
+**P0 — Nombres duplicados/confusos:** "Procesos" aparece en: categoria del rail, tab inferior, boton "Ir a un proceso", y la vista BPMN. "BPMN" aparece como tab y como categoria. El usuario no distingue que es cada uno.
 
-Impacto: cada navegador tiene una copia distinta; no existe colaboración, historial remoto ni autoría.
+**P1 — Buscar como vista:** El tab "Buscar" no tiene sentido como vista independiente; deberia ser paleta de comandos (`Ctrl+K`) o barra de busqueda global.
 
-Acción: documentar la arquitectura compartida antes de construirla. No integrar DashWeb, Kotizador ni datos reales en esta ola.
+**P1 — Mezcla de tonos:** "Navegá" (voseo) en el hint junto a "Arrastra" y "Agrega" (tuteo). El megaprompt exige tuteo neutro uniforme.
 
-### P1.7 — Inconsistencia de versión visible
+**P1 — Rail sin iconos propios:** Usa glifos Unicode (`◈ ◉ ⇄ ▣ ◇ ☷ ♙ ⚙`) sin coherencia visual. Necesita un set de iconos consistente (Lucide u otro).
 
-Código: `package.json` declara `4.0.0-foundation`, mientras `index.html` y el pie muestran versión 4.1.
+**P2 — Footer con logo repetido:** El logo de RR aparece en header y footer. Ocupa espacio vertical innecesario.
 
-Acción: centralizar versión de build y preparar `CHANGELOG.md` y panel de Novedades.
+---
 
-### P1.8 — El BPMN conserva formato y validación, pero la interacción avanzada está incompleta
+## 7. BPMN y flujos
 
-Lo que funciona: `bpmn-js`, XML BPMN 2.0, carriles, importación, validación, exportación BPMN/SVG/PNG y selección de elementos.
+**P1 — BPMN comercial en iframe:** `/bpmn/` es un visor estatico con `bpmn-js`. No tiene panel de detalle por elemento, ni responsable, ni SLA, ni KPI. Es solo un SVG interactivo basico.
 
-Código: `src/bpmn/entry.mjs:1-6,85-310`, `src/bpmn/lint/run.mjs`, `scripts/validate-bpmn.mjs`.
+**P1 — Flujos operativos en iframe:** `/flujos/` es HTML estatico con Mermaid. No son editables ni interactivos mas alla de expandir/collapsar.
 
-Faltan para producto de referencia: edición de conexiones y carriles con UX completa, comentarios anclados a elementos, comparación de versiones, búsqueda dentro del proceso, simulación con token y panel de datos estructurados por elemento.
+**P1 — Sin conexion Mapa ↔ BPMN:** No hay enlace bidireccional entre un nodo del mapa y su diagrama BPMN.
 
-Acción: mantener `NavigatedViewer`/`Modeler` y XML como verdad; construir por capas sin reemplazar BPMN por un dibujo propio.
+**P2 — bpmn-js requiere atribucion:** La licencia exige mantener visible el logo de bpmn.io. No esta presente en `/bpmn/`.
 
-## P2 — pulido y descubrimiento
+---
 
-### P2.1 — Rail con categorías de semántica mezclada
+## 8. Datos y persistencia
 
-Código: `index.html:46-58`.
+**P0 — Sin schemaVersion en localStorage:** La clave es `rr-atlas-v3` pero no guarda `schemaVersion`. La funcion `normalizeGraph` espera `schemaVersion === 1` en importaciones, pero el localStorage no lo tiene. Esto puede romper migraciones futuras.
 
-El rail mezcla ámbitos, tipos de entidad, Procesos BPMN y Plan local. Los nodos Control, Prospecto, Experimento comercial y Otro no tienen una navegación propia visible.
+**P1 — Datos solo en navegador:** Sin backend. Si el usuario limpia cache, pierde todo. "Restaurar base" borra sin exportar automaticamente.
 
-Acción: agrupar ámbitos, vistas y tipos; añadir conteos y modo solo iconos.
+**P1 — Tipos de nodo huerfanos:** `Control`, `Prospecto`, `Experimento comercial`, `Otro` no aparecen en los filtros del rail. Nunca se podran filtrar.
 
-### P2.2 — Tarjetas sin jerarquía por zoom
+**P1 — Fechas y montos en texto libre:** Campos `desc`, `notes`, `status`, `owner` son strings sin estructura. No hay validacion de fechas ni montos.
 
-Código: `src/ui/atlas-view.mjs:145-210` y `src/styles/components.css:25-47`.
+**P2 — Duplicados potenciales:** `normalizeGraph` valida duplicados en importacion, pero no hay validacion al crear nodos desde la UI.
 
-Las tarjetas tienen un único nivel de detalle. El responsable, estado y notas no aparecen en el mapa aunque existen en el modelo.
+---
 
-Acción: tres niveles según zoom; mostrar estado, responsable e iniciales sin cargar la tarjeta.
+## 9. Seguridad
 
-### P2.3 — Selección y vecindad necesitan explicación más fuerte
+**P0 — Repo publico con datos comerciales:** `default-graph.mjs` contiene nombres de clientes, productos, procesos internos de RR Aliados. El repo es publico en GitHub.
 
-Código: `src/ui/atlas-view.mjs:115-125` resalta conexiones por selección, pero no existe control de profundidad 1/2/3 ni modo enfoque de vecindad documentado en la interfaz.
+**P0 — Sin CSP:** `vercel.json` no tiene `headers` para Content-Security-Policy. El visor multimedia monta iframes con URLs externas sin restricciones.
 
-Acción: añadir foco contextual, profundidad seleccionable y exportación del vecindario.
+**P0 — Iframes permisivos:** Las vistas RR usan `sandbox="allow-scripts allow-same-origin allow-popups"`. `allow-same-origin` combinado con `allow-scripts` anula gran parte de la proteccion del sandbox.
 
-### P2.4 — Falta paleta de comandos y lista de atajos visible
+**P1 — confirm() nativo:** Tres usos de `window.confirm()` para acciones destructivas. Bloquean el hilo principal y son anti-patron en UX moderna.
 
-Código: `src/ui/atlas-events.mjs:161-210` contiene atajos básicos, pero no existe `Ctrl/Cmd + K` ni panel `?`.
+**P1 — URLs sin lista blanca estricta:** `classifyMediaUrl` acepta cualquier dominio HTTPS como `embed`. No hay restriccion a dominios permitidos.
 
-Acción: añadir paleta de comandos por divulgación progresiva, no más botones permanentes.
+**P2 — SVG sin sanitizacion:** Si un nodo tiene un SVG malicioso en media, se renderiza directamente.
 
-### P2.5 — Plan local no está explicado como vista de producto
+---
 
-El fixture local ya existe en `src/data/demo-plan.mjs`, pero necesita integración con una explicación más clara de qué es, qué no es y cuándo se sincronizará.
+## 10. Accesibilidad
 
-Acción: mantenerlo explícitamente local y de ejemplo; no mezclarlo con datos empresariales reales.
+**P1 — Objetivos tactiles pequenos:** Botones del tabbar miden ~32-40px de alto. El estandar es 44px minimo.
 
-### P2.6 — Falta CHANGELOG y panel Novedades
+**P1 — Contraste insuficiente:** Conexiones con opacity 0.16. Texto `.atlas-muted` probablemente falla AA.
 
-El repositorio no contiene todavía `CHANGELOG.md` ni una superficie de novedades en la aplicación.
+**P1 — HTML semantico:** Las tarjetas de nodos se renderizan como `<button>` (bien para clickeabilidad) pero contienen `<h3>` dentro. Eso no es valido HTML (heading dentro de button).
 
-Acción: añadirlos en la primera ola de entrega.
+**P2 — Foco no visible:** No se verifico `:focus-visible` en todos los elementos interactivos.
 
-### P2.7 — Rendimiento de 500 nodos no medido
+**P2 — aria-live sin moderacion:** El status bar usa `aria-live="polite"` pero actualiza en cada render (movimiento de mouse, zoom). Puede ser molesto para lectores de pantalla.
 
-La auditoría visual actual prueba 55 nodos y geometría responsive, pero no tiene una medición de 500 nodos ni fps de zoom/pan.
+---
 
-Acción: crear fixture sintético, medir tiempo de render, listeners, memoria y fotogramas antes de virtualizar.
+## 11. Calidad general
 
-### P2.8 — Axe/Lighthouse no ejecutados en este corte
+**P1 — Lighthouse no verificado:** No se ejecuto auditoria automatizada.
 
-No hay reporte de axe-core ni Lighthouse guardado en la evidencia de baseline.
+**P1 — Tests existentes pero no verificados:** Hay tests en `src/core/atlas-state.test.mjs`, `src/core/process-model.test.mjs`, etc. No se ejecutaron en esta auditoria.
 
-Acción: incorporarlos a la ola de calidad y documentar cualquier limitación del entorno.
+**P2 — Estilos inline en index.html:** Los estilos de transicion, tabbar, loading, etc. estan en un `<style>` dentro de `index.html` en lugar de `src/styles/`. Dificulta el mantenimiento.
 
-## Producto y datos
+---
 
-- El corte público contiene fixtures de ejemplo, no se cargó información real durante esta auditoría.
-- `DESCONOCIDO` y `Por validar` siguen siendo estados válidos.
-- No se fusionan nodos duplicados ni se inventan responsables, fechas, montos o KPI.
-- El Plan local se conserva como fixture de trabajo local, inspirado en la estructura de Mesa RR, no como fuente oficial.
+## 12. Producto — Inventario de botones y funciones
 
-## Decisiones de implementación para esta rama
+### Header (8 controles visibles)
+1. Buscar (input)
+2. Configuracion (toggle settings panel)
+3. Exportar mapa (dentro de settings)
+4. Importar mapa (dentro de settings)
+5. Restaurar base (dentro de settings)
+6. Cambiar tema (dentro de settings)
+7. Mostrar/ocultar minimapa (dentro de settings)
+8. Mostrar/ocultar conexiones (dentro de settings)
 
-1. Trabajar en JavaScript modular actual; no iniciar Rust/WASM hasta documentar la frontera y esperar aprobación.
-2. Ejecutar Ola 1: primera impresión, estructura, seguridad inmediata, encuadre, conexiones, rail y jerarquía de tarjetas.
-3. Mantener BPMN 2.0 y la validación existente como contrato.
-4. No desplegar producción desde esta rama. El resultado se verificará en local y, si queda verde, se publicará solo en un preview de Vercel para aprobación.
-5. Crear `CHANGELOG.md`, pruebas de regresión y capturas por ola.
+**Problema:** Aunque 6 estan dentro de "Configuracion", el panel settings es un control adicional. Total: 2 permanentes (buscar + config) + 6 en panel desplegable. Esto cumple el limite si consideramos solo los permanentes.
+
+### Toolbar del lienzo (7 controles)
+1. Alejar
+2. Acercar
+3. Reencuadrar
+4. Acciones (toggle tools en mobile)
+5. Deshacer
+6. Rehacer
+7. Nuevo nodo
+8. Dibujar (con submenu de 6 figuras)
+9. Conectar
+10. Detalle (mobile)
+11. Ir a un proceso
+
+**Problema:** En desktop se muestran todos (11 controles). Excede ampliamente el limite de 6.
+
+### Tabbar inferior (7 destinos)
+1. Mapa
+2. Procesos
+3. Buscar
+4. Grafo
+5. BPMN
+6. Flujos
+7. Menu
+
+**Problema:** Excede el limite de 4 destinos de primer nivel.
+
+### Rail lateral (10 filtros)
+1. Toda la empresa
+2. Gobierno
+3. Procesos
+4. Clientes
+5. Productos
+6. Areas
+7. Talento
+8. Herramientas
+9. Procesos BPMN
+10. Hint
+
+---
+
+## Resumen de prioridades
+
+| Prioridad | Cantidad | Bloquea despliegue |
+|-----------|----------|-------------------|
+| P0 | 12 | Si |
+| P1 | 24 | Deberia |
+| P2 | 12 | No, pero reduce calidad |
+
+### Top 5 P0 a resolver antes de cualquier despliegue:
+1. **Reconciliar builds:** Volver a `c3d336d` como base y re-aplicar tabs Grafo/BPMN/Flujos correctamente.
+2. **Seguridad:** Proteger repo (datos comerciales publicos), agregar CSP, restringir iframes.
+3. **Arquitectura de informacion:** Reducir a 4 tabs y 6 controles visibles. Eliminar nombres duplicados.
+4. **Zoom anclado al cursor:** Corregir calculo de x/y al hacer zoom.
+5. **Conexiones visibles:** Aumentar contraste, agregar flechas, corregir anclaje.
+
+---
+
+## Recomendacion inmediata
+
+No se debe seguir trabajando sobre `atlas-bpmn-movil` como base. El build `c3d336d` (`feat/atlas-audit-ux`) tiene mejor arquitectura de UI, controles mas limpios, y funcionalidades que el usuario ya habia visto. La estrategia correcta es:
+
+1. Checkout de `c3d336d` o merge de `feat/atlas-audit-ux`.
+2. Re-aplicar los tabs Grafo/BPMN/Flujos como modulos integrados, no como iframes rudimentarios.
+3. A partir de ahi, aplicar las fases del megaprompt.
+
+---
+
+*Fin de la auditoria. No se modifico codigo. Proximo paso: decision del dueno del producto sobre la base a usar.*

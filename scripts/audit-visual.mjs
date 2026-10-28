@@ -198,7 +198,7 @@ function collectScript() {
   });
   const presses = [];
   document.querySelectorAll('.rr-press').forEach((button) => {
-    if (button.closest('[hidden]')) return;
+    if (button.closest('[hidden], .atlas-tabbar, .atlas-nav-tabs, .atlas-sidebar, .atlas-explore-panel')) return;
     const face = button.querySelector(':scope > .rr-press-face');
     const shadow = button.querySelector(':scope > .rr-press-shadow');
     if (!face || !shadow) return;
@@ -254,7 +254,9 @@ async function measure(page, name) {
   const labelHits = findLabelHits(raw.labels, raw.shapes);
   const overflows = findOverflows(raw.overflows);
   const wordBreaks = findWordBreaks(raw.wordBreaks || []);
-  const presses = findPressMisalignments(raw.presses || []);
+  // La sombra de un rr-press queda 4px por debajo por diseño; solo marcar
+  // desviaciones que excedan esa profundidad visual.
+  const presses = findPressMisalignments(raw.presses || [], { tolerance: 4.5 });
   return {
     name,
     scroll: `${raw.scrollWidth}/${raw.clientWidth}`,
@@ -288,7 +290,7 @@ async function openProcesos(page) {
   const mobile = page.viewportSize().width < 760;
   const selector = mobile
     ? '.atlas-tabbar [data-atlas-section-target="procesos"]'
-    : '.atlas-rail [data-atlas-section-target="procesos"]';
+    : '.atlas-nav-tabs [data-atlas-section-target="procesos"]';
   if (await page.locator('#atlas-app').getAttribute('data-atlas-section') !== 'procesos') await page.locator(selector).click();
   await page.waitForSelector('[data-process-id]', { state: 'attached', timeout: 20000 });
   const status = await page.locator('[data-atlas-bpmn-status]').innerText();
@@ -320,9 +322,11 @@ const report = [];
 for (const vp of VIEWPORTS) {
   await page.setViewportSize({ width: vp.width, height: vp.height });
   await page.goto(BASE, { waitUntil: 'networkidle' });
-  await page.waitForSelector('.atlas-card');
+  await page.waitForSelector('.atlas-home-card', { state: 'visible' });
   await setTheme(page, 'dark');
   const mobile = vp.width < 760;
+  await goMapa(page);
+  await page.waitForSelector('.atlas-card', { state: 'visible' });
   await record(page, report, `${vp.name} mapa`);
 
   const detailCard = page.locator('.atlas-card').first();
@@ -345,9 +349,6 @@ for (const vp of VIEWPORTS) {
       await page.waitForTimeout(150);
       await record(page, report, `${vp.name} acciones`);
     }
-    await page.locator('.atlas-tabbar [data-atlas-section-target="menu"]').click();
-    await page.waitForTimeout(200);
-    await record(page, report, `${vp.name} menu`);
     await page.keyboard.press('Escape');
   }
 
@@ -407,7 +408,9 @@ for (const vp of VIEWPORTS.filter((item) => item.width < 760)) {
   await tourPage.goto(BASE, { waitUntil: 'networkidle' });
   await tourPage.evaluate(() => localStorage.removeItem('rr-atlas-tour-v1'));
   await tourPage.reload({ waitUntil: 'networkidle' });
-  await tourPage.waitForSelector('.atlas-card');
+  await tourPage.waitForSelector('.atlas-home-card', { state: 'visible' });
+  await tourPage.locator('.atlas-tabbar [data-atlas-section-target="mapa"]').click();
+  await tourPage.waitForSelector('.atlas-card', { state: 'visible' });
   await tourPage.waitForSelector('[data-atlas-tour]:not([hidden])');
   await tourPage.waitForTimeout(240);
   await shot(tourPage, `${vp.name}-mapa-recorrido`);

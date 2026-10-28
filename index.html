@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- Atlas Operativo v4.2 - RR Aliados -->
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -15,212 +14,1444 @@
   <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
+  <style>
+    /* ============================================================
+       ATLAS v4.2 — interior.dev inspired visual system
+       ============================================================ */
+
+    /* ── Material layers (interior.dev philosophy) ── */
+    .mat-panel {
+      background: var(--rr-card);
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-lift);
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .mat-panel:hover {
+      box-shadow: var(--rr-shadow-float);
+      transform: translateY(-1px);
+    }
+    .mat-well {
+      background: var(--rr-well);
+      border-radius: var(--rr-radius);
+      box-shadow: var(--rr-shadow-well);
+    }
+    .mat-cap {
+      background: var(--rr-card);
+      border-radius: var(--rr-radius-sm);
+      box-shadow: var(--rr-shadow-cap);
+      transition: transform 0.12s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.15s ease;
+    }
+    .mat-cap:active {
+      transform: translateY(1px);
+    }
+    .mat-float {
+      background: var(--rr-panel);
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-float);
+    }
+
+    /* ── Press effect for all buttons ── */
+    .press {
+      transition: transform 0.12s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .press:active {
+      transform: translateY(1px);
+    }
+
+    /* ── Nav-tabs en header (estilo v2) ── */
+    .atlas-nav-tabs {
+      display: flex;
+      gap: 2px;
+      margin-left: auto;
+      margin-right: 16px;
+      background: rgba(7, 0, 1, 0.6);
+      padding: 3px;
+      border-radius: var(--rr-radius);
+      border: 1px solid var(--rr-hairline);
+    }
+    .atlas-nav-tabs button {
+      background: transparent;
+      border: none;
+      color: var(--rr-muted);
+      padding: 7px 18px;
+      border-radius: var(--rr-radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+    }
+    .atlas-nav-tabs button:hover {
+      color: var(--rr-paper);
+      background: rgba(190, 7, 109, 0.1);
+    }
+    .atlas-nav-tabs button.active,
+    .atlas-nav-tabs button[aria-pressed="true"] {
+      background: var(--rr-fuchsia);
+      color: var(--rr-paper);
+      box-shadow: 0 2px 8px rgba(190, 7, 109, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    @media (max-width: 760px) {
+      .atlas-nav-tabs { display: none; }
+    }
+
+    /* ── Tabbar mobile (solo 4 botones) ── */
+    .atlas-tabbar {
+      display: none;
+      justify-content: space-around;
+      gap: 0;
+      padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(21,6,18,0.98) 0%, rgba(7,0,1,0.99) 100%);
+      border-top: 1px solid rgba(190, 7, 109, 0.2);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    @media (max-width: 760px) {
+      .atlas-tabbar { display: flex; }
+    }
+    .atlas-tabbar::-webkit-scrollbar { display: none; }
+    .atlas-tabbar button {
+      position: relative;
+      flex: 1;
+      max-width: 80px;
+      padding: 6px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--rr-radius-sm);
+      background: transparent;
+      color: var(--rr-muted);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .atlas-tabbar button:hover {
+      color: var(--rr-paper);
+      background: rgba(190, 7, 109, 0.08);
+    }
+    .atlas-tabbar button[aria-pressed="true"] {
+      color: var(--rr-fuchsia);
+      background: rgba(190, 7, 109, 0.12);
+    }
+    .atlas-tabbar button[aria-pressed="true"]::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 30%;
+      right: 30%;
+      height: 2px;
+      background: var(--rr-fuchsia);
+      border-radius: 1px;
+    }
+    @keyframes rr-tab-in {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @media (max-width: 760px) {
+      .atlas-tabbar { justify-content: flex-start; padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); }
+      .atlas-tabbar button { min-width: 56px; padding: 7px 10px; font-size: 12px; }
+    }
+
+    /* ── Vista Inicio (Dashboard) ── */
+    .atlas-home {
+      grid-column: 2 / -1;
+      display: none;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 24px 32px;
+      background: var(--rr-bezel);
+    }
+    .atlas-home:not([hidden]) { display: block; }
+    .atlas-home-header {
+      margin-bottom: 28px;
+    }
+    .atlas-home-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--rr-paper);
+      margin: 0 0 6px 0;
+    }
+    .atlas-home-header p {
+      font-size: 14px;
+      color: var(--rr-muted);
+      margin: 0;
+    }
+    .atlas-home-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      max-width: 1200px;
+    }
+    .atlas-home-card {
+      background: var(--rr-card);
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-lift);
+      padding: 20px;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease, transform 0.15s ease, background 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .atlas-home-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--rr-fuchsia);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .atlas-home-card:hover {
+      box-shadow: var(--rr-shadow-float);
+      transform: translateY(-2px);
+      background: #2a0f24;
+    }
+    .atlas-home-card:hover::before {
+      opacity: 1;
+    }
+    .atlas-home-card:active {
+      transform: translateY(0);
+    }
+    .atlas-home-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(190, 7, 109, 0.12);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .atlas-home-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--rr-paper);
+      margin: 0 0 6px 0;
+      letter-spacing: -0.01em;
+    }
+    .atlas-home-card p {
+      font-size: 12.5px;
+      color: var(--rr-muted);
+      margin: 0 0 14px 0;
+      line-height: 1.5;
+    }
+    .atlas-home-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--rr-orchid);
+    }
+    .atlas-home-card-meta .count {
+      background: rgba(151, 61, 143, 0.15);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* Timeline en cards */
+    .atlas-home-card-timeline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 12px;
+    }
+    .timeline-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--rr-well);
+      border: 2px solid var(--rr-hairline);
+    }
+    .timeline-dot.active {
+      background: var(--rr-fuchsia);
+      border-color: var(--rr-fuchsia);
+      box-shadow: 0 0 6px rgba(190, 7, 109, 0.5);
+    }
+    .timeline-line {
+      flex: 1;
+      height: 2px;
+      background: var(--rr-well);
+      border-radius: 1px;
+    }
+
+    /* Progress bar */
+    .atlas-home-card-progress {
+      margin-top: 12px;
+    }
+    .progress-bar {
+      height: 4px;
+      background: var(--rr-well);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+    .progress-label {
+      font-size: 11px;
+      color: var(--rr-muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* Status pills */
+    .atlas-home-card-status {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .status-pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .status-pill.active {
+      background: rgba(76, 175, 80, 0.15);
+      color: #4caf50;
+    }
+    .status-pill.dev {
+      background: rgba(255, 152, 0, 0.15);
+      color: #ff9800;
+    }
+
+    /* Avatars */
+    .atlas-home-card-avatars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 12px;
+    }
+    .avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--rr-fuchsia);
+      color: var(--rr-paper);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      border: 2px solid var(--rr-card);
+      margin-left: -6px;
+    }
+    .avatar:first-child { margin-left: 0; }
+    .avatar.more {
+      background: var(--rr-well);
+      color: var(--rr-muted);
+      font-size: 9px;
+    }
+
+    /* Alert */
+    .atlas-home-card-alert {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 6px 10px;
+      background: rgba(244, 67, 54, 0.1);
+      border-radius: var(--rr-radius-sm);
+      border-left: 3px solid #f44336;
+    }
+    .alert-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #f44336;
+      animation: pulse-alert 2s ease-in-out infinite;
+    }
+    @keyframes pulse-alert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .alert-text {
+      font-size: 11px;
+      color: #f44336;
+      font-weight: 500;
+    }
+    .atlas-home-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .atlas-home-actions button {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border: none;
+      border-radius: var(--rr-radius-sm);
+      background: var(--rr-well);
+      color: var(--rr-paper);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .atlas-home-actions button:hover {
+      background: var(--rr-fuchsia);
+    }
+
+    /* ── RR Views (Grafo, BPMN, Flujos) ── */
+    .rr-view {
+      grid-column: 2 / -1;
+      display: none;
+      height: 100%;
+      min-height: 0;
+      position: relative;
+      padding: 16px;
+      background: var(--rr-bezel);
+    }
+    .rr-view:not([hidden]) { display: block; }
+    .rr-view iframe {
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-lift);
+      background: var(--rr-ink-fixed);
+    }
+
+    /* ── Transitions ── */
+    .atlas-canvas, .atlas-processes, .atlas-plan, .rr-view, .atlas-home {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .atlas-app[data-atlas-section="inicio"] .atlas-home,
+    .atlas-app[data-atlas-section="mapa"] .atlas-canvas,
+    .atlas-app[data-atlas-section="procesos"] .atlas-processes,
+    .atlas-app[data-atlas-section="plan"] .atlas-plan,
+    .atlas-app[data-atlas-section="explore"] .atlas-explore,
+    .atlas-app[data-atlas-section="rr-grafo"] .rr-view[data-rr-section="grafo"],
+    .atlas-app[data-atlas-section="rr-bpmn"] .rr-view[data-rr-section="bpmn"],
+    .atlas-app[data-atlas-section="rr-flujos"] .rr-view[data-rr-section="flujos"] {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hide explore when other sections are active */
+    .atlas-app[data-atlas-section="inicio"] .atlas-explore,
+    .atlas-app[data-atlas-section="mapa"] .atlas-explore,
+    .atlas-app[data-atlas-section="procesos"] .atlas-explore,
+    .atlas-app[data-atlas-section="plan"] .atlas-explore { display: none !important; }
+
+    /* Hide other sections when explore is active */
+    .atlas-app[data-atlas-section="explore"] .atlas-canvas,
+    .atlas-app[data-atlas-section="explore"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="explore"] .atlas-processes,
+    .atlas-app[data-atlas-section="explore"] .atlas-plan,
+    .atlas-app[data-atlas-section="explore"] .atlas-home,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-plan,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-home,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-plan,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-home,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-plan,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-home,
+    .atlas-app[data-atlas-section="inicio"] .atlas-canvas,
+    .atlas-app[data-atlas-section="inicio"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="inicio"] .atlas-processes,
+    .atlas-app[data-atlas-section="inicio"] .atlas-plan { display: none !important; }
+
+    /* ── Loading states ── */
+    .rr-loader {
+      position: absolute;
+      inset: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: linear-gradient(180deg, var(--rr-ink-fixed) 0%, var(--rr-bezel) 100%);
+      border-radius: var(--rr-radius-lg);
+      z-index: 10;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .rr-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .rr-loader-logo {
+      position: relative;
+      width: 64px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+    }
+    .rr-loader-logo img {
+      width: 48px;
+      height: 42px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+    .rr-loader-pulse {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      border: 2px solid var(--rr-fuchsia);
+      animation: rr-pulse 2s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes rr-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 0.2; }
+    }
+    .rr-loader p {
+      color: var(--rr-paper);
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .rr-loader-sub {
+      color: var(--rr-orchid);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Node hover effects ── */
+    .atlas-cards > * {
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .atlas-cards > *:hover {
+      box-shadow: 0 0 0 2px var(--rr-fuchsia), 0 8px 24px rgba(190, 7, 109, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--rr-orchid); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--rr-fuchsia); }
+
+    /* ── Header buttons interior style ── */
+    .atlas-header-tools .atlas-button {
+      border-radius: var(--rr-radius-sm);
+      box-shadow: var(--rr-shadow-cap);
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+    .atlas-header-tools .atlas-button:active {
+      transform: translateY(1px);
+    }
+    .atlas-settings-panel {
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-float);
+      border: 1px solid var(--rr-hairline);
+    }
+
+    /* ── Toolbar interior style ── */
+    .atlas-toolbar {
+      background: color-mix(in oklab, var(--rr-ink) 92%, transparent);
+      border-bottom: 1px solid var(--rr-hairline);
+      border-radius: 0 0 var(--rr-radius) var(--rr-radius);
+    }
+    .atlas-toolbar-bar .atlas-button {
+      border-radius: var(--rr-radius-sm);
+      box-shadow: var(--rr-shadow-cap);
+    }
+    .atlas-toolbar-bar .atlas-button--primary {
+      background: var(--rr-fuchsia);
+      box-shadow: 0 1.5px 0 rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    /* ── Vista Explorar (grid organizado) ── */
+    .atlas-explore {
+      grid-column: 2 / -1;
+      display: none;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 20px 28px;
+      background: var(--rr-bezel);
+      position: relative;
+    }
+    .atlas-explore:not([hidden]) { display: block; }
+    .atlas-explore-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .atlas-explore-back {
+      flex-shrink: 0;
+    }
+    .atlas-explore-title {
+      flex: 1;
+      min-width: 200px;
+    }
+    .atlas-explore-title h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--rr-paper);
+      margin: 4px 0;
+      letter-spacing: -0.02em;
+    }
+    .atlas-explore-count {
+      font-size: 12px;
+      color: var(--rr-orchid);
+    }
+    .atlas-explore-search input {
+      width: 240px;
+      padding: 8px 14px;
+      border-radius: var(--rr-radius);
+      border: 1px solid var(--rr-hairline);
+      background: var(--rr-well);
+      color: var(--rr-paper);
+      font-size: 13px;
+      outline: none;
+    }
+    .atlas-explore-search input:focus { border-color: var(--rr-fuchsia); }
+    .atlas-explore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      max-width: 1400px;
+      padding-bottom: 40px;
+    }
+    .explore-card {
+      background: var(--rr-card);
+      border-radius: var(--rr-radius-lg);
+      box-shadow: var(--rr-shadow-lift);
+      padding: 18px;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease, transform 0.15s ease, background 0.15s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+    .explore-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--rr-fuchsia);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .explore-card:hover {
+      box-shadow: var(--rr-shadow-float);
+      transform: translateY(-2px);
+      background: #2a0f24;
+      border-color: rgba(190, 7, 109, 0.3);
+    }
+    .explore-card:hover::before { opacity: 1; }
+    .explore-card:active { transform: translateY(0); }
+    .explore-card-type {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--rr-orchid);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .explore-card-type .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--rr-fuchsia);
+    }
+    .explore-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--rr-paper);
+      margin: 0 0 8px 0;
+      line-height: 1.3;
+    }
+    .explore-card p {
+      font-size: 12.5px;
+      color: var(--rr-muted);
+      margin: 0 0 12px 0;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .explore-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--rr-muted);
+    }
+    .explore-card-meta span {
+      background: var(--rr-well);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .explore-card-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .explore-card:hover .explore-card-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .explore-card-actions button {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      border: none;
+      border-radius: var(--rr-radius-sm);
+      background: var(--rr-well);
+      color: var(--rr-paper);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .explore-card-actions button:hover { background: var(--rr-fuchsia); }
+
+    /* ── Panel de detalle deslizable ── */
+    .atlas-explore-panel {
+      position: fixed;
+      top: 56px; right: 0;
+      width: 420px;
+      height: calc(100vh - 56px);
+      background: #0d0d0d;
+      border-left: 1px solid var(--rr-fuchsia);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 90;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .atlas-explore-panel.open { transform: translateX(0); }
+    .atlas-explore-panel-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--rr-muted);
+      font-size: 20px;
+      cursor: pointer;
+      width: 32px; height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+    }
+    .atlas-explore-panel-close:hover { color: var(--rr-paper); background: rgba(190,7,109,0.2); }
+    .atlas-explore-panel-content h2 {
+      font-size: 20px;
+      margin-bottom: 4px;
+      padding-right: 30px;
+      color: var(--rr-paper);
+    }
+    .atlas-explore-panel-content .panel-type {
+      color: var(--rr-fuchsia);
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+    .atlas-explore-panel-content .panel-section {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #222;
+    }
+    .atlas-explore-panel-content .panel-section h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--rr-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+    .atlas-explore-panel-content .panel-section p,
+    .atlas-explore-panel-content .panel-section li {
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+    .atlas-explore-panel-content .panel-section ul { padding-left: 16px; }
+    .atlas-explore-panel-content .meta-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #1a1a1a;
+      font-size: 13px;
+    }
+    .atlas-explore-panel-content .meta-row .label { color: var(--rr-muted); }
+    .atlas-explore-panel-content .meta-row .value { color: var(--rr-paper); text-align: right; }
+    .atlas-explore-panel-content .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--rr-fuchsia);
+      color: var(--rr-paper);
+      border: none;
+      border-radius: var(--rr-radius);
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .atlas-explore-panel-content .action-btn:hover { background: #d0087a; }
+
+    @media (max-width: 760px) {
+      .atlas-explore { padding: 12px; }
+      .atlas-explore-header { flex-direction: column; align-items: flex-start; }
+      .atlas-explore-search input { width: 100%; }
+      .atlas-explore-grid { grid-template-columns: 1fr; }
+      .atlas-explore-panel { width: 100%; top: 0; height: 100vh; }
+    }
+  </style>
 </head>
 <body>
-  <div id="atlas-app" class="atlas-app" data-atlas-section="mapa">
+  <div id="atlas-app" class="atlas-app" data-atlas-section="inicio">
+    <!-- HEADER con nav-tabs estilo v2 -->
     <header class="atlas-header" aria-label="Barra principal">
       <div class="atlas-header-side" aria-hidden="true"></div>
       <div class="atlas-brand">
-        <span class="atlas-logo-frame"><img class="atlas-logo-image" src="/rr-logo-mark.png" alt="Símbolo oficial de RR Aliados"></span>
+        <span class="atlas-logo-frame"><img class="atlas-logo-image" src="/rr-logo-mark.png" alt="Simbolo oficial de RR Aliados"></span>
         <div><strong>RR ALIADOS</strong><span>Atlas operativo</span></div>
       </div>
+      <!-- NAV-TABS estilo v2 -->
+      <nav class="atlas-nav-tabs" aria-label="Navegacion principal">
+        <button type="button" data-atlas-section-target="inicio" class="active" aria-pressed="true">Inicio</button>
+        <button type="button" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
+        <button type="button" data-atlas-section-target="procesos" aria-pressed="false">BPM</button>
+        <button type="button" data-atlas-section-target="plan" aria-pressed="false">Plan</button>
+      </nav>
       <div class="atlas-header-tools">
-        <label class="atlas-search"><span class="sr-only">Buscar nodos</span><input data-atlas-search aria-label="Buscar nodos" placeholder="Buscar en el mapa"></label>
-        <button class="atlas-button atlas-button--icon atlas-settings-toggle" data-action="toggle-settings" aria-expanded="false" aria-label="Configuración"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5v2.2M12 18.3V21M3.5 12h2.2M18.3 12H21M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="atlas-desktop-only">Configuración</span></button>
-        <div class="atlas-settings-panel" data-atlas-settings hidden>
-          <div class="atlas-settings-head"><span class="kind">Configuración del Atlas</span><strong>Herramientas de trabajo</strong></div>
-          <section class="atlas-news mat-well" aria-label="Novedades de la versión">
-            <span class="kind">Novedades · 4.2</span>
-            <strong>Más orden, menos ruido</strong>
-            <p>Vista inicial encuadrada, estados visibles, comentarios locales, dibujo con tamaño y exportación por fragmentos.</p>
-          </section>
-          <button class="atlas-button" data-action="export">↓ Exportar mapa</button>
-          <button class="atlas-button" data-action="export-view">↳ Exportar vista actual</button>
-          <button class="atlas-button" data-action="export-neighborhood">◎ Exportar vecindario</button>
-          <button class="atlas-button" data-action="export-svg-view">▧ Exportar vista SVG</button>
-          <button class="atlas-button" data-action="import">↑ Importar mapa</button>
-          <button class="atlas-button" data-action="reset">↶ Restaurar base</button>
-          <button class="atlas-button" data-action="toggle-theme">◐ Cambiar tema</button>
-          <button class="atlas-button" data-action="toggle-minimap">▦ Mostrar/ocultar minimapa</button>
-          <button class="atlas-button" data-action="toggle-wires">⌁ Mostrar/ocultar conexiones</button>
+        <label class="atlas-search"><span class="sr-only">Buscar</span><input data-atlas-search aria-label="Buscar" placeholder="Buscar en el Atlas..."></label>
+        <button class="atlas-button atlas-button--icon atlas-settings-toggle press" data-action="toggle-settings" aria-expanded="false" aria-label="Configuracion"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5v2.2M12 18.3V21M3.5 12h2.2M18.3 12H21M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="atlas-settings-panel mat-float" data-atlas-settings hidden>
+          <div class="atlas-settings-head"><span class="kind">Configuracion del Atlas</span><strong>Herramientas de trabajo</strong></div>
+          <button class="atlas-button press" data-action="export">Exportar mapa</button>
+          <button class="atlas-button press" data-action="export-view">Exportar vista actual</button>
+          <button class="atlas-button press" data-action="export-neighborhood">Exportar vecindario</button>
+          <button class="atlas-button press" data-action="export-svg-view">Exportar vista SVG</button>
+          <button class="atlas-button press" data-action="import">Importar mapa</button>
+          <button class="atlas-button press" data-action="reset">Restaurar base</button>
+          <button class="atlas-button press" data-action="toggle-theme">Cambiar tema</button>
+          <button class="atlas-button press" data-action="toggle-minimap">Mostrar/ocultar minimapa</button>
+          <button class="atlas-button press" data-action="toggle-wires">Mostrar/ocultar conexiones</button>
         </div>
       </div>
       <input data-atlas-file type="file" accept="application/json,.json" hidden>
       <input data-atlas-bpmn-file type="file" accept=".bpmn,application/xml,text/xml" hidden>
-      <button type="button" class="atlas-backdrop" data-atlas-backdrop hidden aria-label="Cerrar menú"></button>
+      <button type="button" class="atlas-backdrop" data-atlas-backdrop hidden aria-label="Cerrar menu"></button>
     </header>
 
+    <!-- LAYOUT -->
     <div class="atlas-layout" data-atlas-layout>
+      <!-- RAIL -->
       <nav class="atlas-rail" aria-label="Explorar el sistema">
-        <div class="atlas-rail-head"><h2>Explorar el sistema</h2></div><button class="atlas-rail-toggle" data-action="toggle-rail" aria-label="Contraer navegación" aria-pressed="false" title="Contraer navegación">‹</button>
-        <button data-atlas-filter="Todo" aria-pressed="true"><span class="atlas-rail-mark" aria-hidden="true"></span>Toda la empresa<span class="atlas-rail-count" data-atlas-filter-count="Todo">0</span></button>
-        <button data-atlas-filter="Gobierno" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Gobierno<span class="atlas-rail-count" data-atlas-filter-count="Gobierno">0</span></button>
-        <button data-atlas-filter="Proceso" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos<span class="atlas-rail-count" data-atlas-filter-count="Proceso">0</span></button>
-        <button data-atlas-filter="Cliente" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Clientes<span class="atlas-rail-count" data-atlas-filter-count="Cliente">0</span></button>
-        <button data-atlas-filter="Producto" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Productos<span class="atlas-rail-count" data-atlas-filter-count="Producto">0</span></button>
-        <button data-atlas-filter="Area" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Áreas<span class="atlas-rail-count" data-atlas-filter-count="Area">0</span></button>
-        <button data-atlas-filter="Talento" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Talento<span class="atlas-rail-count" data-atlas-filter-count="Talento">0</span></button>
-        <button data-atlas-filter="Herramienta" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Herramientas<span class="atlas-rail-count" data-atlas-filter-count="Herramienta">0</span></button>
-        <button type="button" data-atlas-section-target="procesos" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos BPMN</button>
-        <button type="button" data-atlas-section-target="plan" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Plan local</button>
-        <a class="atlas-rail-link" href="/grafo/" aria-label="Abrir el grafo documental"><span class="atlas-rail-mark" aria-hidden="true"></span>Grafo documental<span class="atlas-rail-count">↗</span></a>
-        <p class="atlas-hint">El mapa organiza capacidades de ejemplo. Plan local es una vista de trabajo del navegador; los datos reales se sincronizarán después.</p>
+        <div class="atlas-rail-head"><h2>Explorar el sistema</h2></div>
+        <button class="atlas-rail-toggle press" data-action="toggle-rail" aria-label="Contraer navegacion" aria-pressed="false" title="Contraer navegacion">&#8249;</button>
+        <button data-atlas-filter="Todo" aria-pressed="true"><span class="atlas-rail-mark" aria-hidden="true"></span>Toda la empresa</button>
+        <button data-atlas-filter="Gobierno" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Gobierno</button>
+        <button data-atlas-filter="Proceso" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Procesos</button>
+        <button data-atlas-filter="Cliente" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Clientes</button>
+        <button data-atlas-filter="Producto" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Productos</button>
+        <button data-atlas-filter="Area" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Areas</button>
+        <button data-atlas-filter="Talento" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Talento</button>
+        <button data-atlas-filter="Herramienta" aria-pressed="false"><span class="atlas-rail-mark" aria-hidden="true"></span>Herramientas</button>
+        <p class="atlas-hint">Filtra el mapa por tipo de entidad. Usa el menu superior para navegar entre vistas.</p>
       </nav>
 
+      <!-- MAPA -->
       <main class="atlas-canvas" aria-label="Lienzo visual interactivo">
         <h1 class="sr-only">RR Aliados · Atlas operativo</h1>
         <div class="atlas-toolbar" aria-label="Controles del mapa">
           <div class="atlas-toolbar-bar">
-            <button class="atlas-button atlas-button--icon" data-action="zoom-out" aria-label="Alejar">−</button>
-            <button class="atlas-button atlas-button--icon" data-action="zoom-in" aria-label="Acercar">＋</button>
-            <button class="atlas-button" data-action="center">Reencuadrar</button>
-            <button class="atlas-button atlas-button--primary" data-action="add">＋ Nuevo nodo</button>
-            <button class="atlas-button atlas-toolbar-more" data-action="toggle-tools" aria-expanded="false" aria-controls="atlas-tools">Más</button>
+            <button class="atlas-button atlas-button--icon press" data-action="zoom-out" aria-label="Alejar">&#8722;</button>
+            <button class="atlas-button atlas-button--icon press" data-action="zoom-in" aria-label="Acercar">&#65291;</button>
+            <button class="atlas-button press" data-action="center">Reencuadrar</button>
+            <button class="atlas-button atlas-button--primary press" data-action="add">&#65291; Nuevo nodo</button>
+            <button class="atlas-button atlas-toolbar-more press" data-action="toggle-tools" aria-expanded="false" aria-controls="atlas-tools">Mas</button>
           </div>
           <div id="atlas-tools" class="atlas-toolbar-extra" data-atlas-tools aria-hidden="true">
-            <button class="atlas-button" data-action="undo" aria-keyshortcuts="Control+Z" title="Deshacer · Ctrl/Cmd+Z">↶ Deshacer</button>
-            <button class="atlas-button" data-action="redo" aria-keyshortcuts="Control+Shift+Z" title="Rehacer · Ctrl/Cmd+Shift+Z">↷ Rehacer</button>
-            <button class="atlas-button" data-action="toggle-focus" aria-pressed="false" aria-keyshortcuts="\" title="Modo enfoque · tecla \">Modo enfoque</button>
-            <button class="atlas-button" data-action="draw" aria-expanded="false">✎ Dibujar</button>
+            <button class="atlas-button press" data-action="undo">Deshacer</button>
+            <button class="atlas-button press" data-action="redo">Rehacer</button>
+            <button class="atlas-button press" data-action="draw" aria-expanded="false">Dibujar</button>
             <div class="atlas-draw-menu" data-atlas-draw-menu hidden>
               <span class="kind">Insertar figura en el lienzo</span>
-              <button class="atlas-button" data-draw-shape="rectangle">Rectángulo</button>
-              <button class="atlas-button" data-draw-shape="rounded">Redondeada</button>
-              <button class="atlas-button" data-draw-shape="circle">Círculo</button>
-              <button class="atlas-button" data-draw-shape="diamond">Rombo</button>
-              <button class="atlas-button" data-draw-shape="hexagon">Hexágono</button>
-              <button class="atlas-button" data-draw-shape="note">Nota</button>
+              <button class="atlas-button press" data-draw-shape="rectangle">Rectangulo</button>
+              <button class="atlas-button press" data-draw-shape="rounded">Redondeada</button>
+              <button class="atlas-button press" data-draw-shape="circle">Circulo</button>
+              <button class="atlas-button press" data-draw-shape="diamond">Rombo</button>
+              <button class="atlas-button press" data-draw-shape="hexagon">Hexagono</button>
+              <button class="atlas-button press" data-draw-shape="note">Nota</button>
             </div>
-            <button class="atlas-button" data-action="connect">↗ Conectar</button>
-            <button class="atlas-button" data-action="flow">Ir a un proceso</button>
+            <button class="atlas-button press" data-action="connect">Conectar</button>
+            <button class="atlas-button press" data-action="flow">Ir a un proceso</button>
           </div>
         </div>
         <div class="atlas-stage" data-atlas-work>
-        <div class="atlas-world" data-atlas-world>
-          <svg class="atlas-wires" width="4300" height="3200" viewBox="0 0 4300 3200" aria-hidden="true">
-            <defs><marker id="atlas-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6" fill="none" stroke="context-stroke" stroke-width="1.3"></path></marker></defs>
-            <g data-atlas-wires marker-end="url(#atlas-arrow)"></g>
-          </svg>
-          <div class="atlas-cards" data-atlas-cards></div>
+          <div class="atlas-world" data-atlas-world>
+            <svg class="atlas-wires" width="4300" height="3200" viewBox="0 0 4300 3200" aria-hidden="true">
+              <defs><marker id="atlas-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6" fill="none" stroke="currentColor" stroke-width="1.3"></path></marker></defs>
+              <g data-atlas-wires marker-end="url(#atlas-arrow)"></g>
+            </svg>
+            <div class="atlas-cards" data-atlas-cards></div>
+          </div>
         </div>
-        </div>
-        <div class="atlas-status" data-atlas-status role="status" aria-live="polite"><span class="atlas-where" data-atlas-where>Arrastra el fondo o pellizca para acercar.</span><span class="atlas-status-meta"><span class="atlas-status-version">Versión 4.2</span><span data-atlas-count>0 nodos</span><span data-atlas-theme-label>Tema RR oscuro</span><span>Ejemplo local · sin datos reales</span></span><button type="button" class="atlas-button atlas-button--icon" data-action="locate" aria-label="Volver al nodo seleccionado"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+        <div class="atlas-status" data-atlas-status role="status" aria-live="polite"><span class="atlas-where" data-atlas-where>Arrastra el fondo o pellizca para acercar.</span><button type="button" class="atlas-button atlas-button--icon press" data-action="locate" aria-label="Volver al nodo seleccionado"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
       </main>
 
+      <!-- SIDEBAR -->
       <aside class="atlas-sidebar" aria-label="Editor de entidad">
         <button type="button" class="atlas-sheet-handle" data-press-skip aria-label="Arrastra hacia abajo para cerrar la ficha"></button>
         <header class="atlas-sidebar-header">
           <div><span class="kind">Inspector</span><strong>Detalle del nodo</strong></div>
-          <button type="button" class="atlas-button atlas-button--icon" data-action="close-detail" aria-label="Cerrar detalle">×</button>
+          <button type="button" class="atlas-button atlas-button--icon press" data-action="close-detail" aria-label="Cerrar detalle">&#215;</button>
         </header>
         <aside class="atlas-minimap" aria-label="Minimapa del Atlas"><div class="atlas-minimap-title"><span>Minimapa</span><span data-atlas-minimap-count>0</span></div><div class="atlas-minimap-canvas" data-atlas-minimap-canvas></div></aside>
         <div data-atlas-editor></div>
       </aside>
+
+      <!-- PROCESOS BPMN -->
       <section class="atlas-processes" data-atlas-process hidden>
         <div class="atlas-process-list">
-          <button type="button" class="atlas-button atlas-button--secondary atlas-process-map-link" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
-          <label class="atlas-process-search">Buscar proceso<input data-atlas-process-search placeholder="Nombre o área" aria-label="Buscar proceso"></label>
+          <button type="button" class="atlas-button atlas-button--secondary atlas-process-map-link press" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
+          <label class="atlas-process-search">Buscar proceso<input data-atlas-process-search placeholder="Nombre o area" aria-label="Buscar proceso"></label>
           <div class="atlas-process-actions">
-            <button type="button" class="atlas-button atlas-button--primary" data-action="new-process">Nuevo proceso</button>
-            <button type="button" class="atlas-button" data-action="import-bpmn">Importar .bpmn</button>
+            <button type="button" class="atlas-button atlas-button--primary press" data-action="new-process">Nuevo proceso</button>
+            <button type="button" class="atlas-button press" data-action="import-bpmn">Importar .bpmn</button>
           </div>
           <ul data-atlas-process-list></ul>
         </div>
         <div class="atlas-process-stage">
           <div class="atlas-process-toolbar" aria-label="Controles del diagrama">
             <div class="atlas-toolbar-bar">
-              <button type="button" class="atlas-button" data-action="bpmn-back">Lista</button>
-              <button type="button" class="atlas-button" data-action="bpmn-prev" aria-label="Paso anterior">Anterior</button>
-              <button type="button" class="atlas-button" data-action="bpmn-next" aria-label="Paso siguiente">Siguiente</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-back">Lista</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-prev" aria-label="Paso anterior">Anterior</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-next" aria-label="Paso siguiente">Siguiente</button>
               <p class="atlas-step-label" data-atlas-step>Inicio</p>
-              <button type="button" class="atlas-button" data-action="bpmn-fit">Reencuadrar</button>
-              <button type="button" class="atlas-button" data-action="bpmn-meta" aria-expanded="false">Validación</button>
-              <button type="button" class="atlas-button" data-action="bpmn-more" aria-expanded="false" aria-controls="atlas-bpmn-more">Más</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-fit">Reencuadrar</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-meta" aria-expanded="false">Validacion</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-more" aria-expanded="false" aria-controls="atlas-bpmn-more">Mas</button>
             </div>
             <div id="atlas-bpmn-more" class="atlas-toolbar-extra" data-atlas-bpmn-more aria-hidden="true">
-              <button type="button" class="atlas-button" data-action="bpmn-play" aria-pressed="false">Recorrer</button>
-              <button type="button" class="atlas-button atlas-button--icon" data-action="bpmn-zoom-out" aria-label="Alejar diagrama">−</button>
-              <button type="button" class="atlas-button atlas-button--icon" data-action="bpmn-zoom-in" aria-label="Acercar diagrama">+</button>
-              <button type="button" class="atlas-button" data-action="bpmn-edit">Editar copia</button>
-              <button type="button" class="atlas-button" data-action="bpmn-export">Exportar .bpmn</button>
-              <button type="button" class="atlas-button" data-action="bpmn-svg">SVG</button>
-              <button type="button" class="atlas-button" data-action="bpmn-png">PNG</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-play" aria-pressed="false">Recorrer</button>
+              <button type="button" class="atlas-button atlas-button--icon press" data-action="bpmn-zoom-out" aria-label="Alejar diagrama">&#8722;</button>
+              <button type="button" class="atlas-button atlas-button--icon press" data-action="bpmn-zoom-in" aria-label="Acercar diagrama">+</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-edit">Editar copia</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-export">Exportar .bpmn</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-svg">SVG</button>
+              <button type="button" class="atlas-button press" data-action="bpmn-png">PNG</button>
             </div>
           </div>
           <div class="atlas-lane-legend" data-atlas-lanes hidden></div>
           <div class="atlas-bpmn-canvas" data-atlas-bpmn-canvas></div>
           <p class="atlas-bpmn-status" data-atlas-bpmn-status role="status">Elige un proceso para ver el diagrama.</p>
         </div>
-        <aside class="atlas-process-meta" data-atlas-process-meta aria-label="Dueño, KPI y validación"><p class="atlas-muted">Selecciona un proceso.</p></aside>
+        <aside class="atlas-process-meta" data-atlas-process-meta aria-label="Dueno, KPI y validacion"><p class="atlas-muted">Selecciona un proceso.</p></aside>
       </section>
+
+      <!-- PLAN LOCAL -->
       <section class="atlas-plan" data-atlas-plan hidden>
         <div class="atlas-plan-header mat-panel">
-          <div><span class="kind">Mesa RR · fixture local</span><h1>Plan de trabajo</h1><p class="atlas-muted">Una superficie de organización para ordenar próximos pasos sin cargar información real.</p></div>
-          <button type="button" class="atlas-button atlas-button--secondary atlas-plan-map-link" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
+          <div><span class="kind">Plan de trabajo RR · Q4 2026</span><h1>Plan de trabajo</h1><p class="atlas-muted">10 tareas activas del backlog. Filtra por estado y edita notas localmente.</p></div>
+          <button type="button" class="atlas-button atlas-button--secondary atlas-plan-map-link press" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
           <div class="atlas-plan-filters" data-atlas-plan-filters aria-label="Filtrar plan">
-            <button type="button" class="atlas-button" data-plan-filter="Todo" aria-pressed="true">Todo</button>
-            <button type="button" class="atlas-button" data-plan-filter="Pendiente" aria-pressed="false">Pendiente</button>
-            <button type="button" class="atlas-button" data-plan-filter="En curso" aria-pressed="false">En curso</button>
-            <button type="button" class="atlas-button" data-plan-filter="Hecho" aria-pressed="false">Hecho</button>
+            <button type="button" class="atlas-button press" data-plan-filter="Todo" aria-pressed="true">Todo</button>
+            <button type="button" class="atlas-button press" data-plan-filter="Pendiente" aria-pressed="false">Pendiente</button>
+            <button type="button" class="atlas-button press" data-plan-filter="En curso" aria-pressed="false">En curso</button>
+            <button type="button" class="atlas-button press" data-plan-filter="Hecho" aria-pressed="false">Hecho</button>
+            <button type="button" class="atlas-button press" data-plan-filter="Bloqueada" aria-pressed="false">Bloqueada</button>
           </div>
         </div>
         <div class="atlas-plan-list" data-atlas-plan-list></div>
       </section>
+
+      <!-- INICIO (Dashboard) -->
+      <section class="atlas-home" data-atlas-home hidden>
+        <div class="atlas-home-header">
+          <h1>Atlas Operativo RR</h1>
+          <p>Centro de comando de RR Aliados. Explora cada area para ver detalles, estados y acciones.</p>
+        </div>
+        <div class="atlas-home-grid">
+          <!-- Clientes -->
+          <article class="atlas-home-card" data-home-nav="clientes">
+            <div class="atlas-home-card-icon" style="background: rgba(255, 159, 28, 0.15); color: #ff9f1c;">&#9781;</div>
+            <h3>Clientes</h3>
+            <p>Empresas y organizaciones aliadas. TechCorp, Fundacion Educa, Alcaldia y mas.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(255, 159, 28, 0.15); color: #ff9f1c;">4 activos</span>
+              <span>1 prospecto</span>
+            </div>
+            <div class="atlas-home-card-timeline">
+              <div class="timeline-dot active"></div>
+              <div class="timeline-line"></div>
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+              <div class="timeline-dot"></div>
+            </div>
+          </article>
+          <!-- Procesos -->
+          <article class="atlas-home-card" data-home-nav="procesos">
+            <div class="atlas-home-card-icon" style="background: rgba(151, 61, 143, 0.15); color: #973d8f;">&#9851;</div>
+            <h3>Procesos BPM</h3>
+            <p>Flujos documentados: comercial, legal, soporte, gobierno documental e IA.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(151, 61, 143, 0.15); color: #973d8f;">10 flujos</span>
+              <span>5 de 10 BPMN</span>
+            </div>
+            <div class="atlas-home-card-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width: 50%; background: #973d8f;"></div></div>
+              <span class="progress-label">50% documentado</span>
+            </div>
+          </article>
+          <!-- Productos -->
+          <article class="atlas-home-card" data-home-nav="productos">
+            <div class="atlas-home-card-icon" style="background: rgba(139, 212, 80, 0.15); color: #8bd450;">&#9733;</div>
+            <h3>Productos</h3>
+            <p>DashWeb CRM, Buen Puente, Sazon Alacena y soluciones reutilizables.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(139, 212, 80, 0.15); color: #8bd450;">3 activos</span>
+              <span>1 en desarrollo</span>
+            </div>
+            <div class="atlas-home-card-status">
+              <span class="status-pill active">DashWeb OK</span>
+              <span class="status-pill dev">Buen Puente dev</span>
+            </div>
+          </article>
+          <!-- Talento -->
+          <article class="atlas-home-card" data-home-nav="talento">
+            <div class="atlas-home-card-icon" style="background: rgba(222, 209, 22, 0.15); color: #ded116;">&#9823;</div>
+            <h3>Talento</h3>
+            <p>Equipo interno y colaboradores. Santiago, Manuel, Martin e Isabela.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(222, 209, 22, 0.15); color: #ded116;">3 internos</span>
+              <span>4 externos</span>
+            </div>
+            <div class="atlas-home-card-avatars">
+              <span class="avatar" title="Santiago">SR</span>
+              <span class="avatar" title="Manuel">MM</span>
+              <span class="avatar" title="Martin">ML</span>
+              <span class="avatar more">+4</span>
+            </div>
+          </article>
+          <!-- Finanzas -->
+          <article class="atlas-home-card" data-home-nav="finanzas">
+            <div class="atlas-home-card-icon" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">&#9733;</div>
+            <h3>Finanzas</h3>
+            <p>Estado de caja, cobranza Q4, runway y proyecciones.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">Caja activa</span>
+              <span>Runway: 3 meses</span>
+            </div>
+            <div class="atlas-home-card-alert">
+              <span class="alert-dot"></span>
+              <span class="alert-text">3 facturas vencidas</span>
+            </div>
+          </article>
+          <!-- Plan -->
+          <article class="atlas-home-card" data-home-nav="plan">
+            <div class="atlas-home-card-icon" style="background: rgba(190, 7, 109, 0.15); color: #be076d;">&#9881;</div>
+            <h3>Plan de Trabajo</h3>
+            <p>10 tareas activas: Atlas, Buen Puente, cobranza, flujos BPMN, NEXORA.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(190, 7, 109, 0.15); color: #be076d;">4 en curso</span>
+              <span>4 pendientes</span>
+            </div>
+            <div class="atlas-home-card-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width: 40%; background: #be076d;"></div></div>
+              <span class="progress-label">40% avance</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- EXPLORE (grid de tarjetas organizado) -->
+      <section class="atlas-explore" data-atlas-explore hidden>
+        <div class="atlas-explore-header mat-panel">
+          <button type="button" class="atlas-button press atlas-explore-back" data-action="explore-back">&#8592; Volver</button>
+          <div class="atlas-explore-title">
+            <span class="kind" data-explore-kind>Categoria</span>
+            <h1 data-explore-heading>Clientes</h1>
+            <span class="atlas-explore-count" data-explore-count>0 items</span>
+          </div>
+          <label class="atlas-explore-search">
+            <input type="text" data-explore-search placeholder="Buscar..." aria-label="Buscar en categoria">
+          </label>
+        </div>
+        <div class="atlas-explore-grid" data-explore-grid></div>
+      </section>
+
+      <!-- EXPLORE DETAIL PANEL (deslizable) -->
+      <aside class="atlas-explore-panel" data-explore-panel aria-label="Detalle del item">
+        <button type="button" class="atlas-explore-panel-close press" data-action="close-explore-panel" aria-label="Cerrar panel">&#215;</button>
+        <div class="atlas-explore-panel-content" data-explore-panel-content>
+          <p class="atlas-muted">Selecciona un item para ver detalles.</p>
+        </div>
+      </aside>
+      <section class="rr-view" data-rr-section="grafo" hidden>
+        <div class="rr-loader" id="loader-grafo">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando grafo documental...</p>
+          <span class="rr-loader-sub">1.367 nodos · 1.863 relaciones</span>
+        </div>
+        <iframe src="/grafo/" style="width:100%;height:100%;border:none;border-radius:16px;" sandbox="allow-scripts allow-same-origin" onload="document.getElementById('loader-grafo').classList.add('is-hidden')"></iframe>
+      </section>
+
+      <!-- BPMN COMERCIAL -->
+      <section class="rr-view" data-rr-section="bpmn" hidden>
+        <div class="rr-loader" id="loader-bpmn">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando BPM comercial...</p>
+          <span class="rr-loader-sub">Playbook interactivo</span>
+        </div>
+        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;border-radius:16px;" sandbox="allow-scripts allow-same-origin" onload="document.getElementById('loader-bpmn').classList.add('is-hidden')"></iframe>
+      </section>
+
+      <!-- FLUJOS -->
+      <section class="rr-view" data-rr-section="flujos" hidden>
+        <div class="rr-loader" id="loader-flujos">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando flujos operativos...</p>
+          <span class="rr-loader-sub">10 procesos documentados</span>
+        </div>
+        <iframe src="/flujos/" style="width:100%;height:100%;border:none;border-radius:16px;" sandbox="allow-scripts allow-same-origin" onload="document.getElementById('loader-flujos').classList.add('is-hidden')"></iframe>
+      </section>
     </div>
 
+    <!-- DIALOGS -->
     <dialog data-atlas-dialog aria-labelledby="dialog-title">
       <form method="dialog" class="atlas-dialog-form">
         <h2 id="dialog-title" data-atlas-dialog-title>Agregar recurso multimedia</h2>
-        <p class="atlas-muted" data-atlas-dialog-help>Agrega una URL HTTPS. Drive, Docs, imágenes, videos, audio y PDF se intentan montar de forma segura.</p>
+        <p class="atlas-muted" data-atlas-dialog-help>Agrega una URL HTTPS. Drive, Docs, imagenes, videos, audio y PDF se intentan montar de forma segura.</p>
         <div data-atlas-choices class="atlas-dialog-choices"></div>
-        <label>Nombre del recurso<input data-atlas-link-name placeholder="Ej. Video de presentación"></label>
-        <label data-atlas-kind-row>Tipo de recurso<select data-atlas-asset-kind><option value="auto">Detectar automáticamente</option><option value="image">Imagen</option><option value="video">Video</option><option value="audio">Audio</option><option value="pdf">PDF</option><option value="embed">Vista previa / documento</option><option value="link">Solo enlace</option></select></label>
+        <label>Nombre del recurso<input data-atlas-link-name placeholder="Ej. Video de presentacion"></label>
+        <label data-atlas-kind-row>Tipo de recurso<select data-atlas-asset-kind><option value="auto">Detectar automaticamente</option><option value="image">Imagen</option><option value="video">Video</option><option value="audio">Audio</option><option value="pdf">PDF</option><option value="embed">Vista previa / documento</option><option value="link">Solo enlace</option></select></label>
         <label>URL<input data-atlas-link-url placeholder="https://drive.google.com/... o https://.../archivo.pdf"></label>
-        <div class="row"><button class="atlas-button" data-action="cancel-link" value="cancel">Cancelar</button><button class="atlas-button atlas-button--primary" data-action="attach-link" value="default" data-atlas-attach>Montar recurso</button></div>
+        <div class="row"><button class="atlas-button press" data-action="cancel-link" value="cancel">Cancelar</button><button class="atlas-button atlas-button--primary press" data-action="attach-link" value="default" data-atlas-attach>Montar recurso</button></div>
       </form>
     </dialog>
+
     <dialog class="atlas-viewer-dialog" data-atlas-viewer-dialog aria-labelledby="viewer-title">
       <div class="atlas-viewer-shell">
-        <header class="atlas-viewer-header"><div><span class="kind">Visor multimedia</span><h2 id="viewer-title" data-atlas-viewer-title>Recurso</h2></div><button class="atlas-button atlas-button--icon" data-action="close-viewer" aria-label="Cerrar visor">×</button></header>
+        <header class="atlas-viewer-header"><div><span class="kind">Visor multimedia</span><h2 id="viewer-title" data-atlas-viewer-title>Recurso</h2></div><button class="atlas-button atlas-button--icon press" data-action="close-viewer" aria-label="Cerrar visor">&#215;</button></header>
         <div class="atlas-viewer-body" data-atlas-viewer-body></div>
-        <footer class="atlas-viewer-footer"><span class="atlas-muted">La previsualización depende del formato y permisos del proveedor.</span><a data-atlas-viewer-link class="atlas-button" target="_blank" rel="noopener noreferrer">Abrir fuente ↗</a></footer>
+        <footer class="atlas-viewer-footer"><span class="atlas-muted">La previsualizacion depende del formato y permisos del proveedor.</span><a data-atlas-viewer-link class="atlas-button press" target="_blank" rel="noopener noreferrer">Abrir fuente &#8599;</a></footer>
       </div>
     </dialog>
 
-    <nav class="atlas-tabbar" aria-label="Navegación principal">
-      <button type="button" data-atlas-section-target="mapa" aria-pressed="true">Mapa</button>
-      <button type="button" data-atlas-section-target="procesos" aria-pressed="false">Procesos</button>
+    <footer class="atlas-footer" aria-label="Identidad del producto">
+      <div class="atlas-footer-brand"><span class="atlas-logo-frame"><img class="atlas-logo-image atlas-logo-image--dark" src="/src/brand/simbolo_mostaza_on_negro.png" alt="Logo de RR Aliados"><img class="atlas-logo-image atlas-logo-image--light" src="/src/brand/simbolo_negro_on_blanco.png" alt=""></span><div><strong>RR ALIADOS</strong><span>Atlas operativo</span></div></div>
+      <div class="atlas-footer-meta"><span>Versión 4.3 · RR Aliados</span><span>Mapa: <span data-atlas-count>0 nodos</span></span><span data-atlas-theme-label>Tema RR oscuro</span><span>Developed by RR Aliados</span></div>
+    </footer>
+
+    <!-- TABBAR (mobile only, 4 botones) -->
+    <nav class="atlas-tabbar" aria-label="Navegacion principal">
+      <button type="button" data-atlas-section-target="inicio" aria-pressed="true">Inicio</button>
+      <button type="button" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
+      <button type="button" data-atlas-section-target="procesos" aria-pressed="false">BPM</button>
       <button type="button" data-atlas-section-target="plan" aria-pressed="false">Plan</button>
-      <button type="button" data-atlas-section-target="buscar" aria-pressed="false">Buscar</button>
-      <button type="button" data-atlas-section-target="menu" aria-pressed="false" aria-expanded="false">Menú</button>
     </nav>
+
+    <!-- NEW PROCESS DIALOG -->
     <dialog data-atlas-new-process>
       <form method="dialog" class="atlas-dialog-form">
         <h2>Nuevo proceso</h2>
-        <p class="atlas-muted">Empieza con dos carriles de ejemplo. Si no hay dueño o KPI, queda DESCONOCIDO.</p>
+        <p class="atlas-muted">Empieza con dos carriles de ejemplo. Si no hay dueno o KPI, queda DESCONOCIDO.</p>
         <label>Nombre<input data-atlas-new-name placeholder="Nuevo proceso"></label>
-        <label>Dueño<input data-atlas-new-owner placeholder="DESCONOCIDO"></label>
+        <label>Dueno<input data-atlas-new-owner placeholder="DESCONOCIDO"></label>
         <label>KPI<input data-atlas-new-kpi placeholder="DESCONOCIDO"></label>
-        <div class="row"><button class="atlas-button" value="cancel">Cancelar</button><button class="atlas-button atlas-button--primary" data-action="create-process" value="default">Crear</button></div>
+        <div class="row"><button class="atlas-button press" value="cancel">Cancelar</button><button class="atlas-button atlas-button--primary press" data-action="create-process" value="default">Crear</button></div>
       </form>
     </dialog>
+
+    <!-- CONFIRM DIALOG -->
     <dialog data-atlas-confirm aria-labelledby="confirm-title">
       <form method="dialog" class="atlas-dialog-form">
-        <h2 id="confirm-title" data-atlas-confirm-title>Confirmar acción</h2>
+        <h2 id="confirm-title" data-atlas-confirm-title>Confirmar accion</h2>
         <p class="atlas-muted" data-atlas-confirm-help></p>
-        <div class="row"><button class="atlas-button" value="cancel">Cancelar</button><button class="atlas-button atlas-button--danger" data-action="confirm-action" value="default">Confirmar</button></div>
+        <div class="row"><button class="atlas-button press" value="cancel">Cancelar</button><button class="atlas-button atlas-button--danger press" data-action="confirm-action" value="default">Confirmar</button></div>
       </form>
     </dialog>
+
+    <!-- TOUR -->
     <div class="atlas-tour" data-atlas-tour hidden>
       <h2 data-atlas-tour-title>El mapa</h2>
       <p data-atlas-tour-copy>Toca un nodo para abrir su ficha.</p>
       <div class="atlas-tour-actions">
-        <button type="button" class="atlas-button" data-atlas-tour-skip>Omitir</button>
-        <button type="button" class="atlas-button atlas-button--primary" data-atlas-tour-next>Siguiente</button>
+        <button type="button" class="atlas-button press" data-atlas-tour-skip>Omitir</button>
+        <button type="button" class="atlas-button atlas-button--primary press" data-atlas-tour-next>Siguiente</button>
       </div>
     </div>
+
+    <!-- TOAST -->
     <div class="atlas-toast" data-atlas-toast role="status" hidden></div>
   </div>
+
   <script type="module" src="/src/app/main.mjs?v=bpmn-6"></script>
+  <script>
+    (function() {
+      const app = document.getElementById('atlas-app');
+      const navTabs = document.querySelectorAll('.atlas-nav-tabs button');
+      const tabbarTabs = document.querySelectorAll('.atlas-tabbar button');
+      const allNavButtons = [...navTabs, ...tabbarTabs];
+      let currentSection = 'inicio';
+      let currentFilter = 'all';
+      let exploreNodes = [];
+
+      // Datos del grafo (se cargaran desde DEFAULT_GRAPH o fallback)
+      const TYPE_MAP = {
+        'clientes': ['Cliente'],
+        'procesos': ['Proceso'],
+        'productos': ['Producto propio', 'Producto reutilizable'],
+        'areas': ['Area'],
+        'talento': ['Talento'],
+        'herramientas': ['Herramienta'],
+        'gobierno': ['Gobierno', 'Control'],
+        'finanzas': ['Finanzas']
+      };
+      const TYPE_LABELS = {
+        'clientes': 'Clientes',
+        'procesos': 'Procesos',
+        'productos': 'Productos',
+        'areas': 'Areas',
+        'talento': 'Talento',
+        'herramientas': 'Herramientas',
+        'gobierno': 'Gobierno',
+        'finanzas': 'Finanzas'
+      };
+
+      function switchTo(section) {
+        if (currentSection === section) return;
+        currentSection = section;
+        app.dataset.atlasSection = section;
+        const home = app.querySelector('[data-atlas-home]');
+        const processes = app.querySelector('[data-atlas-process]');
+        const plan = app.querySelector('[data-atlas-plan]');
+        if (home) home.hidden = section !== 'inicio';
+        if (processes) processes.hidden = section !== 'procesos';
+        if (plan) plan.hidden = section !== 'plan';
+        allNavButtons.forEach(b => {
+          const isMatch = b.dataset.atlasSectionTarget === section;
+          b.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+          b.classList.toggle('active', isMatch);
+        });
+        // Close explore panel when switching sections
+        if (section !== 'explore') {
+          document.querySelector('[data-explore-panel]').classList.remove('open');
+        }
+      }
+
+      allNavButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchTo(btn.dataset.atlasSectionTarget);
+        });
+      });
+
+      // Home card navigation
+      document.querySelectorAll('.atlas-home-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('button')) return;
+          const nav = card.dataset.homeNav;
+          if (nav === 'procesos') {
+            switchTo('procesos');
+          } else if (nav === 'plan') {
+            switchTo('plan');
+          } else {
+            openExplore(nav);
+          }
+        });
+      });
+
+      // EXPLORE functionality
+      function openExplore(category) {
+        const types = TYPE_MAP[category] || ['Cliente'];
+        const label = TYPE_LABELS[category] || 'Items';
+        document.querySelector('[data-explore-kind]').textContent = 'Categoria';
+        document.querySelector('[data-explore-heading]').textContent = label;
+
+        // Try to get nodes from DEFAULT_GRAPH if available
+        const allNodes = (window.DEFAULT_GRAPH && window.DEFAULT_GRAPH.data) ? window.DEFAULT_GRAPH.data : [];
+        exploreNodes = allNodes.filter(n => types.includes(n.type));
+
+        // Fallback: generate sample nodes if no data
+        if (exploreNodes.length === 0) {
+          exploreNodes = generateSampleNodes(category);
+        }
+
+        document.querySelector('[data-explore-count]').textContent = exploreNodes.length + ' items';
+        renderExploreGrid(exploreNodes);
+        switchTo('explore');
+      }
+
+      function generateSampleNodes(category) {
+        const samples = {
+          'clientes': [
+            {id:'c1', title:'TechCorp SAS', type:'Cliente', desc:'Cliente tecnologico con proyectos de IA', owner:'Comercial', status:'Activo'},
+            {id:'c2', title:'Fundacion Educa', type:'Cliente', desc:'Organizacion sin animo de lucro', owner:'Comercial', status:'Activo'},
+            {id:'c3', title:'Alcaldia Mayor', type:'Cliente', desc:'Contrato de servicios digitales', owner:'Direccion', status:'Vigente'},
+            {id:'c4', title:'Startup FinTech', type:'Cliente', desc:'Prospecto en negociacion', owner:'Comercial', status:'Prospecto'},
+          ],
+          'productos': [
+            {id:'p1', title:'DashWeb CRM', type:'Producto propio', desc:'Sistema de gestion de clientes', owner:'Tech', status:'Activo'},
+            {id:'p2', title:'Buen Puente', type:'Producto propio', desc:'Plataforma de conexion ciudadana', owner:'Direccion', status:'En desarrollo'},
+            {id:'p3', title:'Sazon Alacena', type:'Producto reutilizable', desc:'Tienda digital para emprendedores', owner:'Operaciones', status:'Activo'},
+          ],
+          'talento': [
+            {id:'t1', title:'Santiago Rosas', type:'Talento', desc:'CEO y fundador', owner:'Direccion', status:'Activo'},
+            {id:'t2', title:'Manuel Mesa', type:'Talento', desc:'COO y orquestador', owner:'Operaciones', status:'Activo'},
+            {id:'t3', title:'Martin Lopez', type:'Talento', desc:'Desarrollador interno', owner:'Tech', status:'Internship'},
+          ],
+          'herramientas': [
+            {id:'h1', title:'Supabase', type:'Herramienta', desc:'Base de datos y backend', owner:'Tech', status:'Activo'},
+            {id:'h2', title:'DashWeb', type:'Herramienta', desc:'CRM propio de RR', owner:'Operaciones', status:'Activo'},
+            {id:'h3', title:'Obsidian', type:'Herramienta', desc:'Vault de conocimiento', owner:'Direccion', status:'Activo'},
+          ],
+          'gobierno': [
+            {id:'g1', title:'Politica de datos', type:'Gobierno', desc:'Manejo de informacion sensible', owner:'Direccion', status:'Documentado'},
+            {id:'g2', title:'Modelo de negocio', type:'Gobierno', desc:'Canvas y propuesta de valor', owner:'Direccion', status:'Validado'},
+          ],
+          'areas': [
+            {id:'a1', title:'Direccion', type:'Area', desc:'Toma de decisiones estrategicas', owner:'CEO', status:'Activo'},
+            {id:'a2', title:'Operaciones', type:'Area', desc:'Ejecucion y coordinacion', owner:'COO', status:'Activo'},
+            {id:'a3', title:'Tech', type:'Area', desc:'Desarrollo e infraestructura', owner:'CTO', status:'Activo'},
+          ]
+        };
+        return samples[category] || [];
+      }
+
+      function renderExploreGrid(nodes) {
+        const grid = document.querySelector('[data-explore-grid]');
+        if (!grid) return;
+        grid.innerHTML = nodes.map(node => `
+          <article class="explore-card" data-node-id="${node.id}" data-node-type="${node.type}">
+            <div class="explore-card-type"><span class="dot"></span>${node.type}</div>
+            <h3>${node.title}</h3>
+            <p>${node.desc || ''}</p>
+            <div class="explore-card-meta">
+              ${node.owner ? `<span>${node.owner}</span>` : ''}
+              ${node.status ? `<span>${node.status}</span>` : ''}
+            </div>
+            <div class="explore-card-actions">
+              <button data-action="view-detail" data-id="${node.id}">Ver detalle</button>
+              <button data-action="view-map" data-id="${node.id}">Ver en mapa</button>
+            </div>
+          </article>
+        `).join('');
+
+        // Add click handlers to cards
+        grid.querySelectorAll('.explore-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            openDetail(card.dataset.nodeId);
+          });
+        });
+
+        grid.querySelectorAll('[data-action="view-detail"]').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openDetail(btn.dataset.id);
+          });
+        });
+
+        grid.querySelectorAll('[data-action="view-map"]').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToMap(btn.dataset.id);
+          });
+        });
+      }
+
+      function openDetail(nodeId) {
+        const node = exploreNodes.find(n => n.id === nodeId);
+        if (!node) return;
+        const panel = document.querySelector('[data-explore-panel]');
+        const content = document.querySelector('[data-explore-panel-content]');
+
+        content.innerHTML = `
+          <div class="panel-type">${node.type}</div>
+          <h2>${node.title}</h2>
+          <div class="panel-section">
+            <h4>Descripcion</h4>
+            <p>${node.desc || 'Sin descripcion'}</p>
+          </div>
+          <div class="panel-section">
+            <h4>Informacion</h4>
+            <div class="meta-row"><span class="label">Responsable</span><span class="value">${node.owner || 'DESCONOCIDO'}</span></div>
+            <div class="meta-row"><span class="label">Estado</span><span class="value">${node.status || 'Por validar'}</span></div>
+            <div class="meta-row"><span class="label">ID</span><span class="value">${node.id}</span></div>
+          </div>
+          <div class="panel-section">
+            <h4>Acciones</h4>
+            <button class="action-btn" data-action="panel-view-map" data-id="${node.id}">Ver en mapa</button>
+            <button class="action-btn" data-action="panel-close">Cerrar</button>
+          </div>
+        `;
+
+        content.querySelector('[data-action="panel-view-map"]').addEventListener('click', () => goToMap(node.id));
+        content.querySelector('[data-action="panel-close"]').addEventListener('click', closeDetail);
+
+        panel.classList.add('open');
+      }
+
+      function closeDetail() {
+        document.querySelector('[data-explore-panel]').classList.remove('open');
+      }
+
+      function goToMap(nodeId) {
+        // Navigate to Mapa and (in future) focus on the node
+        closeDetail();
+        switchTo('mapa');
+        // Store selected node for main app to pick up
+        window.__atlas_selected_node = nodeId;
+      }
+
+      // Search in explore
+      const searchInput = document.querySelector('[data-explore-search]');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const q = e.target.value.toLowerCase();
+          const filtered = exploreNodes.filter(n =>
+            (n.title || '').toLowerCase().includes(q) ||
+            (n.desc || '').toLowerCase().includes(q) ||
+            (n.owner || '').toLowerCase().includes(q)
+          );
+          renderExploreGrid(filtered);
+        });
+      }
+
+      // Back button from explore
+      document.querySelector('[data-action="explore-back"]')?.addEventListener('click', () => {
+        switchTo('inicio');
+      });
+
+      // Close panel button
+      document.querySelector('[data-action="close-explore-panel"]')?.addEventListener('click', closeDetail);
+
+      // Overlay click to close panel
+      document.querySelector('[data-atlas-backdrop]')?.addEventListener('click', closeDetail);
+    })();
+  </script>
 </body>
 </html>

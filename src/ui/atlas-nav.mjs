@@ -22,8 +22,10 @@ export function bindAtlasNavigation({ app, search, processView, planView }) {
 
   const setSection = (section) => {
     app.dataset.atlasSection = section;
+    const home = app.querySelector('[data-atlas-home]');
     const processes = app.querySelector('[data-atlas-process]');
     const plan = app.querySelector('[data-atlas-plan]');
+    if (home) home.hidden = section !== 'inicio';
     processes.hidden = section !== 'procesos';
     plan.hidden = section !== 'plan';
     app.classList.remove('is-tools-open', 'is-bpmn-more');
@@ -98,6 +100,7 @@ export function bindAtlasNavigation({ app, search, processView, planView }) {
     viewport.addEventListener('scroll', syncKeyboard);
   }
 
-  setSection('mapa');
+  // La vista de entrada canónica es Inicio; Mapa queda como destino explícito.
+  setSection(app.dataset.atlasSection || 'inicio');
   return { setSection, closeMenu };
 }
