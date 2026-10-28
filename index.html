@@ -141,7 +141,7 @@
           <p>Cargando grafo documental...</p>
           <span class="rr-loader-sub">1.367 nodos · 1.863 relaciones</span>
         </div>
-        <iframe src="/grafo/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-grafo').style.display='none'"></iframe>
+        <iframe src="/grafo/" style="width:100%;height:100%;border:none;border-radius:12px;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-grafo').classList.add('is-hidden')"></iframe>
       </section>
       <section class="rr-view" data-rr-section="bpmn" hidden>
         <div class="rr-loader" id="loader-bpmn">
@@ -152,7 +152,7 @@
           <p>Cargando BPMN comercial...</p>
           <span class="rr-loader-sub">Playbook interactivo</span>
         </div>
-        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-bpmn').style.display='none'"></iframe>
+        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;border-radius:12px;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-bpmn').classList.add('is-hidden')"></iframe>
       </section>
       <section class="rr-view" data-rr-section="flujos" hidden>
         <div class="rr-loader" id="loader-flujos">
@@ -163,7 +163,7 @@
           <p>Cargando flujos operativos...</p>
           <span class="rr-loader-sub">10 procesos documentados</span>
         </div>
-        <iframe src="/flujos/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-flujos').style.display='none'"></iframe>
+        <iframe src="/flujos/" style="width:100%;height:100%;border:none;border-radius:12px;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-flujos').classList.add('is-hidden')"></iframe>
       </section>
     </div>
 
@@ -233,9 +233,22 @@
       transform: translateY(0);
     }
 
-    /* ===== RR VIEW ===== */
-    .rr-view { grid-column: 2 / -1; display: none; height: 100%; min-height: 0; position: relative; }
+    /* ===== RR VIEW CON ESTILO ===== */
+    .rr-view {
+      grid-column: 2 / -1;
+      display: none;
+      height: 100%;
+      min-height: 0;
+      position: relative;
+      padding: 12px;
+      background: var(--rr-bezel, #0b0108);
+    }
     .rr-view:not([hidden]) { display: block; }
+    .rr-view iframe {
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      background: #070001;
+    }
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-canvas,
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-sidebar,
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-processes,
@@ -249,15 +262,21 @@
     /* ===== LOADING STATES PROFESIONALES ===== */
     .rr-loader {
       position: absolute;
-      inset: 0;
+      inset: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 16px;
       background: linear-gradient(180deg, #070001 0%, #0e030b 100%);
+      border-radius: 12px;
       z-index: 10;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .rr-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
     .rr-loader-logo {
       position: relative;
@@ -300,9 +319,39 @@
     }
 
     /* ===== TABBAR MEJORADO ===== */
+    .atlas-tabbar {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+      padding: 4px 8px;
+      background: var(--rr-ink);
+      border-top: 2px solid var(--rr-fuchsia);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .atlas-tabbar::-webkit-scrollbar { display: none; }
     .atlas-tabbar button {
       position: relative;
+      flex: 0 0 auto;
+      min-width: 64px;
+      padding: 8px 12px;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+      border-radius: 8px 8px 0 0;
+      background: transparent;
+      color: var(--rr-muted);
       transition: color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+    .atlas-tabbar button:hover {
+      color: var(--rr-paper);
+      background: rgba(190, 7, 109, 0.1);
+    }
+    .atlas-tabbar button[aria-pressed="true"] {
+      color: var(--rr-paper);
+      background: rgba(190, 7, 109, 0.2);
     }
     .atlas-tabbar button[aria-pressed="true"]::after {
       content: '';
@@ -320,6 +369,21 @@
       to { transform: scaleX(1); }
     }
 
+    /* Mobile tabbar fix */
+    @media (max-width: 760px) {
+      .atlas-tabbar {
+        display: flex !important;
+        justify-content: flex-start;
+        gap: 2px;
+        padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+      }
+      .atlas-tabbar button {
+        min-width: 56px;
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+    }
+
     /* ===== HOVER EFFECTS EN NODOS ===== */
     .atlas-cards > * {
       transition: box-shadow 0.2s ease, transform 0.15s ease;
@@ -329,9 +393,19 @@
       transform: translateY(-2px);
     }
 
-    /* ===== SIDEBAR TRANSICIONES ===== */
-    .atlas-sidebar {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* ===== SETTINGS PANEL FIX ===== */
+    .atlas-settings-panel {
+      right: 16px !important;
+      top: calc(100% + 8px) !important;
+    }
+    @media (max-width: 760px) {
+      .atlas-settings-panel {
+        left: 8px !important;
+        right: 8px !important;
+        top: auto !important;
+        bottom: calc(var(--rr-tabbar, 64px) + 8px) !important;
+        width: auto !important;
+      }
     }
 
     /* ===== SCROLLBAR ESTILIZADO ===== */
