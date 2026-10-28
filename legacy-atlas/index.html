@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atlas · RR Aliados. Clientes, procesos BPMN, esquemas y documentos de la empresa en tableros infinitos.">
+  <meta name="theme-color" content="#070001">
+  <title>RR Aliados · Atlas</title>
+  <link rel="icon" href="assets/simbolo-blanco.png">
+  <link rel="stylesheet" href="shell.css">
+</head>
+<body>
+  <div class="a-app">
+    <aside class="a-rail">
+      <a class="a-brand" href="index.html">
+        <img src="assets/simbolo-blanco.png" alt="RR Aliados">
+        <span><strong>RR ALIADOS</strong><em>Atlas</em></span>
+      </a>
+      <nav class="a-nav" id="nav" aria-label="Secciones de Atlas"></nav>
+      <div class="a-rail-foot" id="rail-foot"></div>
+    </aside>
+
+    <main class="a-main">
+      <header class="a-head">
+        <div class="a-title">
+          <h1 id="titulo">General</h1>
+          <p id="subtitulo"></p>
+        </div>
+        <button class="a-search-btn" id="btn-buscar" aria-label="Buscar en Atlas (Ctrl K)">⌕</button>
+        <label class="a-search">
+          <span class="a-sr">Buscar en Atlas</span>
+          <input id="q" type="search" placeholder="Buscar en Atlas…  Ctrl K" autocomplete="off" readonly>
+        </label>
+      </header>
+      <div class="a-view" id="view">
+        <div class="a-cargando">Cargando el registro…</div>
+      </div>
+    </main>
+  </div>
+
+
+  <div class="a-ayuda" id="ayuda" hidden role="dialog" aria-label="Atajos" tabindex="-1">
+    <div class="a-ayuda-caja">
+      <button class="a-ayuda-cerrar" data-ayuda-cerrar aria-label="Cerrar ayuda">×</button>
+      <h2>Atajos</h2>
+      <dl>
+        <dt>Ctrl K</dt><dd>Abrir la búsqueda</dd>
+        <dt>/</dt><dd>Buscar documentos</dd>
+        <dt>?</dt><dd>Esta ayuda</dd>
+        <dt>↑ ↓ ↵</dt><dd>Moverse y abrir en la búsqueda</dd>
+        <dt>Esc</dt><dd>Cerrar</dd>
+        <dt>Rueda</dt><dd>Acercar · recorrer en el mapa de esquemas</dd>
+        <dt>Ctrl rueda</dt><dd>Acercar en el mapa</dd>
+        <dt>Arrastrar</dt><dd>Mover el tablero</dd>
+        <dt>+ − 0</dt><dd>Zoom · encajar</dd>
+      </dl>
+      <p>Se cierra con <b>?</b>, <b>Esc</b> o un clic afuera.</p>
+    </div>
+  </div>
+
+  <div class="a-paleta" id="paleta" hidden role="dialog" aria-label="Buscar en Atlas">
+    <div class="a-paleta-caja">
+      <input id="paleta-q" type="text" placeholder="Buscar clientes, flujos, esquemas o documentos…" autocomplete="off" spellcheck="false">
+      <div class="a-paleta-res" id="paleta-res"></div>
+      <div class="a-paleta-pie"><span>↑↓ moverse</span><span>↵ abrir</span><span>esc cerrar</span></div>
+    </div>
+  </div>
+
+  <script src="datos.js" onerror="window.__sinDatos=true"></script>
+  <script src="bpmn.js"></script>
+  <script src="shell.js"></script>
+</body>
+</html>
