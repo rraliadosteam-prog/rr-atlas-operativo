@@ -132,6 +132,15 @@
         </div>
         <aside class="atlas-process-meta" data-atlas-process-meta aria-label="Dueño, KPI y validación"><p class="atlas-muted">Selecciona un proceso.</p></aside>
       </section>
+      <section class="rr-view" data-rr-section="grafo" hidden>
+        <iframe src="/grafo/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+      </section>
+      <section class="rr-view" data-rr-section="bpmn" hidden>
+        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+      </section>
+      <section class="rr-view" data-rr-section="flujos" hidden>
+        <iframe src="/flujos/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+      </section>
     </div>
 
     <dialog data-atlas-dialog aria-labelledby="dialog-title">
@@ -160,6 +169,9 @@
       <button type="button" data-atlas-section-target="mapa" aria-pressed="true">Mapa</button>
       <button type="button" data-atlas-section-target="procesos" aria-pressed="false">Procesos</button>
       <button type="button" data-atlas-section-target="buscar" aria-pressed="false">Buscar</button>
+      <button type="button" data-rr-view="grafo" aria-pressed="false">Grafo</button>
+      <button type="button" data-rr-view="bpmn" aria-pressed="false">BPMN</button>
+      <button type="button" data-rr-view="flujos" aria-pressed="false">Flujos</button>
       <button type="button" data-atlas-section-target="menu" aria-pressed="false" aria-expanded="false">Menú</button>
     </nav>
     <dialog data-atlas-new-process>
@@ -183,5 +195,48 @@
     <div class="atlas-toast" data-atlas-toast role="status" hidden></div>
   </div>
   <script type="module" src="/src/app/main.mjs?v=bpmn-4"></script>
+  <style>
+    .rr-view { grid-column: 2 / -1; display: none; height: 100%; min-height: 0; }
+    .rr-view:not([hidden]) { display: block; }
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-processes { display: none !important; }
+  </style>
+  <script>
+    (function() {
+      const app = document.getElementById('atlas-app');
+      const rrViews = document.querySelectorAll('[data-rr-view]');
+      const rrSections = document.querySelectorAll('[data-rr-section]');
+      const atlasTabs = document.querySelectorAll('[data-atlas-section-target]');
+
+      function hideAllRR() {
+        rrSections.forEach(s => s.hidden = true);
+        rrViews.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      }
+
+      rrViews.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const view = btn.dataset.rrView;
+          hideAllRR();
+          atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
+          btn.setAttribute('aria-pressed', 'true');
+          app.dataset.atlasSection = 'rr-' + view;
+          document.querySelector('[data-rr-section="' + view + '"]').hidden = false;
+        });
+      });
+
+      atlasTabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          hideAllRR();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
