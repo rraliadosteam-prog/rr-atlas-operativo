@@ -1,5 +1,6 @@
 import { STORAGE_KEY, createLocalRepository } from '../core/atlas-state.mjs?v=media-7';
 import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=media-7';
+import { DIRECTUS_GRAPH } from '../data/directus-graph.mjs?v=media-7';
 import { KNOWN_LINKS } from '../data/known-links.mjs?v=media-7';
 import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=media-7';
 import { NODE_COLORS, NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=media-7';
@@ -143,7 +144,7 @@ const openViewer = (asset) => {
   root.viewer.dialog.showModal();
 };
 
-const store = createAtlasStore({ repository, initialGraph: DEFAULT_GRAPH });
+const store = createAtlasStore({ repository, initialGraph: DIRECTUS_GRAPH });
 const view = createAtlasView({
   root,
   store,
