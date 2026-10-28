@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:legacy": "node scripts/build-legacy.mjs",
     "test": "node --test src/core/atlas-state.test.mjs src/core/process-model.test.mjs src/ui/atlas-media.test.mjs src/ui/overlap.test.mjs src/app/atlas-store.test.mjs scripts/test-persistence.mjs",
     "audit:visual": "node scripts/audit-visual.mjs",
     "lint:bpmn": "node scripts/validate-bpmn.mjs",
