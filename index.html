@@ -58,9 +58,39 @@
       transform: translateY(1px);
     }
 
-    /* ── Tabbar interior style ── */
-    .atlas-tabbar {
+    /* ── Nav-tabs en header (estilo v2) ── */
+    .atlas-nav-tabs {
       display: flex;
+      gap: 4px;
+      margin-left: auto;
+      margin-right: 16px;
+    }
+    .atlas-nav-tabs button {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--rr-muted);
+      padding: 6px 16px;
+      border-radius: var(--rr-radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+    .atlas-nav-tabs button:hover { color: var(--rr-paper); }
+    .atlas-nav-tabs button.active,
+    .atlas-nav-tabs button[aria-pressed="true"] {
+      background: var(--rr-fuchsia);
+      color: var(--rr-paper);
+      border-color: var(--rr-fuchsia);
+    }
+    @media (max-width: 760px) {
+      .atlas-nav-tabs { display: none; }
+    }
+
+    /* ── Tabbar mobile (solo 4 botones) ── */
+    .atlas-tabbar {
+      display: none;
       justify-content: center;
       gap: 4px;
       padding: 6px 12px;
@@ -69,6 +99,9 @@
       overflow-x: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
+    }
+    @media (max-width: 760px) {
+      .atlas-tabbar { display: flex; }
     }
     .atlas-tabbar::-webkit-scrollbar { display: none; }
     .atlas-tabbar button {
@@ -405,16 +438,23 @@
 </head>
 <body>
   <div id="atlas-app" class="atlas-app" data-atlas-section="inicio">
-    <!-- HEADER -->
+    <!-- HEADER con nav-tabs estilo v2 -->
     <header class="atlas-header" aria-label="Barra principal">
       <div class="atlas-header-side" aria-hidden="true"></div>
       <div class="atlas-brand">
         <span class="atlas-logo-frame"><img class="atlas-logo-image" src="/rr-logo-mark.png" alt="Simbolo oficial de RR Aliados"></span>
         <div><strong>RR ALIADOS</strong><span>Atlas operativo</span></div>
       </div>
+      <!-- NAV-TABS estilo v2 -->
+      <nav class="atlas-nav-tabs" aria-label="Navegacion principal">
+        <button type="button" data-atlas-section-target="inicio" class="active" aria-pressed="true">Inicio</button>
+        <button type="button" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
+        <button type="button" data-atlas-section-target="procesos" aria-pressed="false">BPM</button>
+        <button type="button" data-atlas-section-target="plan" aria-pressed="false">Plan</button>
+      </nav>
       <div class="atlas-header-tools">
         <label class="atlas-search"><span class="sr-only">Buscar</span><input data-atlas-search aria-label="Buscar" placeholder="Buscar en el Atlas..."></label>
-        <button class="atlas-button atlas-button--icon atlas-settings-toggle press" data-action="toggle-settings" aria-expanded="false" aria-label="Configuracion"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5v2.2M12 18.3V21M3.5 12h2.2M18.3 12H21M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="atlas-desktop-only">Configuracion</span></button>
+        <button class="atlas-button atlas-button--icon atlas-settings-toggle press" data-action="toggle-settings" aria-expanded="false" aria-label="Configuracion"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5v2.2M12 18.3V21M3.5 12h2.2M18.3 12H21M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
         <div class="atlas-settings-panel mat-float" data-atlas-settings hidden>
           <div class="atlas-settings-head"><span class="kind">Configuracion del Atlas</span><strong>Herramientas de trabajo</strong></div>
           <button class="atlas-button press" data-action="export">Exportar mapa</button>
@@ -745,13 +785,11 @@
       <div class="atlas-footer-meta"><span>Versión 4.2 · interior inspired</span><span>Mapa: <span data-atlas-count>0 nodos</span></span><span data-atlas-theme-label>Tema RR oscuro</span><span>Developed by RR Aliados</span></div>
     </footer>
 
-    <!-- TABBAR -->
+    <!-- TABBAR (mobile only, 4 botones) -->
     <nav class="atlas-tabbar" aria-label="Navegacion principal">
       <button type="button" data-atlas-section-target="inicio" aria-pressed="true">Inicio</button>
       <button type="button" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
       <button type="button" data-atlas-section-target="procesos" aria-pressed="false">BPM</button>
-      <button type="button" data-rr-view="grafo" aria-pressed="false">Grafo</button>
-      <button type="button" data-rr-view="flujos" aria-pressed="false">Flujos</button>
       <button type="button" data-atlas-section-target="plan" aria-pressed="false">Plan</button>
     </nav>
 
@@ -794,58 +832,26 @@
   <script>
     (function() {
       const app = document.getElementById('atlas-app');
-      const rrViews = document.querySelectorAll('[data-rr-view]');
-      const rrSections = document.querySelectorAll('[data-rr-section]');
-      const atlasTabs = document.querySelectorAll('[data-atlas-section-target]');
+      const navTabs = document.querySelectorAll('.atlas-nav-tabs button');
+      const tabbarTabs = document.querySelectorAll('.atlas-tabbar button');
+      const allNavButtons = [...navTabs, ...tabbarTabs];
       let currentSection = 'inicio';
 
-      function hideAll() {
-        rrSections.forEach(s => {
-          s.style.opacity = '0';
-          s.style.transform = 'translateY(8px)';
-          setTimeout(() => { s.hidden = true; }, 250);
+      function switchTo(section) {
+        if (currentSection === section) return;
+        currentSection = section;
+        app.dataset.atlasSection = section;
+        // Update all nav buttons
+        allNavButtons.forEach(b => {
+          const isMatch = b.dataset.atlasSectionTarget === section;
+          b.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+          b.classList.toggle('active', isMatch);
         });
-        rrViews.forEach(b => b.setAttribute('aria-pressed', 'false'));
       }
 
-      function showSection(selector) {
-        const target = document.querySelector(selector);
-        if (target) {
-          target.hidden = false;
-          requestAnimationFrame(() => {
-            target.style.opacity = '1';
-            target.style.transform = 'translateY(0)';
-          });
-        }
-      }
-
-      rrViews.forEach(btn => {
+      allNavButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-          const view = btn.dataset.rrView;
-          if (currentSection === 'rr-' + view) return;
-          currentSection = 'rr-' + view;
-          hideAll();
-          atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-          btn.setAttribute('aria-pressed', 'true');
-          app.dataset.atlasSection = 'rr-' + view;
-          showSection('[data-rr-section="' + view + '"]');
-        });
-      });
-
-      atlasTabs.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const section = btn.dataset.atlasSectionTarget;
-          if (currentSection === section) return;
-          currentSection = section;
-          hideAll();
-          atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-          btn.setAttribute('aria-pressed', 'true');
-          app.dataset.atlasSection = section;
-          // Show the native section
-          if (section === 'inicio') showSection('.atlas-home');
-          else if (section === 'mapa') { /* atlas-canvas shown by CSS */ }
-          else if (section === 'procesos') { /* atlas-processes shown by CSS */ }
-          else if (section === 'plan') { /* atlas-plan shown by CSS */ }
+          switchTo(btn.dataset.atlasSectionTarget);
         });
       });
 
@@ -855,21 +861,11 @@
           if (e.target.closest('button')) return;
           const nav = card.dataset.homeNav;
           if (nav === 'procesos') {
-            atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-            document.querySelector('[data-atlas-section-target="procesos"]').setAttribute('aria-pressed', 'true');
-            app.dataset.atlasSection = 'procesos';
-            currentSection = 'procesos';
+            switchTo('procesos');
           } else if (nav === 'gobierno') {
-            atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-            document.querySelector('[data-rr-view="grafo"]').setAttribute('aria-pressed', 'true');
-            app.dataset.atlasSection = 'rr-grafo';
-            currentSection = 'rr-grafo';
-            showSection('[data-rr-section="grafo"]');
+            switchTo('plan');
           } else {
-            atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-            document.querySelector('[data-atlas-section-target="mapa"]').setAttribute('aria-pressed', 'true');
-            app.dataset.atlasSection = 'mapa';
-            currentSection = 'mapa';
+            switchTo('mapa');
           }
         });
       });
@@ -880,29 +876,13 @@
           e.stopPropagation();
           const action = btn.dataset.homeAction;
           if (action === 'bpm' || action === 'flujos') {
-            atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-            document.querySelector('[data-atlas-section-target="procesos"]').setAttribute('aria-pressed', 'true');
-            app.dataset.atlasSection = 'procesos';
-            currentSection = 'procesos';
+            switchTo('procesos');
           } else if (action === 'grafo') {
-            atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-            document.querySelector('[data-rr-view="grafo"]').setAttribute('aria-pressed', 'true');
-            app.dataset.atlasSection = 'rr-grafo';
-            currentSection = 'rr-grafo';
-            showSection('[data-rr-section="grafo"]');
+            switchTo('plan');
           } else {
-            atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
-            document.querySelector('[data-atlas-section-target="mapa"]').setAttribute('aria-pressed', 'true');
-            app.dataset.atlasSection = 'mapa';
-            currentSection = 'mapa';
+            switchTo('mapa');
           }
         });
-      });
-
-      // Initialize
-      rrSections.forEach(s => {
-        s.style.opacity = '0';
-        s.style.transform = 'translateY(8px)';
       });
     })();
   </script>
