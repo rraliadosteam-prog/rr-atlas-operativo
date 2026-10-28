@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RR Aliados · BPMN Comercial</title>
+<link rel="icon" href="/rr-logo-mark.png">
+<script src="https://unpkg.com/bpmn-js@18.31.1/dist/bpmn-navigated-viewer.production.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: system-ui,-apple-system,sans-serif; background:#070001; color:#FFFFF3; }
+header { background:#070001; border-bottom:2px solid #BE076D; padding:12px 20px; display:flex; align-items:center; gap:16px; position:fixed; top:0; left:0; right:0; z-index:10; }
+header img { height:28px; }
+header h1 { font-size:16px; }
+header span { font-size:12px; color:#BE076D; }
+#canvas { position:fixed; top:50px; left:0; right:0; bottom:0; background:#FFFFF3; }
+#loading { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); color:#BE076D; font-size:18px; z-index:5; }
+</style>
+</head>
+<body>
+<header>
+  <img src="/rr-logo-mark.png" alt="RR">
+  <h1>RR ALIADOS</h1>
+  <span>· Playbook Comercial BPMN</span>
+</header>
+<div id="loading">Cargando diagrama...</div>
+<div id="canvas"></div>
+<script>
+const viewer = new BpmnJS({ container: '#canvas' });
+fetch('/bpmn/playbook_comercial_bpmn.bpmn')
+  .then(r => r.text())
+  .then(xml => viewer.importXML(xml))
+  .then(() => {
+    document.getElementById('loading').style.display='none';
+    viewer.get('canvas').zoom('fit-viewport');
+  })
+  .catch(err => {
+    document.getElementById('loading').textContent='Error: '+err.message;
+  });
+</script>
+</body>
+</html>

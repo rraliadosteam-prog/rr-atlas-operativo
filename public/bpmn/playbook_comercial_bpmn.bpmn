@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="def_playbook_comercial" targetNamespace="https://rraliados.co/bpmn" exporter="RR Aliados · _herramientas/bpmn_xml.py" exporterVersion="1.0">
+  <bpmn:collaboration id="collab_1">
+    <bpmn:participant id="part_proc_rr" name="RR Aliados" processRef="proc_rr" />
+    <bpmn:participant id="part_proc_persona" name="Persona que vende" processRef="proc_persona" />
+    <bpmn:participant id="part_proc_fuentes" name="Fuentes del segmento" processRef="proc_fuentes" />
+    <bpmn:messageFlow id="mf_126572116857088" name="sesión de trabajo: las 6 etapas" sourceRef="t026" targetRef="t030" />
+    <bpmn:messageFlow id="mf_126572116857136" name="las respuestas de quien vende" sourceRef="t030" targetRef="t007" />
+  </bpmn:collaboration>
+  <bpmn:process id="proc_rr" name="RR Aliados" isExecutable="false">
+    <bpmn:laneSet id="laneset_1">
+      <bpmn:lane id="lane_1" name="RR Aliados / Comercial">
+        <bpmn:flowNodeRef>e001</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g003</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t004</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t005</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g006</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t007</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t008</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t009</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t010</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t011</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t012</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t013</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t014</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t015</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t016</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t017</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t018</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t019</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t020</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t021</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t022</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t023</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t024</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g025</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t026</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t027</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e028</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="e001" name="Segmento priorizado">
+      <bpmn:outgoing>sf_126572118850160</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="g003" name="¿Es Salud individual el segmento?">
+      <bpmn:incoming>sf_126572118850160</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116853248</bpmn:outgoing>
+      <bpmn:outgoing>sf_126572116853392</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t004" name="Priorizar Salud individual">
+      <bpmn:incoming>sf_126572116853248</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116853056</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t005" name="Priorizar el siguiente por retorno">
+      <bpmn:incoming>sf_126572116853392</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116853152</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="g006" name="¿Cuántos segmentos se documentan en la sesión?">
+      <bpmn:incoming>sf_126572116853056</bpmn:incoming>
+      <bpmn:incoming>sf_126572116853152</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116853584</bpmn:outgoing>
+      <bpmn:outgoing>sf_126572116854448</bpmn:outgoing>
+      <bpmn:outgoing>sf_126572116855312</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="t007" name="Determinar a quién se le habla">
+      <bpmn:incoming>sf_126572116853584</bpmn:incoming>
+      <bpmn:incoming>sf_126572116856560</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116853728</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t008" name="Definir qué se promete">
+      <bpmn:incoming>sf_126572116853728</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116853872</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t009" name="Definir cómo se cobra">
+      <bpmn:incoming>sf_126572116853872</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116854016</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t010" name="Redactar cómo se explica">
+      <bpmn:incoming>sf_126572116854016</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116854160</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t011" name="Definir cómo se cierra">
+      <bpmn:incoming>sf_126572116854160</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116854304</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t012" name="Registrar qué se aprende">
+      <bpmn:incoming>sf_126572116854304</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856176</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t013" name="Determinar a quién se le habla">
+      <bpmn:incoming>sf_126572116854448</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116854592</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t014" name="Definir qué se promete">
+      <bpmn:incoming>sf_126572116854592</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116854736</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t015" name="Definir cómo se cobra">
+      <bpmn:incoming>sf_126572116854736</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116854880</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t016" name="Redactar cómo se explica">
+      <bpmn:incoming>sf_126572116854880</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116855024</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t017" name="Definir cómo se cierra">
+      <bpmn:incoming>sf_126572116855024</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116855168</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t018" name="Registrar qué se aprende">
+      <bpmn:incoming>sf_126572116855168</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856224</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t019" name="Determinar a quién se le habla">
+      <bpmn:incoming>sf_126572116855312</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116855456</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t020" name="Definir qué se promete">
+      <bpmn:incoming>sf_126572116855456</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116855600</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t021" name="Definir cómo se cobra">
+      <bpmn:incoming>sf_126572116855600</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116855744</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t022" name="Redactar cómo se explica">
+      <bpmn:incoming>sf_126572116855744</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116855888</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t023" name="Definir cómo se cierra">
+      <bpmn:incoming>sf_126572116855888</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856032</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t024" name="Registrar qué se aprende">
+      <bpmn:incoming>sf_126572116856032</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856272</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="g025" name="¿Quedaron los 3 segmentos documentados?">
+      <bpmn:incoming>sf_126572116856176</bpmn:incoming>
+      <bpmn:incoming>sf_126572116856224</bpmn:incoming>
+      <bpmn:incoming>sf_126572116856272</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856512</bpmn:outgoing>
+      <bpmn:outgoing>sf_126572116856560</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="t026" name="Publicar el playbook en el vault">
+      <bpmn:incoming>sf_126572116856512</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856608</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t027" name="Cerrar el hueco en 00_HUECOS">
+      <bpmn:incoming>sf_126572116856608</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116856656</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e028" name="Playbook documentado">
+      <bpmn:incoming>sf_126572116856656</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:dataObjectReference id="d035" name="Playbook del segmento" />
+    <bpmn:dataStoreReference id="d037" name="Registro de huecos" />
+    <bpmn:sequenceFlow id="sf_126572118850160" name="el segmento ya esta priorizado" sourceRef="e001" targetRef="g003" />
+    <bpmn:sequenceFlow id="sf_126572116853248" name="si: es el de mejor retorno" sourceRef="g003" targetRef="t004" />
+    <bpmn:sequenceFlow id="sf_126572116853392" name="no: el siguiente por retorno" sourceRef="g003" targetRef="t005" />
+    <bpmn:sequenceFlow id="sf_126572116853056" name="luego" sourceRef="t004" targetRef="g006" />
+    <bpmn:sequenceFlow id="sf_126572116853152" name="luego" sourceRef="t005" targetRef="g006" />
+    <bpmn:sequenceFlow id="sf_126572116853584" name="si: Salud" sourceRef="g006" targetRef="t007" />
+    <bpmn:sequenceFlow id="sf_126572116853728" name="luego" sourceRef="t007" targetRef="t008" />
+    <bpmn:sequenceFlow id="sf_126572116853872" name="luego" sourceRef="t008" targetRef="t009" />
+    <bpmn:sequenceFlow id="sf_126572116854016" name="luego" sourceRef="t009" targetRef="t010" />
+    <bpmn:sequenceFlow id="sf_126572116854160" name="luego" sourceRef="t010" targetRef="t011" />
+    <bpmn:sequenceFlow id="sf_126572116854304" name="luego" sourceRef="t011" targetRef="t012" />
+    <bpmn:sequenceFlow id="sf_126572116854448" name="si: Gimnasios" sourceRef="g006" targetRef="t013" />
+    <bpmn:sequenceFlow id="sf_126572116854592" name="luego" sourceRef="t013" targetRef="t014" />
+    <bpmn:sequenceFlow id="sf_126572116854736" name="luego" sourceRef="t014" targetRef="t015" />
+    <bpmn:sequenceFlow id="sf_126572116854880" name="luego" sourceRef="t015" targetRef="t016" />
+    <bpmn:sequenceFlow id="sf_126572116855024" name="luego" sourceRef="t016" targetRef="t017" />
+    <bpmn:sequenceFlow id="sf_126572116855168" name="luego" sourceRef="t017" targetRef="t018" />
+    <bpmn:sequenceFlow id="sf_126572116855312" name="si: Talleres" sourceRef="g006" targetRef="t019" />
+    <bpmn:sequenceFlow id="sf_126572116855456" name="luego" sourceRef="t019" targetRef="t020" />
+    <bpmn:sequenceFlow id="sf_126572116855600" name="luego" sourceRef="t020" targetRef="t021" />
+    <bpmn:sequenceFlow id="sf_126572116855744" name="luego" sourceRef="t021" targetRef="t022" />
+    <bpmn:sequenceFlow id="sf_126572116855888" name="luego" sourceRef="t022" targetRef="t023" />
+    <bpmn:sequenceFlow id="sf_126572116856032" name="luego" sourceRef="t023" targetRef="t024" />
+    <bpmn:sequenceFlow id="sf_126572116856176" name="si: salud documentado" sourceRef="t012" targetRef="g025" />
+    <bpmn:sequenceFlow id="sf_126572116856224" name="si: gimnasios documentado" sourceRef="t018" targetRef="g025" />
+    <bpmn:sequenceFlow id="sf_126572116856272" name="si: talleres documentado" sourceRef="t024" targetRef="g025" />
+    <bpmn:sequenceFlow id="sf_126572116856512" name="si: estan los 3" sourceRef="g025" targetRef="t026" />
+    <bpmn:sequenceFlow id="sf_126572116856560" name="no: vuelve a la etapa que falta" sourceRef="g025" targetRef="t007" />
+    <bpmn:sequenceFlow id="sf_126572116856608" name="luego" sourceRef="t026" targetRef="t027" />
+    <bpmn:sequenceFlow id="sf_126572116856656" name="luego" sourceRef="t027" targetRef="e028" />
+    <bpmn:association id="as_126572116857952" sourceRef="t012" targetRef="d035" />
+    <bpmn:association id="as_126572116858000" sourceRef="t026" targetRef="d035" />
+    <bpmn:association id="as_126572116858096" sourceRef="t027" targetRef="d037" />
+    <bpmn:textAnnotation id="nota_1">
+      <bpmn:text>El evento dice un estado ya alcanzado, no una orden: el segmento ya esta en la lista de los 6 con su margen y su ciclo. Corte 2026-09-26.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_3">
+      <bpmn:text>44,1% de margen, el doble que todos los otros, con solo 15% del esfuerzo. Si se escribiera UN solo playbook, este es el de mejor retorno.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_4">
+      <bpmn:text>Orden recomendado de la fuente: 1 Salud individual, 2 Gimnasios (19,7-24,1% y el canal ya esta en Instagram), 3 Talleres (margen bajo y ciclo de 30 a 45 dias).</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_5">
+      <bpmn:text>[Salud] Nombre del segmento, cargo y ciudad. Que duele hoy, en sus palabras. Cuanto dinero mueve al mes.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_6">
+      <bpmn:text>[Salud] El entregable exacto, con nombre. El plazo en DIAS, no en semanas. Que NO se promete.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_7">
+      <bpmn:text>[Salud] Precio o rango, y por que ese. Anticipo, y cuanto antes de empezar. Contra que se entrega la parte final.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_8">
+      <bpmn:text>[Salud] El pitch en menos de 3 minutos. Que objecion se espera y como se responde. La prueba de que sabemos hacerlo.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_9">
+      <bpmn:text>[Salud] El paso a propuesta. Que pasa si dice 'lo pienso'. Cuanto se sigue y cuando se suelta.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_10">
+      <bpmn:text>[Salud] Que funciono y que no, en numeros. Que habria que cambiar la proxima vez. Que se responde si vuelve.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_11">
+      <bpmn:text>[Gimnasios] Nombre del segmento, cargo y ciudad. Que duele hoy, en sus palabras. Cuanto dinero mueve al mes.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_12">
+      <bpmn:text>[Gimnasios] El entregable exacto, con nombre. El plazo en DIAS, no en semanas. Que NO se promete.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_13">
+      <bpmn:text>[Gimnasios] Precio o rango, y por que ese. Anticipo, y cuanto antes de empezar. Contra que se entrega la parte final.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_14">
+      <bpmn:text>[Gimnasios] El pitch en menos de 3 minutos. Que objecion se espera y como se responde. La prueba de que sabemos hacerlo.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_15">
+      <bpmn:text>[Gimnasios] El paso a propuesta. Que pasa si dice 'lo pienso'. Cuanto se sigue y cuando se suelta.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_16">
+      <bpmn:text>[Gimnasios] Que funciono y que no, en numeros. Que habria que cambiar la proxima vez. Que se responde si vuelve.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_17">
+      <bpmn:text>[Talleres] Nombre del segmento, cargo y ciudad. Que duele hoy, en sus palabras. Cuanto dinero mueve al mes.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_18">
+      <bpmn:text>[Talleres] El entregable exacto, con nombre. El plazo en DIAS, no en semanas. Que NO se promete.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_19">
+      <bpmn:text>[Talleres] Precio o rango, y por que ese. Anticipo, y cuanto antes de empezar. Contra que se entrega la parte final.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_20">
+      <bpmn:text>[Talleres] El pitch en menos de 3 minutos. Que objecion se espera y como se responde. La prueba de que sabemos hacerlo.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_21">
+      <bpmn:text>[Talleres] El paso a propuesta. Que pasa si dice 'lo pienso'. Cuanto se sigue y cuando se suelta.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_22">
+      <bpmn:text>[Talleres] Que funciono y que no, en numeros. Que habria que cambiar la proxima vez. Que se responde si vuelve.
+NO SE PUEDE INVENTAR: sin la respuesta de quien vende, esta etapa es un hueco declarado, no un dato.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_23">
+      <bpmn:text>Regla del vault: un borrador va a RR/documentacion_pa_leer/ y promoverlo a canonico es una ACCION HUMANA. Este paso no es opcional ni automatico.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_24">
+      <bpmn:text>Hueco 17, y el 19 que es su version con numeros. Corte 2026-09-26.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="nota_26">
+      <bpmn:text>La respuesta a: QUE le digo a un cliente de este segmento, y EN QUE PALABRAS, para que pague y firme. No es un resumen del proceso comercial: es un guion, y por eso no se escribe sin quien vende.</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:process>
+  <bpmn:process id="proc_persona" name="Persona que vende" isExecutable="false">
+    <bpmn:startEvent id="e029" name="Sesión agenciada">
+      <bpmn:outgoing>sf_126572116856992</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="t030" name="Responder las 6 etapas">
+      <bpmn:incoming>sf_126572116856992</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116857040</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e031" name="Sesión cerrada">
+      <bpmn:incoming>sf_126572116857040</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="sf_126572116856992" name="luego" sourceRef="e029" targetRef="t030" />
+    <bpmn:sequenceFlow id="sf_126572116857040" name="luego" sourceRef="t030" targetRef="e031" />
+    <bpmn:dataObjectReference id="d036" name="Respuestas de la sesión" />
+    <bpmn:textAnnotation id="nota_25">
+      <bpmn:text>Estado ya alcanzado: la sesion esta agendada con quien vende. El mensaje llega desde 'Publicar el playbook en el vault'.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="as_126572116858048" sourceRef="t030" targetRef="d036" />
+  </bpmn:process>
+  <bpmn:process id="proc_fuentes" name="Fuentes del segmento" isExecutable="false">
+    <bpmn:task id="t032" name="Reunir datos del segmento">
+      <bpmn:incoming>sf_126572116857472</bpmn:incoming>
+      <bpmn:outgoing>sf_126572116857520</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="e033" name="Segmento a documentar">
+      <bpmn:outgoing>sf_126572116857472</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="e034" name="Datos reunidos">
+      <bpmn:incoming>sf_126572116857520</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="sf_126572116857472" name="luego" sourceRef="e033" targetRef="t032" />
+    <bpmn:sequenceFlow id="sf_126572116857520" name="luego" sourceRef="t032" targetRef="e034" />
+    <bpmn:dataStoreReference id="d002" name="Reparto de esfuerzo y margen" />
+    <bpmn:textAnnotation id="nota_2">
+      <bpmn:text>Los 6 segmentos con margen, ciclo y canal. Fuente: 10_Mapa/03_11_flujo_segmentos. Corte 2026-09-26.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="as_126572116857568" sourceRef="t032" targetRef="d002" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="diagrama_1">
+    <bpmndi:BPMNPlane id="plano_1" bpmnElement="collab_1">
+      <bpmndi:BPMNShape id="forma_pool_0" bpmnElement="part_proc_rr" isHorizontal="false" bioc:stroke="#3d6fd4" bioc:fill="#ffffff">
+        <dc:Bounds x="6" y="6" width="846" height="1684" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_e001" bpmnElement="e001" bioc:stroke="#2e7d52" bioc:fill="#d6f5e3">
+        <dc:Bounds x="236" y="26" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_g003" bpmnElement="g003" isMarkerVisible="true" bioc:stroke="#c0392b" bioc:fill="#ffe4e4">
+        <dc:Bounds x="236" y="182" width="198" height="76" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="168" y="200" width="58" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t004" bpmnElement="t004" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="292" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t005" bpmnElement="t005" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="434" y="292" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_g006" bpmnElement="g006" bioc:stroke="#c08a1e" bioc:fill="#fdf3d7">
+        <dc:Bounds x="236" y="398" width="238" height="92" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t007" bpmnElement="t007" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="524" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t008" bpmnElement="t008" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="630" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t009" bpmnElement="t009" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="736" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t010" bpmnElement="t010" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="842" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t011" bpmnElement="t011" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="948" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t012" bpmnElement="t012" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="1054" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t013" bpmnElement="t013" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="26" y="524" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t014" bpmnElement="t014" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="26" y="630" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t015" bpmnElement="t015" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="26" y="736" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t016" bpmnElement="t016" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="26" y="842" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t017" bpmnElement="t017" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="26" y="948" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t018" bpmnElement="t018" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="26" y="1054" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t019" bpmnElement="t019" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="656" y="524" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t020" bpmnElement="t020" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="656" y="630" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t021" bpmnElement="t021" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="656" y="736" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t022" bpmnElement="t022" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="656" y="842" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t023" bpmnElement="t023" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="656" y="948" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t024" bpmnElement="t024" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="656" y="1054" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_g025" bpmnElement="g025" bioc:stroke="#c08a1e" bioc:fill="#fdf3d7">
+        <dc:Bounds x="236" y="1160" width="216" height="92" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t026" bpmnElement="t026" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="1286" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t027" bpmnElement="t027" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="236" y="1392" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_e028" bpmnElement="e028" bioc:stroke="#1b5e3a" bioc:fill="#c8ecd8">
+        <dc:Bounds x="236" y="1498" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_d035" bpmnElement="d035" bioc:stroke="#7b4fbf" bioc:fill="#f3e8fd">
+        <dc:Bounds x="26" y="1618" width="164" height="52" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_d037" bpmnElement="d037" bioc:stroke="#7b4fbf" bioc:fill="#f3e8fd">
+        <dc:Bounds x="224" y="1618" width="164" height="52" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="arista_sf_126572118850160" bpmnElement="sf_126572118850160">
+        <di:waypoint x="254" y="62" />
+        <di:waypoint x="254" y="122" />
+        <di:waypoint x="335" y="122" />
+        <di:waypoint x="335" y="182" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="278" y="56" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853248" bpmnElement="sf_126572116853248">
+        <di:waypoint x="335" y="258" />
+        <di:waypoint x="335" y="275" />
+        <di:waypoint x="324" y="275" />
+        <di:waypoint x="324" y="292" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="252" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853392" bpmnElement="sf_126572116853392">
+        <di:waypoint x="335" y="258" />
+        <di:waypoint x="335" y="275" />
+        <di:waypoint x="522" y="275" />
+        <di:waypoint x="522" y="292" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="440" y="252" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853056" bpmnElement="sf_126572116853056">
+        <di:waypoint x="324" y="364" />
+        <di:waypoint x="324" y="381" />
+        <di:waypoint x="355" y="381" />
+        <di:waypoint x="355" y="398" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="358" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853152" bpmnElement="sf_126572116853152">
+        <di:waypoint x="522" y="364" />
+        <di:waypoint x="522" y="381" />
+        <di:waypoint x="355" y="381" />
+        <di:waypoint x="355" y="398" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338" y="358" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853584" bpmnElement="sf_126572116853584">
+        <di:waypoint x="355" y="490" />
+        <di:waypoint x="355" y="507" />
+        <di:waypoint x="324" y="507" />
+        <di:waypoint x="324" y="524" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="484" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853728" bpmnElement="sf_126572116853728">
+        <di:waypoint x="324" y="596" />
+        <di:waypoint x="324" y="613" />
+        <di:waypoint x="324" y="613" />
+        <di:waypoint x="324" y="630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="590" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116853872" bpmnElement="sf_126572116853872">
+        <di:waypoint x="324" y="702" />
+        <di:waypoint x="324" y="719" />
+        <di:waypoint x="324" y="719" />
+        <di:waypoint x="324" y="736" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="696" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854016" bpmnElement="sf_126572116854016">
+        <di:waypoint x="324" y="808" />
+        <di:waypoint x="324" y="825" />
+        <di:waypoint x="324" y="825" />
+        <di:waypoint x="324" y="842" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="802" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854160" bpmnElement="sf_126572116854160">
+        <di:waypoint x="324" y="914" />
+        <di:waypoint x="324" y="931" />
+        <di:waypoint x="324" y="931" />
+        <di:waypoint x="324" y="948" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="908" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854304" bpmnElement="sf_126572116854304">
+        <di:waypoint x="324" y="1020" />
+        <di:waypoint x="324" y="1037" />
+        <di:waypoint x="324" y="1037" />
+        <di:waypoint x="324" y="1054" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="1014" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854448" bpmnElement="sf_126572116854448">
+        <di:waypoint x="355" y="490" />
+        <di:waypoint x="355" y="507" />
+        <di:waypoint x="114" y="507" />
+        <di:waypoint x="114" y="524" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="484" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854592" bpmnElement="sf_126572116854592">
+        <di:waypoint x="114" y="596" />
+        <di:waypoint x="114" y="613" />
+        <di:waypoint x="114" y="613" />
+        <di:waypoint x="114" y="630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="590" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854736" bpmnElement="sf_126572116854736">
+        <di:waypoint x="114" y="702" />
+        <di:waypoint x="114" y="719" />
+        <di:waypoint x="114" y="719" />
+        <di:waypoint x="114" y="736" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="696" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116854880" bpmnElement="sf_126572116854880">
+        <di:waypoint x="114" y="808" />
+        <di:waypoint x="114" y="825" />
+        <di:waypoint x="114" y="825" />
+        <di:waypoint x="114" y="842" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="802" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855024" bpmnElement="sf_126572116855024">
+        <di:waypoint x="114" y="914" />
+        <di:waypoint x="114" y="931" />
+        <di:waypoint x="114" y="931" />
+        <di:waypoint x="114" y="948" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="908" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855168" bpmnElement="sf_126572116855168">
+        <di:waypoint x="114" y="1020" />
+        <di:waypoint x="114" y="1037" />
+        <di:waypoint x="114" y="1037" />
+        <di:waypoint x="114" y="1054" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="1014" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855312" bpmnElement="sf_126572116855312">
+        <di:waypoint x="355" y="490" />
+        <di:waypoint x="355" y="507" />
+        <di:waypoint x="744" y="507" />
+        <di:waypoint x="744" y="524" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="480" y="484" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855456" bpmnElement="sf_126572116855456">
+        <di:waypoint x="744" y="596" />
+        <di:waypoint x="744" y="613" />
+        <di:waypoint x="744" y="613" />
+        <di:waypoint x="744" y="630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="590" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855600" bpmnElement="sf_126572116855600">
+        <di:waypoint x="744" y="702" />
+        <di:waypoint x="744" y="719" />
+        <di:waypoint x="744" y="719" />
+        <di:waypoint x="744" y="736" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="696" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855744" bpmnElement="sf_126572116855744">
+        <di:waypoint x="744" y="808" />
+        <di:waypoint x="744" y="825" />
+        <di:waypoint x="744" y="825" />
+        <di:waypoint x="744" y="842" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="802" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116855888" bpmnElement="sf_126572116855888">
+        <di:waypoint x="744" y="914" />
+        <di:waypoint x="744" y="931" />
+        <di:waypoint x="744" y="931" />
+        <di:waypoint x="744" y="948" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="908" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856032" bpmnElement="sf_126572116856032">
+        <di:waypoint x="744" y="1020" />
+        <di:waypoint x="744" y="1037" />
+        <di:waypoint x="744" y="1037" />
+        <di:waypoint x="744" y="1054" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="838" y="1014" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856176" bpmnElement="sf_126572116856176">
+        <di:waypoint x="324" y="1126" />
+        <di:waypoint x="324" y="1143" />
+        <di:waypoint x="344" y="1143" />
+        <di:waypoint x="344" y="1160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="1120" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856224" bpmnElement="sf_126572116856224">
+        <di:waypoint x="114" y="1126" />
+        <di:waypoint x="114" y="1143" />
+        <di:waypoint x="344" y="1143" />
+        <di:waypoint x="344" y="1160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="1120" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856272" bpmnElement="sf_126572116856272">
+        <di:waypoint x="744" y="1126" />
+        <di:waypoint x="744" y="1143" />
+        <di:waypoint x="344" y="1143" />
+        <di:waypoint x="344" y="1160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="560" y="1120" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856512" bpmnElement="sf_126572116856512">
+        <di:waypoint x="344" y="1252" />
+        <di:waypoint x="344" y="1269" />
+        <di:waypoint x="324" y="1269" />
+        <di:waypoint x="324" y="1286" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="1246" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856560" bpmnElement="sf_126572116856560">
+        <di:waypoint x="236" y="1206" />
+        <di:waypoint x="222" y="1206" />
+        <di:waypoint x="222" y="560" />
+        <di:waypoint x="236" y="560" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="1246" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856608" bpmnElement="sf_126572116856608">
+        <di:waypoint x="324" y="1358" />
+        <di:waypoint x="324" y="1375" />
+        <di:waypoint x="324" y="1375" />
+        <di:waypoint x="324" y="1392" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="1352" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856656" bpmnElement="sf_126572116856656">
+        <di:waypoint x="324" y="1464" />
+        <di:waypoint x="324" y="1481" />
+        <di:waypoint x="254" y="1481" />
+        <di:waypoint x="254" y="1498" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="1458" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_as_126572116857952" bpmnElement="as_126572116857952">
+        <di:waypoint x="324" y="1126" />
+        <di:waypoint x="324" y="1676" />
+        <di:waypoint x="108" y="1676" />
+        <di:waypoint x="108" y="1618" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_as_126572116858000" bpmnElement="as_126572116858000">
+        <di:waypoint x="324" y="1358" />
+        <di:waypoint x="324" y="1676" />
+        <di:waypoint x="108" y="1676" />
+        <di:waypoint x="108" y="1618" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_as_126572116858096" bpmnElement="as_126572116858096">
+        <di:waypoint x="324" y="1464" />
+        <di:waypoint x="324" y="1676" />
+        <di:waypoint x="306" y="1676" />
+        <di:waypoint x="306" y="1618" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="forma_pool_1" bpmnElement="part_proc_persona" isHorizontal="false" bioc:stroke="#7b4fbf" bioc:fill="#faf7ff">
+        <dc:Bounds x="880" y="1678" width="402" height="338" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_e029" bpmnElement="e029" bioc:stroke="#2e7d52" bioc:fill="#d6f5e3">
+        <dc:Bounds x="900" y="1698" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t030" bpmnElement="t030" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="900" y="1768" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_e031" bpmnElement="e031" bioc:stroke="#1b5e3a" bioc:fill="#c8ecd8">
+        <dc:Bounds x="900" y="1874" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_d036" bpmnElement="d036" bioc:stroke="#7b4fbf" bioc:fill="#f3e8fd">
+        <dc:Bounds x="1098" y="1914" width="164" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1137" y="1876.5" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="arista_as_126572116858048" bpmnElement="as_126572116858048">
+        <di:waypoint x="988" y="1840" />
+        <di:waypoint x="988" y="2002" />
+        <di:waypoint x="1180" y="2002" />
+        <di:waypoint x="1180" y="1966" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116856992" bpmnElement="sf_126572116856992">
+        <di:waypoint x="918" y="1734" />
+        <di:waypoint x="918" y="1751" />
+        <di:waypoint x="988" y="1751" />
+        <di:waypoint x="988" y="1768" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="942" y="1728" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116857040" bpmnElement="sf_126572116857040">
+        <di:waypoint x="988" y="1840" />
+        <di:waypoint x="988" y="1857" />
+        <di:waypoint x="918" y="1857" />
+        <di:waypoint x="918" y="1874" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="804" y="1834" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="forma_pool_2" bpmnElement="part_proc_fuentes" isHorizontal="false" bioc:stroke="#2e7d52" bioc:fill="#f2fff8">
+        <dc:Bounds x="880" y="2030" width="402" height="338" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_t032" bpmnElement="t032" bioc:stroke="#3d6fd4" bioc:fill="#e8f0fe">
+        <dc:Bounds x="900" y="2120" width="176" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_e033" bpmnElement="e033" bioc:stroke="#2e7d52" bioc:fill="#d6f5e3">
+        <dc:Bounds x="900" y="2050" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="888" y="2086" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_e034" bpmnElement="e034" bioc:stroke="#1b5e3a" bioc:fill="#c8ecd8">
+        <dc:Bounds x="900" y="2226" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="881" y="2262" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="forma_d002" bpmnElement="d002" bioc:stroke="#7b4fbf" bioc:fill="#f3e8fd">
+        <dc:Bounds x="1098" y="2254" width="164" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1152" y="2204" width="55" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="arista_as_126572116857568" bpmnElement="as_126572116857568">
+        <di:waypoint x="988" y="2192" />
+        <di:waypoint x="988" y="2354" />
+        <di:waypoint x="1180" y="2354" />
+        <di:waypoint x="1180" y="2306" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116857472" bpmnElement="sf_126572116857472">
+        <di:waypoint x="918" y="2086" />
+        <di:waypoint x="918" y="2103" />
+        <di:waypoint x="988" y="2103" />
+        <di:waypoint x="988" y="2120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="974" y="2080" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_sf_126572116857520" bpmnElement="sf_126572116857520">
+        <di:waypoint x="988" y="2192" />
+        <di:waypoint x="988" y="2209" />
+        <di:waypoint x="918" y="2209" />
+        <di:waypoint x="918" y="2226" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="836" y="2186" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_mf_126572116857088" bpmnElement="mf_126572116857088">
+        <di:waypoint x="324" y="1358" />
+        <di:waypoint x="324" y="1358" />
+        <di:waypoint x="8" y="1358" />
+        <di:waypoint x="8" y="1756" />
+        <di:waypoint x="988" y="1756" />
+        <di:waypoint x="988" y="1768" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="arista_mf_126572116857136" bpmnElement="mf_126572116857136">
+        <di:waypoint x="988" y="1840" />
+        <di:waypoint x="988" y="1840" />
+        <di:waypoint x="8" y="1840" />
+        <di:waypoint x="8" y="512" />
+        <di:waypoint x="324" y="512" />
+        <di:waypoint x="324" y="524" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
