@@ -456,7 +456,7 @@ function tools(pista = 'arrastrá para mover · rueda para acercar') {
 /* ============================ piezas ============================ */
 function portada(c, razon = '16/9', glifo = null) {
   const iniciales = esc((c.nombre || '?').split(/\s+/).map((p) => p[0]).join('').slice(0, 2).toUpperCase());
-  const img = c.portada ? `<img loading="lazy" src="${miniatura(c.portada)}" alt="" onerror="this.remove()">` : '';
+  const img = c.portada ? `<img loading="eager" src="${miniatura(c.portada)}" alt="" onerror="this.remove()">` : '';
   return `<div class="a-cover" style="aspect-ratio:${razon}"><div class="a-fallback">${glifo || iniciales}</div>${img}</div>`;
 }
 
