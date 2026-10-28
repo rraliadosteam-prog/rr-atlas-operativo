@@ -159,6 +159,39 @@
         </div>
         <div class="atlas-plan-list" data-atlas-plan-list></div>
       </section>
+      <section class="rr-view" data-rr-section="grafo" hidden>
+        <div class="rr-loader" id="loader-grafo">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando grafo documental...</p>
+          <span class="rr-loader-sub">1.367 nodos · 1.863 relaciones</span>
+        </div>
+        <iframe src="/grafo/" style="width:100%;height:100%;border:none;border-radius:12px;" sandbox="allow-scripts allow-same-origin" onload="document.getElementById('loader-grafo').classList.add('is-hidden')"></iframe>
+      </section>
+      <section class="rr-view" data-rr-section="bpmn" hidden>
+        <div class="rr-loader" id="loader-bpmn">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando BPMN comercial...</p>
+          <span class="rr-loader-sub">Playbook interactivo</span>
+        </div>
+        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;border-radius:12px;" sandbox="allow-scripts allow-same-origin" onload="document.getElementById('loader-bpmn').classList.add('is-hidden')"></iframe>
+      </section>
+      <section class="rr-view" data-rr-section="flujos" hidden>
+        <div class="rr-loader" id="loader-flujos">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando flujos operativos...</p>
+          <span class="rr-loader-sub">10 procesos documentados</span>
+        </div>
+        <iframe src="/flujos/" style="width:100%;height:100%;border:none;border-radius:12px;" sandbox="allow-scripts allow-same-origin" onload="document.getElementById('loader-flujos').classList.add('is-hidden')"></iframe>
+      </section>
     </div>
 
     <dialog data-atlas-dialog aria-labelledby="dialog-title">
@@ -186,8 +219,10 @@
     <nav class="atlas-tabbar" aria-label="Navegación principal">
       <button type="button" data-atlas-section-target="mapa" aria-pressed="true">Mapa</button>
       <button type="button" data-atlas-section-target="procesos" aria-pressed="false">Procesos</button>
+      <button type="button" data-rr-view="grafo" aria-pressed="false">Grafo</button>
+      <button type="button" data-rr-view="bpmn" aria-pressed="false">BPMN</button>
+      <button type="button" data-rr-view="flujos" aria-pressed="false">Flujos</button>
       <button type="button" data-atlas-section-target="plan" aria-pressed="false">Plan</button>
-      <button type="button" data-atlas-section-target="buscar" aria-pressed="false">Buscar</button>
       <button type="button" data-atlas-section-target="menu" aria-pressed="false" aria-expanded="false">Menú</button>
     </nav>
     <dialog data-atlas-new-process>
@@ -218,5 +253,241 @@
     <div class="atlas-toast" data-atlas-toast role="status" hidden></div>
   </div>
   <script type="module" src="/src/app/main.mjs?v=bpmn-6"></script>
+  <style>
+    /* ===== TRANSICIONES SUAVES ENTRE VISTAS ===== */
+    .atlas-canvas, .atlas-processes, .atlas-plan, .rr-view {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .atlas-app[data-atlas-section="mapa"] .atlas-canvas,
+    .atlas-app[data-atlas-section="procesos"] .atlas-processes,
+    .atlas-app[data-atlas-section="plan"] .atlas-plan,
+    .atlas-app[data-atlas-section="rr-grafo"] .rr-view[data-rr-section="grafo"],
+    .atlas-app[data-atlas-section="rr-bpmn"] .rr-view[data-rr-section="bpmn"],
+    .atlas-app[data-atlas-section="rr-flujos"] .rr-view[data-rr-section="flujos"] {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RR VIEW ===== */
+    .rr-view {
+      grid-column: 2 / -1;
+      display: none;
+      height: 100%;
+      min-height: 0;
+      position: relative;
+      padding: 12px;
+      background: var(--rr-bezel, #0b0108);
+    }
+    .rr-view:not([hidden]) { display: block; }
+    .rr-view iframe {
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      background: #070001;
+    }
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-grafo"] .atlas-plan,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-bpmn"] .atlas-plan,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-canvas,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-sidebar,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-flujos"] .atlas-plan { display: none !important; }
+
+    /* ===== LOADING STATES PROFESIONALES ===== */
+    .rr-loader {
+      position: absolute;
+      inset: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: linear-gradient(180deg, #070001 0%, #0e030b 100%);
+      border-radius: 12px;
+      z-index: 10;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .rr-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .rr-loader-logo {
+      position: relative;
+      width: 64px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+    }
+    .rr-loader-logo img {
+      width: 48px;
+      height: 42px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+    .rr-loader-pulse {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      border: 2px solid #BE076D;
+      animation: rr-pulse 2s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes rr-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 0.2; }
+    }
+    .rr-loader p {
+      color: #FFFFF3;
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .rr-loader-sub {
+      color: #973D8F;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ===== TABBAR MEJORADO ===== */
+    .atlas-tabbar {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+      padding: 4px 8px;
+      background: var(--rr-ink);
+      border-top: 2px solid var(--rr-fuchsia);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .atlas-tabbar::-webkit-scrollbar { display: none; }
+    .atlas-tabbar button {
+      position: relative;
+      flex: 0 0 auto;
+      min-width: 56px;
+      padding: 8px 10px;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+      border-radius: 8px 8px 0 0;
+      background: transparent;
+      color: var(--rr-muted);
+      transition: color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+    .atlas-tabbar button:hover {
+      color: var(--rr-paper);
+      background: rgba(190, 7, 109, 0.1);
+    }
+    .atlas-tabbar button[aria-pressed="true"] {
+      color: var(--rr-paper);
+      background: rgba(190, 7, 109, 0.2);
+    }
+    .atlas-tabbar button[aria-pressed="true"]::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: #BE076D;
+      border-radius: 2px 2px 0 0;
+      animation: rr-tab-in 0.3s ease;
+    }
+    @keyframes rr-tab-in {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @media (max-width: 760px) {
+      .atlas-tabbar {
+        justify-content: flex-start;
+        padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+      }
+      .atlas-tabbar button {
+        min-width: 52px;
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+    }
+
+    /* ===== HOVER EFFECTS EN NODOS ===== */
+    .atlas-cards > * {
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .atlas-cards > *:hover {
+      box-shadow: 0 0 0 2px #BE076D, 0 8px 24px rgba(190, 7, 109, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== SCROLLBAR ESTILIZADO ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #973D8F; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #BE076D; }
+  </style>
+  <script>
+    (function() {
+      const app = document.getElementById('atlas-app');
+      const rrViews = document.querySelectorAll('[data-rr-view]');
+      const rrSections = document.querySelectorAll('[data-rr-section]');
+      const atlasTabs = document.querySelectorAll('[data-atlas-section-target]');
+      let currentSection = 'mapa';
+
+      function hideAllRR() {
+        rrSections.forEach(s => {
+          s.style.opacity = '0';
+          s.style.transform = 'translateY(8px)';
+          setTimeout(() => { s.hidden = true; }, 250);
+        });
+        rrViews.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      }
+
+      function showRR(section) {
+        const target = document.querySelector('[data-rr-section="' + section + '"]');
+        if (target) {
+          target.hidden = false;
+          requestAnimationFrame(() => {
+            target.style.opacity = '1';
+            target.style.transform = 'translateY(0)';
+          });
+        }
+      }
+
+      rrViews.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const view = btn.dataset.rrView;
+          if (currentSection === 'rr-' + view) return;
+          currentSection = 'rr-' + view;
+          hideAllRR();
+          atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
+          btn.setAttribute('aria-pressed', 'true');
+          app.dataset.atlasSection = 'rr-' + view;
+          showRR(view);
+        });
+      });
+
+      atlasTabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const section = btn.dataset.atlasSectionTarget;
+          if (currentSection === section) return;
+          currentSection = section;
+          hideAllRR();
+        });
+      });
+
+      rrSections.forEach(s => {
+        s.style.opacity = '0';
+        s.style.transform = 'translateY(8px)';
+      });
+    })();
+  </script>
 </body>
 </html>
