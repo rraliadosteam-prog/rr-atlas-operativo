@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="RR Aliados · Grafo documental">
+  <title>RR Aliados · Grafo documental</title>
+  <link rel="icon" href="/rr-logo-mark.png">
+  <link rel="stylesheet" href="grafo.css">
+</head>
+<body>
+  <div class="g-app">
+    <header class="g-head">
+      <a class="g-brand" href="/" aria-label="Volver al Atlas">
+        <img src="/rr-logo-mark.png" alt="">
+        <span><strong>RR ALIADOS</strong><em>Grafo documental</em></span>
+      </a>
+      <label class="g-search">
+        <span class="g-sr">Buscar documento</span>
+        <input id="q" type="search" placeholder="Buscar por título, ruta, owner, encabezado…" autocomplete="off">
+      </label>
+      <div class="g-stats" id="stats" aria-live="polite"></div>
+    </header>
+
+    <div class="g-body">
+      <aside class="g-rail" aria-label="Filtros">
+        <section>
+          <h2>Área</h2>
+          <div class="g-chips" id="f-area"></div>
+        </section>
+        <section>
+          <h2>Tipo de nodo</h2>
+          <div class="g-chips" id="f-kind"></div>
+        </section>
+        <section>
+          <h2>Estado</h2>
+          <div class="g-chips" id="f-estado"></div>
+        </section>
+        <section>
+          <h2>Tipo</h2>
+          <select id="f-tipo"><option value="">Todos</option></select>
+        </section>
+        <section>
+          <h2>Comunidad</h2>
+          <select id="f-com"><option value="">Todas</option></select>
+        </section>
+        <button class="g-reset" id="reset" type="button">Limpiar filtros</button>
+        <p class="g-note">Capa derivada de solo lectura. El vault y Drive siguen siendo la fuente.</p>
+      </aside>
+
+      <main class="g-main">
+        <div class="g-canvas-wrap">
+          <canvas id="canvas" aria-label="Mapa de documentos"></canvas>
+          <div class="g-canvas-legend" id="legend"></div>
+          <div class="g-tooltip" id="tip" hidden></div>
+        </div>
+        <div class="g-list-wrap">
+          <div class="g-list-head"><span id="list-count">—</span><button id="toggle-list" type="button">Ocultar lista</button></div>
+          <ul class="g-list" id="list"></ul>
+        </div>
+      </main>
+
+      <aside class="g-detail" id="detail" aria-label="Ficha del documento">
+        <p class="g-empty">Selecciona un documento en el mapa o en la lista.</p>
+      </aside>
+    </div>
+  </div>
+  <script src="grafo.js"></script>
+</body>
+</html>
