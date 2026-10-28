@@ -53,7 +53,7 @@
         <button data-atlas-filter="Talento" aria-pressed="false">♙ Talento</button>
         <button data-atlas-filter="Herramienta" aria-pressed="false">⚙ Herramientas</button>
         <button type="button" data-atlas-section-target="procesos" aria-pressed="false">▦ Procesos BPMN</button>
-        <p class="atlas-hint">La estructura definitiva de RR queda fuera de esta fase. Este mapa organiza capacidades sin convertir borradores en verdad empresarial.</p>
+        <p class="atlas-hint">Atlas operativo de RR Aliados. Navegá entre Mapa, Procesos BPMN, Grafo documental, BPMN comercial y Flujos operativos usando el menú inferior.</p>
       </nav>
 
       <main class="atlas-canvas" aria-label="Lienzo visual interactivo">
@@ -133,13 +133,37 @@
         <aside class="atlas-process-meta" data-atlas-process-meta aria-label="Dueño, KPI y validación"><p class="atlas-muted">Selecciona un proceso.</p></aside>
       </section>
       <section class="rr-view" data-rr-section="grafo" hidden>
-        <iframe src="/grafo/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+        <div class="rr-loader" id="loader-grafo">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando grafo documental...</p>
+          <span class="rr-loader-sub">1.367 nodos · 1.863 relaciones</span>
+        </div>
+        <iframe src="/grafo/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-grafo').style.display='none'"></iframe>
       </section>
       <section class="rr-view" data-rr-section="bpmn" hidden>
-        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+        <div class="rr-loader" id="loader-bpmn">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando BPMN comercial...</p>
+          <span class="rr-loader-sub">Playbook interactivo</span>
+        </div>
+        <iframe src="/bpmn/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-bpmn').style.display='none'"></iframe>
       </section>
       <section class="rr-view" data-rr-section="flujos" hidden>
-        <iframe src="/flujos/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+        <div class="rr-loader" id="loader-flujos">
+          <div class="rr-loader-logo">
+            <img src="/rr-logo-mark.png" alt="RR" width="48" height="42">
+            <div class="rr-loader-pulse"></div>
+          </div>
+          <p>Cargando flujos operativos...</p>
+          <span class="rr-loader-sub">10 procesos documentados</span>
+        </div>
+        <iframe src="/flujos/" style="width:100%;height:100%;border:none;" sandbox="allow-scripts allow-same-origin allow-popups" onload="document.getElementById('loader-flujos').style.display='none'"></iframe>
       </section>
     </div>
 
@@ -196,7 +220,21 @@
   </div>
   <script type="module" src="/src/app/main.mjs?v=bpmn-4"></script>
   <style>
-    .rr-view { grid-column: 2 / -1; display: none; height: 100%; min-height: 0; }
+    /* ===== TRANSICIONES SUAVES ENTRE PESTAÑAS ===== */
+    .atlas-canvas, .atlas-processes, .rr-view {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .atlas-app[data-atlas-section="mapa"] .atlas-canvas,
+    .atlas-app[data-atlas-section="procesos"] .atlas-processes,
+    .atlas-app[data-atlas-section="rr-grafo"] .rr-view[data-rr-section="grafo"],
+    .atlas-app[data-atlas-section="rr-bpmn"] .rr-view[data-rr-section="bpmn"],
+    .atlas-app[data-atlas-section="rr-flujos"] .rr-view[data-rr-section="flujos"] {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RR VIEW ===== */
+    .rr-view { grid-column: 2 / -1; display: none; height: 100%; min-height: 0; position: relative; }
     .rr-view:not([hidden]) { display: block; }
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-canvas,
     .atlas-app[data-atlas-section="rr-grafo"] .atlas-sidebar,
@@ -207,6 +245,100 @@
     .atlas-app[data-atlas-section="rr-flujos"] .atlas-canvas,
     .atlas-app[data-atlas-section="rr-flujos"] .atlas-sidebar,
     .atlas-app[data-atlas-section="rr-flujos"] .atlas-processes { display: none !important; }
+
+    /* ===== LOADING STATES PROFESIONALES ===== */
+    .rr-loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: linear-gradient(180deg, #070001 0%, #0e030b 100%);
+      z-index: 10;
+      transition: opacity 0.4s ease;
+    }
+    .rr-loader-logo {
+      position: relative;
+      width: 64px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+    }
+    .rr-loader-logo img {
+      width: 48px;
+      height: 42px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+    .rr-loader-pulse {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      border: 2px solid #BE076D;
+      animation: rr-pulse 2s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes rr-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 0.2; }
+    }
+    .rr-loader p {
+      color: #FFFFF3;
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .rr-loader-sub {
+      color: #973D8F;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ===== TABBAR MEJORADO ===== */
+    .atlas-tabbar button {
+      position: relative;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .atlas-tabbar button[aria-pressed="true"]::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: #BE076D;
+      border-radius: 2px 2px 0 0;
+      animation: rr-tab-in 0.3s ease;
+    }
+    @keyframes rr-tab-in {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    /* ===== HOVER EFFECTS EN NODOS ===== */
+    .atlas-cards > * {
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .atlas-cards > *:hover {
+      box-shadow: 0 0 0 2px #BE076D, 0 8px 24px rgba(190, 7, 109, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== SIDEBAR TRANSICIONES ===== */
+    .atlas-sidebar {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ===== SCROLLBAR ESTILIZADO ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #973D8F; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #BE076D; }
   </style>
   <script>
     (function() {
@@ -214,27 +346,54 @@
       const rrViews = document.querySelectorAll('[data-rr-view]');
       const rrSections = document.querySelectorAll('[data-rr-section]');
       const atlasTabs = document.querySelectorAll('[data-atlas-section-target]');
+      let currentSection = 'mapa';
 
       function hideAllRR() {
-        rrSections.forEach(s => s.hidden = true);
+        rrSections.forEach(s => {
+          s.style.opacity = '0';
+          s.style.transform = 'translateY(8px)';
+          setTimeout(() => { s.hidden = true; }, 250);
+        });
         rrViews.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      }
+
+      function showRR(section) {
+        const target = document.querySelector('[data-rr-section="' + section + '"]');
+        if (target) {
+          target.hidden = false;
+          requestAnimationFrame(() => {
+            target.style.opacity = '1';
+            target.style.transform = 'translateY(0)';
+          });
+        }
       }
 
       rrViews.forEach(btn => {
         btn.addEventListener('click', () => {
           const view = btn.dataset.rrView;
+          if (currentSection === 'rr-' + view) return;
+          currentSection = 'rr-' + view;
           hideAllRR();
           atlasTabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
           btn.setAttribute('aria-pressed', 'true');
           app.dataset.atlasSection = 'rr-' + view;
-          document.querySelector('[data-rr-section="' + view + '"]').hidden = false;
+          showRR(view);
         });
       });
 
       atlasTabs.forEach(btn => {
         btn.addEventListener('click', () => {
+          const section = btn.dataset.atlasSectionTarget;
+          if (currentSection === section) return;
+          currentSection = section;
           hideAllRR();
         });
+      });
+
+      // Inicializar estados visuales
+      rrSections.forEach(s => {
+        s.style.opacity = '0';
+        s.style.transform = 'translateY(8px)';
       });
     })();
   </script>
