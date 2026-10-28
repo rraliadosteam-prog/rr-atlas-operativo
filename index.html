@@ -433,6 +433,12 @@
       transform: translateY(0);
     }
 
+    /* Hide explore when other sections are active */
+    .atlas-app[data-atlas-section="inicio"] .atlas-explore,
+    .atlas-app[data-atlas-section="mapa"] .atlas-explore,
+    .atlas-app[data-atlas-section="procesos"] .atlas-explore,
+    .atlas-app[data-atlas-section="plan"] .atlas-explore { display: none !important; }
+
     /* Hide other sections when explore is active */
     .atlas-app[data-atlas-section="explore"] .atlas-canvas,
     .atlas-app[data-atlas-section="explore"] .atlas-sidebar,
@@ -960,13 +966,14 @@
       <!-- PLAN LOCAL -->
       <section class="atlas-plan" data-atlas-plan hidden>
         <div class="atlas-plan-header mat-panel">
-          <div><span class="kind">Mesa RR · fixture local</span><h1>Plan de trabajo</h1><p class="atlas-muted">Una superficie de organizacion para ordenar proximos pasos sin cargar informacion real.</p></div>
+          <div><span class="kind">Plan de trabajo RR · Q4 2026</span><h1>Plan de trabajo</h1><p class="atlas-muted">10 tareas activas del backlog. Filtra por estado y edita notas localmente.</p></div>
           <button type="button" class="atlas-button atlas-button--secondary atlas-plan-map-link press" data-atlas-section-target="mapa" aria-pressed="false">Mapa</button>
           <div class="atlas-plan-filters" data-atlas-plan-filters aria-label="Filtrar plan">
             <button type="button" class="atlas-button press" data-plan-filter="Todo" aria-pressed="true">Todo</button>
             <button type="button" class="atlas-button press" data-plan-filter="Pendiente" aria-pressed="false">Pendiente</button>
             <button type="button" class="atlas-button press" data-plan-filter="En curso" aria-pressed="false">En curso</button>
             <button type="button" class="atlas-button press" data-plan-filter="Hecho" aria-pressed="false">Hecho</button>
+            <button type="button" class="atlas-button press" data-plan-filter="Bloqueada" aria-pressed="false">Bloqueada</button>
           </div>
         </div>
         <div class="atlas-plan-list" data-atlas-plan-list></div>
@@ -1156,7 +1163,7 @@
 
     <footer class="atlas-footer" aria-label="Identidad del producto">
       <div class="atlas-footer-brand"><span class="atlas-logo-frame"><img class="atlas-logo-image atlas-logo-image--dark" src="/src/brand/simbolo_mostaza_on_negro.png" alt="Logo de RR Aliados"><img class="atlas-logo-image atlas-logo-image--light" src="/src/brand/simbolo_negro_on_blanco.png" alt=""></span><div><strong>RR ALIADOS</strong><span>Atlas operativo</span></div></div>
-      <div class="atlas-footer-meta"><span>Versión 4.2 · interior inspired</span><span>Mapa: <span data-atlas-count>0 nodos</span></span><span data-atlas-theme-label>Tema RR oscuro</span><span>Developed by RR Aliados</span></div>
+      <div class="atlas-footer-meta"><span>Versión 4.3 · RR Aliados</span><span>Mapa: <span data-atlas-count>0 nodos</span></span><span data-atlas-theme-label>Tema RR oscuro</span><span>Developed by RR Aliados</span></div>
     </footer>
 
     <!-- TABBAR (mobile only, 4 botones) -->
@@ -1267,24 +1274,6 @@
             switchTo('plan');
           } else {
             openExplore(nav);
-          }
-        });
-      });
-
-      // Home action buttons
-      document.querySelectorAll('.atlas-home-actions button').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const action = btn.dataset.homeAction;
-          if (action === 'bpm' || action === 'flujos') {
-            switchTo('procesos');
-          } else if (action === 'grafo') {
-            openExplore('gobierno');
-          } else if (action.startsWith('mapa-')) {
-            const cat = action.replace('mapa-', '');
-            openExplore(cat);
-          } else {
-            openExplore('clientes');
           }
         });
       });

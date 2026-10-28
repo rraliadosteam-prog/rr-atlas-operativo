@@ -43,7 +43,12 @@ export const DEFAULT_GRAPH = {
 
     // CONTROLES
     { "id": "ctrl_001", "title": "Control de calidad", "type": "Control", "desc": "Revision de entregables antes de envio.", "x": 1100, "y": 450, "links": [], "notes": "Checklist por tipo de entrega.", "owner": "Operaciones", "status": "Activo" },
-    { "id": "ctrl_002", "title": "Seguridad de datos", "type": "Control", "desc": "Cifrado, backups y accesos.", "x": 1100, "y": 650, "links": [], "notes": "Backups automaticos. Acceso por roles.", "owner": "Tech", "status": "Activo" }
+    { "id": "ctrl_002", "title": "Seguridad de datos", "type": "Control", "desc": "Cifrado, backups y accesos.", "x": 1100, "y": 650, "links": [], "notes": "Backups automaticos. Acceso por roles.", "owner": "Tech", "status": "Activo" },
+
+    // FINANZAS
+    { "id": "fin_001", "title": "Estado de caja", "type": "Finanzas", "desc": "Cash flow actual y disponibilidad operativa.", "x": 1350, "y": 50, "links": [], "notes": "Runway: 3 meses. Caja activa.", "owner": "Direccion", "status": "Activo" },
+    { "id": "fin_002", "title": "Cobranza Q4", "type": "Finanzas", "desc": "Seguimiento de facturas vencidas y acuerdos de pago.", "x": 1350, "y": 250, "links": [], "notes": "3 facturas vencidas >30 dias. Seguimiento semanal.", "owner": "Direccion", "status": "Alerta" },
+    { "id": "fin_003", "title": "Proyecciones 2027", "type": "Finanzas", "desc": "Forecast de ingresos y gastos para el proximo ano.", "x": 1350, "y": 450, "links": [], "notes": "En construccion. Dependiente de cierre de contratos Q4.", "owner": "Direccion", "status": "En curso" }
   ],
   "lines": [
     // Gobierno conecta con todos
@@ -79,6 +84,16 @@ export const DEFAULT_GRAPH = {
 
     // Controles aplican a procesos
     ["ctrl_001", "proc_001"], ["ctrl_001", "proc_004"],
-    ["ctrl_002", "tool_001"], ["ctrl_002", "tool_002"]
+    ["ctrl_002", "tool_001"], ["ctrl_002", "tool_002"],
+
+    // Finanzas conectan con procesos y clientes
+    ["fin_002", "proc_003"],
+    ["fin_001", "cli_001"], ["fin_001", "cli_002"], ["fin_001", "cli_003"],
+    ["fin_003", "gob_002"]
   ]
 };
+
+// Exponer globalmente para que el inline script pueda acceder
+if (typeof window !== 'undefined') {
+  window.DEFAULT_GRAPH = DEFAULT_GRAPH;
+}
