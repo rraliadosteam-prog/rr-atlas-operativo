@@ -2,6 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build:legacy",
   "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/media/drive/:id/:width",
+      "destination": "https://drive.google.com/thumbnail?id=:id&sz=w:width"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

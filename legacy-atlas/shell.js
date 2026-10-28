@@ -18,7 +18,7 @@ function bytes(n) {
 }
 const fecha = (iso) => (iso ? String(iso).slice(0, 10) : '—');
 const drive = (id) => `https://drive.google.com/open?id=${id}`;
-const miniatura = (id, w = 640) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
+const miniatura = (id, w = 640) => `/media/drive/${encodeURIComponent(id)}/${w}`;
 const TIPO_ICONO = { markdown: '¶', pdf: 'PDF', imagen: '▣', planilla: '▦', json: '{}', codigo: '</>', documento: '▤', carpeta: '▸', otro: '•' };
 const ESTADO_TXT = { activo: 'activo', ex: 'ex cliente', interno: 'interno' };
 
