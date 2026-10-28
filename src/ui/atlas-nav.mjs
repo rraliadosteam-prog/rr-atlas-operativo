@@ -100,7 +100,8 @@ export function bindAtlasNavigation({ app, search, processView, planView }) {
     viewport.addEventListener('scroll', syncKeyboard);
   }
 
-  // La vista de entrada canónica es Inicio; Mapa queda como destino explícito.
+  // Compartir la transicion canonica con las capas de Inicio y Explorar.
+  window.__atlasSetSection = setSection;
   setSection(app.dataset.atlasSection || 'inicio');
   return { setSection, closeMenu };
 }

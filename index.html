@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/src/styles/components.css?v=bpmn-6">
   <link rel="stylesheet" href="/src/styles/bpmn.css">
   <link rel="stylesheet" href="/src/styles/motion.css?v=bpmn-6">
+  <link rel="stylesheet" href="/src/styles/explore-catalog.css?v=mega-1">
   <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
@@ -623,7 +624,7 @@
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 14px;
       max-width: 1400px;
-      padding-bottom: 40px;
+      padding-bottom: 80px;
     }
     .explore-card {
       background: var(--rr-card);
@@ -986,6 +987,20 @@
           <p>Centro de comando de RR Aliados. Explora cada area para ver detalles, estados y acciones.</p>
         </div>
         <div class="atlas-home-grid">
+          <!-- Ecosistema completo -->
+          <article class="atlas-home-card" data-home-nav="ecosistema">
+            <div class="atlas-home-card-icon" style="background: rgba(190, 7, 109, 0.15); color: #be076d;">&#9673;</div>
+            <h3>MegaDashboard / Ecosistema</h3>
+            <p>Catalogo completo de desarrollos RR: clientes, internos, prototipos, produccion y archivo.</p>
+            <div class="atlas-home-card-meta">
+              <span class="count" style="background: rgba(190, 7, 109, 0.15); color: #be076d;" data-ecosystem-count>47 registros</span>
+              <span>Fuente y corte por ficha</span>
+            </div>
+            <div class="atlas-home-card-status">
+              <span class="status-pill active">Trabajo</span>
+              <span class="status-pill dev">Resumen</span>
+            </div>
+          </article>
           <!-- Clientes -->
           <article class="atlas-home-card" data-home-nav="clientes">
             <div class="atlas-home-card-icon" style="background: rgba(255, 159, 28, 0.15); color: #ff9f1c;">&#9781;</div>
@@ -1091,6 +1106,7 @@
             <input type="text" data-explore-search placeholder="Buscar..." aria-label="Buscar en categoria">
           </label>
         </div>
+        <div class="atlas-catalog-controls" data-explore-catalog-controls hidden></div>
         <div class="atlas-explore-grid" data-explore-grid></div>
       </section>
 
@@ -1210,6 +1226,6 @@
   </div>
 
   <script type="module" src="/src/app/main.mjs?v=bpmn-6"></script>
-  <script type="module" src="/src/app/atlas-explore.mjs?v=bpmn-6"></script>
+  <script type="module" src="/src/app/atlas-explore.mjs?v=mega-2"></script>
 </body>
 </html>
