@@ -383,3 +383,7 @@ body.atlas-theme-light .atlas-logo-frame { background: var(--rr-paper-fixed); bo
   input, select, textarea { min-height: 44px; font-size: 16px; }
   .atlas-footer-brand span, .atlas-footer-meta, .atlas-minimap-title { font-size: 12px; }
 }
+
+.atlas-rail-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; margin: 10px 0 4px; padding: 10px; border: 1px solid var(--rr-orchid); border-radius: 2px; background: transparent; color: var(--rr-paper); text-decoration: none; }
+.atlas-rail-link:hover { background: color-mix(in oklab, var(--rr-fuchsia) 24%, transparent); border-color: var(--rr-fuchsia); }
+.atlas-rail-link .atlas-rail-count { color: var(--rr-mustard); }
