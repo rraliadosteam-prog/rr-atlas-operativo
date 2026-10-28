@@ -215,10 +215,13 @@
     b2.textContent = m.relaciones;
     const b3 = document.createElement('b');
     b3.textContent = m.documentos;
+    const b4 = document.createElement('b');
+    b4.textContent = m.drive_docs || 0;
     el('stats').append(
       b1, document.createTextNode(' nodos · '),
       b2, document.createTextNode(' relaciones · '),
-      b3, document.createTextNode(' docs · ' + m.generado)
+      b3, document.createTextNode(' docs · '),
+      b4, document.createTextNode(' con Drive · ' + m.generado)
     );
   }
 
@@ -290,6 +293,7 @@
       mk(ESTADOS.find((e) => e[0] === n.estado)[1], n.estado);
     }
     mk(n.degree + ' vínculos');
+    if (isPage && n.drive_url) mk('Drive ✓');
 
     const kv = document.createElement('dl');
     kv.className = 'g-kv';
@@ -307,6 +311,10 @@
       row('Revisar', n.revisar);
       row('Vigente', n.vigente_hasta);
       row('Capacidad', n.capacidad);
+      row('Drive', n.drive_id);
+      row('Versión Drive', n.drive_version);
+      row('Modificado', (n.drive_modified || '').slice(0, 10));
+      row('MD5', (n.drive_md5 || '').slice(0, 12));
     }
     row('Archivo', n.file);
     row('Comunidad', n.community_name);
@@ -314,9 +322,17 @@
 
     const actions = document.createElement('div');
     actions.className = 'g-actions';
+    if (isPage && n.drive_url) {
+      const dr = document.createElement('a');
+      dr.className = 'primary';
+      dr.href = n.drive_url;
+      dr.target = '_blank';
+      dr.rel = 'noopener';
+      dr.textContent = 'Abrir en Drive';
+      actions.appendChild(dr);
+    }
     if (isPage && n.obsidian) {
       const ob = document.createElement('a');
-      ob.className = 'primary';
       ob.href = n.obsidian;
       ob.textContent = 'Abrir en Obsidian';
       actions.appendChild(ob);
