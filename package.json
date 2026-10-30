@@ -7,7 +7,8 @@
     "build": "npm run build:rust",
     "build:legacy": "node scripts/build.mjs",
     "build:rust": "bash scripts/build-rust-web.sh",
-    "test": "node --test src/core/atlas-state.test.mjs src/app/atlas-store.test.mjs",
+    "test": "node --test \"src/**/*.test.mjs\" \"scripts/**/*.test.mjs\" scripts/test-persistence.mjs",
+    "preview:local": "node scripts/build.mjs --local && python3 -m http.server 4175 --bind 127.0.0.1 --directory dist",
     "check": "for f in $(find src -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build:legacy && npm run build:rust"
   }
 }
