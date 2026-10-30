@@ -1,0 +1,7 @@
+# Atlas tree prototype — task mirror
+
+Feature document: `odd/tasks/atlas-arbol-pro.md`
+
+Tasks: T1 backup/evidence; T2 shell/navigation/responsive fixes; T3 top-down tree/editor; T4 RR UI/mobile/browser checks; T5 delivery note and screenshots.
+
+Current evidence: production carcasa v3 is backed up under `/home/deadkiss/rr-encargos/atlas-pro-20261030/respaldo-prod-20261030/carcasa-v3/`; exact 645fa62 archive is under `.../repo/atlas-bpmn-movil-645fa62.tar`.

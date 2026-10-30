@@ -20,6 +20,13 @@ if [ -f "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
 
+# Trunk 0.21 parses NO_COLOR as a boolean; normalize the common shell values
+# used by CI and local shells before invoking it.
+case "${NO_COLOR:-}" in
+  1|true|TRUE|True) export NO_COLOR=true ;;
+  0|false|FALSE|False) export NO_COLOR=false ;;
+esac
+
 rustup target add wasm32-unknown-unknown
 
 if ! command -v trunk >/dev/null 2>&1; then

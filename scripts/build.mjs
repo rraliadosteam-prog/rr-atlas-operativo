@@ -5,13 +5,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 export function validateShell(html) {
   if (typeof html !== 'string' || !/^<!doctype html>/i.test(html.trim())) throw new Error('Invalid HTML shell');
   const required = [
-    'src/app/main.mjs',
-    'src/styles/tokens.css',
-    'src/styles/layout.css',
-    'src/styles/components.css',
-    'data-atlas-layout',
-    'data-atlas-editor',
-    'data-atlas-cards',
+    'src/app/rr-tree.mjs',
+    'src/styles/rr-tree.css',
+    'data-canvas',
+    'data-nodes',
+    'data-inspector',
   ];
   for (const marker of required) {
     if (!html.includes(marker)) throw new Error(`Missing shell marker: ${marker}`);
