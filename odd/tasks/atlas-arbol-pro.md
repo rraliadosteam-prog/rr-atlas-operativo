@@ -15,12 +15,13 @@ Owner: Atlas. Scope: public-safe local/preview prototype only; no production pub
 ## Tasks
 
 - T1 — S5/S7 — Back up production and repository; write log — commit: evidence only
-- T2 — S1/S5 — Create the test branch and repair shell/navigation/responsive behavior — route: inline — commit: pending
-- T3 — S2/S3 — Implement the top-down RR tree and local editor — route: inline — commit: pending
-- T4 — S4/S6 — Apply RR visual system, mobile bottom sheet, and browser checks — route: inline — commit: pending
-- T5 — S6/S7 — Run checks, capture screenshots, and prepare delivery note — route: inline — commit: pending
+- T2 — S1/S5 — Create the test branch and repair shell/navigation/responsive behavior — route: inline — commit: fdda425
+- T3 — S2/S3 — Implement the top-down RR tree and local editor — route: inline — commit: fdda425
+- T4 — S4/S6 — Apply RR visual system, mobile bottom sheet, and browser checks — route: inline — commit: fdda425
+- T5 — S6/S7 — Run checks, capture screenshots, and prepare delivery note — route: inline — commit: 990d5cc + evidence outside repo
 
 ## Log
 
 - L1: `Encargo de Rosas (RR ALIADOS), ciclo 1 de 2, coordinado por Atlas. Trabaja de forma autonoma y no interactiva; maximo ~35 minutos.`
 - L2: Backup completed before source edits. The requested repository path and expected branch were not aligned with the available checkout; exact `645fa62` was archived from `/home/deadkiss/atlas-deploy-r31` and the current checkout was separately bundled.
+- L3: Implementation committed as `fdda425` (tree/editor) and `990d5cc` (build checks and ODD tracking). `npm run check` and Chrome headless evidence passed. Fork push remains blocked by host interactive-confirmation policy in this noninteractive run.
