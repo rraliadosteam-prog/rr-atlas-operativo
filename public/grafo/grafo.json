@@ -1,1 +1,3024 @@
-{"meta":{"generado":"2026-10-27","fuente":"vault RR-SegundoCerebro (copia filtrada)","canonico":"/home/deadkiss/GoogleDrive/RR/Second Brain RR/RR-SegundoCerebro","semantica":false,"modelos":0,"documentos":78,"relaciones":254,"comunidades":6,"excluidos":39,"staging":"2026-10-27T19:12:41.265643-05:00"},"docs":[{"i":0,"id":"10_mapa_00_mapa_maestro_rr","title":"00_mapa_maestro_rr","file":"10_Mapa/00_mapa_maestro_rr.md","area":"Mapa","tipo":"mapa-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":9,"headings":["Convenciones","Cuándo se vuelve viejo este mapa","CÓMO FUNCIONA","Cómo se lee este mapa","Detalle de las cajas de este lienzo","LA EMPRESA","Mapa maestro visual de RR Aliados","Piloto conectado","SISTEMAS, DATOS E IA"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/00_mapa_maestro_rr"},{"i":1,"id":"40_onboarding_01_flujo_comercial_equipo","title":"01_flujo_comercial_equipo","file":"40_Onboarding/01_flujo_comercial_equipo.md","area":"40","tipo":"onboarding-canvas","owner":"Comercial","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Detalle de las cajas de este lienzo","Gobierno","Los ocho pasos, y quién los lleva","Objetivo","Onboarding: flujo comercial","Regla del lienzo"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=40_Onboarding/01_flujo_comercial_equipo"},{"i":2,"id":"30_funciones_alianzas","title":"ALIANZAS","file":"30_Funciones/ALIANZAS.md","area":"30","tipo":"funcion","owner":"Partnerships / Comercial","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"Alianzas","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["Alianzas y referidos","El dato de la comisión","El flujo","El problema que esta función tiene que resolver","Fuentes","Handoffs","KPIs","Los aliados documentados"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/ALIANZAS"},{"i":3,"id":"30_funciones_comercial","title":"COMERCIAL","file":"30_Funciones/COMERCIAL.md","area":"30","tipo":"funcion","owner":"Comercial / CEO","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"Comercial","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":8,"headings":["Comercial","El embudo","El problema de esta función","Fuentes","Handoffs","KPIs","Pipeline: 16 prospectos en carpeta","Qué está en la mesa ahora","Qué produce","Sistema vertical: el playbook es la estrategia"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/COMERCIAL"},{"i":4,"id":"30_funciones_desarrollo","title":"DESARROLLO","file":"30_Funciones/DESARROLLO.md","area":"30","tipo":"funcion","owner":"tech-orchestrator / CEO","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"Desarrollo","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":10,"headings":["DECIDIDO EL 2026-09-26: Candilejas entra a DashWeb","Desarrollo y tecnología","El flujo","El trabajo de Candilejas que entra a desarrollo","Fuentes","KPIs","La carga de trabajo no está sincronizada","Los cuatro productos","Reglas"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/DESARROLLO"},{"i":5,"id":"30_funciones_gobierno","title":"GOBIERNO","file":"30_Funciones/GOBIERNO.md","area":"30","tipo":"funcion","owner":"Gobierno documental","corte":"2026-09-26","revisar":"2026-10-25","vigente_hasta":"","estado":"vencido","capacidad":"Gobierno documental","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["El flujo","Fuentes","Gobierno documental","KPIs","La estructura de referencia","La regla que no tiene excepción","Lo que está automatizado","Los cinco principios","Los problemas abiertos que esta función tiene que arreglar"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/GOBIERNO"},{"i":6,"id":"30_funciones_ia_y_herramientas","title":"IA_Y_HERRAMIENTAS","file":"30_Funciones/IA_Y_HERRAMIENTAS.md","area":"30","tipo":"funcion","owner":"tech-orchestrator / CEO","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"IA y herramientas","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Dashboard publicado","Decisiones tomadas el 26/09 que limitan esta función","El arreglo aplicado","El bug que sí existía: entrega a WhatsApp sin credenciales","El detalle técnico que explica por qué el documento se confundía","El flujo","El punto de control que importa","El sistema de diagnóstico propio que está muerto: mirofish_lite","Fuentes","IA y herramientas","KPIs","La conclusión de esta nota","Lo que estaba mal y lo que se arregló (2026-09-26)","Lo que está construido","Lo que se confirmó que funciona","Lo que sí es un riesgo real","Por qué no puede funcionar en esta máquina","Y depende de OpenRouter, que está prohibido"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/IA_Y_HERRAMIENTAS"},{"i":7,"id":"30_funciones_legal","title":"LEGAL","file":"30_Funciones/LEGAL.md","area":"30","tipo":"funcion","owner":"Admin / Legal","corte":"2026-09-26","revisar":"2026-10-03","vigente_hasta":"","estado":"vencido","capacidad":"Legal","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["Alertas de la fuente","Dos contratos sin firma con plata ya movida","El flujo","Fuentes","Handoffs","KPIs","Legal y contratos","Reglas","Wundeer: el pendiente de paperwork"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/LEGAL"},{"i":8,"id":"30_funciones_soporte","title":"SOPORTE","file":"30_Funciones/SOPORTE.md","area":"30","tipo":"funcion","owner":"TODO","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"Soporte","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["Carga de mantenimiento entrante","El flujo","El vacío concreto","Fuentes","Handoffs","KPIs","La prioridad existe, el tiempo no","Soporte y escalamiento"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/SOPORTE"},{"i":9,"id":"30_funciones_produccion","title":"PRODUCCION","file":"30_Funciones/PRODUCCION.md","area":"30","tipo":"funcion","owner":"Direccion Operativa","corte":"2026-09-20","revisar":"2026-12-20","vigente_hasta":"","estado":"vigente","capacidad":"⚠️ en su techo","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":7,"headings":["Donde vive la fuente","Flujo","Handoffs","KPIs","La restricción real","Personas","Producción","Que produce"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/PRODUCCION"},{"i":10,"id":"20_empresa_herramientas_decisiones","title":"herramientas_decisiones","file":"20_Empresa/herramientas_decisiones.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["1. Notion queda fuera","2. Google Calendar: autentico y funcionando","Decisiones de herramientas: Notion fuera, Google Calendar dentro","El arreglo","El bug (mismo patron que WhatsApp)","Fuentes","Lo que el bot puede hacer ahora","Lo que sigue pendiente","Lo que sigue sin poder hacer la IA","Qué hay que limpiar (pendiente, accion humana)","Qué significa","Seguridad del token (importante)"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/herramientas_decisiones"},{"i":11,"id":"20_empresa_identidad","title":"identidad","file":"20_Empresa/identidad.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-12-25","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["Fuentes","Identidad de RR Aliados","Nombres canónicos","Principios","Qué NO está en este documento","Qué es","Qué hace"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/identidad"},{"i":12,"id":"10_mapa_02_mapa_de_capacidades","title":"02_mapa_de_capacidades","file":"10_Mapa/02_mapa_de_capacidades.md","area":"Mapa","tipo":"mapa","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":11,"headings":["Anti-pudrimiento","Fuentes","Las dos que están bien","Las nueve capacidades y quién las responde","Lo que este mapa todavía no sabe","Mapa de capacidades","Por qué 6 de 9 están en rojo"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/02_mapa_de_capacidades"},{"i":13,"id":"20_empresa_estado_actual","title":"estado_actual","file":"20_Empresa/estado_actual.md","area":"Empresa","tipo":"referencia","owner":"Direccion + Operaciones","corte":"2026-09-26","revisar":"2026-10-03","vigente_hasta":"2026-10-03","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Caja","Clientes","Equipo","Estado actual","Fuentes","Prioridades confirmados (26/09)","Qué hay que actualizar antes del 2026-10-03"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/estado_actual"},{"i":14,"id":"20_empresa_mapa_de_fuentes","title":"mapa_de_fuentes","file":"20_Empresa/mapa_de_fuentes.md","area":"Empresa","tipo":"referencia","owner":"Gobierno documental","corte":"2026-09-26","revisar":"2026-10-25","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Fuentes","La bandeja","La fila que más sorprende","La regla","La regla de las bases de datos","Mapa de fuentes","Orden de autoridad cuando dos fuentes se contradicen"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/mapa_de_fuentes"},{"i":15,"id":"20_empresa_flota_ia","title":"flota_ia","file":"20_Empresa/flota_ia.md","area":"Empresa","tipo":"referencia","owner":"Direccion tecnica","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":8,"headings":["1. Un solo proveedor, cero respaldo — riesgo real","2. Un décimo bot que no está en la documentación","3. El job inerte ya no existe","4. `mirofish_lite` está muerto desde julio","El arreglo","El bug que había: los bots no podían entregar a WhatsApp","El fallback: qué es y qué NO es","El hueco de observabilidad","El problema grande: no hay respaldo","El punto de control que sí importa","Estado del sistema tras el arreglo","Estado real del cron, verificado contra el SSOT","Flota de agentes","Fuentes","Fuentes","La restricción de 220 h/mes","Lo que se decidió NO tocar","Lo que sí queda mal","Los 9 bots","Por qué el documento decía \"nunca han corrido\"","Regla de autoridad","Restricciones absolutas por bot"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/flota_ia"},{"i":16,"id":"10_mapa_01_cadena_de_valor","title":"01_cadena_de_valor","file":"10_Mapa/01_cadena_de_valor.md","area":"Mapa","tipo":"mapa","owner":"Direccion","corte":"2026-09-26","revisar":"2026-12-26","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Cadena de valor","Dónde se traba hoy","Fuentes","Qué significa cada etapa"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/01_cadena_de_valor"},{"i":17,"id":"10_mapa_03_flujos_operativos","title":"03_flujos_operativos","file":"10_Mapa/03_flujos_operativos.md","area":"Mapa","tipo":"mapa","owner":"Direccion","corte":"2026-09-26","revisar":"2026-12-26","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":11,"headings":["1. Comercial","10. IA y automatizaciones","2. Onboarding de cliente","3. Aliados y referidos","4. Producción y contenido","5. Desarrollo web y tecnología","6. Finanzas y cobranza","7. Legal y contratos","8. Soporte y escalamiento","9. Gobierno documental","Flujos operativos","Los seis flujos, en lienzo","Nota sobre los dos flujos de IA"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/03_flujos_operativos"},{"i":18,"id":"10_mapa_04_raci_y_decisiones","title":"04_raci_y_decisiones","file":"10_Mapa/04_raci_y_decisiones.md","area":"Mapa","tipo":"mapa","owner":"Direccion","corte":"2026-09-26","revisar":"2026-12-26","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Decisiones que hoy no tienen dueño","El punto ciego","RACI base","RACI y decisiones"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/04_raci_y_decisiones"},{"i":19,"id":"30_procesos_ia_como_se_usa_la_ia_en_rr_aliados","title":"ia_como_se_usa_la_ia_en_rr_aliados","file":"30_Procesos/ia_como_se_usa_la_ia_en_rr_aliados.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"IA_Y_Herramientas","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":3,"headings":["1 · ANTES DE CREAR, SE REUSA","2 · CONSTRUCCIÓN","3 · SE INSTALA Y SE DOCUMENTA","CÓMO SE USA LA IA EN RR ALIADOS","Detalle de las cajas de este lienzo","Donde esta el detalle","LAS REGLAS QUE NO SE ROMPEN Y LO QUE NO SE SABE","Que mira el tablero","Quien participa y que decide"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/ia_como_se_usa_la_ia_en_rr_aliados"},{"i":20,"id":"10_mapa_tablero_huecos","title":"tablero_huecos","file":"10_Mapa/tablero_huecos.md","area":"Mapa","tipo":"tablero","owner":"Dirección","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":3,"headings":["Clientes: falta el dato de cada uno","Contratos de cliente sin firmar","Cuentas de Cobro de colaboradores: 345.000 que no mueven la caja","Detalle de las cajas de este lienzo","Direccion — comercial","Direccion — decisiones de negocio","Direccion — equipo y metodo","Finanzas","LO QUE ESTA DETRAS DE ESTOS NUMEROS","La contadora — sin esto no hay numero de caja","Lo que NO bloquea plata","Los grupos que sí mueven plata","Por qué agrupar por dueño y no por tema","Resuelto","Resuelto: ya no es un hueco abierto","Tablero de huecos","Un dato que el tablero no resuelve"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/tablero_huecos"},{"i":21,"id":"20_empresa_cobertura_drive","title":"COBERTURA_DRIVE","file":"20_Empresa/COBERTURA_DRIVE.md","area":"Empresa","tipo":"indice","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["08_Dev — codigo de los productos","09_Admin — lo mas diverso del Drive, y lo mas problematico","Cómo se mantiene vivo","El inventario, área por área","Las dos capas, y por qué están separadas","Las reglas que decide el Drive","Lo que hay en Drive y el vault todavia no cubre (revisado el 2026-09-28)","Los huecos que este inventario declara","Qué hay escrito en el Drive, y qué de eso está en el second brain","Tres cosas que hay que arreglar, y que no toco yo"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/COBERTURA_DRIVE"},{"i":22,"id":"10_mapa_03_12_playbooks_faltantes","title":"03_12_playbooks_faltantes","file":"10_Mapa/03_12_playbooks_faltantes.md","area":"Mapa","tipo":"hueco","owner":"Comercial","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":7,"headings":["Cómo se llena","Detalle de las cajas de este lienzo","GIMNASIOS Y CROSSFIT · 6 etapas sin responder","LO QUE SI SABEMOS, Y LO QUE FALTA","Lo que sí sabemos de cada uno","Lo que sí se puede hacer, y está hecho","Los 3 están marcados en el Canvas","Los 3 playbooks que no existen","Por qué están vacíos","SALUD INDIVIDUAL · 6 etapas sin responder","TALLERES Y DETAILING · 6 etapas sin responder"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/03_12_playbooks_faltantes"},{"i":23,"id":"10_mapa_03_11_flujo_segmentos","title":"03_11_flujo_segmentos","file":"10_Mapa/03_11_flujo_segmentos.md","area":"Mapa","tipo":"recorrido","owner":"Comercial","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["65% DEL ESFUERZO, MARGEN BAJO","Detalle de las cajas de este lienzo","Dónde va el esfuerzo comercial","EL MEJOR MARGEN, EL MENOS METODO","El ciclo más largo","El problema, en una frase","LO QUE HAY QUE DECIDIR, Y POR QUE NO SE DECIDE ACA","LOS OTROS DOS SIN PLAYBOOK","Los 3 que faltan","Los 6 segmentos, con su número","Si se escribieran los 3 playbooks"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/03_11_flujo_segmentos"},{"i":24,"id":"40_onboarding_onboarding_dia_1_a_dia_30","title":"onboarding_dia_1_a_dia_30","file":"40_Onboarding/onboarding_dia_1_a_dia_30.md","area":"40","tipo":"recorrido","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["DIA 1 · ENTENDER","DIA 2 A 5 · PREGUNTAR","DIA 6 A 30 · HACER","Detalle de las cajas de este lienzo","Dia 1 · entender","Dia 2 a 5 · preguntar","Dia 6 a 30 · hacer","La prueba de que entendiste","Los primeros 30 dias","SI LE FALTO","Si le falto algo"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=40_Onboarding/onboarding_dia_1_a_dia_30"},{"i":25,"id":"10_mapa_playbook_comercial_bpmn","title":"playbook_comercial_bpmn","file":"10_Mapa/playbook_comercial_bpmn.md","area":"Mapa","tipo":"diagrama-bpmn","owner":"Comercial","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["BPMN: escribir el playbook comercial de un segmento","Cómo abrirlo","Cómo se regenera","El layout: vertical, con colores","El nivelado: por qué fue lo difícil","La arquitectura de contención","La auto-validación, en dos capas","La capa que faltaba: la geometría","Lo que este diagrama NO puede decir","Nomenclatura, regla por regla","Qué se modeló y de dónde sale"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/playbook_comercial_bpmn"},{"i":26,"id":"30_procesos_area_alianzas","title":"area_alianzas","file":"30_Procesos/area_alianzas.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Alianzas","Detalle de las cajas de este lienzo","El recorrido","LO QUE HAY QUE DECIDIR","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_alianzas"},{"i":27,"id":"00_huecos","title":"00_HUECOS","file":"00_HUECOS.md","area":"Inicio","tipo":"indice","owner":"Dirección","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":14,"headings":["Cómo se mantiene","Cómo usar esta nota","La regla","Lo que NO es un hueco","Lo que todavía no sabemos","Los huecos, por urgencia","Por qué estas cuentas NO cambian el pico de caja","🔴 Dinero: sin esto no se puede planear","🟠 Decisiones que esperan a alguien","🟡 Información que falta, pero no bloquea"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=00_HUECOS"},{"i":28,"id":"30_procesos_area_comercial","title":"area_comercial","file":"30_Procesos/area_comercial.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Comercial","Detalle de las cajas de este lienzo","El recorrido","LO QUE HAY QUE DECIDIR","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_comercial"},{"i":29,"id":"30_procesos_area_desarrollo","title":"area_desarrollo","file":"30_Procesos/area_desarrollo.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Desarrollo","Detalle de las cajas de este lienzo","El recorrido","LO QUE HAY QUE DECIDIR","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_desarrollo"},{"i":30,"id":"30_procesos_area_gobierno","title":"area_gobierno","file":"30_Procesos/area_gobierno.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Gobierno","Detalle de las cajas de este lienzo","El recorrido","LA MEDICION","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_gobierno"},{"i":31,"id":"30_procesos_area_ia_y_herramientas","title":"area_ia_y_herramientas","file":"30_Procesos/area_ia_y_herramientas.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Ia Y Herramientas","Detalle de las cajas de este lienzo","El recorrido","LA MEDICION","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_ia_y_herramientas"},{"i":32,"id":"30_procesos_departamentos_rr_aliados","title":"departamentos_rr_aliados","file":"30_Procesos/departamentos_rr_aliados.md","area":"Procesos","tipo":"mapa-departamentos","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["DONDE DUELEN LOS DIRECTIVOS","Detalle de las cajas de este lienzo","Donde duelen los directivos","LAS NUEVE","LO QUE FALTA","Lo que hay que decidir","Los nueve areas"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/departamentos_rr_aliados"},{"i":33,"id":"30_procesos_reunion_directivos_las_9_areas","title":"reunion_directivos_las_9_areas","file":"30_Procesos/reunion_directivos_las_9_areas.md","area":"Procesos","tipo":"reunion","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Criterio propuesto para las otras 23","Detalle de las cajas de este lienzo","EL DATO DURO","El dato duro","LO QUE HAY QUE DECIDIR","LO QUE SI SE MIDE","LO QUE SIGNIFICA","Las nueve areas en una pagina","Las nueve metas que existen","Lo que eso significa","Que los KPI de crecimiento ya existen"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/reunion_directivos_las_9_areas"},{"i":34,"id":"30_procesos_area_legal","title":"area_legal","file":"30_Procesos/area_legal.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Legal","Detalle de las cajas de este lienzo","El recorrido","LA MEDICION","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_legal"},{"i":35,"id":"30_procesos_area_produccion","title":"area_produccion","file":"30_Procesos/area_produccion.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Produccion","Detalle de las cajas de este lienzo","El recorrido","LO QUE HAY QUE DECIDIR","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_produccion"},{"i":36,"id":"30_procesos_area_soporte","title":"area_soporte","file":"30_Procesos/area_soporte.md","area":"Procesos","tipo":"area-canvas","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["Area Soporte","Detalle de las cajas de este lienzo","El recorrido","LO QUE HAY QUE DECIDIR","La medicion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/area_soporte"},{"i":37,"id":"20_empresa_pendientes_ia","title":"pendientes_ia","file":"20_Empresa/pendientes_ia.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["El delta entre los dos informes","Fuentes","Lo que NO puede hacer la IA (y hay que saber)","Lo que encontro la IA (primer dia real de trabajo)","P0 — Caja: el acreedor de la devolucion del 27/09","P0 — GitHub sin scope `workflow`","P0 — Impuestos: retencion ICA Jul-Ago vencida","P0 — Seguridad","P1 — BOGA: mover la firma","P1 — COBRANZA sin columna `Vence`","P1 — Candilejas/553 sin dueño","P1 — Faltan 5 `_CONTEXTO.md`","P2 — Other blockers con dueño asignado"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/pendientes_ia"},{"i":38,"id":"20_empresa_estrategia","title":"estrategia","file":"20_Empresa/estrategia.md","area":"Empresa","tipo":"referencia","owner":"Direccion / CEO","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Advertencia de rutas","Estrategia y modelos de ingreso","Fuentes","La lectura que importa","Los 4 roadmap de fase","Los 5 modelos de ingreso","Modelos que ya no existen","Otros documentos de la estrategia"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/estrategia"},{"i":39,"id":"20_empresa_ventas","title":"ventas","file":"20_Empresa/ventas.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["El sistema de ventas","Las trece etapas del sistema","Lo que NO está resuelto aquí","Lo que hay para seguir el día a día","Los playbooks por vertical","Los seis segmentos, y cuánto esfuerzo lleva cada uno"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/ventas"},{"i":40,"id":"20_empresa_marca","title":"marca","file":"20_Empresa/marca.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":2,"headings":["Aplicaciones","El discurso","El logo","Fuentes","La dirección de arte: B.U.C.M.","Los 3 valores","Marca RR Aliados","Por qué importa","Qué es RR Aliados (según la marca)","Tipografía","⚠️ Hay dos paletas en circulacion y hay que saber cual manda"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/marca"},{"i":41,"id":"90_sistema_glosario","title":"GLOSARIO","file":"90_Sistema/GLOSARIO.md","area":"Sistema","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-12-26","vigente_hasta":"2026-12-26","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":2,"headings":["Cómo se usa","Dinero y fiscal","Glosario: qué significa cada abreviatura","Producto y comercial","Trabajo y forma de trabajar"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/GLOSARIO"},{"i":42,"id":"20_empresa_produccion_rr","title":"produccion_rr","file":"20_Empresa/produccion_rr.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":6,"headings":["Cómo se relaciona","El hueco real: no hay camarógrafo","El proceso, y quién lo cubre","Lo que esta nota no resuelve","Lo que hay","Qué se produce y con qué criterio"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/produccion_rr"},{"i":43,"id":"20_empresa_equipo","title":"equipo","file":"20_Empresa/equipo.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":15,"headings":["Cómo se relaciona con la flota de IA","Lo que se puede medir","Lo que sigue vacío","Los cargos, con nombre","Los dos cambios que explican por qué el alcance creció","Quién hace qué","Qué hace cada uno, en una línea"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/equipo"},{"i":44,"id":"40_onboarding_02_alta_de_integrante","title":"02_alta_de_integrante","file":"40_Onboarding/02_alta_de_integrante.md","area":"40","tipo":"recorrido","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":9,"headings":["1. Qué hacemos","2. Quién hace qué","3. Las reglas que no se rompen","4. Dónde está todo","5. Lo que todavía no está escrito","6. La prueba de que entendiste","El primer día en RR Aliados","Sobre la información","Sobre la plata","Sobre los mapas y los Canvas"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=40_Onboarding/02_alta_de_integrante"},{"i":45,"id":"40_onboarding_vacantes_rr_aliados","title":"vacantes_rr_aliados","file":"40_Onboarding/vacantes_rr_aliados.md","area":"40","tipo":"recorrido","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["1 · LOS QUE ESTAN","2 · POR QUE HAY VACANTES","Detalle de las cajas de este lienzo","El dato que no esta en otra parte","Lo que hay que decidir","Lo que no se sabe","Los que estan","Los que no tienen a nadie","Quien esta y quien falta"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=40_Onboarding/vacantes_rr_aliados"},{"i":46,"id":"00_home","title":"00_HOME","file":"00_HOME.md","area":"Inicio","tipo":"home","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":44,"headings":["Herramientas","Ingesta del Drive","La empresa","Las nueve capacidades","Lo primero: qué hay que hacer","Lo que este vault es","Los mapas de cómo funciona","Onboarding visual del equipo","RR Aliados"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=00_HOME"},{"i":47,"id":"00_rutas","title":"00_RUTAS","file":"00_RUTAS.md","area":"Inicio","tipo":"indice","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":10,"headings":["90_Sistema","Clientes","Cuando la pregunta no está en esta tabla","Drive — dinero","Drive — negocio","Las dos capas","Los flujos, y por donde circula la informacion","Nombres que se han escrito mal","Notion está fuera","Nunca abrir","Rutas: dónde está cada respuesta","Vault — empresa","Vault — funciones y sus KPIs","Vault — mapa","Vault — onboarding del equipo"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=00_RUTAS"},{"i":48,"id":"90_sistema_indice_maestro","title":"INDICE_MAESTRO","file":"90_Sistema/INDICE_MAESTRO.md","area":"Sistema","tipo":"indice","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":36,"headings":["10_Mapa — los 4 mapas","20_Empresa — qué es RR","30_Funciones — las 9 capacidades","40_Onboarding — recorridos del equipo","90_Sistema","Cobertura de la ingesta","Estructura por capas","Herramientas","Índice maestro del segundo cerebro"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/INDICE_MAESTRO"},{"i":49,"id":"30_funciones_indice_funciones","title":"INDICE_FUNCIONES","file":"30_Funciones/INDICE_FUNCIONES.md","area":"30","tipo":"indice","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":41,"headings":["Diagramas de flujo paso a paso","Estado: 9 de 9","Funciones","Lo que falta","Orden sugerido para completar","Vistas por area para reunion"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Funciones/INDICE_FUNCIONES"},{"i":50,"id":"90_sistema_protocolo","title":"PROTOCOLO","file":"90_Sistema/PROTOCOLO.md","area":"Sistema","tipo":"sistema","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["Borrar es mantener","Cadencia sugerida","Cuándo se toca cada cosa","El chequeo de salud","El ciclo","Las reglas que no se negocian","Protocolo de mantenimiento","Relación con el Drive"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/PROTOCOLO"},{"i":51,"id":"90_sistema_plantillas_plantilla_funcion","title":"plantilla_funcion","file":"90_Sistema/plantillas/plantilla_funcion.md","area":"Sistema","tipo":"plantilla","owner":"Direccion","corte":"2026-09-26","revisar":"2027-01-01","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":2,"headings":["Dónde vive la fuente","Flujo","Handoffs","KPIs","Plantilla de función","Qué produce","Reglas y SLA","Responsables"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/plantillas/plantilla_funcion"},{"i":52,"id":"30_procesos_desarrollo_como_llega_un_producto_de_software_a_produccion","title":"desarrollo_como_llega_un_producto_de_software_a_produccion","file":"30_Procesos/desarrollo_como_llega_un_producto_de_software_a_produccion.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"Direccion","corte":"2026-09-30","revisar":"2026-10-30","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["1 · SE DISEÑA","2 · SE ESCRIBE, SE PRUEBA, SE CORRIGE","3 · SALE Y SE SOSTIENE","CÓMO LLEGA UN PRODUCTO DE SOFTWARE A PRODUCCIÓN","Detalle de las cajas de este lienzo","Donde esta el detalle","LO QUE MANDA Y NO ES UN PASO","Lo que el lienzo resume y aqui queda escrito","Los pasos","Quien participa"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/desarrollo_como_llega_un_producto_de_software_a_produccion"},{"i":53,"id":"30_procesos_produccion_como_se_hace_una_pieza","title":"produccion_como_se_hace_una_pieza","file":"30_Procesos/produccion_como_se_hace_una_pieza.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"Direccion","corte":"2026-09-30","revisar":"2026-10-30","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":5,"headings":["1 · LO QUE PIDE EL CLIENTE","2 · SE PRODUCE","3 · ENTREGA Y MEDICIÓN","CÓMO SE HACE UNA PIEZA","Detalle de las cajas de este lienzo","Donde esta el detalle","Los pasos","Quien participa"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/produccion_como_se_hace_una_pieza"},{"i":54,"id":"20_empresa_linea_base_de_los_36_indicadores","title":"20_Empresa/linea_base_de_los_36_indicadores","file":"20_Empresa/linea_base_de_los_36_indicadores.md","area":"Empresa","tipo":"medicion","owner":"Direccion","corte":"2026-10-02","revisar":"2026-11-02","vigente_hasta":"2026-11-02","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["El dato","La linea de base de los 36 indicadores, en un tablero","La regla","Lo que NO se hizo","Los cuatro registros que hay que crear"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/linea_base_de_los_36_indicadores"},{"i":55,"id":"00_diagrama_maestro","title":"00_DIAGRAMA_MAESTRO","file":"00_DIAGRAMA_MAESTRO.md","area":"Inicio","tipo":"indice","owner":"Direccion","corte":"2026-10-02","revisar":"2026-11-02","vigente_hasta":"2026-11-02","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":15,"headings":["0. Los trece tableros nuevos del 02/10/2026","1. Lo primero que se aprende","2. Ventas y clientes","3. La plata","4. Cómo se trabaja","5. Cómo nos gobernamos","6. IA y herramientas","7. El equipo nuevo","Diagrama maestro: qué miro según lo que quiero saber","Lo que este archivo NO decide","Por qué los nombres dicen la pregunta","Una vista por area"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=00_DIAGRAMA_MAESTRO"},{"i":56,"id":"20_empresa_linea_base_kpi","title":"linea_base_kpi","file":"20_Empresa/linea_base_kpi.md","area":"Empresa","tipo":"medicion","owner":"Direccion","corte":"2026-10-02","revisar":"2026-11-02","vigente_hasta":"2026-11-02","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":7,"headings":["Aprobaciones en primera — Produccion","Backlog de soporte — Desarrollo","Bots con respaldo de modelo — Ia Y Herramientas","Carga de Dev asignada — Desarrollo","Ciclo prospecto → firma — Comercial","Commission pagada vs generada — Alianzas","Contratos firmados / mes — Comercial","Contratos vía aliado — Alianzas","Cuota cobrada en el mes — Comercial","Deploys con documentación — Desarrollo","Documentos con fecha de corte — Gobierno","Documentos vencidos señalizados — Gobierno","Días de cartera — Finanzas","El dato de partida","El metodo, en cinco pasos","Jobs verificados por fired — Ia Y Herramientas","La linea de base de los indicadores","Lo que NO se hizo, y por que","Lo que SI se puede decir hoy, con su fuente","Los que NO tienen linea de base, y que falta para medir cada uno","Los que ya tienen meta","Obligaciones comprometidas no cubiertas — Finanzas","Piezas publicadas — Produccion","Playbooks usados — Comercial"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/linea_base_kpi"},{"i":57,"id":"40_onboarding_00_indice_onboarding","title":"00_INDICE_ONBOARDING","file":"40_Onboarding/00_INDICE_ONBOARDING.md","area":"40","tipo":"indice","owner":"Gobierno documental","corte":"2026-10-02","revisar":"2026-11-02","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":7,"headings":["Diferencia frente a `10_Mapa/`","Onboarding visual del equipo","Recorridos disponibles","Regla editorial"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=40_Onboarding/00_INDICE_ONBOARDING"},{"i":58,"id":"20_empresa_productos","title":"productos","file":"20_Empresa/productos.md","area":"Empresa","tipo":"referencia","owner":"Direccion tecnica","corte":"2026-10-03","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":8,"headings":["Dato de seguridad pendiente","Fuentes","La regla que aplica a todos","Los cuatro productos","Productos","Qué son en términos de negocio"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/productos"},{"i":59,"id":"20_empresa_proyectos","title":"proyectos","file":"20_Empresa/proyectos.md","area":"Empresa","tipo":"referencia","owner":"Direccion","corte":"2026-10-14","revisar":"2026-10-15","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":0,"comunidad_nombre":"RR / 10_Mapa","grado":4,"headings":["Actualizacion de Direccion — 2026-10-14","Buen Puente","Calendario de entrega","Candilejas + 553","Candilejas + 553 — el proyecto grande","Corte historico al 2026-09-26","Dinero","El 30/09 es el día más importante del mes","El hueco de registro: el roadmap está vacío","Fuentes","Lo que el cliente tiene que entregar","Lo que hay que arreglar","Otros proyectos","Proyectos","Wundeer"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/proyectos"},{"i":60,"id":"herramientas_nota_rclone","title":"NOTA_RCLONE","file":"_herramientas/NOTA_RCLONE.md","area":"Raíz","tipo":"","owner":"","corte":"","revisar":"","vigente_hasta":"","estado":"sin_fecha","capacidad":"","comunidad":102,"comunidad_nombre":"RR / _herramientas","grado":0,"headings":["El detalle que casi me hace perder tiempo","Por que `rclone purge` y no `rm` para limpiar Drive"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=_herramientas/NOTA_RCLONE"},{"i":61,"id":"00_leeme","title":"00_LEEME","file":"00_LEEME.md","area":"Inicio","tipo":"leeme","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":11,"comunidad_nombre":"RR / 90_Sistema","grado":2,"headings":["Diagramas editables","Dónde está la verdad","La regla que importa","Lo más importante de RR Aliados hoy","Lo primero que se abre","Qué hay acá","Segundo cerebro RR Aliados"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=00_LEEME"},{"i":62,"id":"90_sistema_guia_obsidian_canvas","title":"GUIA_OBSIDIAN_CANVAS","file":"90_Sistema/GUIA_OBSIDIAN_CANVAS.md","area":"Sistema","tipo":"sistema","owner":"Gobierno documental","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":11,"comunidad_nombre":"RR / 90_Sistema","grado":3,"headings":["Arquitectura acordada","Ciclo de actualización","Criterio de terminado","Cómo se arma un lienzo para que se lea de una","El layout es de la persona, no de un script","Gobierno de cada Canvas","Guía Obsidian y Canvas para RR Aliados","Herramientas del vault","Herramientas habilitadas","Migración desde Whimsical","Patrón visual","Proporcion del lienzo: por que importa","Referencias técnicas","Regla para que también lo entienda una IA"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/GUIA_OBSIDIAN_CANVAS"},{"i":63,"id":"30_procesos_alianzas_como_nace_una_alianza","title":"alianzas_como_nace_una_alianza","file":"30_Procesos/alianzas_como_nace_una_alianza.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"Partnerships / Comercial","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":37,"comunidad_nombre":"RR / 30_Procesos","grado":1,"headings":["1 · ALIANZAS BUSCA Y VALIDA","2 · LO QUE SE ESCRIBE","3 · COMERCIAL CIERRA","4 · SE REPORTA Y TERMINA","CÓMO NACE UNA ALIANZA","DONDE SE TRABA Y QUE NO SE SABE","Detalle de las cajas de este lienzo","Donde esta el detalle","FUENTE","Que mira el tablero","Quien participa y que decide"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/alianzas_como_nace_una_alianza"},{"i":64,"id":"30_procesos_informacion_de_donde_sale_la_respuesta","title":"informacion_de_donde_sale_la_respuesta","file":"30_Procesos/informacion_de_donde_sale_la_respuesta.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"Direccion","corte":"2026-09-30","revisar":"2026-10-30","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":38,"comunidad_nombre":"RR / 30_Procesos","grado":0,"headings":["1 · ENTRA LA PREGUNTA","2 · SE BUSCA LA FUENTE","3 · SE RESPONDE","4 · VUELVE A LA PERSONA","DE DÓNDE SALE LA RESPUESTA","Detalle de las cajas de este lienzo","Donde esta el detalle","Las cuatro reglas, completas","Las figuras de este tablero","Los pasos","Quien participa"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/informacion_de_donde_sale_la_respuesta"},{"i":65,"id":"20_empresa_auditoria_numa","title":"auditoria_numa","file":"20_Empresa/auditoria_numa.md","area":"Empresa","tipo":"auditoria","owner":"Direccion","corte":"2026-10-03","revisar":"2026-11-03","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":42,"comunidad_nombre":"RR / 20_Empresa","grado":2,"headings":["1. El panel decía \"guardado\" y no guardaba","2. El cuerpo caía a Times New Roman","3. El modal tapaba el premio ganador","Auditoría técnica de la ruleta de NÜMA · 2026-10-03","Cómo volver a auditar","Decisiones del dueño (no son defecto)","Las tres campañas, con premios propios (cerrado 2026-10-04)","Lo que sigue abierto","Los tres bugs que hubo que cazar","Veredicto por dimensión"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=20_Empresa/auditoria_numa"},{"i":66,"id":"90_sistema_arquitectura_del_segundo_cerebro","title":"ARQUITECTURA_DEL_SEGUNDO_CEREBRO","file":"90_Sistema/ARQUITECTURA_DEL_SEGUNDO_CEREBRO.md","area":"Sistema","tipo":"sistema","owner":"Dirección","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":46,"comunidad_nombre":"RR / 90_Sistema","grado":3,"headings":["Cómo está armado el segundo cerebro","Cómo se sincroniza","La constitución","Las carpetas","Las dos capas, y por qué son dos","Lo que este archivo todavía no resuelve","Lo que hace que esto se sostenga","Los formatos, y cuándo se usa cada uno","Por qué BPMN es SVG y no XML","Por qué el Canvas no se abandona"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/ARQUITECTURA_DEL_SEGUNDO_CEREBRO"},{"i":67,"id":"30_procesos_ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente","title":"ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente","file":"30_Procesos/ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"IA_Y_Herramientas","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":51,"comunidad_nombre":"RR / 30_Procesos","grado":1,"headings":["1 · LOS SEIS PASOS QUE SE HACEN A MANO","2 · LA REVISIÓN HUMANA, OBLIGATORIA","3 · SE AUTOMATIZA — Y SOLO AQUÍ","CÓMO SE CONVIERTE UN TRABAJO REPETITIVO EN UN AGENTE","Detalle de las cajas de este lienzo","Donde esta el detalle","LA REGLA DE ORO, LAS REGLAS Y LO QUE NO SE SABE","Que mira el tablero","Quien participa y que decide"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente"},{"i":68,"id":"30_procesos_gobierno_como_se_gobierna_la_documentacion","title":"gobierno_como_se_gobierna_la_documentacion","file":"30_Procesos/gobierno_como_se_gobierna_la_documentacion.md","area":"Procesos","tipo":"diagrama-bpmn","owner":"Direccion","corte":"2026-09-30","revisar":"2026-10-30","vigente_hasta":"","estado":"vigente","capacidad":"","comunidad":58,"comunidad_nombre":"RR / 30_Procesos","grado":1,"headings":["1 · EL PROCESO PASO A PASO","2 · LO QUE PASA EN LA REVISIÓN HUMANA","3 · LAS REGLAS Y LO QUE NO SE SABE","CÓMO SE GOBIERNA LA DOCUMENTACIÓN","Detalle de las cajas de este lienzo","Donde esta el detalle","Los pasos","Quien participa"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/gobierno_como_se_gobierna_la_documentacion"},{"i":69,"id":"90_sistema_01_donde_vive_cada_tablero","title":"01_DONDE_VIVE_CADA_TABLERO","file":"90_Sistema/01_DONDE_VIVE_CADA_TABLERO.md","area":"Sistema","tipo":"propuesta","owner":"Direccion","corte":"2026-09-30","revisar":"","vigente_hasta":"","estado":"sin_fecha","capacidad":"","comunidad":67,"comunidad_nombre":"RR / 90_Sistema","grado":0,"headings":["1. El problema","2. La regla","3. Quién va a dónde","4. El resultado","5. Lo que hay que actualizar al mover","6. La paleta","📐 Dónde debe vivir cada tablero"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/01_DONDE_VIVE_CADA_TABLERO"},{"i":70,"id":"30_procesos_linea_base_de_los_36_indicadores","title":"30_Procesos/linea_base_de_los_36_indicadores","file":"30_Procesos/linea_base_de_los_36_indicadores.md","area":"Procesos","tipo":"medicion","owner":"Direccion","corte":"2026-10-02","revisar":"2026-11-02","vigente_hasta":"2026-11-02","estado":"vigente","capacidad":"","comunidad":78,"comunidad_nombre":"RR / 30_Procesos","grado":1,"headings":["COMO SE HACE","Detalle de las cajas de este lienzo","EL DATO","LO QUE HAY QUE INSTRUMENTAR","LO QUE YA SE MIDE","Los 36 indicadores, en un tablero"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=30_Procesos/linea_base_de_los_36_indicadores"},{"i":71,"id":"90_sistema_donde_esta_el_vault","title":"DONDE_ESTA_EL_VAULT","file":"90_Sistema/DONDE_ESTA_EL_VAULT.md","area":"Sistema","tipo":"sistema","owner":"Dirección","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":80,"comunidad_nombre":"RR / 90_Sistema","grado":2,"headings":["Copia de seguridad","Dónde está el vault","Lo que no va dentro del vault","Obsidian abre solo esa carpeta","Un detalle técnico","Ya no hay sincronización"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/DONDE_ESTA_EL_VAULT"},{"i":72,"id":"00_inbox_inbox","title":"INBOX","file":"00_Inbox/INBOX.md","area":"Inicio","tipo":"inbox","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-03","vigente_hasta":"2026-10-03","estado":"vencido","capacidad":"","comunidad":87,"comunidad_nombre":"RR / 00_Inbox","grado":1,"headings":["A dónde va cada cosa","Inbox — captura","Qué hay ahora","Reglas de la bandeja"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=00_Inbox/INBOX"},{"i":73,"id":"10_mapa_00_constitucion_rr","title":"00_constitucion_rr","file":"10_Mapa/00_constitucion_rr.md","area":"Mapa","tipo":"diagrama-maestro","owner":"Dirección","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"","estado":"vencido","capacidad":"","comunidad":88,"comunidad_nombre":"RR / 90_Sistema","grado":4,"headings":["Cómo se lee","La constitución de RR Aliados","Lo que NO es","Lo que el diagrama está diciendo hoy","Lo que este diagrama encontró por el camino","Por qué se genera y no se dibuja a mano"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/00_constitucion_rr"},{"i":74,"id":"90_sistema_como_verificar","title":"COMO_VERIFICAR","file":"90_Sistema/COMO_VERIFICAR.md","area":"Sistema","tipo":"sistema","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":88,"comunidad_nombre":"RR / 90_Sistema","grado":4,"headings":["Correrlos todos","Cuando algo falla","Cómo verificar el second brain","La regla que hace que valgan","Lo que estos validadores NO cubren","Por qué `ver_fuente.py` no decide","Por qué hay dos validadores de diagrama","Qué revisa cada uno"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/COMO_VERIFICAR"},{"i":75,"id":"10_mapa_red_del_vault","title":"red_del_vault","file":"10_Mapa/red_del_vault.md","area":"Mapa","tipo":"mapa","owner":"Direccion","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":88,"comunidad_nombre":"RR / 90_Sistema","grado":5,"headings":["Cómo se genera","Dónde se ven los huecos","Estado al 26/09/2026","La red del vault","Lo que este mapa NO dice","Los clusters","Por dónde pasa todo"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=10_Mapa/red_del_vault"},{"i":76,"id":"90_sistema_como_ver_los_diagramas","title":"COMO_VER_LOS_DIAGRAMAS","file":"90_Sistema/COMO_VER_LOS_DIAGRAMAS.md","area":"Sistema","tipo":"sistema","owner":"Dirección","corte":"2026-09-26","revisar":"2026-10-26","vigente_hasta":"2026-10-26","estado":"vencido","capacidad":"","comunidad":88,"comunidad_nombre":"RR / 90_Sistema","grado":3,"headings":["Cuando cambias algo","La vista interactiva, y por qué existe","Las dos piezas","Las tres secciones de la portada","Qué sirve y qué no","Si el link deja de andar","Ver los diagramas desde el celular"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/COMO_VER_LOS_DIAGRAMAS"},{"i":77,"id":"90_sistema_arranque_de_sesion","title":"ARRANQUE_DE_SESION","file":"90_Sistema/ARRANQUE_DE_SESION.md","area":"Sistema","tipo":"sistema","owner":"Dirección","corte":"2026-09-29","revisar":"2026-10-29","vigente_hasta":"2026-10-29","estado":"vigente","capacidad":"","comunidad":88,"comunidad_nombre":"RR / 90_Sistema","grado":8,"headings":["Arranque de sesión","Dónde está cada cosa","Estado al 29/09/2026","La regla que hace que esto funcione","Las dos capas, en una línea","Leer esto primero: 3 pasos","Lo que NO se puede cerrar sin una persona","Lo que este archivo todavía no cubre","Los 9 validadores","Obsidian: un solo vault, y una trampa","Qué formato va para qué","Regenerar todo: un comando","Reglas que no se rompen"],"obsidian":"obsidian://open?vault=RR-SegundoCerebro&file=90_Sistema/ARRANQUE_DE_SESION"}],"edges":[[55,26,"references","EXTRACTED"],[55,28,"references","EXTRACTED"],[55,29,"references","EXTRACTED"],[55,35,"references","EXTRACTED"],[55,31,"references","EXTRACTED"],[55,34,"references","EXTRACTED"],[55,36,"references","EXTRACTED"],[55,30,"references","EXTRACTED"],[55,45,"references","EXTRACTED"],[55,24,"references","EXTRACTED"],[55,32,"references","EXTRACTED"],[55,33,"references","EXTRACTED"],[55,54,"references","EXTRACTED"],[46,50,"references","EXTRACTED"],[46,47,"references","EXTRACTED"],[46,59,"references","EXTRACTED"],[46,37,"references","EXTRACTED"],[46,11,"references","EXTRACTED"],[46,40,"references","EXTRACTED"],[46,38,"references","EXTRACTED"],[46,13,"references","EXTRACTED"],[46,43,"references","EXTRACTED"],[46,58,"references","EXTRACTED"],[46,15,"references","EXTRACTED"],[46,10,"references","EXTRACTED"],[46,14,"references","EXTRACTED"],[46,0,"references","EXTRACTED"],[46,16,"references","EXTRACTED"],[46,12,"references","EXTRACTED"],[46,17,"references","EXTRACTED"],[46,18,"references","EXTRACTED"],[46,1,"references","EXTRACTED"],[46,24,"references","EXTRACTED"],[46,45,"references","EXTRACTED"],[46,57,"references","EXTRACTED"],[46,2,"references","EXTRACTED"],[46,3,"references","EXTRACTED"],[46,4,"references","EXTRACTED"],[46,9,"references","EXTRACTED"],[46,8,"references","EXTRACTED"],[46,5,"references","EXTRACTED"],[46,6,"references","EXTRACTED"],[46,7,"references","EXTRACTED"],[46,49,"references","EXTRACTED"],[46,32,"references","EXTRACTED"],[46,28,"references","EXTRACTED"],[46,26,"references","EXTRACTED"],[46,35,"references","EXTRACTED"],[46,29,"references","EXTRACTED"],[46,36,"references","EXTRACTED"],[46,34,"references","EXTRACTED"],[46,31,"references","EXTRACTED"],[46,30,"references","EXTRACTED"],[46,33,"references","EXTRACTED"],[46,54,"references","EXTRACTED"],[46,56,"references","EXTRACTED"],[27,39,"references","EXTRACTED"],[27,42,"references","EXTRACTED"],[27,43,"references","EXTRACTED"],[27,4,"references","EXTRACTED"],[27,22,"references","EXTRACTED"],[27,53,"references","EXTRACTED"],[27,21,"references","EXTRACTED"],[61,62,"references","EXTRACTED"],[47,55,"references","EXTRACTED"],[47,66,"references","EXTRACTED"],[47,19,"references","EXTRACTED"],[47,27,"references","EXTRACTED"],[73,47,"references","EXTRACTED"],[73,75,"references","EXTRACTED"],[73,27,"references","EXTRACTED"],[0,16,"references","EXTRACTED"],[0,12,"references","EXTRACTED"],[0,17,"references","EXTRACTED"],[0,18,"references","EXTRACTED"],[0,20,"references","EXTRACTED"],[0,23,"references","EXTRACTED"],[0,22,"references","EXTRACTED"],[0,47,"references","EXTRACTED"],[16,17,"references","EXTRACTED"],[12,43,"references","EXTRACTED"],[12,13,"references","EXTRACTED"],[23,27,"references","EXTRACTED"],[23,39,"references","EXTRACTED"],[22,27,"references","EXTRACTED"],[22,23,"references","EXTRACTED"],[22,25,"references","EXTRACTED"],[17,12,"references","EXTRACTED"],[17,53,"references","EXTRACTED"],[17,52,"references","EXTRACTED"],[17,67,"references","EXTRACTED"],[17,19,"references","EXTRACTED"],[25,23,"references","EXTRACTED"],[25,27,"references","EXTRACTED"],[25,22,"references","EXTRACTED"],[75,48,"references","EXTRACTED"],[75,74,"references","EXTRACTED"],[20,53,"references","EXTRACTED"],[20,4,"references","EXTRACTED"],[65,58,"references","EXTRACTED"],[21,58,"references","EXTRACTED"],[21,38,"references","EXTRACTED"],[21,43,"references","EXTRACTED"],[43,38,"references","EXTRACTED"],[43,15,"references","EXTRACTED"],[43,56,"references","EXTRACTED"],[15,6,"references","EXTRACTED"],[15,10,"references","EXTRACTED"],[11,13,"references","EXTRACTED"],[54,49,"references","EXTRACTED"],[54,56,"references","EXTRACTED"],[56,33,"references","EXTRACTED"],[56,49,"references","EXTRACTED"],[37,10,"references","EXTRACTED"],[42,9,"references","EXTRACTED"],[42,43,"references","EXTRACTED"],[42,53,"references","EXTRACTED"],[42,39,"references","EXTRACTED"],[58,65,"references","EXTRACTED"],[58,14,"references","EXTRACTED"],[59,13,"references","EXTRACTED"],[39,3,"references","EXTRACTED"],[39,43,"references","EXTRACTED"],[3,13,"references","EXTRACTED"],[5,14,"references","EXTRACTED"],[5,59,"references","EXTRACTED"],[6,15,"references","EXTRACTED"],[49,51,"references","EXTRACTED"],[49,3,"references","EXTRACTED"],[49,2,"references","EXTRACTED"],[49,9,"references","EXTRACTED"],[49,4,"references","EXTRACTED"],[49,8,"references","EXTRACTED"],[49,7,"references","EXTRACTED"],[49,6,"references","EXTRACTED"],[49,5,"references","EXTRACTED"],[49,12,"references","EXTRACTED"],[49,53,"references","EXTRACTED"],[49,52,"references","EXTRACTED"],[49,19,"references","EXTRACTED"],[49,68,"references","EXTRACTED"],[49,63,"references","EXTRACTED"],[49,23,"references","EXTRACTED"],[49,22,"references","EXTRACTED"],[49,28,"references","EXTRACTED"],[49,26,"references","EXTRACTED"],[49,35,"references","EXTRACTED"],[49,29,"references","EXTRACTED"],[49,36,"references","EXTRACTED"],[49,34,"references","EXTRACTED"],[49,31,"references","EXTRACTED"],[49,30,"references","EXTRACTED"],[49,33,"references","EXTRACTED"],[49,56,"references","EXTRACTED"],[9,18,"references","EXTRACTED"],[26,49,"references","EXTRACTED"],[26,2,"references","EXTRACTED"],[28,49,"references","EXTRACTED"],[28,3,"references","EXTRACTED"],[29,49,"references","EXTRACTED"],[29,4,"references","EXTRACTED"],[30,49,"references","EXTRACTED"],[30,5,"references","EXTRACTED"],[31,49,"references","EXTRACTED"],[31,6,"references","EXTRACTED"],[34,49,"references","EXTRACTED"],[34,7,"references","EXTRACTED"],[35,49,"references","EXTRACTED"],[35,9,"references","EXTRACTED"],[36,49,"references","EXTRACTED"],[36,8,"references","EXTRACTED"],[32,43,"references","EXTRACTED"],[32,49,"references","EXTRACTED"],[52,58,"references","EXTRACTED"],[52,4,"references","EXTRACTED"],[70,56,"references","EXTRACTED"],[33,43,"references","EXTRACTED"],[33,49,"references","EXTRACTED"],[57,44,"references","EXTRACTED"],[57,24,"references","EXTRACTED"],[57,55,"references","EXTRACTED"],[57,45,"references","EXTRACTED"],[57,1,"references","EXTRACTED"],[1,17,"references","EXTRACTED"],[1,18,"references","EXTRACTED"],[1,3,"references","EXTRACTED"],[44,43,"references","EXTRACTED"],[44,58,"references","EXTRACTED"],[44,42,"references","EXTRACTED"],[44,11,"references","EXTRACTED"],[44,74,"references","EXTRACTED"],[44,4,"references","EXTRACTED"],[44,38,"references","EXTRACTED"],[24,43,"references","EXTRACTED"],[24,45,"references","EXTRACTED"],[24,44,"references","EXTRACTED"],[45,43,"references","EXTRACTED"],[66,47,"references","EXTRACTED"],[77,66,"references","EXTRACTED"],[77,50,"references","EXTRACTED"],[77,73,"references","EXTRACTED"],[77,75,"references","EXTRACTED"],[77,27,"references","EXTRACTED"],[77,74,"references","EXTRACTED"],[77,76,"references","EXTRACTED"],[77,71,"references","EXTRACTED"],[76,75,"references","EXTRACTED"],[41,27,"references","EXTRACTED"],[62,74,"references","EXTRACTED"],[48,76,"references","EXTRACTED"],[48,71,"references","EXTRACTED"],[48,46,"references","EXTRACTED"],[48,61,"references","EXTRACTED"],[48,47,"references","EXTRACTED"],[48,41,"references","EXTRACTED"],[48,16,"references","EXTRACTED"],[48,12,"references","EXTRACTED"],[48,17,"references","EXTRACTED"],[48,18,"references","EXTRACTED"],[48,11,"references","EXTRACTED"],[48,40,"references","EXTRACTED"],[48,38,"references","EXTRACTED"],[48,37,"references","EXTRACTED"],[48,13,"references","EXTRACTED"],[48,43,"references","EXTRACTED"],[48,59,"references","EXTRACTED"],[48,58,"references","EXTRACTED"],[48,15,"references","EXTRACTED"],[48,10,"references","EXTRACTED"],[48,14,"references","EXTRACTED"],[48,49,"references","EXTRACTED"],[48,2,"references","EXTRACTED"],[48,3,"references","EXTRACTED"],[48,4,"references","EXTRACTED"],[48,9,"references","EXTRACTED"],[48,8,"references","EXTRACTED"],[48,5,"references","EXTRACTED"],[48,6,"references","EXTRACTED"],[48,7,"references","EXTRACTED"],[48,57,"references","EXTRACTED"],[48,1,"references","EXTRACTED"],[48,50,"references","EXTRACTED"],[48,72,"references","EXTRACTED"],[48,51,"references","EXTRACTED"],[50,62,"references","EXTRACTED"],[16,12,"canvas_link","EXTRACTED"],[12,3,"canvas_link","EXTRACTED"],[12,4,"canvas_link","EXTRACTED"],[12,9,"canvas_link","EXTRACTED"],[18,17,"canvas_link","EXTRACTED"],[38,4,"canvas_link","EXTRACTED"],[15,10,"canvas_link","EXTRACTED"],[15,37,"canvas_link","EXTRACTED"],[14,47,"canvas_link","EXTRACTED"]],"comunidades":[{"nombre":"RR / 10_Mapa","tam":60},{"nombre":"RR / 90_Sistema","tam":10},{"nombre":"RR / 30_Procesos","tam":5},{"nombre":"RR / _herramientas","tam":1},{"nombre":"RR / 20_Empresa","tam":1},{"nombre":"RR / 00_Inbox","tam":1}]}
+{
+  "meta": {
+    "documentos": 78,
+    "relaciones": 254,
+    "excluidos": 0,
+    "generado": "fixture público anonimizado"
+  },
+  "docs": [
+    {
+      "i": 0,
+      "id": "documento-publico-1",
+      "title": "Documento genérico 1",
+      "file": "publico/documento-1.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 9,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 1,
+      "id": "documento-publico-2",
+      "title": "Documento genérico 2",
+      "file": "publico/documento-2.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 2,
+      "id": "documento-publico-3",
+      "title": "Documento genérico 3",
+      "file": "publico/documento-3.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 3,
+      "id": "documento-publico-4",
+      "title": "Documento genérico 4",
+      "file": "publico/documento-4.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 8,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 4,
+      "id": "documento-publico-5",
+      "title": "Documento genérico 5",
+      "file": "publico/documento-5.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 10,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 5,
+      "id": "documento-publico-6",
+      "title": "Documento genérico 6",
+      "file": "publico/documento-6.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 6,
+      "id": "documento-publico-7",
+      "title": "Documento genérico 7",
+      "file": "publico/documento-7.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 7,
+      "id": "documento-publico-8",
+      "title": "Documento genérico 8",
+      "file": "publico/documento-8.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 8,
+      "id": "documento-publico-9",
+      "title": "Documento genérico 9",
+      "file": "publico/documento-9.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 9,
+      "id": "documento-publico-10",
+      "title": "Documento genérico 10",
+      "file": "publico/documento-10.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 7,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 10,
+      "id": "documento-publico-11",
+      "title": "Documento genérico 11",
+      "file": "publico/documento-11.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 11,
+      "id": "documento-publico-12",
+      "title": "Documento genérico 12",
+      "file": "publico/documento-12.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 12,
+      "id": "documento-publico-13",
+      "title": "Documento genérico 13",
+      "file": "publico/documento-13.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 11,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 13,
+      "id": "documento-publico-14",
+      "title": "Documento genérico 14",
+      "file": "publico/documento-14.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 14,
+      "id": "documento-publico-15",
+      "title": "Documento genérico 15",
+      "file": "publico/documento-15.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 15,
+      "id": "documento-publico-16",
+      "title": "Documento genérico 16",
+      "file": "publico/documento-16.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 8,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 16,
+      "id": "documento-publico-17",
+      "title": "Documento genérico 17",
+      "file": "publico/documento-17.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 17,
+      "id": "documento-publico-18",
+      "title": "Documento genérico 18",
+      "file": "publico/documento-18.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 11,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 18,
+      "id": "documento-publico-19",
+      "title": "Documento genérico 19",
+      "file": "publico/documento-19.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 19,
+      "id": "documento-publico-20",
+      "title": "Documento genérico 20",
+      "file": "publico/documento-20.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 3,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 20,
+      "id": "documento-publico-21",
+      "title": "Documento genérico 21",
+      "file": "publico/documento-21.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 3,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 21,
+      "id": "documento-publico-22",
+      "title": "Documento genérico 22",
+      "file": "publico/documento-22.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 22,
+      "id": "documento-publico-23",
+      "title": "Documento genérico 23",
+      "file": "publico/documento-23.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 7,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 23,
+      "id": "documento-publico-24",
+      "title": "Documento genérico 24",
+      "file": "publico/documento-24.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 24,
+      "id": "documento-publico-25",
+      "title": "Documento genérico 25",
+      "file": "publico/documento-25.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 25,
+      "id": "documento-publico-26",
+      "title": "Documento genérico 26",
+      "file": "publico/documento-26.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 26,
+      "id": "documento-publico-27",
+      "title": "Documento genérico 27",
+      "file": "publico/documento-27.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 27,
+      "id": "documento-publico-28",
+      "title": "Documento genérico 28",
+      "file": "publico/documento-28.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 14,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 28,
+      "id": "documento-publico-29",
+      "title": "Documento genérico 29",
+      "file": "publico/documento-29.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 29,
+      "id": "documento-publico-30",
+      "title": "Documento genérico 30",
+      "file": "publico/documento-30.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 30,
+      "id": "documento-publico-31",
+      "title": "Documento genérico 31",
+      "file": "publico/documento-31.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 31,
+      "id": "documento-publico-32",
+      "title": "Documento genérico 32",
+      "file": "publico/documento-32.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 32,
+      "id": "documento-publico-33",
+      "title": "Documento genérico 33",
+      "file": "publico/documento-33.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 33,
+      "id": "documento-publico-34",
+      "title": "Documento genérico 34",
+      "file": "publico/documento-34.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 34,
+      "id": "documento-publico-35",
+      "title": "Documento genérico 35",
+      "file": "publico/documento-35.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 35,
+      "id": "documento-publico-36",
+      "title": "Documento genérico 36",
+      "file": "publico/documento-36.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 36,
+      "id": "documento-publico-37",
+      "title": "Documento genérico 37",
+      "file": "publico/documento-37.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 37,
+      "id": "documento-publico-38",
+      "title": "Documento genérico 38",
+      "file": "publico/documento-38.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 38,
+      "id": "documento-publico-39",
+      "title": "Documento genérico 39",
+      "file": "publico/documento-39.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 39,
+      "id": "documento-publico-40",
+      "title": "Documento genérico 40",
+      "file": "publico/documento-40.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 40,
+      "id": "documento-publico-41",
+      "title": "Documento genérico 41",
+      "file": "publico/documento-41.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 2,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 41,
+      "id": "documento-publico-42",
+      "title": "Documento genérico 42",
+      "file": "publico/documento-42.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 2,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 42,
+      "id": "documento-publico-43",
+      "title": "Documento genérico 43",
+      "file": "publico/documento-43.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 6,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 43,
+      "id": "documento-publico-44",
+      "title": "Documento genérico 44",
+      "file": "publico/documento-44.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 15,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 44,
+      "id": "documento-publico-45",
+      "title": "Documento genérico 45",
+      "file": "publico/documento-45.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 9,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 45,
+      "id": "documento-publico-46",
+      "title": "Documento genérico 46",
+      "file": "publico/documento-46.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 46,
+      "id": "documento-publico-47",
+      "title": "Documento genérico 47",
+      "file": "publico/documento-47.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 44,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 47,
+      "id": "documento-publico-48",
+      "title": "Documento genérico 48",
+      "file": "publico/documento-48.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 10,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 48,
+      "id": "documento-publico-49",
+      "title": "Documento genérico 49",
+      "file": "publico/documento-49.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 36,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 49,
+      "id": "documento-publico-50",
+      "title": "Documento genérico 50",
+      "file": "publico/documento-50.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 41,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 50,
+      "id": "documento-publico-51",
+      "title": "Documento genérico 51",
+      "file": "publico/documento-51.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 51,
+      "id": "documento-publico-52",
+      "title": "Documento genérico 52",
+      "file": "publico/documento-52.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 2,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 52,
+      "id": "documento-publico-53",
+      "title": "Documento genérico 53",
+      "file": "publico/documento-53.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 53,
+      "id": "documento-publico-54",
+      "title": "Documento genérico 54",
+      "file": "publico/documento-54.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 54,
+      "id": "documento-publico-55",
+      "title": "Documento genérico 55",
+      "file": "publico/documento-55.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 55,
+      "id": "documento-publico-56",
+      "title": "Documento genérico 56",
+      "file": "publico/documento-56.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 15,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 56,
+      "id": "documento-publico-57",
+      "title": "Documento genérico 57",
+      "file": "publico/documento-57.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 7,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 57,
+      "id": "documento-publico-58",
+      "title": "Documento genérico 58",
+      "file": "publico/documento-58.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 7,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 58,
+      "id": "documento-publico-59",
+      "title": "Documento genérico 59",
+      "file": "publico/documento-59.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 8,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 59,
+      "id": "documento-publico-60",
+      "title": "Documento genérico 60",
+      "file": "publico/documento-60.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 60,
+      "id": "documento-publico-61",
+      "title": "Documento genérico 61",
+      "file": "publico/documento-61.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 0,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 61,
+      "id": "documento-publico-62",
+      "title": "Documento genérico 62",
+      "file": "publico/documento-62.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 2,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 62,
+      "id": "documento-publico-63",
+      "title": "Documento genérico 63",
+      "file": "publico/documento-63.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 3,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 63,
+      "id": "documento-publico-64",
+      "title": "Documento genérico 64",
+      "file": "publico/documento-64.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 1,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 64,
+      "id": "documento-publico-65",
+      "title": "Documento genérico 65",
+      "file": "publico/documento-65.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 0,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 65,
+      "id": "documento-publico-66",
+      "title": "Documento genérico 66",
+      "file": "publico/documento-66.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 2,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 66,
+      "id": "documento-publico-67",
+      "title": "Documento genérico 67",
+      "file": "publico/documento-67.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 3,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 67,
+      "id": "documento-publico-68",
+      "title": "Documento genérico 68",
+      "file": "publico/documento-68.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 1,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 68,
+      "id": "documento-publico-69",
+      "title": "Documento genérico 69",
+      "file": "publico/documento-69.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 1,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 69,
+      "id": "documento-publico-70",
+      "title": "Documento genérico 70",
+      "file": "publico/documento-70.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 0,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 70,
+      "id": "documento-publico-71",
+      "title": "Documento genérico 71",
+      "file": "publico/documento-71.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 1,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 71,
+      "id": "documento-publico-72",
+      "title": "Documento genérico 72",
+      "file": "publico/documento-72.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 2,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 72,
+      "id": "documento-publico-73",
+      "title": "Documento genérico 73",
+      "file": "publico/documento-73.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 1,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 73,
+      "id": "documento-publico-74",
+      "title": "Documento genérico 74",
+      "file": "publico/documento-74.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 74,
+      "id": "documento-publico-75",
+      "title": "Documento genérico 75",
+      "file": "publico/documento-75.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 4,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 75,
+      "id": "documento-publico-76",
+      "title": "Documento genérico 76",
+      "file": "publico/documento-76.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 5,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 76,
+      "id": "documento-publico-77",
+      "title": "Documento genérico 77",
+      "file": "publico/documento-77.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 3,
+      "headings": [],
+      "obsidian": ""
+    },
+    {
+      "i": 77,
+      "id": "documento-publico-78",
+      "title": "Documento genérico 78",
+      "file": "publico/documento-78.md",
+      "area": "Procesos",
+      "tipo": "Documento genérico",
+      "owner": "Rol genérico",
+      "corte": "",
+      "revisar": "",
+      "vigente_hasta": "",
+      "estado": "sin_fecha",
+      "capacidad": "",
+      "comunidad": 0,
+      "comunidad_nombre": "Mapa público",
+      "grado": 8,
+      "headings": [],
+      "obsidian": ""
+    }
+  ],
+  "edges": [
+    [
+      55,
+      26,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      28,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      29,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      35,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      31,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      34,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      36,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      30,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      45,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      24,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      32,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      33,
+      "conexion",
+      1
+    ],
+    [
+      55,
+      54,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      50,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      47,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      59,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      37,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      11,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      40,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      38,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      13,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      58,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      15,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      10,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      14,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      0,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      16,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      12,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      17,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      18,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      1,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      24,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      45,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      57,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      2,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      9,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      8,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      5,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      6,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      7,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      32,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      28,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      26,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      35,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      29,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      36,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      34,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      31,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      30,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      33,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      54,
+      "conexion",
+      1
+    ],
+    [
+      46,
+      56,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      39,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      42,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      22,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      53,
+      "conexion",
+      1
+    ],
+    [
+      27,
+      21,
+      "conexion",
+      1
+    ],
+    [
+      61,
+      62,
+      "conexion",
+      1
+    ],
+    [
+      47,
+      55,
+      "conexion",
+      1
+    ],
+    [
+      47,
+      66,
+      "conexion",
+      1
+    ],
+    [
+      47,
+      19,
+      "conexion",
+      1
+    ],
+    [
+      47,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      73,
+      47,
+      "conexion",
+      1
+    ],
+    [
+      73,
+      75,
+      "conexion",
+      1
+    ],
+    [
+      73,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      16,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      12,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      17,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      18,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      20,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      23,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      22,
+      "conexion",
+      1
+    ],
+    [
+      0,
+      47,
+      "conexion",
+      1
+    ],
+    [
+      16,
+      17,
+      "conexion",
+      1
+    ],
+    [
+      12,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      12,
+      13,
+      "conexion",
+      1
+    ],
+    [
+      23,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      23,
+      39,
+      "conexion",
+      1
+    ],
+    [
+      22,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      22,
+      23,
+      "conexion",
+      1
+    ],
+    [
+      22,
+      25,
+      "conexion",
+      1
+    ],
+    [
+      17,
+      12,
+      "conexion",
+      1
+    ],
+    [
+      17,
+      53,
+      "conexion",
+      1
+    ],
+    [
+      17,
+      52,
+      "conexion",
+      1
+    ],
+    [
+      17,
+      67,
+      "conexion",
+      1
+    ],
+    [
+      17,
+      19,
+      "conexion",
+      1
+    ],
+    [
+      25,
+      23,
+      "conexion",
+      1
+    ],
+    [
+      25,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      25,
+      22,
+      "conexion",
+      1
+    ],
+    [
+      75,
+      48,
+      "conexion",
+      1
+    ],
+    [
+      75,
+      74,
+      "conexion",
+      1
+    ],
+    [
+      20,
+      53,
+      "conexion",
+      1
+    ],
+    [
+      20,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      65,
+      58,
+      "conexion",
+      1
+    ],
+    [
+      21,
+      58,
+      "conexion",
+      1
+    ],
+    [
+      21,
+      38,
+      "conexion",
+      1
+    ],
+    [
+      21,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      43,
+      38,
+      "conexion",
+      1
+    ],
+    [
+      43,
+      15,
+      "conexion",
+      1
+    ],
+    [
+      43,
+      56,
+      "conexion",
+      1
+    ],
+    [
+      15,
+      6,
+      "conexion",
+      1
+    ],
+    [
+      15,
+      10,
+      "conexion",
+      1
+    ],
+    [
+      11,
+      13,
+      "conexion",
+      1
+    ],
+    [
+      54,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      54,
+      56,
+      "conexion",
+      1
+    ],
+    [
+      56,
+      33,
+      "conexion",
+      1
+    ],
+    [
+      56,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      37,
+      10,
+      "conexion",
+      1
+    ],
+    [
+      42,
+      9,
+      "conexion",
+      1
+    ],
+    [
+      42,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      42,
+      53,
+      "conexion",
+      1
+    ],
+    [
+      42,
+      39,
+      "conexion",
+      1
+    ],
+    [
+      58,
+      65,
+      "conexion",
+      1
+    ],
+    [
+      58,
+      14,
+      "conexion",
+      1
+    ],
+    [
+      59,
+      13,
+      "conexion",
+      1
+    ],
+    [
+      39,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      39,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      3,
+      13,
+      "conexion",
+      1
+    ],
+    [
+      5,
+      14,
+      "conexion",
+      1
+    ],
+    [
+      5,
+      59,
+      "conexion",
+      1
+    ],
+    [
+      6,
+      15,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      51,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      2,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      9,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      8,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      7,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      6,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      5,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      12,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      53,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      52,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      19,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      68,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      63,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      23,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      22,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      28,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      26,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      35,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      29,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      36,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      34,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      31,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      30,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      33,
+      "conexion",
+      1
+    ],
+    [
+      49,
+      56,
+      "conexion",
+      1
+    ],
+    [
+      9,
+      18,
+      "conexion",
+      1
+    ],
+    [
+      26,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      26,
+      2,
+      "conexion",
+      1
+    ],
+    [
+      28,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      28,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      29,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      29,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      30,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      30,
+      5,
+      "conexion",
+      1
+    ],
+    [
+      31,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      31,
+      6,
+      "conexion",
+      1
+    ],
+    [
+      34,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      34,
+      7,
+      "conexion",
+      1
+    ],
+    [
+      35,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      35,
+      9,
+      "conexion",
+      1
+    ],
+    [
+      36,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      36,
+      8,
+      "conexion",
+      1
+    ],
+    [
+      32,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      32,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      52,
+      58,
+      "conexion",
+      1
+    ],
+    [
+      52,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      70,
+      56,
+      "conexion",
+      1
+    ],
+    [
+      33,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      33,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      57,
+      44,
+      "conexion",
+      1
+    ],
+    [
+      57,
+      24,
+      "conexion",
+      1
+    ],
+    [
+      57,
+      55,
+      "conexion",
+      1
+    ],
+    [
+      57,
+      45,
+      "conexion",
+      1
+    ],
+    [
+      57,
+      1,
+      "conexion",
+      1
+    ],
+    [
+      1,
+      17,
+      "conexion",
+      1
+    ],
+    [
+      1,
+      18,
+      "conexion",
+      1
+    ],
+    [
+      1,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      58,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      42,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      11,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      74,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      44,
+      38,
+      "conexion",
+      1
+    ],
+    [
+      24,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      24,
+      45,
+      "conexion",
+      1
+    ],
+    [
+      24,
+      44,
+      "conexion",
+      1
+    ],
+    [
+      45,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      66,
+      47,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      66,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      50,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      73,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      75,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      74,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      76,
+      "conexion",
+      1
+    ],
+    [
+      77,
+      71,
+      "conexion",
+      1
+    ],
+    [
+      76,
+      75,
+      "conexion",
+      1
+    ],
+    [
+      41,
+      27,
+      "conexion",
+      1
+    ],
+    [
+      62,
+      74,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      76,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      71,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      46,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      61,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      47,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      41,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      16,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      12,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      17,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      18,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      11,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      40,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      38,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      37,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      13,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      43,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      59,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      58,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      15,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      10,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      14,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      49,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      2,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      9,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      8,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      5,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      6,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      7,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      57,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      1,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      50,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      72,
+      "conexion",
+      1
+    ],
+    [
+      48,
+      51,
+      "conexion",
+      1
+    ],
+    [
+      50,
+      62,
+      "conexion",
+      1
+    ],
+    [
+      16,
+      12,
+      "conexion",
+      1
+    ],
+    [
+      12,
+      3,
+      "conexion",
+      1
+    ],
+    [
+      12,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      12,
+      9,
+      "conexion",
+      1
+    ],
+    [
+      18,
+      17,
+      "conexion",
+      1
+    ],
+    [
+      38,
+      4,
+      "conexion",
+      1
+    ],
+    [
+      15,
+      10,
+      "conexion",
+      1
+    ],
+    [
+      15,
+      37,
+      "conexion",
+      1
+    ],
+    [
+      14,
+      47,
+      "conexion",
+      1
+    ]
+  ],
+  "comunidades": [
+    {
+      "nombre": "Mapa público",
+      "tam": 78
+    }
+  ]
+}
