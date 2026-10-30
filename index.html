@@ -3,131 +3,85 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="RR Aliados · Atlas operativo">
-  <title>RR Aliados · Atlas operativo</title>
+  <meta name="description" content="RR Labs · Atlas de procesos y bots">
+  <title>RR Labs · Atlas de procesos</title>
   <link rel="icon" href="/rr-logo-mark.png">
-  <link rel="stylesheet" href="/src/styles/tokens.css">
-  <link rel="stylesheet" href="/src/styles/layout.css">
-  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/rr-tree.css">
 </head>
 <body>
-  <div id="atlas-app" class="atlas-app">
-    <header class="atlas-header" aria-label="Barra principal">
-      <div class="atlas-brand">
-        <span class="atlas-logo-frame"><img class="atlas-logo-image" src="/rr-logo-mark.png" alt="Símbolo oficial de RR Aliados"></span>
-        <div><strong>RR ALIADOS</strong><span>Atlas operativo / Workspace</span></div>
+  <div class="app" id="rr-app">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="RR Labs, inicio">
+        <span class="brand-mark" aria-hidden="true">RR</span>
+        <span><strong>RR LABS</strong><small>Atlas de procesos</small></span>
+      </a>
+      <div class="searchbar" role="search">
+        <label class="sr-only" for="node-search">Buscar en el Atlas</label>
+        <input id="node-search" data-search-input type="search" placeholder="Buscar procesos, bots o proyectos" autocomplete="off">
+        <button class="icon-button" data-action="search" type="button" aria-label="Buscar">⌕</button>
       </div>
-      <label class="atlas-search"><span class="sr-only">Buscar nodos</span><input data-atlas-search aria-label="Buscar nodos" placeholder="Buscar personas, proyectos, procesos…"></label>
-      <div class="atlas-header-tools">
-        <button class="atlas-button atlas-button--secondary" data-action="toggle-settings" aria-expanded="false" aria-controls="atlas-settings">⚙ Configuración</button>
-        <div id="atlas-settings" class="atlas-settings-panel" data-atlas-settings hidden role="region" aria-label="Configuración del Atlas">
-          <div class="atlas-settings-head"><div><span class="kind">Configuración del Atlas</span><strong>Herramientas de trabajo</strong></div><button class="atlas-button atlas-button--icon" data-action="close-settings" aria-label="Cerrar configuración">×</button></div>
-          <div class="atlas-settings-group" aria-label="Datos">
-            <span class="atlas-settings-label">Datos</span>
-            <button class="atlas-button" data-action="export">↓ Exportar mapa</button>
-            <button class="atlas-button" data-action="import">↑ Importar mapa</button>
-            <button class="atlas-button atlas-button--danger" data-action="reset">↶ Restaurar base</button>
-          </div>
-          <div class="atlas-settings-group" aria-label="Vista">
-            <span class="atlas-settings-label">Vista</span>
-            <button class="atlas-button" data-action="toggle-theme">◐ Cambiar tema</button>
-            <button class="atlas-button" data-action="toggle-minimap">▦ Mostrar/ocultar minimapa</button>
-            <button class="atlas-button" data-action="toggle-wires">⌁ Mostrar/ocultar conexiones</button>
-          </div>
-        </div>
+      <div class="top-actions">
+        <button class="button button-ghost" data-action="help" type="button">Guía</button>
+        <button class="button button-primary" data-action="add-node" type="button">＋ Añadir nodo</button>
       </div>
-      <input data-atlas-file type="file" accept="application/json,.json" hidden>
     </header>
 
-    <div class="atlas-layout" data-atlas-layout>
-      <nav class="atlas-rail" aria-label="Explorar el sistema">
-        <div class="atlas-rail-head"><h2>Explorar el sistema</h2></div><button class="atlas-rail-toggle" data-action="toggle-rail" aria-label="Contraer navegación" aria-pressed="false" title="Contraer navegación">‹</button>
-        <button data-atlas-filter="Todo" aria-pressed="true">◈ Toda la empresa</button>
-        <button data-atlas-filter="Gobierno" aria-pressed="false">◉ Gobierno</button>
-        <button data-atlas-filter="Proceso" aria-pressed="false">⇄ Procesos</button>
-        <button data-atlas-filter="Cliente" aria-pressed="false">▣ Clientes</button>
-        <button data-atlas-filter="Producto" aria-pressed="false">◇ Productos</button>
-        <button data-atlas-filter="Area" aria-pressed="false">☷ Áreas</button>
-        <button data-atlas-filter="Talento" aria-pressed="false">♙ Talento</button>
-        <button data-atlas-filter="Herramienta" aria-pressed="false">⚙ Herramientas</button>
-        <p class="atlas-hint">La estructura definitiva de RR queda fuera de esta fase. Este mapa organiza capacidades sin convertir borradores en verdad empresarial.</p>
-      </nav>
-
-      <main class="atlas-canvas" data-atlas-work aria-label="Lienzo visual interactivo">
-        <h1 class="sr-only">RR Aliados · Atlas operativo</h1>
-        <div class="atlas-toolbar" aria-label="Controles del mapa">
-          <div class="atlas-toolbar-group" aria-label="Crear y editar">
-            <button class="atlas-button atlas-button--primary" data-action="add">＋ Nuevo nodo</button>
-            <button class="atlas-button" data-action="draw" aria-expanded="false" aria-controls="atlas-draw-menu">✎ Dibujar</button>
-            <div id="atlas-draw-menu" class="atlas-draw-menu" data-atlas-draw-menu hidden role="region" aria-label="Insertar figura en el lienzo">
-              <div class="atlas-draw-menu-head"><span class="kind">Insertar figura en el lienzo</span><button class="atlas-button atlas-button--icon" data-action="close-draw" aria-label="Cerrar selector de figuras">×</button></div>
-              <p class="atlas-muted">Elige una figura y luego pulsa el lienzo para colocarla.</p>
-              <button class="atlas-button" data-draw-shape="rectangle">Rectángulo</button>
-              <button class="atlas-button" data-draw-shape="rounded">Redondeada</button>
-              <button class="atlas-button" data-draw-shape="circle">Círculo</button>
-              <button class="atlas-button" data-draw-shape="diamond">Rombo</button>
-              <button class="atlas-button" data-draw-shape="hexagon">Hexágono</button>
-              <button class="atlas-button" data-draw-shape="note">Nota</button>
-            </div>
-            <button class="atlas-button" data-action="connect">↗ Conectar</button>
-          </div>
-          <div class="atlas-toolbar-group" aria-label="Vista del mapa">
-            <button class="atlas-button atlas-button--icon" data-action="zoom-out" aria-label="Alejar" title="Alejar">−</button>
-            <button class="atlas-button atlas-button--icon" data-action="zoom-in" aria-label="Acercar" title="Acercar">＋</button>
-            <button class="atlas-button" data-action="center">Centrar selección</button>
-            <button class="atlas-button" data-action="flow">Ver flujo comercial</button>
-            <button class="atlas-button" data-action="toggle-editor" aria-expanded="true" aria-controls="atlas-editor-panel">Inspector</button>
-          </div>
-          <div class="atlas-toolbar-group" aria-label="Historial">
-            <button class="atlas-button" data-action="undo">↶ Deshacer</button>
-            <button class="atlas-button" data-action="redo">↷ Rehacer</button>
-          </div>
+    <main class="shell" id="top">
+      <aside class="rail" aria-label="Navegación del Atlas">
+        <div class="rail-heading"><span class="eyebrow">Mapa vivo</span><h1>Procesos RR</h1></div>
+        <p class="rail-copy">Una vista de arriba hacia abajo: líneas, etapas, procesos y los equipos que los hacen posibles.</p>
+        <div class="legend" aria-label="Estados BPMN">
+          <span><i class="dot dot-ok"></i>BPMN válido</span>
+          <span><i class="dot dot-warn"></i>Borrador / deuda</span>
+          <span><i class="dot dot-off"></i>No existe / texto</span>
         </div>
-        <div class="atlas-world" data-atlas-world>
-          <svg class="atlas-wires" width="4300" height="3200" viewBox="0 0 4300 3200" aria-hidden="true">
-            <defs><marker id="atlas-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6" fill="none" stroke="currentColor" stroke-width="1.3"></path></marker></defs>
-            <g data-atlas-wires marker-end="url(#atlas-arrow)"></g>
-          </svg>
-          <div class="atlas-cards" data-atlas-cards></div>
+        <div class="rail-stats"><strong data-node-count>0</strong><span>nodos visibles</span><strong data-process-count>49</strong><span>procesos inventariados</span></div>
+        <div class="rail-actions">
+          <button class="button button-outline" data-action="fit" type="button">⌗ Encuadrar mapa</button>
+          <button class="button button-outline" data-action="export" type="button">↓ Exportar JSON</button>
+          <button class="button button-outline" data-action="import" type="button">↑ Importar JSON</button>
+          <input data-import-input type="file" accept="application/json,.json" hidden>
         </div>
-        <div class="atlas-status" data-atlas-status aria-live="polite">Selecciona un nodo para editarlo · Desplazar: fondo · Zoom: rueda</div>
-        <aside class="atlas-minimap" aria-label="Minimapa del Atlas"><div class="atlas-minimap-title"><span>Minimapa</span><span data-atlas-minimap-count>0</span></div><div class="atlas-minimap-canvas" data-atlas-minimap-canvas></div></aside>
-      </main>
-
-      <aside id="atlas-editor-panel" class="atlas-sidebar" data-atlas-editor-panel aria-label="Editor de entidad">
-        <header class="atlas-sidebar-header">
-          <div><span class="kind">Inspector activo</span><strong>Detalle del nodo</strong></div>
-          <button class="atlas-button atlas-button--icon" data-action="close-editor" aria-label="Cerrar inspector">×</button>
-        </header>
-        <div data-atlas-editor></div>
-        <div class="atlas-editor-actions" data-atlas-editor-actions></div>
+        <p class="privacy-note"><strong>Mapa público seguro.</strong> Solo roles genéricos, clientes genéricos y fuentes de proceso. Nunca guardes credenciales, tokens ni datos personales aquí.</p>
       </aside>
-    </div>
 
-    <dialog data-atlas-dialog aria-labelledby="dialog-title">
-      <form method="dialog" class="atlas-dialog-form">
-        <h2 id="dialog-title" data-atlas-dialog-title>Agregar recurso multimedia</h2>
-        <p class="atlas-muted" data-atlas-dialog-help>Agrega una URL HTTPS. Drive, Docs, imágenes, videos, audio y PDF se intentan montar de forma segura.</p>
-        <div data-atlas-choices class="atlas-dialog-choices"></div>
-        <label>Nombre del recurso<input data-atlas-link-name placeholder="Ej. Video de presentación"></label>
-        <label data-atlas-kind-row>Tipo de recurso<select data-atlas-asset-kind><option value="auto">Detectar automáticamente</option><option value="image">Imagen</option><option value="video">Video</option><option value="audio">Audio</option><option value="pdf">PDF</option><option value="embed">Vista previa / documento</option><option value="link">Solo enlace</option></select></label>
-        <label>URL<input data-atlas-link-url placeholder="https://drive.google.com/... o https://.../archivo.pdf"></label>
-        <div class="row"><button class="atlas-button" data-action="cancel-link" value="cancel">Cancelar</button><button class="atlas-button atlas-button--primary" data-action="attach-link" value="default" data-atlas-attach>Montar recurso</button></div>
-      </form>
+      <section class="workspace" aria-label="Editor visual del mapa">
+        <div class="toolbar">
+          <div class="toolbar-title"><span class="eyebrow">Vista editorial</span><strong>RR Labs <span>→</span> operación conectada</strong></div>
+          <div class="toolbar-actions">
+            <button class="button button-small" data-action="zoom-out" type="button" aria-label="Alejar">−</button>
+            <output data-zoom aria-live="polite">100%</output>
+            <button class="button button-small" data-action="zoom-in" type="button" aria-label="Acercar">＋</button>
+            <button class="button button-small" data-action="undo" type="button">↶</button>
+            <button class="button button-small" data-action="redo" type="button">↷</button>
+            <button class="button button-small" data-action="toggle-minimap" type="button">Minimapa</button>
+          </div>
+        </div>
+        <div class="canvas-wrap" data-canvas-wrap>
+          <div class="canvas" data-canvas tabindex="0" aria-label="Lienzo del árbol editable">
+            <svg class="edges" data-edges aria-hidden="true"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="currentColor" stroke-width="1.2"></path></marker></defs><g data-edge-layer></g></svg>
+            <div class="nodes" data-nodes></div>
+          </div>
+          <aside class="minimap" data-minimap aria-label="Minimapa"><div class="minimap-header"><span>Minimapa</span><button class="icon-button" data-action="toggle-minimap" type="button" aria-label="Ocultar minimapa">×</button></div><div class="minimap-body" data-minimap-body></div></aside>
+          <div class="canvas-hint">Arrastra los cuadros · rueda para zoom · selecciona para editar</div>
+        </div>
+      </section>
+
+      <aside class="inspector" data-inspector aria-label="Editor de nodo">
+        <div class="inspector-head"><div><span class="eyebrow">Editor</span><h2 data-inspector-title>Selecciona un nodo</h2></div><button class="icon-button inspector-close" data-action="close-inspector" type="button" aria-label="Cerrar editor">×</button></div>
+        <div class="inspector-body" data-inspector-body><p class="empty">Selecciona un cuadro del mapa para ver sus detalles.</p></div>
+      </aside>
+    </main>
+
+    <footer class="footer"><span>RR ALIADOS · Atlas operativo</span><span>Edición local · se guarda en este navegador</span></footer>
+    <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+    <dialog class="help-dialog" data-help-dialog>
+      <form method="dialog"><div class="dialog-head"><div><span class="eyebrow">Cómo usarlo</span><h2>Mapa editable, sin secretos</h2></div><button class="icon-button" value="cancel" type="submit" aria-label="Cerrar guía">×</button></div><ul><li>Arrastra cualquier nodo para ajustar el árbol.</li><li>Selecciona un nodo y usa el editor inferior en móvil.</li><li>Para enlazar: pulsa <strong>Enlazar</strong> y luego otro nodo.</li><li>Exporta JSON antes de compartir una versión.</li></ul><button class="button button-primary" value="cancel" type="submit">Entendido</button></form>
     </dialog>
-    <dialog class="atlas-viewer-dialog" data-atlas-viewer-dialog aria-labelledby="viewer-title">
-      <div class="atlas-viewer-shell">
-        <header class="atlas-viewer-header"><div><span class="kind">Visor multimedia</span><h2 id="viewer-title" data-atlas-viewer-title>Recurso</h2></div><button class="atlas-button atlas-button--icon" data-action="close-viewer" aria-label="Cerrar visor">×</button></header>
-        <div class="atlas-viewer-body" data-atlas-viewer-body></div>
-        <footer class="atlas-viewer-footer"><span class="atlas-muted">La previsualización depende del formato y permisos del proveedor.</span><a data-atlas-viewer-link class="atlas-button" target="_blank" rel="noopener noreferrer">Abrir fuente ↗</a></footer>
-      </div>
-    </dialog>
-    <footer class="atlas-footer" aria-label="Identidad del producto">
-      <div class="atlas-footer-brand"><span class="atlas-logo-frame"><img class="atlas-logo-image" src="/rr-logo-mark.png" alt="Logo de RR Aliados"></span><div><strong>RR ALIADOS</strong><span>Atlas operativo</span></div></div>
-      <div class="atlas-footer-meta"><span>Versión 4.0 · multimedia</span><span>Mapa: <span data-atlas-count>0 nodos</span></span><span data-atlas-theme-label>Tema RR oscuro</span><span>Developed by RR Aliados</span></div>
-    </footer>
-    <div class="atlas-toast" data-atlas-toast role="status" hidden></div>
   </div>
-  <script type="module" src="/src/app/main.mjs?v=media-7"></script>
+  <script type="module" src="/src/app/rr-tree.mjs"></script>
 </body>
 </html>
