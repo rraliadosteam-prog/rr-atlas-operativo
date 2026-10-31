@@ -1,5 +1,6 @@
 import { HUB_LABEL, hubUrlFrom } from '../data/hub-link.mjs';
 import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
+import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
 import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
@@ -24,6 +25,25 @@ const confirmation = (value) => {
 const COLORS = { fuchsia: '#be076d', mustard: '#ded116', orchid: '#973d8f', ink: '#070001', ok: '#4f9d64', warn: '#ded116', off: '#be076d' };
 const displayCopy = (text) => getInternalTreeCopy(text);
 const CANVAS_MINIMUM = { width: 2_400, height: 1_800 };
+
+// Mapeo de nodos de proceso del árbol a flujos v3 por id de ruta.
+const PROCESS_TO_FLUJO = {
+  'AL-1': 'alianzas_como_nace_una_alianza',
+  'IN-1': 'finanzas_como_entra_un_peso_a_la_cuenta',
+  'IN-2': 'finanzas_como_se_le_paga_a_alguien',
+  'IN-3': 'finanzas_la_quincena',
+  'IN-4': 'legal_como_se_firma_un_contrato',
+  'IN-6': 'soporte_como_se_resuelve_un_problema_de_un_cliente',
+  'IN-10': 'ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente',
+  'IN-11': 'ia_como_se_usa_la_ia_en_rr_aliados',
+  'IN-12': 'gobierno_como_se_gobierna_la_documentacion',
+  'IN-13': 'informacion_de_donde_sale_la_respuesta',
+  'IN-16': 'finanzas_como_entra_y_se_sale_la_plata',
+  'DM-3': 'desarrollo_como_llega_un_producto_de_software_a_produccion',
+  'CP-2': 'produccion_como_se_hace_una_pieza',
+  'RE-3': 'clientes_que_pasa_despues_de_que_firman',
+  'RO-3': 'clientes_que_pasa_despues_de_que_firman',
+};
 const MOBILE_ZOOM_MIN = 0.7;
 const isMobileViewport = () => window.innerWidth <= 760;
 
@@ -346,6 +366,17 @@ function createCard(node) {
   handle.addEventListener('pointerdown', (event) => startConnection(event, node));
   handle.addEventListener('pointerup', finishConnection);
   controls.appendChild(handle);
+  const flujoId = node.type === 'process' ? PROCESS_TO_FLUJO[node.id] : null;
+  if (flujoId) {
+    const flujoLink = document.createElement('a');
+    flujoLink.className = 'node-control node-flujo-link';
+    flujoLink.href = `#flujo/${encodeURIComponent(flujoId)}`;
+    flujoLink.textContent = '⇢';
+    flujoLink.title = 'Ver flujo BPMN';
+    flujoLink.setAttribute('aria-label', `Ver flujo ${flujoId}`);
+    flujoLink.addEventListener('pointerdown', (event) => event.stopPropagation());
+    controls.appendChild(flujoLink);
+  }
   const hiddenCount = state.hiddenCounts[node.id] ?? 0;
   if (hiddenCount || getHierarchyDescendants(state.graph, node.id).length) {
     const collapse = document.createElement('button');
@@ -896,3 +927,24 @@ render();
 renderInspector();
 scheduleFit();
 window.addEventListener('resize', scheduleFit);
+
+function applyHashRoute() {
+  const hash = String(location.hash || '');
+  const flujoMatch = hash.match(/^#flujo\/(.+)$/);
+  if (flujoMatch) {
+    navigateToFlujo(decodeURIComponent(flujoMatch[1]));
+    return;
+  }
+  const procesoMatch = hash.match(/^#proceso\/(.+)$/);
+  if (procesoMatch) {
+    showFlujoView(false);
+    const id = decodeURIComponent(procesoMatch[1]);
+    if (nodeById(id)) {
+      selectNode(id);
+    }
+    return;
+  }
+  showFlujoView(false);
+}
+window.addEventListener('hashchange', applyHashRoute);
+applyHashRoute();

@@ -186,6 +186,7 @@ h1, h2, h3, strong { font-family: var(--font-display); }
 .node-control:hover, .node-control:focus-visible { color: var(--fuchsia); background: var(--cream); }
 .node-handle { color: var(--orchid); cursor: crosshair; }
 .node-collapse { font-size: 12px; font-weight: 800; }
+.node-flujo-link { text-decoration: none; color: var(--mustard); font-weight: 800; }
 .node-root { width: 270px; height: 135px; }
 .node-line { width: 210px; height: 128px; }
 .node-stage { width: 122px; height: 90px; }.node-stage .node-title { padding-right: 0; white-space: normal; text-align: center; }.node-stage .node-controls { top: calc(100% + 4px); right: 0; }

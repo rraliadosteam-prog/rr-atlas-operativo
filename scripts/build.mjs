@@ -4,6 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const DEFAULT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const LOCAL_DATA_PATH = ['src', 'data', 'atlas.local.json'];
+const LOCAL_FLUJOS_PATH = ['src', 'data', 'flujos-v3.local.json'];
 const LOCAL_OVERRIDE_PATH = ['src', 'data', 'local-overrides.mjs'];
 
 export function validateShell(html) {
@@ -29,11 +30,13 @@ function normalizeBuildOptions(rootOrOptions, maybeOptions) {
     return {
       root: resolve(rootOrOptions.root ?? DEFAULT_ROOT),
       local: Boolean(rootOrOptions.local),
+      dist: rootOrOptions.dist ? resolve(rootOrOptions.dist) : undefined,
     };
   }
   return {
     root: resolve(rootOrOptions ?? DEFAULT_ROOT),
     local: Boolean(maybeOptions?.local),
+    dist: maybeOptions?.dist ? resolve(maybeOptions.dist) : undefined,
   };
 }
 
@@ -70,6 +73,18 @@ async function copyGrafoViewer(root, dist) {
   await cp(source, resolve(dist, 'grafo'), { recursive: true });
 }
 
+async function copyLocalFlujos(root, dist, local) {
+  if (!local) return;
+  const source = resolve(root, ...LOCAL_FLUJOS_PATH);
+  try {
+    await stat(source);
+  } catch (error) {
+    if (error?.code === 'ENOENT') return;
+    throw error;
+  }
+  await cp(source, resolve(dist, ...LOCAL_FLUJOS_PATH));
+}
+
 async function copyPublicSource(root, dist) {
   const source = resolve(root, 'src');
   const destination = resolve(dist, 'src');
@@ -83,17 +98,18 @@ async function copyPublicSource(root, dist) {
 }
 
 export async function build(rootOrOptions = DEFAULT_ROOT, maybeOptions = {}) {
-  const { root, local } = normalizeBuildOptions(rootOrOptions, maybeOptions);
+  const { root, local, dist: customDist } = normalizeBuildOptions(rootOrOptions, maybeOptions);
   const input = await readFile(resolve(root, 'index.html'), 'utf8');
   const output = validateShell(input);
   const localData = local ? await readLocalData(root) : {};
-  const dist = resolve(root, 'dist');
+  const dist = customDist ?? resolve(root, 'dist');
 
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
   await writeFile(resolve(dist, 'index.html'), output, 'utf8');
   await copyPublicSource(root, dist);
   await copyGrafoViewer(root, dist);
+  await copyLocalFlujos(root, dist, local);
   await mkdir(resolve(dist, ...LOCAL_OVERRIDE_PATH.slice(0, -1)), { recursive: true });
   const serialized = local ? JSON.stringify(localData, null, 2) : '{}';
   await writeFile(resolve(dist, ...LOCAL_OVERRIDE_PATH), `export default ${serialized};\n`, 'utf8');
