@@ -178,8 +178,11 @@ h1, h2, h3, strong { font-family: var(--font-display); }
   .rail, .rail:has(.rail-panel:not([open])) { padding: 8px 12px; }
   .rail-panel:not([open]) .rail-summary { width: auto; text-align: left; padding-inline: 12px; }
   .rail-panel:not([open]) .rail-summary span { display: inline; }
-  .toolbar { flex-direction: column; gap: 8px; }
+  .toolbar { flex-direction: column; gap: 6px; min-height: auto; padding: 8px 12px; }
   .toolbar-title { width: 100%; }
+  .toolbar-title > .eyebrow,
+  .toolbar-title > strong { display: none; }
+  .toolbar-title > .breadcrumbs { margin-top: 0; }
   .breadcrumbs { max-width: 100%; flex-wrap: nowrap; overflow-x: auto; }
   .breadcrumbs:empty { display: none; }
   .breadcrumbs button { flex-shrink: 0; }

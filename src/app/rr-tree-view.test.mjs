@@ -182,12 +182,25 @@ for (const width of [390, 1440]) {
   test(`P2 ${width}: fit inicial, resize, rail y grafo ancho con margen sin guardar geometría`, async () => {
     const page = await openPage(width);
     try {
-      const initial = await bounds(page); metrics.push({ test: 'P2', width, initial }); assertFit(initial);
-      await page.resize(width === 390 ? 430 : 1000, 900); assertFit(await bounds(page));
-      await page.click('[data-rail-panel] > summary'); assertFit(await bounds(page));
+      const initial = await bounds(page); metrics.push({ test: 'P2', width, initial });
+      if (width < 761) {
+        assert.ok(parseInt(initial.zoom, 10) / 100 >= 0.6, `Zoom inicial móvil >= 0.6: ${initial.zoom}`);
+      } else {
+        assertFit(initial);
+      }
+      await page.resize(width === 390 ? 430 : 1000, 900);
+      const resized = await bounds(page);
+      if (width < 761) assert.ok(parseInt(resized.zoom, 10) / 100 >= 0.6, `Zoom resize móvil >= 0.6: ${resized.zoom}`);
+      else assertFit(resized);
+      await page.click('[data-rail-panel] > summary');
+      const toggled = await bounds(page);
+      if (width < 761) assert.ok(parseInt(toggled.zoom, 10) / 100 >= 0.6, `Zoom rail móvil >= 0.6: ${toggled.zoom}`);
+      else assertFit(toggled);
       await page.evaluate(`(() => { const select=document.querySelector('[data-filter="type"]'); select.value='process'; select.dispatchEvent(new Event('change')); })()`);
       await page.click('[data-action="fit"]');
-      const wide = await bounds(page); metrics.push({ test: 'P2-amplio', width, wide }); assertFit(wide);
+      const wide = await bounds(page); metrics.push({ test: 'P2-amplio', width, wide });
+      if (width < 761) assert.ok(parseInt(wide.zoom, 10) / 100 >= 0.6, `Zoom fit filtro móvil >= 0.6: ${wide.zoom}`);
+      else assertFit(wide);
       assert.equal(await page.evaluate(`localStorage.getItem('rr-atlas-arbol-v2')`), null, 'Encuadrar y filtrar no guardan geometría');
     } finally { await page.close(); }
   });
@@ -266,3 +279,18 @@ for (const width of [390, 1440]) {
     } finally { await page.close(); }
   });
 }
+
+test('J8: zoom inicial a 390 px nunca baja de 60%', async () => {
+  const page = await openPage(390);
+  try {
+    const zoomText = await page.evaluate(`document.querySelector('[data-zoom]').textContent`);
+    const zoom = parseInt(zoomText, 10) / 100;
+    metrics.push({ test: 'J8-zoom-inicial-movil', width: 390, zoomText, zoom });
+    assert.ok(zoom >= 0.6, `Zoom inicial a 390 px debe ser >= 0.6, fue ${zoomText}`);
+    await page.click('[data-action="fit"]');
+    const fitZoomText = await page.evaluate(`document.querySelector('[data-zoom]').textContent`);
+    const fitZoom = parseInt(fitZoomText, 10) / 100;
+    metrics.push({ test: 'J8-zoom-fit-movil', width: 390, fitZoomText, fitZoom });
+    assert.ok(fitZoom >= 0.6, `Zoom tras encuadrar a 390 px debe ser >= 0.6, fue ${fitZoomText}`);
+  } finally { await page.close(); }
+});

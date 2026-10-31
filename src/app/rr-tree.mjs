@@ -23,6 +23,8 @@ const confirmation = (value) => {
 const COLORS = { fuchsia: '#be076d', mustard: '#ded116', orchid: '#973d8f', ink: '#070001', ok: '#4f9d64', warn: '#ded116', off: '#be076d' };
 const displayCopy = (text) => getInternalTreeCopy(text);
 const CANVAS_MINIMUM = { width: 2_400, height: 1_800 };
+const MOBILE_ZOOM_MIN = 0.7;
+const isMobileViewport = () => window.innerWidth <= 760;
 
 const app = $('#rr-app');
 const canvas = $('[data-canvas]');
@@ -78,7 +80,7 @@ const state = {
   collapsed: new Set(getDefaultCollapsedIds(store.getGraph())),
   hiddenCounts: {},
   expandedIds: new Set(),
-  zoom: window.innerWidth < 700 ? 0.34 : 0.52,
+  zoom: isMobileViewport() ? MOBILE_ZOOM_MIN : 0.52,
   panX: 0,
   panY: 32,
   wiresVisible: true,
@@ -652,7 +654,8 @@ function centerOn(node) {
   const visualNode = nodeById(node.id, state.visibleGraph) ?? node;
   const size = getCardSize(visualNode);
   const { width, height } = viewportSize();
-  state.zoom = Math.min(state.zoom, Math.max(0.001, (width - 32) / size.width), Math.max(0.001, (height - 32) / size.height));
+  const zoomMin = isMobileViewport() ? MOBILE_ZOOM_MIN : 0.001;
+  state.zoom = Math.max(zoomMin, Math.min(state.zoom, Math.max(0.001, (width - 32) / size.width), Math.max(0.001, (height - 32) / size.height)));
   const point = positionOf(visualNode);
   state.panX = Math.round(width / 2 - (point.x + size.width / 2) * state.zoom);
   state.panY = Math.round(height / 2 - (point.y + size.height / 2) * state.zoom);
@@ -662,7 +665,8 @@ function centerOn(node) {
 function fitBounds(bounds = getGraphBounds(state.visibleGraph)) {
   const { width, height } = viewportSize();
   const padding = Math.min(44, width / 4, height / 4);
-  state.zoom = Math.min((width - padding * 2) / bounds.width, (height - padding * 2) / bounds.height, 1.25);
+  const zoomMin = isMobileViewport() ? MOBILE_ZOOM_MIN : 0.001;
+  state.zoom = Math.max(zoomMin, Math.min((width - padding * 2) / bounds.width, (height - padding * 2) / bounds.height, 1.25));
   state.panX = Math.round((width - bounds.width * state.zoom) / 2 - bounds.left * state.zoom);
   state.panY = Math.round((height - bounds.height * state.zoom) / 2 - bounds.top * state.zoom);
   setTransform();
