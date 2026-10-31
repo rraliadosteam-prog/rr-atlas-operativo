@@ -1,3 +1,4 @@
+import { HUB_LABEL, hubUrlFrom } from '../data/hub-link.mjs';
 import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
 import {
   CARD_SIZES,
@@ -777,6 +778,12 @@ function restoreOriginal() {
 }
 
 function bindActions() {
+  const hubLink = $('[data-hub-link]');
+  if (hubLink) {
+    const target = hubUrlFrom({ hubUrl: document.documentElement.dataset.hubUrl });
+    hubLink.href = target;
+    hubLink.title = `${HUB_LABEL} · ${target}`;
+  }
   const railPanel = $('[data-rail-panel]');
   if (railPanel && window.innerWidth > 760) railPanel.open = true;
   railPanel?.addEventListener('toggle', scheduleFit);

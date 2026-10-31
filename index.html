@@ -26,10 +26,16 @@
         <button class="icon-button" data-action="search" type="button" aria-label="Buscar">⌕</button>
       </div>
       <div class="top-actions">
+        <a class="button button-hub" data-hub-link href="http://localhost:8081/" rel="noopener" aria-label="Volver al hub RR"><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
         <button class="button button-ghost" data-action="help" type="button">Guía</button>
         <button class="button button-primary" data-action="add-node" type="button">＋ Añadir nodo</button>
       </div>
     </header>
+
+    <!-- Ticker pixelado del sistema RR: dos copias exactas para el bucle de -50%. -->
+    <div class="atlas-ticker rr-marquee" data-ticker aria-hidden="true">
+      <div class="rr-marquee__track atlas-ticker__track"><span class="atlas-ticker__item">Atlas operativo</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Procesos</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Bots</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">BPMN</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Mapa vivo</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">RR Aliados</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Atlas operativo</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Procesos</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Bots</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">BPMN</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">Mapa vivo</span><span class="atlas-ticker__glyph">◆</span><span class="atlas-ticker__item">RR Aliados</span><span class="atlas-ticker__glyph">◆</span></div>
+    </div>
 
     <main class="shell" id="top">
       <aside class="rail" aria-label="Navegación del Atlas">

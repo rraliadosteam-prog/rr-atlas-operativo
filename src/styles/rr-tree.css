@@ -248,3 +248,265 @@ h1, h2, h3, strong { font-family: var(--font-display); }
   .inspector-head { flex: 0 0 auto; touch-action: none; cursor: ns-resize; }
   .inspector-body { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; }
 }
+
+/* ==========================================================================
+   Capa visual "Mega v2" · brutalismo pixel RR
+   --------------------------------------------------------------------------
+   Consume los componentes y tokens de src/rr-estilo (tokens.css +
+   componentes.css, ya cargados por index.html): .rr-marquee y sus keyframes,
+   rr-reveal, --pixel-border, --shadow-md, --scanline-color, --glitch-offset.
+   Aquí sólo se declaran alias nuevos; ningún color suelto.
+   Animaciones: sólo transform/opacity (máscara estática + traslación), y el
+   bloque local de prefers-reduced-motion las apaga además del global de
+   rr-estilo.
+   ========================================================================== */
+:root {
+  /* Marcos y sombras duras desplazadas (brutalismo) */
+  --atlas-frame: 4px;
+  --atlas-edge: 3px;
+  --atlas-hard-1: 3px 3px 0 var(--ink-24);
+  --atlas-hard-2: 4px 4px 0 var(--rr-fucsia-25);
+  --atlas-hard-3: 6px 6px 0 var(--rr-fucsia-25);
+  --atlas-ticker-h: 26px;
+}
+
+/* Marco externo del shell: borde grueso + filete mostaza interior ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  border: var(--atlas-frame) solid var(--fuchsia);
+  box-shadow: inset 0 0 0 var(--atlas-edge) var(--mustard);
+}
+
+/* Ticker / marquesina pixelada -------------------------------------------- */
+.atlas-ticker {
+  flex: 0 0 auto;
+  min-height: var(--atlas-ticker-h);
+  position: relative;
+  /* Decorativo (aria-hidden): nunca debe robar hit-testing al shell fijo. */
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  background: var(--ink);
+  color: var(--cream);
+  border-bottom: var(--atlas-edge) solid var(--fuchsia);
+}
+.atlas-ticker.rr-marquee { border-top: 0; }
+.atlas-ticker .rr-marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding-block: 0;
+  animation-duration: 26s;
+}
+.atlas-ticker__item,
+.atlas-ticker__glyph { padding-inline: var(--space-2); white-space: nowrap; }
+.atlas-ticker__item {
+  font: 700 10px/var(--atlas-ticker-h) var(--font-display);
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+.atlas-ticker__glyph { color: var(--mustard); font-size: 8px; line-height: var(--atlas-ticker-h); }
+
+/* Topbar: negro con filete mostaza y marca con trazo por máscara ---------- */
+.topbar { border-bottom: var(--atlas-edge) solid var(--mustard); box-shadow: 0 6px 0 var(--rr-fucsia-12); }
+.brand strong { font-size: clamp(15px, 1.4vw, 20px); letter-spacing: .16em; text-transform: uppercase; }
+.brand-mark { position: relative; border-radius: 0; box-shadow: var(--pixel-border); }
+/* Trazo con máscara CSS sobre el MISMO PNG real (sin redibujar el logo). */
+.brand-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: url('/src/rr-estilo/logos/simbolo_transparent_mostaza.png') center / contain no-repeat;
+  -webkit-mask-image: linear-gradient(100deg, transparent 0 42%, var(--cream) 50%, transparent 58% 100%);
+  mask-image: linear-gradient(100deg, transparent 0 42%, var(--cream) 50%, transparent 58% 100%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transform: translateX(-150%);
+  animation: atlas-logo-trace 6s var(--ease-base) infinite;
+  will-change: transform;
+}
+@keyframes atlas-logo-trace {
+  0%, 55% { transform: translateX(-150%); }
+  85%, 100% { transform: translateX(150%); }
+}
+
+/* Enlace "Volver al hub RR" ---------------------------------------------- */
+.button-hub {
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--mustard);
+  color: var(--ink);
+  box-shadow: var(--atlas-hard-1);
+  font: 800 11px/1 var(--font-display);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  gap: var(--space-2);
+}
+.button-hub:hover,
+.button-hub:focus-visible {
+  color: var(--ink);
+  background: var(--mustard);
+  border-color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--fuchsia);
+}
+.hub-label--short { display: none; }
+
+/* Botones, campos y chrome: esquinas rectas y sombra dura ----------------- */
+.button,
+.button-small,
+.icon-button,
+.searchbar,
+.rail-summary,
+.minimap,
+.help-dialog,
+.toast,
+.privacy-note,
+.filters select,
+.field input,
+.field textarea { border-radius: 0; }
+.button { border-width: 2px; border-color: var(--ink); box-shadow: var(--atlas-hard-1); }
+.button:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--rr-fucsia-25); }
+.button:active { transform: translate(1px, 1px); box-shadow: none; }
+.button-primary { border-color: var(--ink); }
+.button-ghost { border-color: var(--crema-26); box-shadow: none; }
+.button-ghost:hover { border-color: var(--mustard); color: var(--mustard); }
+.button-outline { border-width: 2px; }
+.icon-button:hover { background: var(--crema-13); transform: translate(-2px, -2px); box-shadow: var(--atlas-hard-1); }
+.searchbar { border-width: 2px; }
+.searchbar:focus-within { transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--mustard); }
+
+/* Rail: dithering pixel, tipografía gigante y revelado escalonado --------- */
+.rail {
+  border-right: var(--atlas-edge) solid var(--ink);
+  background-color: var(--sand);
+  background-image:
+    radial-gradient(circle at 25% 25%, var(--rr-fucsia-12) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, var(--rr-mostaza-12) 1px, transparent 1px);
+  background-size: 10px 10px, 16px 16px;
+}
+.rail-content > * { animation: rr-reveal var(--dur-slow) var(--ease-out) both; }
+.rail-content > *:nth-child(2) { animation-delay: 40ms; }
+.rail-content > *:nth-child(3) { animation-delay: 80ms; }
+.rail-content > *:nth-child(4) { animation-delay: 120ms; }
+.rail-content > *:nth-child(5) { animation-delay: 160ms; }
+.rail-content > *:nth-child(n + 6) { animation-delay: 200ms; }
+.rail h1 {
+  font-size: clamp(30px, 2.7vw, 46px);
+  line-height: .88;
+  letter-spacing: -.055em;
+  text-transform: uppercase;
+}
+.eyebrow { display: inline-flex; align-items: center; gap: 6px; }
+.eyebrow::before { content: ''; width: 8px; height: 8px; background: var(--mustard); box-shadow: 2px 2px 0 var(--fuchsia); }
+.rail-stats strong {
+  font-size: clamp(34px, 3.1vw, 52px);
+  line-height: .82;
+  letter-spacing: -.06em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 3px 3px 0 var(--rr-mostaza-18);
+}
+.rail-summary { border: 2px solid var(--ink); box-shadow: var(--atlas-hard-1); }
+.legend .dot { border-radius: 0; box-shadow: 2px 2px 0 var(--ink-24); }
+.privacy-note { border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--mostaza-15); }
+.filters select { border-width: 2px; box-shadow: var(--atlas-hard-1); }
+
+/* Workspace y lienzo: dithering, cuadrícula pixel y scanlines por transform */
+.workspace {
+  background-image:
+    radial-gradient(circle at 10% 6%, var(--mostaza-15), transparent 30%),
+    radial-gradient(circle at 90% 94%, var(--rr-fucsia-08), transparent 34%);
+}
+.toolbar {
+  border-bottom: 0;
+  background-color: var(--papel-88);
+  background-image: repeating-linear-gradient(90deg, var(--fuchsia) 0 4px, var(--mustard) 4px 8px, var(--orchid) 8px 12px);
+  background-repeat: repeat-x;
+  background-size: 12px 4px;
+  background-position: bottom left;
+}
+.toolbar-title strong { font-size: clamp(15px, 1.5vw, 21px); letter-spacing: -.015em; text-transform: uppercase; }
+.canvas-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px 0 0;
+  z-index: 3;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, var(--rr-orquidea-12) 3px 4px);
+  opacity: .45;
+  transform: translateY(0);
+  animation: atlas-scanlines 6s linear infinite;
+  will-change: transform;
+}
+@keyframes atlas-scanlines {
+  from { transform: translateY(0); }
+  to { transform: translateY(4px); }
+}
+.canvas { background-image: radial-gradient(var(--ink-16) 1.5px, transparent 1.5px); background-size: 24px 24px; }
+
+/* Nodos: borde grueso, sombra dura y hover con desplazamiento de píxel ----- */
+.node-card {
+  border-width: 2px;
+  border-top-width: 6px;
+  border-radius: 0;
+  box-shadow: var(--atlas-hard-1);
+}
+.node-card:hover { transform: translate(-4px, -4px); box-shadow: var(--atlas-hard-3); }
+.node-card.is-selected { box-shadow: 0 0 0 4px var(--rr-fucsia-18), var(--atlas-hard-3); }
+.node-stage { border-radius: 40px; }
+.node-root { border-top-width: 10px; }
+.node-control { border-radius: 0; border-width: 2px; }
+
+/* Panel, footer y diálogos ------------------------------------------------- */
+.inspector { border-left: var(--atlas-edge) solid var(--ink); box-shadow: -10px 0 0 var(--rr-fucsia-12); }
+.inspector-badge { border-radius: 0; box-shadow: 2px 2px 0 var(--rr-orquidea-35); }
+.footer {
+  border-top: var(--atlas-edge) solid var(--mustard);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  background: var(--ink);
+}
+.minimap { border-width: 2px; box-shadow: var(--atlas-hard-2); }
+.toast { border: 2px solid var(--mustard); box-shadow: 4px 4px 0 var(--rr-fucsia-25); }
+.help-dialog { border: var(--atlas-frame) solid var(--fuchsia); box-shadow: var(--atlas-hard-3); }
+
+/* Móvil: el marco y el ticker se achican, no desaparecen ------------------- */
+@media (max-width: 760px) {
+  :root { --atlas-frame: 3px; --atlas-edge: 2px; --atlas-ticker-h: 22px; }
+  .hub-label--full { display: none; }
+  .hub-label--short { display: inline; }
+  .button-hub { padding-inline: var(--space-2); font-size: 10px; }
+  .rail-stats strong { font-size: 34px; }
+  .rail h1 { font-size: 30px; }
+  .atlas-ticker__item { letter-spacing: .18em; }
+}
+
+/* Movimiento reducido: apagar la capa viva y los desplazamientos ---------- */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  .canvas-wrap::after,
+  .brand-mark::after,
+  .atlas-ticker .rr-marquee__track,
+  .rail-content > * { animation: none !important; }
+  .button:hover,
+  .button:focus-visible,
+  .button:active,
+  .icon-button:hover,
+  .node-card:hover,
+  .button-hub:hover,
+  .button-hub:focus-visible,
+  .searchbar:focus-within,
+  .brand:hover .brand-mark__png,
+  .brand:focus-visible .brand-mark__png { transform: none !important; }
+  .brand-mark__png { animation: none !important; }
+}
