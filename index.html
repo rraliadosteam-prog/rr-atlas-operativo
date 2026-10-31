@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="RR Labs · Atlas de procesos y bots">
   <title>RR Labs · Atlas de procesos</title>
-  <link rel="icon" href="/rr-logo-mark.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/src/rr-estilo/logos/simbolo_transparent_mostaza.png">
+  <!-- Sistema de diseño único RR (vendorizado desde ~/rr-estilo) -->
+  <link rel="stylesheet" href="/src/rr-estilo/tokens.css">
+  <link rel="stylesheet" href="/src/rr-estilo/componentes.css">
   <link rel="stylesheet" href="/src/styles/rr-tree.css">
 </head>
 <body>
   <div class="app" id="rr-app">
     <header class="topbar">
       <a class="brand" href="#top" aria-label="RR Labs, inicio">
-        <span class="brand-mark" aria-hidden="true">RR</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img class="brand-mark__png" src="/src/rr-estilo/logos/simbolo_transparent_mostaza.png" alt="" width="42" height="42" decoding="async">
+        </span>
         <span><strong>RR LABS</strong><small>Atlas de procesos</small></span>
       </a>
       <div class="searchbar" role="search">

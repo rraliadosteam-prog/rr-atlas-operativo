@@ -37,13 +37,13 @@ before(async () => {
       const pathname = new URL(request.url, 'http://local').pathname;
       const relative = pathname === '/' ? 'index.html' : decodeURIComponent(pathname).slice(1);
       const path = resolve(root, relative);
-      if (!path.startsWith(`${resolve(root)}${sep}`) || !/^(index\.html|src\/.*\.(mjs|css)|rr-logo-mark\.png)$/.test(relative)) {
+      if (!path.startsWith(`${resolve(root)}${sep}`) || !/^(index\.html|src\/.*\.(mjs|css|woff2|woff|png)|rr-logo-mark\.png)$/.test(relative)) {
         response.writeHead(404).end(); return;
       }
       const body = baseline && relative !== 'rr-logo-mark.png'
         ? execFileSync('git', ['show', `${baseline}:${relative}`], { cwd: root })
         : await readFile(path);
-      const type = relative.endsWith('.mjs') ? 'text/javascript' : relative.endsWith('.css') ? 'text/css' : relative.endsWith('.png') ? 'image/png' : 'text/html';
+      const type = relative.endsWith('.mjs') ? 'text/javascript' : relative.endsWith('.css') ? 'text/css' : relative.endsWith('.png') ? 'image/png' : relative.endsWith('.woff2') ? 'font/woff2' : relative.endsWith('.woff') ? 'font/woff' : 'text/html';
       response.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-store' }).end(body);
     } catch { response.writeHead(404).end(); }
   });
