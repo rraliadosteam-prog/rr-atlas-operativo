@@ -134,7 +134,7 @@ export async function build(rootOrOptions = DEFAULT_ROOT, maybeOptions = {}) {
   await writeFile(resolve(dist, ...LOCAL_OVERRIDE_PATH), `export default ${serialized};\n`, 'utf8');
   await cp(resolve(root, 'rr-logo-mark.png'), resolve(dist, 'rr-logo-mark.png'));
   // Exclusión explícita: ningún *.local.* puede llegar al dist público.
-  await assertNoLocalArtifacts(dist);
+  if (!local) await assertNoLocalArtifacts(dist);
   console.log('Atlas shell build: modular frontend validated; output dist/index.html');
   return { dist, local };
 }
