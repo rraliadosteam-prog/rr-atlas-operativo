@@ -1,6 +1,5 @@
-/* RR Aliados · Grafo documental — visor completo de la capa derivada.
-   Sin dependencias. Lee ./grafo.json (mismo origen). Solo lectura.
-   Paridad con output/graph.html: documentos, encabezados, conceptos y canvas. */
+/* RR Aliados · Grafo documental — visor de la capa derivada.
+   Sin dependencias. Lee ./grafo.json (mismo origen). Solo lectura. */
 (() => {
   'use strict';
 
@@ -18,39 +17,27 @@
     Derivado: '#5a4a52',
     Raíz: '#c9a9b8'
   };
-  const KIND_COLOR = {
-    page: null,
-    heading: '#ded116',
-    concept: '#7f8fa6',
-    canvas: '#c04fd6',
-    canvas_text: '#8e6fa8',
-    canvas_file: '#6f8fa8',
-    canvas_group: '#5a4a6a'
-  };
-  const KIND_ORDER = ['page', 'heading', 'canvas', 'canvas_text', 'canvas_file', 'canvas_group'];
   const ESTADOS = [
     ['vencido', 'Vencido'],
     ['vigente', 'Vigente'],
     ['sin_fecha', 'Sin fecha']
   ];
-  const LIST_CAP = 400;
 
   const state = {
     data: null,
-    nodes: [],
+    docs: [],
     edges: [],
     adj: [],
-    pageSet: new Set(),
     q: '',
     areas: new Set(),
-    kinds: new Set(),
     estados: new Set(),
-    flags: new Set(),
     tipo: '',
     com: '',
     selected: null,
     hover: null,
     view: { x: 0, y: 0, k: 1 },
+    pos: [],
+    vel: [],
     visible: new Set()
   };
 
@@ -75,81 +62,59 @@
       return;
     }
     state.data = payload;
-    state.nodes = payload.nodes || [];
+    state.docs = payload.docs || [];
     state.edges = payload.edges || [];
-    state.pageSet = new Set(payload.docs || []);
-    state.adj = state.nodes.map(() => []);
+    state.adj = state.docs.map(() => []);
     for (const [s, t, rel, conf] of state.edges) {
       state.adj[s].push({ i: t, rel, conf, dir: 'out' });
       state.adj[t].push({ i: s, rel, conf, dir: 'in' });
     }
     buildFilters();
-    fit();
+    layout();
     bind();
     apply();
-    const hash = /[#&]n=(\d+)/.exec(location.hash);
+    const hash = /doc=(\d+)/.exec(location.hash);
     if (hash) select(Number(hash[1]), false);
   }
 
   /* ---------- filtros ---------- */
-  function countBy(fn) {
+  function countBy(key) {
     const m = new Map();
-    for (const n of state.nodes) {
-      const k = fn(n);
-      if (!k) continue;
-      m.set(k, (m.get(k) || 0) + 1);
-    }
+    for (const d of state.docs) m.set(d[key], (m.get(d[key]) || 0) + 1);
     return [...m.entries()].sort((a, b) => b[1] - a[1]);
-  }
-
-  function chip(host, label, count, datasetKey, value, handler) {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.dataset[datasetKey] = value;
-    b.setAttribute('aria-pressed', 'false');
-    b.append(document.createTextNode(label));
-    const c = document.createElement('span');
-    c.className = 'c';
-    c.textContent = count;
-    b.appendChild(c);
-    b.addEventListener('click', () => {
-      const on = handler(value);
-      b.setAttribute('aria-pressed', String(on));
-    });
-    host.appendChild(b);
   }
 
   function buildFilters() {
     const areas = el('f-area');
-    for (const [name, n] of countBy((x) => (x.kind === 'page' ? x.area : ''))) {
-      chip(areas, name, n, 'area', name, (v) => {
-        state.areas.has(v) ? state.areas.delete(v) : state.areas.add(v);
-        apply();
-        return state.areas.has(v);
-      });
-    }
-    const kinds = el('f-kind');
-    for (const kind of KIND_ORDER) {
-      const n = state.nodes.filter((x) => x.kind === kind).length;
-      if (!n) continue;
-      const label = state.nodes.find((x) => x.kind === kind).kind_label;
-      chip(kinds, label, n, 'kind', kind, (v) => {
-        state.kinds.has(v) ? state.kinds.delete(v) : state.kinds.add(v);
-        apply();
-        return state.kinds.has(v);
-      });
+    for (const [name, n] of countBy('area')) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.area = name;
+      b.setAttribute('aria-pressed', 'false');
+      b.append(document.createTextNode(name));
+      const c = document.createElement('span');
+      c.className = 'c';
+      c.textContent = n;
+      b.appendChild(c);
+      areas.appendChild(b);
     }
     const estados = el('f-estado');
     for (const [key, label] of ESTADOS) {
-      const n = [...state.pageSet].filter((i) => state.nodes[i].estado === key).length;
-      chip(estados, label, n, 'estado', key, (v) => {
-        state.estados.has(v) ? state.estados.delete(v) : state.estados.add(v);
-        apply();
-        return state.estados.has(v);
-      });
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.estado = key;
+      b.setAttribute('aria-pressed', 'false');
+      const n = state.docs.filter((d) => d.estado === key).length;
+      b.append(document.createTextNode(label));
+      const c = document.createElement('span');
+      c.className = 'c';
+      c.textContent = n;
+      b.appendChild(c);
+      estados.appendChild(b);
     }
     const tipos = el('f-tipo');
-    for (const [name, n] of countBy((x) => (x.kind === 'page' ? x.tipo : ''))) {
+    for (const [name, n] of countBy('tipo')) {
+      if (!name) continue;
       const o = document.createElement('option');
       o.value = name;
       o.textContent = name + ' (' + n + ')';
@@ -162,33 +127,9 @@
       o.textContent = c.nombre + ' (' + c.tam + ')';
       coms.appendChild(o);
     }
-    const flagsHost = el('f-flags');
-    const FLAGS = [
-      ['sin_owner', 'Sin owner'],
-      ['sin_corte', 'Sin corte'],
-      ['huerfano', 'Huérfano'],
-      ['enlace_sin_resolver', 'Enlace roto'],
-      ['enlace_excluido', 'Enlace excluido']
-    ];
-    for (const [key, label] of FLAGS) {
-      const n = state.nodes.filter((x) => x.kind === 'page' && (x.flags || []).includes(key)).length;
-      if (!n) continue;
-      chip(flagsHost, label, n, 'flag', key, (v) => {
-        state.flags.has(v) ? state.flags.delete(v) : state.flags.add(v);
-        apply();
-        return state.flags.has(v);
-      });
-    }
     const legend = el('legend');
-    const items = [
-      ['Documento', '#be076d'],
-      ['Encabezado', KIND_COLOR.heading],
-      ['Canvas', KIND_COLOR.canvas],
-      ['Texto de canvas', KIND_COLOR.canvas_text],
-      ['Archivo en canvas', KIND_COLOR.canvas_file],
-      ['Grupo de canvas', KIND_COLOR.canvas_group]
-    ];
-    for (const [name, color] of items) {
+    for (const [name, color] of Object.entries(AREA_COLOR)) {
+      if (!state.docs.some((d) => d.area === name)) continue;
       const s = document.createElement('span');
       const i = document.createElement('i');
       i.style.background = color;
@@ -197,27 +138,23 @@
     }
   }
 
-  function matches(n) {
-    const isPage = n.kind === 'page';
-    if (state.kinds.size && !state.kinds.has(n.kind)) return false;
-    if (state.areas.size && (!isPage || !state.areas.has(n.area))) return false;
-    if (state.estados.size && (!isPage || !state.estados.has(n.estado))) return false;
-    if (state.tipo && (!isPage || n.tipo !== state.tipo)) return false;
-    if (state.com && n.community_name !== state.com) return false;
-    if (state.flags.size) {
-      if (!isPage) return false;
-      if (!(n.flags || []).some((f) => state.flags.has(f))) return false;
-    }
+  function matches(d) {
+    if (state.areas.size && !state.areas.has(d.area)) return false;
+    if (state.estados.size && !state.estados.has(d.estado)) return false;
+    if (state.tipo && d.tipo !== state.tipo) return false;
+    if (state.com && d.comunidad_nombre !== state.com) return false;
     if (!state.q) return true;
     const q = state.q.toLowerCase();
-    return (n.label + ' ' + (n.file || '') + ' ' + (n.owner || '') + ' ' + (n.tipo || '') + ' ' + n.community_name)
-      .toLowerCase()
-      .includes(q);
+    const hay = [
+      d.title, d.file, d.owner, d.tipo, d.area, d.capacidad,
+      d.comunidad_nombre, ...(d.headings || [])
+    ].join(' ').toLowerCase();
+    return hay.includes(q);
   }
 
   function apply() {
     const visible = [];
-    for (let i = 0; i < state.nodes.length; i++) if (matches(state.nodes[i])) visible.push(i);
+    for (let i = 0; i < state.docs.length; i++) if (matches(state.docs[i])) visible.push(i);
     state.visible = new Set(visible);
     renderList(visible);
     renderStats(visible.length);
@@ -228,52 +165,45 @@
     draw();
   }
 
-  function renderStats(shown) {
+  function renderStats(n) {
     const m = state.data.meta;
     el('stats').textContent = '';
     const b1 = document.createElement('b');
-    b1.textContent = shown + '/' + m.nodos;
+    b1.textContent = n + '/' + m.documentos;
     const b2 = document.createElement('b');
     b2.textContent = m.relaciones;
     const b3 = document.createElement('b');
-    b3.textContent = m.documentos;
-    const b4 = document.createElement('b');
-    b4.textContent = m.drive_docs || 0;
+    b3.textContent = m.excluidos;
     el('stats').append(
-      b1, document.createTextNode(' nodos · '),
+      b1, document.createTextNode(' docs · '),
       b2, document.createTextNode(' relaciones · '),
-      b3, document.createTextNode(' docs · '),
-      b4, document.createTextNode(' con Drive · ' + m.generado)
+      b3, document.createTextNode(' excluidos · ' + m.generado)
     );
   }
 
   function renderList(visible) {
     const list = el('list');
     list.textContent = '';
-    const sorted = [...visible].sort(
-      (a, b) => state.nodes[b].degree - state.nodes[a].degree || state.nodes[a].label.localeCompare(state.nodes[b].label)
-    );
-    el('list-count').textContent =
-      sorted.length > LIST_CAP
-        ? sorted.length + ' nodos · mostrando los ' + LIST_CAP + ' más conectados'
-        : sorted.length + ' nodos';
+    el('list-count').textContent = visible.length + ' documentos';
     const frag = document.createDocumentFragment();
-    for (const i of sorted.slice(0, LIST_CAP)) {
-      const n = state.nodes[i];
+    const sorted = [...visible].sort((a, b) =>
+      state.docs[b].grado - state.docs[a].grado || state.docs[a].title.localeCompare(state.docs[b].title));
+    for (const i of sorted) {
+      const d = state.docs[i];
       const li = document.createElement('li');
       li.dataset.i = i;
       if (state.selected === i) li.setAttribute('aria-current', 'true');
       const left = document.createElement('div');
       const t = document.createElement('div');
       t.className = 't';
-      t.textContent = n.label;
+      t.textContent = d.title;
       const p = document.createElement('div');
       p.className = 'p';
-      p.textContent = n.kind_label + (n.area ? ' · ' + n.area : '') + (n.file ? ' · ' + n.file : '');
+      p.textContent = d.area + ' · ' + d.file;
       left.append(t, p);
       const deg = document.createElement('span');
       deg.className = 'd';
-      deg.textContent = n.degree;
+      deg.textContent = d.grado;
       li.append(left, deg);
       li.addEventListener('click', () => select(i));
       frag.appendChild(li);
@@ -288,17 +218,16 @@
     if (state.selected === null) {
       const p = document.createElement('p');
       p.className = 'g-empty';
-      p.textContent = 'Selecciona un nodo en el mapa o en la lista.';
+      p.textContent = 'Selecciona un documento en el mapa o en la lista.';
       box.appendChild(p);
       return;
     }
-    const n = state.nodes[state.selected];
-    const isPage = n.kind === 'page';
+    const d = state.docs[state.selected];
     const h2 = document.createElement('h2');
-    h2.textContent = isPage ? n.title : n.label;
+    h2.textContent = d.title;
     const path = document.createElement('div');
     path.className = 'path';
-    path.textContent = n.file || n.id;
+    path.textContent = d.file;
 
     const badges = document.createElement('div');
     badges.className = 'g-badges';
@@ -308,27 +237,10 @@
       s.textContent = text;
       badges.appendChild(s);
     };
-    mk(n.kind_label);
-    if (isPage) {
-      mk(n.area);
-      if (n.tipo) mk(n.tipo);
-      mk(ESTADOS.find((e) => e[0] === n.estado)[1], n.estado);
-    }
-    mk(n.degree + ' vínculos');
-    if (isPage && n.drive_url) mk('Drive ✓');
-    if (isPage) {
-      const FLAG_LABEL = {
-        sin_owner: 'Sin owner',
-        sin_corte: 'Sin corte',
-        huerfano: 'Huérfano',
-        duplicado: 'Duplicado',
-        enlace_sin_resolver: 'Enlace roto',
-        enlace_excluido: 'Enlace excluido'
-      };
-      for (const f of n.flags || []) {
-        if (FLAG_LABEL[f]) mk(FLAG_LABEL[f], f === 'enlace_excluido' ? '' : 'vencido');
-      }
-    }
+    mk(d.area);
+    if (d.tipo) mk(d.tipo);
+    mk(ESTADOS.find((e) => e[0] === d.estado)[1], d.estado);
+    mk(d.grado + ' vínculos');
 
     const kv = document.createElement('dl');
     kv.className = 'g-kv';
@@ -340,41 +252,23 @@
       dd.textContent = v;
       kv.append(dt, dd);
     };
-    if (isPage) {
-      row('Owner', n.owner);
-      row('Corte', n.corte);
-      row('Revisar', n.revisar);
-      row('Vigente', n.vigente_hasta);
-      row('Capacidad', n.capacidad);
-      row('Drive', n.drive_id);
-      row('Versión Drive', n.drive_version);
-      row('Modificado', (n.drive_modified || '').slice(0, 10));
-      row('MD5', (n.drive_md5 || '').slice(0, 12));
-    }
-    row('Archivo', n.file);
-    row('Comunidad', n.community_name);
-    row('Tipo de grafo', n.type);
+    row('Owner', d.owner);
+    row('Corte', d.corte);
+    row('Revisar', d.revisar);
+    row('Vigente', d.vigente_hasta);
+    row('Capacidad', d.capacidad);
+    row('Comunidad', d.comunidad_nombre);
 
     const actions = document.createElement('div');
     actions.className = 'g-actions';
-    if (isPage && n.drive_url) {
-      const dr = document.createElement('a');
-      dr.className = 'primary';
-      dr.href = n.drive_url;
-      dr.target = '_blank';
-      dr.rel = 'noopener';
-      dr.textContent = 'Abrir en Drive';
-      actions.appendChild(dr);
-    }
-    if (isPage && n.obsidian) {
-      const ob = document.createElement('a');
-      ob.href = n.obsidian;
-      ob.textContent = 'Abrir en Obsidian';
-      actions.appendChild(ob);
-    }
+    const ob = document.createElement('a');
+    ob.className = 'primary';
+    ob.href = d.obsidian;
+    ob.textContent = 'Abrir en Obsidian';
+    actions.appendChild(ob);
     const copy = document.createElement('a');
-    copy.href = '#n=' + state.selected;
-    copy.textContent = 'Enlace a este nodo';
+    copy.href = '#doc=' + state.selected;
+    copy.textContent = 'Enlace a esta ficha';
     actions.appendChild(copy);
 
     const h3rels = document.createElement('h3');
@@ -384,34 +278,94 @@
     const neigh = state.adj[state.selected] || [];
     if (!neigh.length) {
       const li = document.createElement('li');
-      li.textContent = 'Sin relaciones.';
+      li.textContent = 'Sin relaciones entre documentos.';
       rels.appendChild(li);
     }
-    for (const x of neigh.slice(0, 30)) {
-      const other = state.nodes[x.i];
+    for (const n of neigh.slice(0, 24)) {
       const li = document.createElement('li');
-      li.textContent = other.label;
+      li.textContent = state.docs[n.i].title;
       const r = document.createElement('span');
       r.className = 'r';
-      r.textContent = (x.dir === 'out' ? '→ ' : '← ') + x.rel;
+      r.textContent = (n.dir === 'out' ? '→ ' : '← ') + n.rel;
       li.appendChild(r);
-      li.addEventListener('click', () => select(x.i));
+      li.addEventListener('click', () => select(n.i));
       rels.appendChild(li);
     }
 
-    box.append(h2, path, badges, kv, actions, h3rels, rels);
+    box.append(h2, path, badges, kv, actions);
+    if (d.headings && d.headings.length) {
+      const h3h = document.createElement('h3');
+      h3h.textContent = 'Encabezados';
+      const tags = document.createElement('div');
+      tags.className = 'g-tags';
+      for (const h of d.headings.slice(0, 18)) {
+        const s = document.createElement('span');
+        s.textContent = h;
+        tags.appendChild(s);
+      }
+      box.append(h3h, tags);
+    }
+    box.append(h3rels, rels);
   }
 
   function select(i, push = true) {
-    if (!Number.isInteger(i) || !state.nodes[i]) return;
+    if (!Number.isInteger(i) || !state.docs[i]) return;
     state.selected = i;
-    if (push) history.replaceState(null, '', '#n=' + i);
+    if (push) history.replaceState(null, '', '#doc=' + i);
     renderDetail();
     for (const li of el('list').children) {
       if (Number(li.dataset.i) === i) li.setAttribute('aria-current', 'true');
       else li.removeAttribute('aria-current');
     }
     draw();
+  }
+
+  /* ---------- layout ---------- */
+  function layout() {
+    const n = state.docs.length;
+    const R = 320;
+    state.pos = new Array(n);
+    state.vel = new Array(n);
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const r = R * (0.35 + 0.65 * ((i * 37) % 97) / 97);
+      state.pos[i] = { x: Math.cos(a) * r, y: Math.sin(a) * r };
+      state.vel[i] = { x: 0, y: 0 };
+    }
+    const K = 9000;
+    const spring = 0.012;
+    const damp = 0.82;
+    for (let tick = 0; tick < 320; tick++) {
+      const fx = new Float64Array(n);
+      const fy = new Float64Array(n);
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          let dx = state.pos[i].x - state.pos[j].x;
+          let dy = state.pos[i].y - state.pos[j].y;
+          let d2 = dx * dx + dy * dy;
+          if (d2 < 1) { dx = (i - j) * 0.01 + 0.01; dy = 0.01; d2 = 1; }
+          const f = K / d2;
+          const d = Math.sqrt(d2);
+          fx[i] += (dx / d) * f; fy[i] += (dy / d) * f;
+          fx[j] -= (dx / d) * f; fy[j] -= (dy / d) * f;
+        }
+      }
+      for (const [s, t] of state.edges) {
+        const dx = state.pos[t].x - state.pos[s].x;
+        const dy = state.pos[t].y - state.pos[s].y;
+        const d = Math.hypot(dx, dy) || 1;
+        const goal = 70;
+        const f = (d - goal) * spring;
+        fx[s] += (dx / d) * f; fy[s] += (dy / d) * f;
+        fx[t] -= (dx / d) * f; fy[t] -= (dy / d) * f;
+      }
+      for (let i = 0; i < n; i++) {
+        state.vel[i].x = (state.vel[i].x + fx[i]) * damp;
+        state.vel[i].y = (state.vel[i].y + fy[i]) * damp;
+        state.pos[i].x += state.vel[i].x;
+        state.pos[i].y += state.vel[i].y;
+      }
+    }
   }
 
   /* ---------- dibujo ---------- */
@@ -423,21 +377,21 @@
 
   function fit() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
-    if (!state.nodes.length) return;
+    if (!state.pos.length) return;
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    for (const n of state.nodes) {
-      minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x);
-      minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y);
+    for (const p of state.pos) {
+      minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+      minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
     }
     const pad = 40;
     const k = Math.min((w - pad * 2) / (maxX - minX || 1), (h - pad * 2) / (maxY - minY || 1));
-    state.view.k = Math.max(0.05, Math.min(k, 4));
+    state.view.k = Math.max(0.25, Math.min(k, 2.2));
     state.view.x = w / 2 - ((minX + maxX) / 2) * state.view.k;
     state.view.y = h / 2 - ((minY + maxY) / 2) * state.view.k;
   }
 
-  function toScreen(n) {
-    return { x: n.x * state.view.k + state.view.x, y: n.y * state.view.k + state.view.y };
+  function toScreen(p) {
+    return { x: p.x * state.view.k + state.view.x, y: p.y * state.view.k + state.view.y };
   }
 
   function paint() {
@@ -446,51 +400,37 @@
     if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
-      fit();
+      if (!state.painted) { fit(); state.painted = true; }
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
     const k = state.view.k;
-    ctx.lineWidth = Math.max(0.4, Math.min(1.2, 0.7 * k));
+    ctx.lineWidth = 0.7;
     for (const [s, t] of state.edges) {
       const a = state.visible.has(s), b = state.visible.has(t);
       if (!a && !b) continue;
-      const p1 = toScreen(state.nodes[s]), p2 = toScreen(state.nodes[t]);
+      const p1 = toScreen(state.pos[s]), p2 = toScreen(state.pos[t]);
       const hot = state.selected === s || state.selected === t;
-      ctx.strokeStyle = hot
-        ? 'rgba(222,209,22,.85)'
-        : a && b
-          ? 'rgba(190,7,109,.26)'
-          : 'rgba(120,90,105,.08)';
-      ctx.beginPath();
-      ctx.moveTo(p1.x, p1.y);
-      ctx.lineTo(p2.x, p2.y);
-      ctx.stroke();
+      ctx.strokeStyle = hot ? 'rgba(222,209,22,.75)' : (a && b ? 'rgba(190,7,109,.30)' : 'rgba(120,90,105,.10)');
+      ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
     }
 
-    for (let i = 0; i < state.nodes.length; i++) {
-      const n = state.nodes[i];
+    for (let i = 0; i < state.docs.length; i++) {
+      const d = state.docs[i];
+      const p = toScreen(state.pos[i]);
       const on = state.visible.has(i);
-      if (!on && state.view.k < 0.35) continue;
-      const p = toScreen(n);
-      const base = n.kind === 'page' ? 4.4 : n.kind === 'canvas' ? 3.6 : 2.1;
-      const r = Math.min(11, base + Math.sqrt(n.degree) * 0.55) * Math.max(0.55, Math.min(k, 2.2));
+      const r = Math.max(3, Math.min(11, 3 + Math.sqrt(d.grado) * 1.3)) * Math.max(0.7, Math.min(k, 1.6));
       ctx.beginPath();
-      ctx.arc(p.x, p.y, Math.max(1.2, r), 0, Math.PI * 2);
-      const color = n.kind === 'page' ? AREA_COLOR[n.area] || '#c9a9b8' : KIND_COLOR[n.kind] || '#7f8fa6';
-      ctx.fillStyle = color;
-      ctx.globalAlpha = on ? 0.9 : 0.18;
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = on ? (AREA_COLOR[d.area] || '#c9a9b8') : 'rgba(120,90,105,.22)';
+      ctx.globalAlpha = on ? 0.92 : 0.35;
       ctx.fill();
       ctx.globalAlpha = 1;
       if (state.selected === i) {
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
       } else if (state.hover === i) {
-        ctx.strokeStyle = '#ded116';
-        ctx.lineWidth = 1.6;
-        ctx.stroke();
+        ctx.strokeStyle = '#ded116'; ctx.lineWidth = 1.6; ctx.stroke();
       }
     }
   }
@@ -499,10 +439,9 @@
   function hit(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
     const x = clientX - rect.left, y = clientY - rect.top;
-    let best = null, bestD = 12;
-    for (let i = 0; i < state.nodes.length; i++) {
-      if (!state.visible.has(i)) continue;
-      const p = toScreen(state.nodes[i]);
+    let best = null, bestD = 14;
+    for (let i = 0; i < state.docs.length; i++) {
+      const p = toScreen(state.pos[i]);
       const dd = Math.hypot(p.x - x, p.y - y);
       if (dd < bestD) { bestD = dd; best = i; }
     }
@@ -517,12 +456,27 @@
       if (e.key === 'Escape' && document.activeElement === q) { q.value = ''; state.q = ''; apply(); q.blur(); }
     });
 
+    el('f-area').addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-area]');
+      if (!b) return;
+      const a = b.dataset.area;
+      state.areas.has(a) ? state.areas.delete(a) : state.areas.add(a);
+      b.setAttribute('aria-pressed', String(state.areas.has(a)));
+      apply();
+    });
+    el('f-estado').addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-estado]');
+      if (!b) return;
+      const s = b.dataset.estado;
+      state.estados.has(s) ? state.estados.delete(s) : state.estados.add(s);
+      b.setAttribute('aria-pressed', String(state.estados.has(s)));
+      apply();
+    });
     el('f-tipo').addEventListener('change', (e) => { state.tipo = e.target.value; apply(); });
     el('f-com').addEventListener('change', (e) => { state.com = e.target.value; apply(); });
     el('reset').addEventListener('click', () => {
       state.q = ''; q.value = '';
-      state.areas.clear(); state.kinds.clear(); state.estados.clear(); state.flags.clear();
-      state.tipo = ''; state.com = '';
+      state.areas.clear(); state.estados.clear(); state.tipo = ''; state.com = '';
       document.querySelectorAll('.g-chips button').forEach((b) => b.setAttribute('aria-pressed', 'false'));
       el('f-tipo').value = ''; el('f-com').value = '';
       apply(); fit(); draw();
@@ -539,15 +493,21 @@
       const i = hit(e.clientX, e.clientY);
       if (i !== state.hover) { state.hover = i; draw(); }
       if (i === null) { tip.hidden = true; return; }
-      const n = state.nodes[i];
+      const d = state.docs[i];
       tip.hidden = false;
-      tip.textContent = n.label + ' · ' + n.kind_label;
+      tip.textContent = d.title + ' · ' + d.area;
       const rect = canvas.getBoundingClientRect();
-      tip.style.left = Math.min(e.clientX - rect.left + 12, rect.width - 240) + 'px';
+      tip.style.left = Math.min(e.clientX - rect.left + 12, rect.width - 220) + 'px';
       tip.style.top = Math.max(6, e.clientY - rect.top - 12) + 'px';
     });
     canvas.addEventListener('mouseleave', () => { tip.hidden = true; state.hover = null; draw(); });
 
+    canvas.addEventListener('click', (e) => {
+      const i = hit(e.clientX, e.clientY);
+      if (i !== null) select(i);
+    });
+
+    // pan + zoom
     let drag = null;
     canvas.addEventListener('pointerdown', (e) => {
       drag = { x: e.clientX, y: e.clientY, vx: state.view.x, vy: state.view.y, moved: false };
@@ -557,8 +517,7 @@
       if (!drag) return;
       const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
       if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
-      state.view.x = drag.vx + dx;
-      state.view.y = drag.vy + dy;
+      state.view.x = drag.vx + dx; state.view.y = drag.vy + dy;
       draw();
     });
     canvas.addEventListener('pointerup', (e) => {
@@ -572,7 +531,7 @@
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-      const k2 = Math.max(0.05, Math.min(8, state.view.k * (e.deltaY < 0 ? 1.12 : 0.89)));
+      const k2 = Math.max(0.2, Math.min(5, state.view.k * (e.deltaY < 0 ? 1.12 : 0.89)));
       state.view.x = mx - (mx - state.view.x) * (k2 / state.view.k);
       state.view.y = my - (my - state.view.y) * (k2 / state.view.k);
       state.view.k = k2;

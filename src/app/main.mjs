@@ -1,18 +1,19 @@
-import { STORAGE_KEY, createLocalRepository, PALETTE_COLORS } from '../core/atlas-state.mjs?v=bpmn-6';
-import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=bpmn-6';
-import { KNOWN_LINKS } from '../data/known-links.mjs?v=bpmn-6';
-import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=bpmn-6';
-import { NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=bpmn-6';
-import { createAtlasShell } from '../ui/atlas-shell.mjs?v=bpmn-6';
-import { createAtlasView } from '../ui/atlas-view.mjs?v=bpmn-6';
-import { createMediaFrame } from '../ui/atlas-media.mjs?v=bpmn-6';
-import { bindAtlasEvents } from '../ui/atlas-events.mjs?v=bpmn-6';
-import { createProcessView } from '../ui/atlas-process-view.mjs?v=bpmn-6';
-import { createPlanView } from '../ui/atlas-plan.mjs?v=bpmn-6';
-import { bindAtlasNavigation } from '../ui/atlas-nav.mjs?v=mega-1';
-import { bindPressables } from '../ui/pressable.mjs?v=bpmn-6';
-import { bindBottomSheet } from '../ui/sheet.mjs?v=bpmn-6';
-import { bindTour } from '../ui/tour.mjs?v=bpmn-6';
+import { STORAGE_KEY, createLocalRepository } from '../core/atlas-state.mjs?v=media-7';
+import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=media-7';
+import { DIRECTUS_GRAPH } from '../data/directus-graph.mjs?v=media-7';
+import { KNOWN_LINKS } from '../data/known-links.mjs?v=media-7';
+import { createAtlasStore, DEFAULT_TYPES } from './atlas-store.mjs?v=media-7';
+import { NODE_COLORS, NODE_SHAPES, MEDIA_KINDS } from '../core/atlas-state.mjs?v=media-7';
+import { createAtlasShell } from '../ui/atlas-shell.mjs?v=media-7';
+import { createAtlasView } from '../ui/atlas-view.mjs?v=media-7';
+import { createMediaFrame } from '../ui/atlas-media.mjs?v=media-7';
+import { bindAtlasEvents } from '../ui/atlas-events.mjs?v=media-7';
+import { createProcessView } from '../ui/atlas-process-view.mjs?v=media-7';
+import { createPlanView } from '../ui/atlas-plan.mjs?v=media-7';
+import { bindAtlasNavigation } from '../ui/atlas-nav.mjs?v=media-7';
+import { bindPressables } from '../ui/pressable.mjs?v=media-7';
+import { bindBottomSheet } from '../ui/sheet.mjs?v=media-7';
+import { bindTour } from '../ui/tour.mjs?v=media-7';
 
 const rootElement = document.querySelector('#atlas-app');
 document.body.append(rootElement.querySelector('[data-atlas-toast]'));
@@ -195,7 +196,7 @@ root.confirm.action.addEventListener('click', (event) => {
   handler?.();
 });
 
-const store = createAtlasStore({ repository, initialGraph: DEFAULT_GRAPH });
+const store = createAtlasStore({ repository, initialGraph: DIRECTUS_GRAPH });
 undoLast = () => store.undo();
 const view = createAtlasView({
   root,
