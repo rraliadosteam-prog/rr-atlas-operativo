@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { relative, resolve, dirname, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -59,6 +59,17 @@ async function readLocalData(root) {
   return value;
 }
 
+async function copyGrafoViewer(root, dist) {
+  const source = resolve(root, 'public', 'grafo');
+  try {
+    await stat(source);
+  } catch (error) {
+    if (error?.code === 'ENOENT') return;
+    throw error;
+  }
+  await cp(source, resolve(dist, 'grafo'), { recursive: true });
+}
+
 async function copyPublicSource(root, dist) {
   const source = resolve(root, 'src');
   const destination = resolve(dist, 'src');
@@ -82,6 +93,7 @@ export async function build(rootOrOptions = DEFAULT_ROOT, maybeOptions = {}) {
   await mkdir(dist, { recursive: true });
   await writeFile(resolve(dist, 'index.html'), output, 'utf8');
   await copyPublicSource(root, dist);
+  await copyGrafoViewer(root, dist);
   await mkdir(resolve(dist, ...LOCAL_OVERRIDE_PATH.slice(0, -1)), { recursive: true });
   const serialized = local ? JSON.stringify(localData, null, 2) : '{}';
   await writeFile(resolve(dist, ...LOCAL_OVERRIDE_PATH), `export default ${serialized};\n`, 'utf8');
