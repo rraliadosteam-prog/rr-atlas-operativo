@@ -14,11 +14,19 @@ El árbol permanece en el Atlas existente; no se crea otro proyecto ni desarroll
 
 ## Tasks
 
-- T1 — S1 — Integrar `/grafo/` en el build público y agregar test de enlaces internos sin 404.
-- T2 — S2/S3 — Verificar headless los arreglos del Anexo J; corregir regresiones si fallan.
-- T3 — S4/S5 — Build limpio, auditoría de nombres, copia del preview y `npm test`/`npm run check`.
-- T4 — S6 — Commit local y redactar `entrega-k.md`.
+- T1 — S1 — Integrar `/grafo/` en el build público y agregar test de enlaces internos sin 404. Estado: done. Commit: `4533195`.
+- T2 — S2/S3 — Verificar headless los arreglos del Anexo J; corregir regresiones si fallan. Estado: done; 12/12 tests de vista pasan, sin regresiones.
+- T3 — S4/S5 — Build limpio, auditoría de nombres, copia del preview y `npm test`/`npm run check`. Estado: done; lista exacta de 19 nombres no encontrada en los docs indicados.
+- T4 — S6 — Commit local y redactar `entrega-k.md`. Estado: done.
+
+## Resultados
+
+- `npm test`: 73/73.
+- `npm run check`: OK.
+- Preview limpio copiado a `/home/deadkiss/rr-encargos/atlas-pro-20261030/ciclo2/pasada-k/preview-dist/`.
+- Capturas en `/home/deadkiss/rr-encargos/atlas-pro-20261030/ciclo2/pasada-k/capturas/`.
 
 ## Log
 
 - L1: Encargo Pasada K del RR Atlas Operativo (orden de Rosas vía Atlas, 31-oct). Trabajar solo en `~/rr-atlas-operativo`, rama `atlas-arbol-pro`, solo local. Leer `/home/deadkiss/rr-encargos/atlas-pro-20261030/ciclo2/anexo-j/intento2/entrega-anexo-j.md` y `git log/diff` para ver qué dejó el Anexo J. Sin push, merge, Vercel, deploy ni mensajes a terceros. No crear otro proyecto ni desarrollo; el árbol se queda en este Atlas.
+- L2: Commit local `4533195 fix(atlas): enrutar /grafo/ en build y auditar enlaces internos sin 404`. `npm test` 73/73, `npm run check` OK. Entrega escrita en `/home/deadkiss/rr-encargos/atlas-pro-20261030/ciclo2/pasada-k/entrega-k.md`.
