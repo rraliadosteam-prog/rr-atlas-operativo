@@ -1,4 +1,4 @@
-import { createRRGraph, processRows, statusLabels } from '../data/rr-tree.mjs';
+import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
 import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
@@ -21,6 +21,7 @@ const confirmation = (value) => {
   return !text || /^por confirmar(?: con rosas)?$/i.test(text) ? 'Por confirmar con Rosas' : text;
 };
 const COLORS = { fuchsia: '#be076d', mustard: '#ded116', orchid: '#973d8f', ink: '#070001', ok: '#4f9d64', warn: '#ded116', off: '#be076d' };
+const displayCopy = (text) => getInternalTreeCopy(text);
 const CANVAS_MINIMUM = { width: 2_400, height: 1_800 };
 
 const app = $('#rr-app');
@@ -70,7 +71,7 @@ const store = createRRTreeStore({
 const state = {
   graph: store.getGraph(),
   visibleGraph: store.getGraph(),
-  selectedId: 'rr-labs',
+  selectedId: null,
   selectedIds: new Set(),
   query: '',
   filters: { line: 'all', stage: 'all', bpmn: 'all', type: 'all' },
@@ -81,7 +82,7 @@ const state = {
   panX: 0,
   panY: 32,
   wiresVisible: true,
-  crossVisible: true,
+  crossVisible: false,
   linkMode: false,
   linkSource: null,
   dragging: null,
@@ -126,6 +127,13 @@ function visibleState() {
 function setTransform() {
   canvas.style.transform = `translate(${Math.round(state.panX)}px, ${Math.round(state.panY)}px) scale(${state.zoom})`;
   zoomOutput.textContent = `${Math.round(state.zoom * 100)}%`;
+  const lod = state.zoom < 0.65 ? 'low' : state.zoom < 0.9 ? 'mid' : 'high';
+  if (canvas.dataset.lod !== lod) {
+    canvas.dataset.lod = lod;
+    $$('.node-card', nodesLayer).forEach((card) => {
+      ['low', 'mid', 'high'].forEach((level) => card.classList.toggle(`lod-${level}`, level === lod));
+    });
+  }
 }
 
 function updateSaveStatus() {
@@ -151,9 +159,22 @@ function selectNode(id, { additive = false } = {}) {
     state.selectedIds = new Set([id]);
     state.selectedId = id;
   }
+  inspector.hidden = false;
+  inspector.classList.add('is-open');
   applySelectionClasses();
   if (!preserveForm) renderInspector();
+  renderEdges();
   renderBreadcrumbs();
+  window.requestAnimationFrame(() => {
+    if (!state.dragging?.moved) centerOn(nodeById(id, state.visibleGraph));
+  });
+}
+
+function closeInspector() {
+  inspector.classList.remove('is-open');
+  inspector.hidden = true;
+  inspector.style.removeProperty('--inspector-height');
+  scheduleFit();
 }
 
 function applySelectionClasses() {
@@ -281,29 +302,34 @@ function finishDrag(node, card) {
 function createCard(node) {
   const card = document.createElement('article');
   const size = getCardSize(node);
-  card.className = `node-card node-${node.type} tone-${node.color ?? 'fuchsia'}${state.selectedIds.has(node.id) ? ' is-selected' : ''}`;
+  const lod = state.zoom < 0.65 ? 'lod-low' : state.zoom < 0.9 ? 'lod-mid' : 'lod-high';
+  card.className = `node-card node-${node.type} tone-${node.color ?? 'fuchsia'} ${lod}${state.selectedIds.has(node.id) ? ' is-selected' : ''}`;
   card.dataset.id = node.id;
   card.style.left = `${node.x}px`;
   card.style.top = `${node.y}px`;
   card.style.width = `${size.width}px`;
   card.style.height = `${size.height}px`;
   card.style.setProperty('--tone', COLORS[node.color] ?? COLORS.fuchsia);
+  const statusTone = node.statusKey === 'valido' ? 'ok'
+    : ['borrador', 'deuda', 'pausa'].includes(node.statusKey) ? 'warn'
+      : node.statusKey ? 'off' : node.color;
+  card.style.setProperty('--status-tone', COLORS[statusTone] ?? COLORS.fuchsia);
   card.tabIndex = 0;
   card.setAttribute('role', 'button');
-  card.setAttribute('aria-label', `${node.title}, ${node.type}, ${node.status || 'Por confirmar'}`);
+  card.setAttribute('aria-label', `${displayCopy(node.title)}, ${node.type}, ${displayCopy(node.status || 'Por confirmar')}`);
 
   const meta = document.createElement('span');
   meta.className = 'node-meta';
-  meta.textContent = node.type === 'process' ? node.shortTitle ?? 'Proceso' : node.type === 'stage' ? 'ETAPA' : node.type.toUpperCase();
+  meta.textContent = node.type === 'process' ? displayCopy(node.shortTitle ?? 'Proceso') : node.type === 'stage' ? 'ETAPA' : node.type.toUpperCase();
   const title = document.createElement('strong');
   title.className = 'node-title';
-  title.textContent = node.title;
+  title.textContent = displayCopy(node.title);
   const status = document.createElement('span');
   status.className = 'node-status';
-  status.textContent = node.status || 'Por confirmar con Rosas';
+  status.textContent = displayCopy(node.status || 'Por confirmar con Rosas');
   const desc = document.createElement('span');
   desc.className = 'node-desc';
-  desc.textContent = node.desc ?? '';
+  desc.textContent = displayCopy(node.desc ?? '');
   card.append(meta, title, status, desc);
 
   const controls = document.createElement('span');
@@ -313,7 +339,7 @@ function createCard(node) {
   handle.className = 'node-control node-handle';
   handle.textContent = '◇';
   handle.title = 'Arrastrar para conectar';
-  handle.setAttribute('aria-label', `Conectar desde ${node.title}`);
+  handle.setAttribute('aria-label', `Conectar desde ${displayCopy(node.title)}`);
   handle.addEventListener('pointerdown', (event) => startConnection(event, node));
   handle.addEventListener('pointerup', finishConnection);
   controls.appendChild(handle);
@@ -325,11 +351,12 @@ function createCard(node) {
     const isCollapsed = state.collapsed.has(node.id) && !state.expandedIds.has(node.id);
     collapse.textContent = isCollapsed ? `+${hiddenCount}` : '−';
     collapse.title = isCollapsed ? 'Expandir rama' : 'Colapsar rama';
-    collapse.setAttribute('aria-label', `${isCollapsed ? 'Expandir' : 'Colapsar'} ${node.title}${hiddenCount ? `, ${hiddenCount} hijos ocultos` : ''}`);
+    collapse.setAttribute('aria-label', `${isCollapsed ? 'Expandir' : 'Colapsar'} ${displayCopy(node.title)}${hiddenCount ? `, ${hiddenCount} hijos ocultos` : ''}`);
     collapse.addEventListener('click', (event) => {
       event.stopPropagation();
       if (state.collapsed.has(node.id)) state.collapsed.delete(node.id); else state.collapsed.add(node.id);
       render();
+      fit();
       notify(isCollapsed ? 'Rama expandida.' : `Rama colapsada: ${hiddenCount || getHierarchyDescendants(state.graph, node.id).length} nodos ocultos.`);
     });
     controls.appendChild(collapse);
@@ -407,7 +434,7 @@ function renderEdges() {
   if (!state.wiresVisible) return;
   const visible = new Set(graph.nodes.map((node) => node.id));
   graph.edges.forEach((edge) => {
-    if (edge.kind === 'cross' && !state.crossVisible) return;
+    if (edge.kind !== 'hierarchy' && !state.crossVisible && !state.selectedIds.has(edge.source) && !state.selectedIds.has(edge.target)) return;
     if (!visible.has(edge.source) || !visible.has(edge.target)) return;
     const source = nodeById(edge.source, graph);
     const target = nodeById(edge.target, graph);
@@ -424,7 +451,7 @@ function renderEdges() {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('d', `M ${x1} ${y1} C ${x1} ${y1 + curve}, ${x2} ${y2 - curve}, ${x2} ${y2}`);
     path.setAttribute('class', `edge edge-${edge.kind ?? 'hierarchy'}${source.id === state.selectedId || target.id === state.selectedId ? ' edge-active' : ''}`);
-    path.setAttribute('aria-label', `Enlace de ${source.title} a ${target.title}`);
+    path.setAttribute('aria-label', `Enlace de ${displayCopy(source.title)} a ${displayCopy(target.title)}`);
     edgeLayer.appendChild(path);
   });
 }
@@ -439,7 +466,7 @@ function renderMinimap() {
     marker.style.left = `${((node.x - bounds.left) / bounds.width) * 100}%`;
     marker.style.top = `${((node.y - bounds.top) / bounds.height) * 100}%`;
     marker.style.background = COLORS[node.color] ?? COLORS.fuchsia;
-    marker.title = node.title;
+    marker.title = displayCopy(node.title);
     minimapBody.appendChild(marker);
   });
 }
@@ -455,8 +482,8 @@ function renderBreadcrumbs() {
     }
     const item = document.createElement('button');
     item.type = 'button';
-    item.textContent = node.shortTitle ?? node.title;
-    item.setAttribute('aria-label', `Seleccionar ${node.title}`);
+    item.textContent = displayCopy(node.shortTitle ?? node.title);
+    item.setAttribute('aria-label', `Seleccionar ${displayCopy(node.title)}`);
     item.addEventListener('click', () => { selectNode(node.id); centerOn(node); });
     breadcrumbs.appendChild(item);
   });
@@ -476,27 +503,26 @@ function addField(labelText, value, type = 'input') {
 
 function renderInspector() {
   const node = nodeById(state.selectedId);
-  inspectorTitle.textContent = node?.title ?? 'Selecciona un nodo';
+  inspectorTitle.textContent = displayCopy(node?.title ?? 'Selecciona un nodo');
   inspectorBody.replaceChildren();
   if (!node) {
     inspectorBody.appendChild(Object.assign(document.createElement('p'), { className: 'empty', textContent: 'Selecciona un cuadro del mapa para ver sus detalles.' }));
     return;
   }
-  inspector.classList.add('is-open');
   const badge = document.createElement('span');
   badge.className = `inspector-badge tone-${node.color ?? 'fuchsia'}`;
   badge.textContent = node.type;
   const detail = document.createElement('p');
   detail.className = 'inspector-detail';
-  detail.textContent = node.desc ?? 'Sin descripción pública.';
+  detail.textContent = displayCopy(node.desc ?? 'Sin descripción interna.');
   inspectorBody.append(badge, detail);
 
   const fields = {
-    title: addField('Título', node.title),
-    owner: addField('Responsable / bot', confirmation(node.owner || node.bot)),
-    status: addField('Estado', confirmation(node.status)),
-    kpi: addField('KPI', confirmation(node.kpi)),
-    notes: addField('Notas', node.notes || '', 'textarea'),
+    title: addField('Título', displayCopy(node.title)),
+    owner: addField('Responsable / bot', displayCopy(confirmation(node.owner || node.bot))),
+    status: addField('Estado', displayCopy(confirmation(node.status))),
+    kpi: addField('KPI', displayCopy(confirmation(node.kpi))),
+    notes: addField('Notas', displayCopy(node.notes || ''), 'textarea'),
   };
   Object.values(fields).forEach(({ label, control }) => {
     inspectorBody.appendChild(label);
@@ -530,7 +556,7 @@ function renderInspector() {
   if (node.type === 'process') {
     const processMeta = document.createElement('dl');
     processMeta.className = 'process-meta';
-    [['Dueño', confirmation(node.owner)], ['KPI', confirmation(node.kpi)], ['Estado BPMN', confirmation(node.status || statusLabels[node.statusKey])]].forEach(([label, value]) => {
+    [['Dueño', displayCopy(confirmation(node.owner))], ['KPI', displayCopy(confirmation(node.kpi))], ['Estado BPMN', displayCopy(confirmation(node.status || statusLabels[node.statusKey]))]].forEach(([label, value]) => {
       const term = document.createElement('dt'); term.textContent = label;
       const description = document.createElement('dd'); description.textContent = value;
       processMeta.append(term, description);
@@ -563,8 +589,8 @@ function renderInspector() {
     const other = nodeById(edge.source === node.id ? edge.target : edge.source);
     if (!other) return;
     const row = document.createElement('div'); row.className = 'link-row';
-    const text = document.createElement('span'); text.textContent = `${edge.source === node.id ? '→' : '←'} ${other.title} · ${edge.kind}`;
-    const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'icon-button danger'; remove.textContent = '×'; remove.setAttribute('aria-label', `Eliminar enlace con ${other.title}`);
+    const text = document.createElement('span'); text.textContent = `${edge.source === node.id ? '→' : '←'} ${displayCopy(other.title)} · ${edge.kind}`;
+    const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'icon-button danger'; remove.textContent = '×'; remove.setAttribute('aria-label', `Eliminar enlace con ${displayCopy(other.title)}`);
     remove.addEventListener('click', () => store.commit((graph) => {
       graph.edges = graph.edges.filter((item) => !(item.source === edge.source && item.target === edge.target && item.kind === edge.kind));
     }, 'remove-edge'));
@@ -575,7 +601,7 @@ function renderInspector() {
   const actions = document.createElement('div'); actions.className = 'inspector-actions';
   const collapseButton = document.createElement('button'); collapseButton.type = 'button'; collapseButton.className = 'button button-outline';
   collapseButton.textContent = state.collapsed.has(node.id) ? 'Expandir rama' : 'Colapsar rama';
-  collapseButton.addEventListener('click', () => { if (state.collapsed.has(node.id)) state.collapsed.delete(node.id); else state.collapsed.add(node.id); render(); });
+  collapseButton.addEventListener('click', () => { if (state.collapsed.has(node.id)) state.collapsed.delete(node.id); else state.collapsed.add(node.id); render(); fit(); });
   actions.appendChild(collapseButton);
   const deleteButton = document.createElement('button'); deleteButton.type = 'button'; deleteButton.className = 'button button-danger'; deleteButton.textContent = `Eliminar seleccionado${state.selectedIds.size > 1 ? ` (${state.selectedIds.size})` : ''}`;
   deleteButton.addEventListener('click', () => {
@@ -586,7 +612,7 @@ function renderInspector() {
       graph.nodes = graph.nodes.filter((item) => !ids.has(item.id));
       graph.edges = graph.edges.filter((edge) => !ids.has(edge.source) && !ids.has(edge.target));
     }, 'delete-node');
-    state.selectedIds.clear(); state.selectedId = 'rr-labs';
+    state.selectedIds.clear(); state.selectedId = null;
   });
   actions.appendChild(deleteButton); inspectorBody.appendChild(actions);
 }
@@ -614,12 +640,19 @@ function render() {
   updateSaveStatus();
 }
 
+function viewportSize() {
+  const rect = canvasWrap.getBoundingClientRect();
+  const bottom = window.innerWidth <= 760 && !inspector.hidden
+    ? Math.min(rect.bottom, inspector.getBoundingClientRect().top) : rect.bottom;
+  return { width: canvasWrap.clientWidth || 900, height: Math.max(1, bottom - rect.top) };
+}
+
 function centerOn(node) {
   if (!node) return;
   const visualNode = nodeById(node.id, state.visibleGraph) ?? node;
   const size = getCardSize(visualNode);
-  const width = canvasWrap.clientWidth || 900;
-  const height = canvasWrap.clientHeight || 640;
+  const { width, height } = viewportSize();
+  state.zoom = Math.min(state.zoom, Math.max(0.001, (width - 32) / size.width), Math.max(0.001, (height - 32) / size.height));
   const point = positionOf(visualNode);
   state.panX = Math.round(width / 2 - (point.x + size.width / 2) * state.zoom);
   state.panY = Math.round(height / 2 - (point.y + size.height / 2) * state.zoom);
@@ -627,16 +660,21 @@ function centerOn(node) {
 }
 
 function fitBounds(bounds = getGraphBounds(state.visibleGraph)) {
-  const width = canvasWrap.clientWidth || 900;
-  const height = canvasWrap.clientHeight || 640;
-  const padding = 44;
-  state.zoom = clamp(Math.min((width - padding * 2) / bounds.width, (height - 130) / bounds.height), 0.12, 1.25);
+  const { width, height } = viewportSize();
+  const padding = Math.min(44, width / 4, height / 4);
+  state.zoom = Math.min((width - padding * 2) / bounds.width, (height - padding * 2) / bounds.height, 1.25);
   state.panX = Math.round((width - bounds.width * state.zoom) / 2 - bounds.left * state.zoom);
   state.panY = Math.round((height - bounds.height * state.zoom) / 2 - bounds.top * state.zoom);
   setTransform();
 }
 
 function fit() { fitBounds(getGraphBounds(state.visibleGraph)); }
+
+let fitFrame;
+function scheduleFit() {
+  window.cancelAnimationFrame(fitFrame);
+  fitFrame = window.requestAnimationFrame(fit);
+}
 
 function focusBranch() {
   const selected = nodeById(state.selectedId);
@@ -664,16 +702,20 @@ function search() {
 }
 
 function mutateZoom(delta) {
-  state.zoom = clamp(Number((state.zoom + delta).toFixed(2)), 0.12, 1.25);
+  const { width, height } = viewportSize();
+  const previous = state.zoom;
+  state.zoom = clamp(Number((state.zoom + delta).toFixed(2)), 0.01, 1.25);
+  state.panX = width / 2 - (width / 2 - state.panX) * state.zoom / previous;
+  state.panY = height / 2 - (height / 2 - state.panY) * state.zoom / previous;
   setTransform();
 }
 
 function addNode() {
   const id = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
   const bounds = getGraphBounds(state.graph);
-  const node = { id, title: 'Nuevo nodo', type: 'note', x: Math.round(bounds.left + 60), y: Math.round(bounds.bottom + 150), color: 'fuchsia', status: 'Por confirmar con Rosas', desc: 'Añade aquí el alcance público.', owner: 'Por confirmar con Rosas', notes: '', lineId: 'custom', stage: '' };
-  state.selectedId = id; state.selectedIds = new Set([id]);
+  const node = { id, title: 'Nuevo nodo', type: 'note', x: Math.round(bounds.left + 60), y: Math.round(bounds.bottom + 150), color: 'fuchsia', status: confirmation(''), desc: 'Añade aquí el alcance interno.', owner: confirmation(''), notes: '', lineId: 'custom', stage: '' };
   store.commit((graph) => graph.nodes.push(node), 'add-node');
+  selectNode(id);
   centerOn(node);
 }
 
@@ -704,8 +746,11 @@ async function importGraph(file) {
     state.viewPositions.clear();
     state.formDirty = false;
     state.collapsed = new Set(getDefaultCollapsedIds(store.getGraph()));
-    state.selectedId = store.getGraph().nodes[0]?.id ?? null;
-    state.selectedIds = new Set(state.selectedId ? [state.selectedId] : []);
+    state.selectedId = null;
+    state.selectedIds.clear();
+    closeInspector();
+    render();
+    renderInspector();
     fit();
     notify('Mapa importado y validado.');
   } catch (error) {
@@ -719,7 +764,10 @@ function restoreOriginal() {
   state.viewPositions.clear();
   state.formDirty = false;
   state.collapsed = new Set(getDefaultCollapsedIds(store.getGraph()));
-  state.selectedId = 'rr-labs'; state.selectedIds = new Set(['rr-labs']);
+  state.selectedId = null; state.selectedIds.clear();
+  closeInspector();
+  render();
+  renderInspector();
   fit();
   notify('Mapa original restaurado.');
 }
@@ -727,6 +775,7 @@ function restoreOriginal() {
 function bindActions() {
   const railPanel = $('[data-rail-panel]');
   if (railPanel && window.innerWidth > 760) railPanel.open = true;
+  railPanel?.addEventListener('toggle', scheduleFit);
   $('[data-action="search"]').addEventListener('click', search);
   searchInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') search(); });
   searchInput.addEventListener('input', () => { state.query = searchInput.value; render(); });
@@ -748,8 +797,27 @@ function bindActions() {
     event.currentTarget.setAttribute('aria-pressed', String(state.crossVisible));
     renderEdges();
   });
-  $$('[data-action="toggle-minimap"]').forEach((button) => button.addEventListener('click', () => { minimap.hidden = !minimap.hidden; }));
-  $('[data-action="close-inspector"]').addEventListener('click', () => inspector.classList.remove('is-open'));
+  $$('[data-action="toggle-minimap"]').forEach((button) => button.addEventListener('click', () => {
+    minimap.hidden = !minimap.hidden;
+    $('.toolbar [data-action="toggle-minimap"]').setAttribute('aria-pressed', String(!minimap.hidden));
+  }));
+  $('[data-action="close-inspector"]').addEventListener('click', closeInspector);
+  let inspectorDrag = null;
+  inspector.querySelector('.inspector-head').addEventListener('pointerdown', (event) => {
+    if (window.innerWidth > 760 || event.button !== 0 || event.target.closest('button')) return;
+    event.preventDefault();
+    inspectorDrag = { startY: event.clientY, startHeight: inspector.getBoundingClientRect().height };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  });
+  inspector.querySelector('.inspector-head').addEventListener('pointermove', (event) => {
+    if (!inspectorDrag) return;
+    const height = clamp(inspectorDrag.startHeight - (event.clientY - inspectorDrag.startY), window.innerHeight * .35, window.innerHeight * .85);
+    inspector.style.setProperty('--inspector-height', `${height}px`);
+    centerOn(nodeById(state.selectedId, state.visibleGraph));
+  });
+  inspector.querySelector('.inspector-head').addEventListener('pointerup', () => { inspectorDrag = null; });
+  inspector.querySelector('.inspector-head').addEventListener('pointercancel', () => { inspectorDrag = null; });
+  inspector.querySelector('.inspector-head').addEventListener('lostpointercapture', () => { inspectorDrag = null; });
   $('[data-action="help"]').addEventListener('click', () => $('[data-help-dialog]').showModal());
   $$('[data-filter]').forEach((select) => select.addEventListener('change', () => { state.filters[select.dataset.filter] = select.value; render(); }));
   const lineSelect = $('[data-filter="line"]');
@@ -757,11 +825,17 @@ function bindActions() {
     const option = document.createElement('option'); option.value = node.lineId ?? node.id; option.textContent = node.title; lineSelect.appendChild(option);
   });
   document.addEventListener('keydown', (event) => {
+    if (event.defaultPrevented) return;
     const target = event.target;
     const inInput = target.matches?.('input, textarea, select, [contenteditable="true"]');
     const modifier = event.metaKey || event.ctrlKey;
+    if (event.key === 'Escape') {
+      state.linkMode = false; state.linkSource = null;
+      if (inInput) target.blur();
+      closeInspector();
+      return;
+    }
     if (inInput) {
-      if (event.key === 'Escape') target.blur();
       return;
     }
     if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? store.redo() : store.undo(); return; }
@@ -769,13 +843,12 @@ function bindActions() {
     if (event.key === 'Delete' || event.key === 'Backspace') { event.preventDefault(); $('.button-danger', inspector)?.click(); return; }
     if (event.key === '/') { event.preventDefault(); searchInput.focus(); searchInput.select(); return; }
     if (event.key.toLowerCase() === 'f') { event.preventDefault(); fit(); return; }
-    if (event.key === 'Escape') { state.linkMode = false; state.linkSource = null; renderInspector(); }
   });
   document.addEventListener('pointerup', finishConnection);
 }
 
 canvasWrap.addEventListener('pointerdown', (event) => {
-  if (event.target.closest('.node-card')) return;
+  if (event.target.closest('.node-card, .minimap, button, input, a')) return;
   state.panning = { startX: event.clientX, startY: event.clientY, originX: state.panX, originY: state.panY, pointerId: event.pointerId };
   canvasWrap.setPointerCapture?.(event.pointerId);
 });
@@ -791,9 +864,10 @@ canvasWrap.addEventListener('wheel', (event) => { event.preventDefault(); mutate
 
 store.subscribe((snapshot) => {
   state.graph = snapshot.graph;
-  if (!nodeById(state.selectedId)) {
-    state.selectedId = state.graph.nodes[0]?.id ?? null;
-    state.selectedIds = state.selectedId ? new Set([state.selectedId]) : new Set();
+  if (state.selectedId && !nodeById(state.selectedId)) {
+    state.selectedId = null;
+    state.selectedIds = new Set();
+    closeInspector();
   }
   render();
   if (!state.formDirty) renderInspector();
@@ -805,8 +879,9 @@ window.addEventListener('beforeunload', (event) => {
   event.returnValue = '';
 });
 
-state.selectedIds = new Set([state.selectedId]);
+state.selectedIds = new Set();
 bindActions();
 render();
 renderInspector();
-centerOn(nodeById(state.selectedId));
+scheduleFit();
+window.addEventListener('resize', scheduleFit);

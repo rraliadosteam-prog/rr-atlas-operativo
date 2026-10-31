@@ -9,6 +9,7 @@ import {
   findNodeOverlaps,
   filterRRGraph,
   getCardSize,
+  getDefaultCollapsedIds,
   getGraphBounds,
   getHierarchyPath,
   hierarchyEdgeCrossings,
@@ -120,6 +121,29 @@ test('búsqueda y filtros ignoran acentos y conservan contexto jerárquico', () 
   assert.deepEqual(filtered.nodes.map((node) => node.id), ['root', 'line', 'stage', 'process']);
 });
 
+test('las líneas quedan expandidas y las etapas son el colapso inicial', () => {
+  const graph = createRRGraph();
+  const collapsed = getDefaultCollapsedIds(graph);
+  assert.equal(collapsed.length, 35);
+  assert.ok(collapsed.every((id) => id.startsWith('stage-')));
+  assert.equal(collapsed.some((id) => id.startsWith('line-')), false);
+  const projected = projectRRGraph(graph, { collapsedIds: collapsed });
+  assert.equal(projected.graph.nodes.filter((node) => node.type === 'line').length, 7);
+  assert.equal(projected.graph.nodes.filter((node) => node.type === 'stage').length, 35);
+  assert.equal(projected.graph.nodes.filter((node) => node.type === 'process').length, 0);
+});
+
+test('el colapso inicial acepta IDs arbitrarios, no muta y conserva la expansión por búsqueda', () => {
+  const graph = smallGraph();
+  const before = structuredClone(graph);
+  assert.deepEqual(getDefaultCollapsedIds(graph), ['stage']);
+  assert.deepEqual(graph, before);
+  assert.deepEqual(getDefaultCollapsedIds({ nodes: [], edges: [] }), []);
+  const projected = projectRRGraph(graph, { collapsedIds: getDefaultCollapsedIds(graph), query: 'Prospección' });
+  assert.deepEqual(projected.graph.nodes.map((node) => node.id), ['root', 'line', 'stage', 'process']);
+  assert.ok(projected.expandedIds.includes('stage'));
+});
+
 test('colapsar devuelve contador y no elimina el grafo original', () => {
   const graph = smallGraph();
   const before = structuredClone(graph);
@@ -128,6 +152,11 @@ test('colapsar devuelve contador y no elimina el grafo original', () => {
   assert.deepEqual(collapsed.graph.nodes.map((node) => node.id), ['root', 'line', 'bot']);
   assert.deepEqual(graph, before);
   assert.deepEqual(getHierarchyPath(graph, 'process').map((node) => node.id), ['root', 'line', 'stage', 'process']);
+});
+
+test('la copia de la raíz es interna', () => {
+  const root = createRRGraph().nodes.find((node) => node.id === 'rr-labs');
+  assert.equal(root.desc, 'Mapa interno de líneas, etapas, procesos, proyectos y bots responsables.');
 });
 
 test('fallo de storage conserva el cambio y lo marca no guardado', () => {

@@ -8,11 +8,29 @@ import {
   applyLocalData,
   botDefinitions,
   createRRGraph,
+  getInternalTreeCopy,
   processRows,
 } from './rr-tree.mjs';
 
 const graph = createRRGraph();
 const nodeById = new Map(graph.nodes.map((node) => [node.id, node]));
+
+test('la vista corrige solo la copia heredada sin alterar textos personalizados ni snapshots', () => {
+  assert.equal(getInternalTreeCopy('Mapa público de líneas, etapas, procesos, proyectos y bots responsables.'), nodeById.get('rr-labs').desc);
+  assert.equal(getInternalTreeCopy('Nodo público'), 'Nodo interno');
+  assert.equal(getInternalTreeCopy('Añade aquí el alcance público.'), 'Añade aquí el alcance interno.');
+  assert.equal(getInternalTreeCopy('Proyecto del sector público'), 'Proyecto del sector público');
+  assert.equal(getInternalTreeCopy(undefined), undefined);
+});
+
+test('la raíz y todos los textos de las fichas describen un mapa interno', () => {
+  assert.equal(nodeById.get('rr-labs').desc, 'Mapa interno de líneas, etapas, procesos, proyectos y bots responsables.');
+  for (const node of graph.nodes) {
+    for (const field of ['title', 'desc', 'status', 'notes']) {
+      assert.doesNotMatch(node[field] ?? '', /\bp[uú]blic[oa]s?\b/i, `${node.id}.${field}`);
+    }
+  }
+});
 
 const expectedBotTitles = [
   'Bot Captación',

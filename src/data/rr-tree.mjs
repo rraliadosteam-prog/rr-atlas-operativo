@@ -221,7 +221,7 @@ export function createRRGraph(localData = localOverrides) {
     y: 70,
     color: 'ink',
     status: 'Sistema completo',
-    desc: 'Mapa público de líneas, etapas, procesos, proyectos y bots responsables.',
+    desc: 'Mapa interno de líneas, etapas, procesos, proyectos y bots responsables.',
     owner: 'Dirección',
     stage: '',
     lineId: 'root',
@@ -237,7 +237,7 @@ export function createRRGraph(localData = localOverrides) {
       y: 2320,
       color: 'orchid',
       status: FALLBACK_STATUS,
-      desc: 'Bot público representado por un rol genérico; solo se enlaza con evidencia de las fuentes.',
+      desc: 'Bot interno representado por un rol genérico; solo se enlaza con evidencia de las fuentes.',
       owner: 'Rol genérico',
       lineId: 'transversal',
       stage: '',
@@ -321,7 +321,7 @@ export function createRRGraph(localData = localOverrides) {
       y: 2320,
       color: 'mustard',
       status: 'Proyecto genérico',
-      desc: 'Nodo público sin nombres ni datos de clientes reales.',
+      desc: 'Nodo interno sin nombres ni datos de clientes reales.',
       owner: 'Equipo RR',
       lineId: line.id,
       stage: '',
@@ -339,7 +339,7 @@ export function createRRGraph(localData = localOverrides) {
       x: lineX + 44,
       y: 2175,
       color: 'mustard',
-      status: 'Nodo público',
+      status: 'Nodo interno',
       desc: 'Representación genérica; no contiene nombres reales.',
       owner: 'Cliente genérico',
       lineId: line.id,
@@ -361,6 +361,23 @@ export function createRRGraph(localData = localOverrides) {
   });
 
   return applyLocalData({ nodes, edges, source: 'atlas_mapa/inventario_v0.md' }, localData);
+}
+
+/**
+ * Corrige copia heredada que describe el mapa como público.
+ * No muta datos personalizados ni textos en los que "público" es parte
+ * de un dominio (p. ej. "sector público").
+ */
+export function getInternalTreeCopy(text) {
+  if (typeof text !== 'string') return text;
+  return text
+    .replace(/Mapa público de líneas, etapas, procesos, proyectos y bots responsables\./g, 'Mapa interno de líneas, etapas, procesos, proyectos y bots responsables.')
+    .replace(/Mapa público seguro\./g, 'Mapa interno seguro.')
+    .replace(/Bot público representado por un rol genérico; solo se enlaza con evidencia de las fuentes\./g, 'Bot interno representado por un rol genérico; solo se enlaza con evidencia de las fuentes.')
+    .replace(/Nodo público sin nombres ni datos de clientes reales\./g, 'Nodo interno sin nombres ni datos de clientes reales.')
+    .replace(/Nodo público\b/g, 'Nodo interno')
+    .replace(/Sin descripción pública\./g, 'Sin descripción interna.')
+    .replace(/alcance público/g, 'alcance interno');
 }
 
 export { FALLBACK_STATUS, botDefinitions, lineDefinitions, processRows, stages, statusLabels };

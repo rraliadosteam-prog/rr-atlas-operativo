@@ -481,7 +481,7 @@ export function getHierarchyPath(graph, id) {
 
 export function getDefaultCollapsedIds(graph) {
   const normalized = validateRRGraph(graph);
-  return normalized.nodes.filter((node) => node.type === 'line').map((node) => node.id);
+  return normalized.nodes.filter((node) => node.type === 'stage').map((node) => node.id);
 }
 
 export function collapseRRGraph(input, collapsedIds = []) {

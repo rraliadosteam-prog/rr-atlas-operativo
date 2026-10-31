@@ -32,7 +32,7 @@
     <main class="shell" id="top">
       <aside class="rail" aria-label="Navegación del Atlas">
         <details class="rail-panel" data-rail-panel>
-          <summary class="rail-summary">☰ Controles y filtros</summary>
+          <summary class="rail-summary" aria-label="Controles y filtros" title="Plegar o abrir controles y filtros">☰ <span>Controles y filtros</span></summary>
           <div class="rail-content">
             <div class="rail-heading"><span class="eyebrow">Mapa vivo</span><h1>Procesos RR</h1></div>
         <p class="rail-copy">Una vista de arriba hacia abajo: líneas, etapas, procesos y los equipos que los hacen posibles.</p>
@@ -48,7 +48,7 @@
           <button class="button button-outline" data-action="fit" type="button">⌗ Encuadrar mapa</button>
           <button class="button button-outline" data-action="focus-branch" type="button">◎ Enfocar rama</button>
           <button class="button button-outline" data-action="order" type="button">↕ Ordenar árbol</button>
-          <button class="button button-outline" data-action="toggle-cross" type="button" aria-pressed="true">◇ Ocultar cross</button>
+          <button class="button button-outline" data-action="toggle-cross" type="button" aria-pressed="false">◇ Mostrar cross</button>
           <button class="button button-outline" data-action="restore" type="button">↺ Restaurar original</button>
           <button class="button button-outline" data-action="export" type="button">↓ Exportar JSON</button>
           <button class="button button-outline" data-action="import" type="button">↑ Importar JSON</button>
@@ -62,7 +62,7 @@
           <label>Tipo <select data-filter="type"><option value="all">Todos</option><option value="root">Raíz</option><option value="line">Línea</option><option value="stage">Etapa</option><option value="process">Proceso</option><option value="bot">Bot</option><option value="project">Proyecto</option><option value="client">Cliente genérico</option><option value="note">Nota</option></select></label>
         </div>
         <p class="save-state" data-save-status role="status">Cambios guardados localmente</p>
-            <p class="privacy-note"><strong>Mapa público seguro.</strong> Solo roles genéricos, clientes genéricos y fuentes de proceso. Nunca guardes credenciales, tokens ni datos personales aquí.</p>
+            <p class="privacy-note"><strong>Mapa interno seguro.</strong> Solo roles genéricos, clientes genéricos y fuentes de proceso. Nunca guardes credenciales, tokens ni datos personales aquí.</p>
           </div>
         </details>
       </aside>
@@ -76,7 +76,7 @@
             <button class="button button-small" data-action="zoom-in" type="button" aria-label="Acercar">＋</button>
             <button class="button button-small" data-action="undo" type="button" aria-label="Deshacer">↶</button>
             <button class="button button-small" data-action="redo" type="button" aria-label="Rehacer">↷</button>
-            <button class="button button-small" data-action="toggle-minimap" type="button">Minimapa</button>
+            <button class="button button-small" data-action="toggle-minimap" type="button" aria-pressed="false" aria-controls="rr-minimap">Minimapa</button>
           </div>
         </div>
         <div class="canvas-wrap" data-canvas-wrap>
@@ -84,12 +84,11 @@
             <svg class="edges" data-edges aria-hidden="true"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="currentColor" stroke-width="1.2"></path></marker></defs><g data-edge-layer></g></svg>
             <div class="nodes" data-nodes></div>
           </div>
-          <aside class="minimap" data-minimap aria-label="Minimapa"><div class="minimap-header"><span>Minimapa</span><button class="icon-button" data-action="toggle-minimap" type="button" aria-label="Ocultar minimapa">×</button></div><div class="minimap-body" data-minimap-body></div></aside>
-          <div class="canvas-hint">Arrastra · ◇ conecta · doble clic edita · Shift selecciona · Supr · Ctrl+Z · Ctrl+Shift+Z · F · /</div>
+          <aside class="minimap" id="rr-minimap" data-minimap hidden aria-label="Minimapa"><div class="minimap-header"><span>Minimapa</span><button class="icon-button" data-action="toggle-minimap" type="button" aria-label="Ocultar minimapa">×</button></div><div class="minimap-body" data-minimap-body></div></aside>
         </div>
       </section>
 
-      <aside class="inspector" data-inspector aria-label="Editor de nodo">
+      <aside class="inspector" data-inspector hidden aria-label="Editor de nodo">
         <div class="inspector-head"><div><span class="eyebrow">Editor</span><h2 data-inspector-title>Selecciona un nodo</h2></div><button class="icon-button inspector-close" data-action="close-inspector" type="button" aria-label="Cerrar editor">×</button></div>
         <div class="inspector-body" data-inspector-body><p class="empty">Selecciona un cuadro del mapa para ver sus detalles.</p></div>
       </aside>
