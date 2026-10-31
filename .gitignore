@@ -1,7 +1,10 @@
 node_modules/
 dist/
 target/
+.cache/
+supabase/.temp/
 .DS_Store
 *.log
 .vercel
 .env*
+src/data/*.local.*

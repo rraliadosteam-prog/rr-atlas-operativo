@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RR Estilo · Demo del sistema de diseño</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="componentes.css" />
+  <style>
+    .demo-swatch { width: 100%; height: 64px; border: 1px solid var(--rr-orquidea); }
+    .demo-stack { display: flex; flex-direction: column; gap: var(--space-3); align-items: flex-start; }
+    .demo-token { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--rr-gris); }
+  </style>
+</head>
+<body>
+  <a href="#main" class="rr-skip-link">Saltar al contenido principal</a>
+
+  <div class="rr-grain" aria-hidden="true"></div>
+  <div class="rr-grid-bg" aria-hidden="true"></div>
+
+  <header class="rr-header">
+    <div class="rr-brand">
+      <a href="#" class="rr-brand__logo" aria-label="RR ALIADOS">
+        <img class="rr-mark rr-mark--png" src="logos/simbolo_transparent_mostaza.png" alt="Logotipo RR" width="44" height="44" />
+      </a>
+      <div>
+        <h1 class="rr-brand__name">RR Estilo</h1>
+        <p class="rr-brand__tagline">Sistema de diseño RR ALIADOS</p>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="rr-main" tabindex="-1">
+    <section class="rr-section">
+      <h2 class="rr-section-title">Paleta</h2>
+      <div class="rr-grid rr-grid--summary">
+        <div class="rr-card">
+          <div class="demo-swatch" style="background: var(--rr-fucsia);"></div>
+          <p class="rr-card__title">Fucsia</p>
+          <p class="demo-token">--rr-fucsia · #be076d</p>
+        </div>
+        <div class="rr-card">
+          <div class="demo-swatch" style="background: var(--rr-mostaza);"></div>
+          <p class="rr-card__title">Mostaza</p>
+          <p class="demo-token">--rr-mostaza · #ded116</p>
+        </div>
+        <div class="rr-card">
+          <div class="demo-swatch" style="background: var(--rr-orquidea);"></div>
+          <p class="rr-card__title">Orquídea</p>
+          <p class="demo-token">--rr-orquidea · #973d8f</p>
+        </div>
+        <div class="rr-card">
+          <div class="demo-swatch" style="background: var(--rr-negro);"></div>
+          <p class="rr-card__title">Negro</p>
+          <p class="demo-token">--rr-negro · #070001</p>
+        </div>
+        <div class="rr-card">
+          <div class="demo-swatch" style="background: var(--rr-crema);"></div>
+          <p class="rr-card__title">Crema</p>
+          <p class="demo-token">--rr-crema · #fffff3</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Tipografía</h2>
+      <div class="rr-card">
+        <p style="font-family: var(--font-titulo); font-weight: var(--weight-extrabold); font-size: var(--text-3xl);">Inter Tight — Títulos</p>
+        <p style="font-family: var(--font-texto); font-size: var(--text-md);">Lexend — Texto de cuerpo. Diseñamos, construimos y acompañamos productos digitales.</p>
+        <p class="demo-token">--font-titulo / --font-texto</p>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Botones</h2>
+      <div class="demo-stack">
+        <button class="rr-btn rr-btn--primary" type="button">Primario</button>
+        <button class="rr-btn rr-btn--ghost" type="button">Ghost</button>
+        <button class="rr-btn rr-btn--small" type="button">Pequeño</button>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Tarjeta</h2>
+      <div class="rr-grid rr-grid--2">
+        <article class="rr-card">
+          <div class="rr-card__header">
+            <h3 class="rr-card__title">Tarjeta de ejemplo</h3>
+            <span class="rr-badge rr-badge--curso">En curso</span>
+          </div>
+          <p class="rr-card__body">Contenido de la tarjeta con propósito breve y estado visible. Pasa el mouse para ver el lift brutalista.</p>
+          <div class="rr-card__meta"><span>RR Estilo</span><span>·</span><span>Demo</span></div>
+          <a class="rr-card__link" href="#">Ver más →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Insignias</h2>
+      <div class="demo-stack">
+        <span class="rr-badge rr-badge--listo">Listo</span>
+        <span class="rr-badge rr-badge--curso">En curso</span>
+        <span class="rr-badge rr-badge--desconocido">Desconocido</span>
+        <span class="rr-badge rr-badge--repo">Repo externo</span>
+        <span class="rr-badge rr-badge--por-confirmar">Por confirmar</span>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Rejilla</h2>
+      <div class="rr-grid rr-grid--summary">
+        <div class="rr-card"><p class="rr-card__title">Celda 1</p></div>
+        <div class="rr-card"><p class="rr-card__title">Celda 2</p></div>
+        <div class="rr-card"><p class="rr-card__title">Celda 3</p></div>
+        <div class="rr-card"><p class="rr-card__title">Celda 4</p></div>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Logos</h2>
+      <div class="rr-grid rr-grid--2">
+        <div class="rr-card rr-pixel-border">
+          <p class="rr-card__title">rr-logo-mostaza.png</p>
+          <img src="logos/rr-logo-mostaza.png" alt="Logo mostaza" style="max-width: 160px;" />
+        </div>
+        <div class="rr-card rr-pixel-border-fucsia">
+          <p class="rr-card__title">simbolo_transparent_fucsia.png</p>
+          <img src="logos/simbolo_transparent_fucsia.png" alt="Símbolo fucsia" style="max-width: 160px;" />
+        </div>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">FX RR · Pixel + Brutalismo + Glitch</h2>
+      <div class="rr-marquee" aria-label="Ticker de marca">
+        <span class="rr-marquee__track">
+          RR ALIADOS · DISEÑAMOS, CONSTRUIMOS Y ACOMPAÑAMOS PRODUCTOS DIGITALES · ATLAS · BUEN PUENTE · MÁS MARCAS · ROPA SaaS · DASHWEB · MIROFISH ·
+          RR ALIADOS · DISEÑAMOS, CONSTRUIMOS Y ACOMPAÑAMOS PRODUCTOS DIGITALES · ATLAS · BUEN PUENTE · MÁS MARCAS · ROPA SaaS · DASHWEB · MIROFISH ·
+        </span>
+      </div>
+      <div class="rr-grid rr-grid--2" style="margin-top: var(--space-4);">
+        <div class="rr-card rr-frame rr-scanlines">
+          <h3 class="rr-card__title rr-glitch" data-text="Marco brutalista">Marco brutalista</h3>
+          <p class="rr-card__body">Borde grueso + sombra dura desplazada + scanlines. Hover en la tarjeta desplaza píxeles.</p>
+        </div>
+        <div class="rr-card rr-frame--invert rr-dither">
+          <h3 class="rr-card__title">Dithering invertido</h3>
+          <p class="rr-card__body">Patrón de puntos fucsia/mostaza sobre fondo oscuro. Todo con transform/opacity para rendimiento.</p>
+        </div>
+      </div>
+    </section>
+    <section class="rr-section">
+      <h2 class="rr-section-title">Tarjeta con miniatura · base para tarjetas de desarrollos</h2>
+      <p class="demo-token">.rr-card--thumb + .rr-thumb · tokens: --thumb-ratio, --thumb-h, --thumb-zoom</p>
+      <div class="rr-grid rr-grid--2" style="margin-top: var(--space-4);">
+        <article class="rr-card rr-card--thumb rr-reveal" style="--reveal-index: 1;">
+          <a class="rr-thumb" href="#main" aria-label="Abrir demo de miniatura 1">
+            <img src="logos/rr-logo-mostaza.png" alt="Logo RR mostaza" loading="lazy" />
+            <span class="rr-thumb__tag">Listo local</span>
+          </a>
+          <div class="rr-card__content">
+            <header class="rr-card__header">
+              <h3 class="rr-card__title rr-glitch" data-text="Miniatura 16:10">Miniatura 16:10</h3>
+            </header>
+            <p class="rr-card__body">Hover: la imagen escala y las scanlines aparecen. Solo transform y opacity.</p>
+            <a class="rr-card__link" href="#main">Abrir desarrollo →</a>
+          </div>
+        </article>
+        <article class="rr-card rr-card--thumb rr-pixel-border rr-reveal" style="--reveal-index: 2;">
+          <a class="rr-thumb" href="#main" aria-label="Abrir demo de miniatura 2">
+            <img src="logos/simbolo_transparent_fucsia.png" alt="Símbolo RR fucsia" loading="lazy" />
+            <span class="rr-thumb__tag">En curso</span>
+          </a>
+          <div class="rr-card__content">
+            <header class="rr-card__header">
+              <h3 class="rr-card__title">Marco pixel</h3>
+            </header>
+            <p class="rr-card__body">La misma tarjeta con borde pixelado mostaza. Lista para a4.</p>
+            <a class="rr-card__link" href="#main">Abrir desarrollo →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <hr class="rr-pixel-divider" />
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Carga / revelado</h2>
+      <p class="demo-token">.rr-reveal · retraso por --reveal-index (60ms por paso)</p>
+      <div class="rr-grid rr-grid--summary" style="margin-top: var(--space-4);">
+        <div class="rr-card rr-reveal" style="--reveal-index: 0;"><p class="rr-card__title">Paso 0</p></div>
+        <div class="rr-card rr-reveal" style="--reveal-index: 1;"><p class="rr-card__title">Paso 1</p></div>
+        <div class="rr-card rr-reveal" style="--reveal-index: 2;"><p class="rr-card__title">Paso 2</p></div>
+        <div class="rr-card rr-reveal" style="--reveal-index: 3;"><p class="rr-card__title">Paso 3</p></div>
+      </div>
+    </section>
+
+    <section class="rr-section">
+      <h2 class="rr-section-title">Tintes de marca</h2>
+      <p class="demo-token">Los rgba sueltos ahora son tokens: --rr-fucsia-18, --rr-orquidea-35, --rr-mostaza-08, --grad-hero</p>
+      <div class="rr-grid rr-grid--2" style="margin-top: var(--space-4);">
+        <div class="rr-card" style="background: var(--grad-hero);">
+          <h3 class="rr-card__title">--grad-hero</h3>
+          <p class="rr-card__body">Degradado de marca reutilizado por el hero del HUB.</p>
+        </div>
+        <div class="rr-card rr-dither">
+          <h3 class="rr-card__title">--rr-fucsia-25 / --rr-mostaza-18</h3>
+          <p class="rr-card__body">Dithering con los mismos tintes que usa el resto del sistema.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rr-footer">
+    <p>RR ALIADOS S.A.S. · rr-estilo · prototipo local</p>
+  </footer>
+</body>
+</html>

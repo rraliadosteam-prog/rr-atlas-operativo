@@ -1,0 +1,66 @@
+const makeNode = (id, title, type, x, y) => ({
+  id,
+  title,
+  type,
+  desc: 'Fixture público anonimizado; no contiene datos de personas, clientes ni proyectos reales.',
+  x,
+  y,
+  links: [],
+  notes: '',
+  owner: 'Rol genérico',
+  status: 'Por confirmar',
+  shape: 'rounded',
+  color: 'ink',
+  media: [],
+});
+
+// IDs conservados para que los snapshots locales antiguos no creen nodos nuevos.
+export const DIRECTUS_GRAPH = {
+  data: [
+    makeNode('equipo_10e07fbc', 'Rol genérico 01', 'Talento', 200, 100),
+    makeNode('equipo_37f429c4', 'Rol genérico 02', 'Talento', 200, 240),
+    makeNode('equipo_55b9fecd', 'Rol genérico 03', 'Talento', 200, 380),
+    makeNode('equipo_6349ecdb', 'Rol genérico 04', 'Talento', 200, 520),
+    makeNode('equipo_8110abd5', 'Rol genérico 05', 'Talento', 200, 660),
+
+    makeNode('clientes_1f3bf081', 'Cliente genérico 01', 'Prospecto', 520, 100),
+    makeNode('clientes_21300dd7', 'Cliente genérico 02', 'Prospecto', 520, 240),
+    makeNode('clientes_44fcc79e', 'Cliente genérico 03', 'Prospecto', 520, 380),
+    makeNode('clientes_46927675', 'Cliente genérico 04', 'Prospecto', 520, 520),
+    makeNode('clientes_5e18bd40', 'Cliente genérico 05', 'Prospecto', 520, 660),
+    makeNode('clientes_75509723', 'Cliente genérico 06', 'Prospecto', 520, 800),
+    makeNode('clientes_75bc8272', 'Cliente genérico 07', 'Prospecto', 520, 940),
+    makeNode('clientes_7b5aa653', 'Cliente genérico 08', 'Prospecto', 520, 1080),
+    makeNode('clientes_8d2a0dc7', 'Cliente genérico 09', 'Prospecto', 520, 1220),
+    makeNode('clientes_ab94e13a', 'Cliente genérico 10', 'Prospecto', 520, 1360),
+    makeNode('clientes_ced4ecfe', 'Cliente genérico 11', 'Prospecto', 520, 1500),
+    makeNode('clientes_e348bd00', 'Cliente genérico 12', 'Prospecto', 520, 1640),
+
+    makeNode('proyectos_1a057956', 'Proyecto genérico 01', 'Experimento comercial', 840, 100),
+    makeNode('proyectos_33092d80', 'Proyecto genérico 02', 'Experimento comercial', 840, 240),
+    makeNode('proyectos_8e525c12', 'Proyecto genérico 03', 'Experimento comercial', 840, 380),
+    makeNode('proyectos_922f07db', 'Proyecto genérico 04', 'Experimento comercial', 840, 520),
+
+    makeNode('productos_165ceb49', 'Producto genérico 01', 'Producto reutilizable', 1160, 100),
+    makeNode('productos_18f8b9f6', 'Producto genérico 02', 'Producto propio', 1160, 240),
+    makeNode('productos_4d5eeba8', 'Producto genérico 03', 'Producto reutilizable', 1160, 380),
+    makeNode('productos_5f06555e', 'Producto genérico 04', 'Producto reutilizable', 1160, 520),
+    makeNode('productos_6e2e66b1', 'Producto genérico 05', 'Producto propio', 1160, 660),
+    makeNode('productos_79500178', 'Producto genérico 06', 'Producto reutilizable', 1160, 800),
+    makeNode('productos_b6bacbdf', 'Producto genérico 07', 'Producto propio', 1160, 940),
+    makeNode('productos_bea7374b', 'Producto genérico 08', 'Producto propio', 1160, 1080),
+
+    makeNode('procesos_4b0a6e62', 'Proceso genérico 01', 'Proceso', 1480, 100),
+    makeNode('procesos_4cb21143', 'Proceso genérico 02', 'Proceso', 1480, 240),
+    makeNode('procesos_58471cda', 'Proceso genérico 03', 'Proceso', 1480, 380),
+    makeNode('procesos_c2606e2f', 'Proceso genérico 04', 'Proceso', 1480, 520),
+    makeNode('procesos_ca508d3b', 'Proceso genérico 05', 'Proceso', 1480, 660),
+    makeNode('procesos_dd729029', 'Proceso genérico 06', 'Proceso', 1480, 800),
+  ],
+  lines: [
+    ['proyectos_1a057956', 'clientes_7b5aa653'],
+    ['proyectos_8e525c12', 'clientes_1f3bf081'],
+    ['productos_4d5eeba8', 'proyectos_922f07db'],
+    ['productos_6e2e66b1', 'proyectos_33092d80'],
+  ],
+};

@@ -9,11 +9,12 @@ import {
   createNewProcessXml,
   describeSeed,
   findSensitive,
+  listLanes,
+  listSteps,
   parseProcessMeta,
   presentSource,
   presentValue,
   purposeFromDocumentation,
-  listLanes,
 } from './process-model.mjs';
 import { rrModdle } from '../bpmn/rr-moddle.mjs';
 import { NODE_COLORS, PALETTE_COLORS } from './atlas-state.mjs';
@@ -77,18 +78,21 @@ test('el repositorio de procesos no toca la clave del mapa', () => {
   assert.equal(PROCESS_STORAGE_KEY, 'rr-atlas-processes-v1');
 });
 
-test('el detector deja pasar las semillas anonimizadas y marca un monto', () => {
+test('el detector deja pasar semillas anonimizadas y marca valores sensibles', () => {
   assert.deepEqual(findSensitive('CLIENTE_X debe [CIFRA] el 15/10'), []);
   assert.deepEqual(findSensitive('PERSONA_X y EQUIPO_X'), []);
-  assert.ok(findSensitive('pago de $1500').includes('monto'));
-  assert.ok(findSensitive('token ghp_abcd1234').includes('token'));
+  assert.ok(findSensitive(`pago de ${['$', '1'].join('')}`).includes('monto'));
+  const tokenLike = ['g', 'hp_', 'test123'].join('');
+  assert.ok(findSensitive(`valor ${tokenLike}`).includes('token'));
 });
 
-test('el descriptor rr del runtime coincide con el json', async () => {
-  const json = JSON.parse(await readFile(new URL('../bpmn/rr-moddle.json', import.meta.url), 'utf8'));
-  assert.equal(json.uri, rrModdle.uri);
-  assert.equal(json.prefix, rrModdle.prefix);
-  assert.deepEqual(json.types.map((type) => type.name), rrModdle.types.map((type) => type.name));
+test('extrae pasos BPMN y conserva escapes XML básicos', () => {
+  const xml = '<bpmn:startEvent id="s" name="entra"/><bpmn:userTask id="t" name="revisa"/>';
+  assert.deepEqual(listSteps(xml), [
+    { type: 'startEvent', name: 'entra' },
+    { type: 'userTask', name: 'revisa' },
+  ]);
+  assert.equal(presentSource('fuente.md'), 'Ejemplo anonimizado');
 });
 
 test('la fuente técnica se muestra como ejemplo y el propósito queda legible', () => {
@@ -99,8 +103,30 @@ Fuente: _herramientas/esquemas_bpmn/alianzas.json`;
   assert.equal(purposeFromDocumentation(text), 'Prospectos que entran por confianza de terceros, sin costo de adquisición.');
   assert.equal(presentSource('_herramientas/esquemas_bpmn/alianzas.json'), 'Ejemplo anonimizado');
   assert.equal(presentSource('DESCONOCIDO'), 'Ejemplo anonimizado');
-  const xml = `<bpmn:lane id="a" name="1 · Comercial"></bpmn:lane><bpmn:lane id="b" name="2 · Dirección"></bpmn:lane>`;
+  const xml = '<bpmn:lane id="a" name="1 · Comercial"></bpmn:lane><bpmn:lane id="b" name="2 · Dirección"></bpmn:lane>';
   assert.deepEqual(listLanes(xml), ['1 · Comercial', '2 · Dirección']);
+});
+
+test('normaliza procesos locales sin cambiar su origen', () => {
+  const bag = new Map();
+  const repository = createLocalProcessRepository({
+    getItem: (key) => bag.get(key) ?? null,
+    setItem: (key, value) => bag.set(key, value),
+  });
+  repository.save({ processes: [{ id: 'local_2', title: 'Proceso genérico', source: 'externo', meta: {} }] });
+  assert.equal(repository.load().processes[0].source, 'local');
+  const document = { processes: [{ id: 'local_2', title: 'Proceso genérico', source: 'semilla', estado: 'validado', meta: { owner: '' } }] };
+  repository.save(document);
+  assert.equal(repository.load().processes[0].source, 'semilla');
+  assert.equal(repository.load().processes[0].meta.owner, UNKNOWN);
+});
+
+
+test('el descriptor rr del runtime coincide con el json', async () => {
+  const json = JSON.parse(await readFile(new URL('../bpmn/rr-moddle.json', import.meta.url), 'utf8'));
+  assert.equal(json.uri, rrModdle.uri);
+  assert.equal(json.prefix, rrModdle.prefix);
+  assert.deepEqual(json.types.map((type) => type.name), rrModdle.types.map((type) => type.name));
 });
 
 test('los colores de nodo quedan dentro de la paleta oficial', () => {
