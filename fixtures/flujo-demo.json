@@ -1,0 +1,2406 @@
+{
+  "fuente": "Semillas BPMN del repo · src/bpmn/seeds",
+  "corte": "2026-11-02",
+  "nota": "Fixture generado por scripts/generar-fixture-flujos.mjs. Sin datos personales ni cifras.",
+  "flujos": [
+    {
+      "id": "gobierno_como_se_gobierna_la_documentacion",
+      "titulo": "Gobierno documental",
+      "produce": "",
+      "area_nombre": "Dirección",
+      "lanes": [
+        "1 · El documento entra",
+        "2 · Gobierno documental"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Llega un documento",
+          "tipo": "evento_inicio",
+          "carril": "1 · El documento entra"
+        },
+        {
+          "id": "g_dueno",
+          "nombre": "2. ¿Tiene dueño de área?",
+          "tipo": "decision",
+          "carril": "1 · El documento entra"
+        },
+        {
+          "id": "t_decide",
+          "nombre": "Se decide el área canónica",
+          "tipo": "tarea",
+          "carril": "1 · El documento entra"
+        },
+        {
+          "id": "t_contexto",
+          "nombre": "3. Se crea o actualiza el _CONTEXTO",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "t_dup",
+          "nombre": "4. Se evitan duplicados",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "t_hist",
+          "nombre": "5. Se registra el historial",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "t_indices",
+          "nombre": "6. Se actualizan los índices",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "t_espejos",
+          "nombre": "7. Se archivan los espejos",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "g_revision",
+          "nombre": "8. ¿Se promueve a canónico?",
+          "tipo": "decision",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "t_canonico",
+          "nombre": "Se promueve a canónico",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "t_bandeja",
+          "nombre": "Vuelve a la bandeja",
+          "tipo": "tarea",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Un solo hogar",
+          "tipo": "evento_fin",
+          "carril": "2 · Gobierno documental"
+        },
+        {
+          "id": "do_d_reglas",
+          "nombre": "do_d_reglas",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_reglas",
+          "nombre": "04_REGLAS_Y_PERMISOS",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "do_d_fuentes",
+          "nombre": "do_d_fuentes",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_fuentes",
+          "nombre": "mapa_de_fuentes",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "do_d_ciclo",
+          "nombre": "do_d_ciclo",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_ciclo",
+          "nombre": "PROTOCOLO",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "do_d_bandeja",
+          "nombre": "do_d_bandeja",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_bandeja",
+          "nombre": "INBOX",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "g_dueno"
+        },
+        {
+          "a": "g_dueno",
+          "b": "t_decide"
+        },
+        {
+          "a": "g_dueno",
+          "b": "t_dup"
+        },
+        {
+          "a": "t_decide",
+          "b": "t_dup"
+        },
+        {
+          "a": "t_dup",
+          "b": "t_contexto"
+        },
+        {
+          "a": "t_contexto",
+          "b": "t_hist"
+        },
+        {
+          "a": "t_hist",
+          "b": "t_indices"
+        },
+        {
+          "a": "t_indices",
+          "b": "t_espejos"
+        },
+        {
+          "a": "t_espejos",
+          "b": "g_revision"
+        },
+        {
+          "a": "g_revision",
+          "b": "t_canonico"
+        },
+        {
+          "a": "g_revision",
+          "b": "t_bandeja"
+        },
+        {
+          "a": "t_canonico",
+          "b": "e_fin"
+        },
+        {
+          "a": "t_bandeja",
+          "b": "g_dueno"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 20
+    },
+    {
+      "id": "informacion_de_donde_sale_la_respuesta",
+      "titulo": "De dónde sale una respuesta",
+      "produce": "",
+      "area_nombre": "Dirección",
+      "lanes": [
+        "1 · La pregunta",
+        "2 · La skill decide",
+        "3 · La respuesta"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Alguien pregunta",
+          "tipo": "evento_inicio",
+          "carril": "1 · La pregunta"
+        },
+        {
+          "id": "t_ruta",
+          "nombre": "1. rr-consulta decide dónde mirar",
+          "tipo": "tarea",
+          "carril": "2 · La skill decide"
+        },
+        {
+          "id": "g_encuentra",
+          "nombre": "2. ¿Encontró la nota?",
+          "tipo": "decision",
+          "carril": "2 · La skill decide"
+        },
+        {
+          "id": "t_busca",
+          "nombre": "Si la fuente no está",
+          "tipo": "tarea",
+          "carril": "2 · La skill decide"
+        },
+        {
+          "id": "t_fuente",
+          "nombre": "3. La nota fuente",
+          "tipo": "tarea",
+          "carril": "2 · La skill decide"
+        },
+        {
+          "id": "t_responde",
+          "nombre": "4. Se responde con fuente",
+          "tipo": "tarea",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "t_limite",
+          "nombre": "5. Se declara el límite",
+          "tipo": "tarea",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "g_notion",
+          "nombre": "6. ¿Trae algo de Notion?",
+          "tipo": "decision",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "t_notion",
+          "nombre": "Notion no se usa",
+          "tipo": "tarea",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "t_persona",
+          "nombre": "7. La persona lee",
+          "tipo": "tarea",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Respondido con fuente",
+          "tipo": "evento_fin",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "t_hueco",
+          "nombre": "Se anota el hueco",
+          "tipo": "tarea",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "g_alcanza",
+          "nombre": "¿Alcanzó la respuesta?",
+          "tipo": "decision",
+          "carril": "3 · La respuesta"
+        },
+        {
+          "id": "do_d_rutas",
+          "nombre": "do_d_rutas",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_rutas",
+          "nombre": "00_RUTAS.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_ruta"
+        },
+        {
+          "a": "t_ruta",
+          "b": "g_encuentra"
+        },
+        {
+          "a": "g_encuentra",
+          "b": "t_busca"
+        },
+        {
+          "a": "g_encuentra",
+          "b": "t_fuente"
+        },
+        {
+          "a": "t_busca",
+          "b": "t_fuente"
+        },
+        {
+          "a": "t_fuente",
+          "b": "t_responde"
+        },
+        {
+          "a": "t_responde",
+          "b": "t_limite"
+        },
+        {
+          "a": "t_limite",
+          "b": "g_notion"
+        },
+        {
+          "a": "g_notion",
+          "b": "t_notion"
+        },
+        {
+          "a": "g_notion",
+          "b": "t_persona"
+        },
+        {
+          "a": "t_notion",
+          "b": "t_busca"
+        },
+        {
+          "a": "t_persona",
+          "b": "g_alcanza"
+        },
+        {
+          "a": "g_alcanza",
+          "b": "e_fin"
+        },
+        {
+          "a": "g_alcanza",
+          "b": "t_hueco"
+        },
+        {
+          "a": "t_hueco",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 15
+    },
+    {
+      "id": "ventas_como_una_oportunidad_se_convierte_en_cliente",
+      "titulo": "Oportunidad a cliente",
+      "produce": "",
+      "area_nombre": "Comercial y captación",
+      "lanes": [
+        "1 · Comercial (lleva)",
+        "2 · Dirección (aprueba)",
+        "3 · A quién se le pregunta"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Llega alguien",
+          "tipo": "evento_inicio",
+          "carril": "1 · Comercial (lleva)"
+        },
+        {
+          "id": "t_anota",
+          "nombre": "2. Se anota",
+          "tipo": "tarea",
+          "carril": "1 · Comercial (lleva)"
+        },
+        {
+          "id": "t_mira",
+          "nombre": "3. Se mira qué es",
+          "tipo": "tarea",
+          "carril": "1 · Comercial (lleva)"
+        },
+        {
+          "id": "t_propone",
+          "nombre": "4. Se propone",
+          "tipo": "tarea",
+          "carril": "1 · Comercial (lleva)"
+        },
+        {
+          "id": "t_pre",
+          "nombre": "5. Precontrato",
+          "tipo": "tarea",
+          "carril": "1 · Comercial (lleva)"
+        },
+        {
+          "id": "t_negocia",
+          "nombre": "6. Se negocia",
+          "tipo": "tarea",
+          "carril": "2 · Dirección (aprueba)"
+        },
+        {
+          "id": "g_firma",
+          "nombre": "¿Se firmó?",
+          "tipo": "decision",
+          "carril": "2 · Dirección (aprueba)"
+        },
+        {
+          "id": "t_firmar",
+          "nombre": "7. Se firma o se aprueba",
+          "tipo": "tarea",
+          "carril": "2 · Dirección (aprueba)"
+        },
+        {
+          "id": "t_onboard",
+          "nombre": "8. Onboarding",
+          "tipo": "tarea",
+          "carril": "2 · Dirección (aprueba)"
+        },
+        {
+          "id": "t_arranca",
+          "nombre": "9. Arranca el trabajo",
+          "tipo": "tarea",
+          "carril": "2 · Dirección (aprueba)"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Es cliente",
+          "tipo": "evento_fin",
+          "carril": "2 · Dirección (aprueba)"
+        },
+        {
+          "id": "do_d_ventas",
+          "nombre": "do_d_ventas",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_ventas",
+          "nombre": "ventas.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "do_d_manual",
+          "nombre": "do_d_manual",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_manual",
+          "nombre": "MANUAL_ROLES",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_anota"
+        },
+        {
+          "a": "t_anota",
+          "b": "t_mira"
+        },
+        {
+          "a": "t_mira",
+          "b": "t_propone"
+        },
+        {
+          "a": "t_propone",
+          "b": "t_pre"
+        },
+        {
+          "a": "t_pre",
+          "b": "t_negocia"
+        },
+        {
+          "a": "t_negocia",
+          "b": "g_firma"
+        },
+        {
+          "a": "g_firma",
+          "b": "t_firmar"
+        },
+        {
+          "a": "g_firma",
+          "b": "t_onboard"
+        },
+        {
+          "a": "t_firmar",
+          "b": "t_negocia"
+        },
+        {
+          "a": "t_onboard",
+          "b": "t_arranca"
+        },
+        {
+          "a": "t_arranca",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 15
+    },
+    {
+      "id": "alianzas_como_nace_una_alianza",
+      "titulo": "Alianzas y referidos",
+      "produce": "",
+      "area_nombre": "Comercial y captación",
+      "lanes": [
+        "1 · Alianzas",
+        "2 · Comercial",
+        "3 · Lo que no está escrito"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Alguien con audiencia",
+          "tipo": "evento_inicio",
+          "carril": "1 · Alianzas"
+        },
+        {
+          "id": "t_valida",
+          "nombre": "2. Se valida el encaje",
+          "tipo": "tarea",
+          "carril": "1 · Alianzas"
+        },
+        {
+          "id": "g_relacion",
+          "nombre": "3. ¿Se define la relación?",
+          "tipo": "decision",
+          "carril": "1 · Alianzas"
+        },
+        {
+          "id": "t_acuerdo",
+          "nombre": "Se acuerda la comisión por escrito",
+          "tipo": "tarea",
+          "carril": "1 · Alianzas"
+        },
+        {
+          "id": "t_registra",
+          "nombre": "4. Se registra el origen",
+          "tipo": "tarea",
+          "carril": "1 · Alianzas"
+        },
+        {
+          "id": "t_llega",
+          "nombre": "6. Llega el prospecto",
+          "tipo": "tarea",
+          "carril": "2 · Comercial"
+        },
+        {
+          "id": "t_embudo",
+          "nombre": "7. Seguimiento comercial",
+          "tipo": "tarea",
+          "carril": "2 · Comercial"
+        },
+        {
+          "id": "g_cierra",
+          "nombre": "¿Se cerró?",
+          "tipo": "decision",
+          "carril": "2 · Comercial"
+        },
+        {
+          "id": "t_reporta",
+          "nombre": "8. Se reporta al aliado",
+          "tipo": "tarea",
+          "carril": "2 · Comercial"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Alianza que produce",
+          "tipo": "evento_fin",
+          "carril": "2 · Comercial"
+        },
+        {
+          "id": "do_d_alianzas",
+          "nombre": "do_d_alianzas",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_alianzas",
+          "nombre": "ALIANZAS.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_valida"
+        },
+        {
+          "a": "t_valida",
+          "b": "g_relacion"
+        },
+        {
+          "a": "g_relacion",
+          "b": "t_acuerdo"
+        },
+        {
+          "a": "g_relacion",
+          "b": "t_registra"
+        },
+        {
+          "a": "t_acuerdo",
+          "b": "t_registra"
+        },
+        {
+          "a": "t_registra",
+          "b": "t_llega"
+        },
+        {
+          "a": "t_llega",
+          "b": "t_embudo"
+        },
+        {
+          "a": "t_embudo",
+          "b": "g_cierra"
+        },
+        {
+          "a": "g_cierra",
+          "b": "t_reporta"
+        },
+        {
+          "a": "g_cierra",
+          "b": "e_fin"
+        },
+        {
+          "a": "t_reporta",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 12
+    },
+    {
+      "id": "clientes_que_pasa_despues_de_que_firman",
+      "titulo": "Después de que firman",
+      "produce": "",
+      "area_nombre": "Entrega de servicios",
+      "lanes": [
+        "1 · Antes de empezar",
+        "2 · Los primeros días"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Contrato firmado",
+          "tipo": "evento_inicio",
+          "carril": "1 · Antes de empezar"
+        },
+        {
+          "id": "t_confirma",
+          "nombre": "1. Confirmar que firmó",
+          "tipo": "tarea",
+          "carril": "1 · Antes de empezar"
+        },
+        {
+          "id": "t_anticipo",
+          "nombre": "2. Cobrar el primer anticipo",
+          "tipo": "tarea",
+          "carril": "1 · Antes de empezar"
+        },
+        {
+          "id": "g_listo",
+          "nombre": "¿Ya con plata?",
+          "tipo": "decision",
+          "carril": "1 · Antes de empezar"
+        },
+        {
+          "id": "t_espera",
+          "nombre": "Se espera el pago",
+          "tipo": "tarea",
+          "carril": "1 · Antes de empezar"
+        },
+        {
+          "id": "t_reunion",
+          "nombre": "3. Reunión de arranque",
+          "tipo": "tarea",
+          "carril": "2 · Los primeros días"
+        },
+        {
+          "id": "t_calendario",
+          "nombre": "4. Calendario de contenido",
+          "tipo": "tarea",
+          "carril": "2 · Los primeros días"
+        },
+        {
+          "id": "t_entregable",
+          "nombre": "5. Primer entregable",
+          "tipo": "tarea",
+          "carril": "2 · Los primeros días"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Onboarding hecho",
+          "tipo": "evento_fin",
+          "carril": "2 · Los primeros días"
+        },
+        {
+          "id": "do_d_ventas",
+          "nombre": "do_d_ventas",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_ventas",
+          "nombre": "ventas.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_confirma"
+        },
+        {
+          "a": "t_confirma",
+          "b": "t_anticipo"
+        },
+        {
+          "a": "t_anticipo",
+          "b": "g_listo"
+        },
+        {
+          "a": "g_listo",
+          "b": "t_espera"
+        },
+        {
+          "a": "g_listo",
+          "b": "t_reunion"
+        },
+        {
+          "a": "t_espera",
+          "b": "g_listo"
+        },
+        {
+          "a": "t_reunion",
+          "b": "t_calendario"
+        },
+        {
+          "a": "t_calendario",
+          "b": "t_entregable"
+        },
+        {
+          "a": "t_entregable",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 11
+    },
+    {
+      "id": "clientes_que_pasa_despues_de_entregar",
+      "titulo": "Después de entregar",
+      "produce": "",
+      "area_nombre": "Entrega de servicios",
+      "lanes": [
+        "1 · Con el cliente vivo",
+        "2 · Cuando algo falla"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Se entregó la pieza",
+          "tipo": "evento_inicio",
+          "carril": "1 · Con el cliente vivo"
+        },
+        {
+          "id": "t_informe",
+          "nombre": "6. Informe mensual",
+          "tipo": "tarea",
+          "carril": "1 · Con el cliente vivo"
+        },
+        {
+          "id": "t_post",
+          "nombre": "7. Post mortem",
+          "tipo": "tarea",
+          "carril": "1 · Con el cliente vivo"
+        },
+        {
+          "id": "g_falla",
+          "nombre": "8. ¿Algo sale mal?",
+          "tipo": "decision",
+          "carril": "2 · Cuando algo falla"
+        },
+        {
+          "id": "t_escala",
+          "nombre": "Se escala",
+          "tipo": "tarea",
+          "carril": "2 · Cuando algo falla"
+        },
+        {
+          "id": "g_garantia",
+          "nombre": "9. ¿Garantía o reclamo?",
+          "tipo": "decision",
+          "carril": "2 · Cuando algo falla"
+        },
+        {
+          "id": "t_garantia",
+          "nombre": "Se define la garantía",
+          "tipo": "tarea",
+          "carril": "2 · Cuando algo falla"
+        },
+        {
+          "id": "g_vida",
+          "nombre": "10. ¿El cliente sigue?",
+          "tipo": "decision",
+          "carril": "1 · Con el cliente vivo"
+        },
+        {
+          "id": "t_seva",
+          "nombre": "11. Se registra por qué se fue",
+          "tipo": "tarea",
+          "carril": "1 · Con el cliente vivo"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Ciclo de postventa",
+          "tipo": "evento_fin",
+          "carril": "1 · Con el cliente vivo"
+        },
+        {
+          "id": "do_d_ex",
+          "nombre": "do_d_ex",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_ex",
+          "nombre": "ex_clientes.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_informe"
+        },
+        {
+          "a": "t_informe",
+          "b": "t_post"
+        },
+        {
+          "a": "t_post",
+          "b": "g_falla"
+        },
+        {
+          "a": "g_falla",
+          "b": "t_escala"
+        },
+        {
+          "a": "g_falla",
+          "b": "g_vida"
+        },
+        {
+          "a": "t_escala",
+          "b": "g_garantia"
+        },
+        {
+          "a": "g_garantia",
+          "b": "t_garantia"
+        },
+        {
+          "a": "g_garantia",
+          "b": "g_vida"
+        },
+        {
+          "a": "g_vida",
+          "b": "t_seva"
+        },
+        {
+          "a": "g_vida",
+          "b": "e_fin"
+        },
+        {
+          "a": "t_seva",
+          "b": "e_fin"
+        },
+        {
+          "a": "t_garantia",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 12
+    },
+    {
+      "id": "desarrollo_como_llega_un_producto_de_software_a_produccion",
+      "titulo": "Desarrollo de software a producción",
+      "produce": "",
+      "area_nombre": "Entrega de servicios",
+      "lanes": [
+        "1 · Desarrollo",
+        "2 · El cliente",
+        "3 · Después de producción"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Idea o encargo",
+          "tipo": "evento_inicio",
+          "carril": "1 · Desarrollo"
+        },
+        {
+          "id": "t_brief",
+          "nombre": "1. Brief técnico",
+          "tipo": "tarea",
+          "carril": "1 · Desarrollo"
+        },
+        {
+          "id": "t_arq",
+          "nombre": "2. Arquitectura",
+          "tipo": "tarea",
+          "carril": "1 · Desarrollo"
+        },
+        {
+          "id": "t_proto",
+          "nombre": "3. Prototipo",
+          "tipo": "tarea",
+          "carril": "1 · Desarrollo"
+        },
+        {
+          "id": "t_impl",
+          "nombre": "4. Implementación",
+          "tipo": "tarea",
+          "carril": "1 · Desarrollo"
+        },
+        {
+          "id": "t_qa",
+          "nombre": "5. QA interno",
+          "tipo": "tarea",
+          "carril": "1 · Desarrollo"
+        },
+        {
+          "id": "g_ok",
+          "nombre": "6. ¿Lo aprueba el cliente?",
+          "tipo": "decision",
+          "carril": "2 · El cliente"
+        },
+        {
+          "id": "t_ajustes",
+          "nombre": "7. Ajustes",
+          "tipo": "tarea",
+          "carril": "2 · El cliente"
+        },
+        {
+          "id": "g_reprueba",
+          "nombre": "¿Pasa el QA?",
+          "tipo": "decision",
+          "carril": "2 · El cliente"
+        },
+        {
+          "id": "t_deploy",
+          "nombre": "8. Deploy",
+          "tipo": "tarea",
+          "carril": "3 · Después de producción"
+        },
+        {
+          "id": "t_docs",
+          "nombre": "9. Documentación técnica",
+          "tipo": "tarea",
+          "carril": "3 · Después de producción"
+        },
+        {
+          "id": "t_manten",
+          "nombre": "10. Mantenimiento",
+          "tipo": "tarea",
+          "carril": "3 · Después de producción"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "En manos del cliente",
+          "tipo": "evento_fin",
+          "carril": "3 · Después de producción"
+        },
+        {
+          "id": "do_d_apps",
+          "nombre": "do_d_apps",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_apps",
+          "nombre": "Los 4 productos",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_brief"
+        },
+        {
+          "a": "t_brief",
+          "b": "t_arq"
+        },
+        {
+          "a": "t_arq",
+          "b": "t_proto"
+        },
+        {
+          "a": "t_proto",
+          "b": "t_impl"
+        },
+        {
+          "a": "t_impl",
+          "b": "t_qa"
+        },
+        {
+          "a": "t_qa",
+          "b": "g_ok"
+        },
+        {
+          "a": "g_ok",
+          "b": "t_ajustes"
+        },
+        {
+          "a": "g_ok",
+          "b": "t_deploy"
+        },
+        {
+          "a": "t_ajustes",
+          "b": "g_reprueba"
+        },
+        {
+          "a": "g_reprueba",
+          "b": "t_impl"
+        },
+        {
+          "a": "g_reprueba",
+          "b": "t_deploy"
+        },
+        {
+          "a": "t_deploy",
+          "b": "t_docs"
+        },
+        {
+          "a": "t_docs",
+          "b": "t_manten"
+        },
+        {
+          "a": "t_manten",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 15
+    },
+    {
+      "id": "produccion_como_se_hace_una_pieza",
+      "titulo": "Producción de una pieza de contenido",
+      "produce": "",
+      "area_nombre": "Entrega de servicios",
+      "lanes": [
+        "1 · Lo que hace EQUIPO_2",
+        "2 · La decisión del cliente",
+        "3 · Entrega y medición"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Llega el encargo",
+          "tipo": "evento_inicio",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_ideas",
+          "nombre": "2. Se buscan ideas",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_guiones",
+          "nombre": "3. Se escribe",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "g_aprueba",
+          "nombre": "4. ¿El cliente aprueba?",
+          "tipo": "decision",
+          "carril": "2 · La decisión del cliente"
+        },
+        {
+          "id": "t_brief",
+          "nombre": "1. Brief: qué es y para qué",
+          "tipo": "tarea",
+          "carril": "2 · La decisión del cliente"
+        },
+        {
+          "id": "t_prepara",
+          "nombre": "5. Se prepara",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_consigue",
+          "nombre": "6. Se consigue",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_graba",
+          "nombre": "7. Se graba",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_edita",
+          "nombre": "8. Se edita",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_revisa",
+          "nombre": "9. Se revisa",
+          "tipo": "tarea",
+          "carril": "1 · Lo que hace EQUIPO_2"
+        },
+        {
+          "id": "t_entrega",
+          "nombre": "10. Se entrega",
+          "tipo": "tarea",
+          "carril": "3 · Entrega y medición"
+        },
+        {
+          "id": "t_mide",
+          "nombre": "11. Se mira qué pasó",
+          "tipo": "tarea",
+          "carril": "3 · Entrega y medición"
+        },
+        {
+          "id": "t_que",
+          "nombre": "12. ¿Y después qué?",
+          "tipo": "tarea",
+          "carril": "3 · Entrega y medición"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Ciclo cerrado",
+          "tipo": "evento_fin",
+          "carril": "3 · Entrega y medición"
+        },
+        {
+          "id": "do_d_prod",
+          "nombre": "do_d_prod",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_prod",
+          "nombre": "PRODUCCION.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_ideas"
+        },
+        {
+          "a": "t_ideas",
+          "b": "t_guiones"
+        },
+        {
+          "a": "t_guiones",
+          "b": "g_aprueba"
+        },
+        {
+          "a": "g_aprueba",
+          "b": "t_brief"
+        },
+        {
+          "a": "g_aprueba",
+          "b": "t_prepara"
+        },
+        {
+          "a": "t_brief",
+          "b": "t_ideas"
+        },
+        {
+          "a": "t_prepara",
+          "b": "t_consigue"
+        },
+        {
+          "a": "t_consigue",
+          "b": "t_graba"
+        },
+        {
+          "a": "t_graba",
+          "b": "t_edita"
+        },
+        {
+          "a": "t_edita",
+          "b": "t_revisa"
+        },
+        {
+          "a": "t_revisa",
+          "b": "t_entrega"
+        },
+        {
+          "a": "t_entrega",
+          "b": "t_mide"
+        },
+        {
+          "a": "t_mide",
+          "b": "t_que"
+        },
+        {
+          "a": "t_que",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 16
+    },
+    {
+      "id": "finanzas_como_entra_y_se_sale_la_plata",
+      "titulo": "Cómo entra y sale la plata",
+      "produce": "",
+      "area_nombre": "Finanzas (flujos)",
+      "lanes": [
+        "1 · Cobrar",
+        "2 · Registrar",
+        "3 · La ventana de caja"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "El cliente pide",
+          "tipo": "evento_inicio",
+          "carril": "1 · Cobrar"
+        },
+        {
+          "id": "t_cotiza",
+          "nombre": "1. Cotiza o acuerdo",
+          "tipo": "tarea",
+          "carril": "1 · Cobrar"
+        },
+        {
+          "id": "t_escrito",
+          "nombre": "2. Se pone por escrito",
+          "tipo": "tarea",
+          "carril": "1 · Cobrar"
+        },
+        {
+          "id": "t_emite",
+          "nombre": "3. Se emite la cuenta",
+          "tipo": "tarea",
+          "carril": "1 · Cobrar"
+        },
+        {
+          "id": "t_entra",
+          "nombre": "4. Entra la plata",
+          "tipo": "tarea",
+          "carril": "1 · Cobrar"
+        },
+        {
+          "id": "g_cuadra",
+          "nombre": "5. ¿Cuadra lo que entró?",
+          "tipo": "decision",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "t_revisa",
+          "nombre": "Se revisa que cuadre",
+          "tipo": "tarea",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "t_anota",
+          "nombre": "6. Se anota",
+          "tipo": "tarea",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "t_espejo",
+          "nombre": "7. Se sube al espejo",
+          "tipo": "tarea",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "t_persigue",
+          "nombre": "8. Se persigue lo que falta",
+          "tipo": "tarea",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "t_informa",
+          "nombre": "9. Se informa",
+          "tipo": "tarea",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Cerrado el ciclo",
+          "tipo": "evento_fin",
+          "carril": "2 · Registrar"
+        },
+        {
+          "id": "do_d_ventana",
+          "nombre": "do_d_ventana",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_ventana",
+          "nombre": "La ventana de 15 días",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_fuente",
+          "nombre": "captura.json",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_cotiza"
+        },
+        {
+          "a": "t_cotiza",
+          "b": "t_escrito"
+        },
+        {
+          "a": "t_escrito",
+          "b": "t_emite"
+        },
+        {
+          "a": "t_emite",
+          "b": "t_entra"
+        },
+        {
+          "a": "t_entra",
+          "b": "g_cuadra"
+        },
+        {
+          "a": "g_cuadra",
+          "b": "t_revisa"
+        },
+        {
+          "a": "g_cuadra",
+          "b": "t_persigue"
+        },
+        {
+          "a": "t_revisa",
+          "b": "t_anota"
+        },
+        {
+          "a": "t_anota",
+          "b": "t_espejo"
+        },
+        {
+          "a": "t_persigue",
+          "b": "t_informa"
+        },
+        {
+          "a": "t_informa",
+          "b": "e_fin"
+        },
+        {
+          "a": "t_espejo",
+          "b": "t_informa"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 15
+    },
+    {
+      "id": "finanzas_como_entra_un_peso_a_la_cuenta",
+      "titulo": "Facturación y cuenta de cobro",
+      "produce": "",
+      "area_nombre": "Finanzas (flujos)",
+      "lanes": [
+        "1 · Lo que se emite",
+        "2 · Lo que pagan los clientes"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Cliente sin firmar",
+          "tipo": "evento_inicio",
+          "carril": "1 · Lo que se emite"
+        },
+        {
+          "id": "t_contrato",
+          "nombre": "1. Hay contrato firmado",
+          "tipo": "tarea",
+          "carril": "1 · Lo que se emite"
+        },
+        {
+          "id": "t_factura",
+          "nombre": "2. Se emite la factura",
+          "tipo": "tarea",
+          "carril": "1 · Lo que se emite"
+        },
+        {
+          "id": "g_paga",
+          "nombre": "3. ¿Pagó el cliente?",
+          "tipo": "decision",
+          "carril": "2 · Lo que pagan los clientes"
+        },
+        {
+          "id": "t_cliente_a",
+          "nombre": "Paga CLIENTE_A",
+          "tipo": "tarea",
+          "carril": "2 · Lo que pagan los clientes"
+        },
+        {
+          "id": "t_cliente_c",
+          "nombre": "Paga CLIENTE_C",
+          "tipo": "tarea",
+          "carril": "2 · Lo que pagan los clientes"
+        },
+        {
+          "id": "t_cand",
+          "nombre": "Paga CLIENTE_B",
+          "tipo": "tarea",
+          "carril": "2 · Lo que pagan los clientes"
+        },
+        {
+          "id": "t_caja",
+          "nombre": "Entra a la cuenta",
+          "tipo": "tarea",
+          "carril": "2 · Lo que pagan los clientes"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "En la cuenta",
+          "tipo": "evento_fin",
+          "carril": "2 · Lo que pagan los clientes"
+        },
+        {
+          "id": "d_captura",
+          "nombre": "captura.json",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_contrato"
+        },
+        {
+          "a": "t_contrato",
+          "b": "t_factura"
+        },
+        {
+          "a": "t_factura",
+          "b": "g_paga"
+        },
+        {
+          "a": "g_paga",
+          "b": "t_cliente_a"
+        },
+        {
+          "a": "g_paga",
+          "b": "t_cliente_c"
+        },
+        {
+          "a": "g_paga",
+          "b": "t_cand"
+        },
+        {
+          "a": "t_cliente_a",
+          "b": "t_caja"
+        },
+        {
+          "a": "t_cliente_c",
+          "b": "t_caja"
+        },
+        {
+          "a": "t_cand",
+          "b": "t_caja"
+        },
+        {
+          "a": "t_caja",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 10
+    },
+    {
+      "id": "finanzas_como_se_le_paga_a_alguien",
+      "titulo": "Pagos a colaboradores y proveedores",
+      "produce": "",
+      "area_nombre": "Finanzas (flujos)",
+      "lanes": [
+        "1 · El acuerdo",
+        "2 · El pago"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Un cliente pide algo",
+          "tipo": "evento_inicio",
+          "carril": "1 · El acuerdo"
+        },
+        {
+          "id": "t_trabajo",
+          "nombre": "1. Hay un trabajo que hacer",
+          "tipo": "tarea",
+          "carril": "1 · El acuerdo"
+        },
+        {
+          "id": "t_valor",
+          "nombre": "2. Se acuerda el valor",
+          "tipo": "tarea",
+          "carril": "1 · El acuerdo"
+        },
+        {
+          "id": "t_entrega",
+          "nombre": "3. Se entrega el trabajo",
+          "tipo": "tarea",
+          "carril": "2 · El pago"
+        },
+        {
+          "id": "t_emite",
+          "nombre": "4. Se emite la Cuenta de Cobro",
+          "tipo": "tarea",
+          "carril": "2 · El pago"
+        },
+        {
+          "id": "g_firma",
+          "nombre": "5. ¿La firmó?",
+          "tipo": "decision",
+          "carril": "2 · El pago"
+        },
+        {
+          "id": "t_firma",
+          "nombre": "Se persigue la firma",
+          "tipo": "tarea",
+          "carril": "2 · El pago"
+        },
+        {
+          "id": "t_paga",
+          "nombre": "Se paga",
+          "tipo": "tarea",
+          "carril": "2 · El pago"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Pagado",
+          "tipo": "evento_fin",
+          "carril": "2 · El pago"
+        },
+        {
+          "id": "do_d_fuente",
+          "nombre": "do_d_fuente",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_fuente",
+          "nombre": "COBRANZA_FUENTE.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_trabajo"
+        },
+        {
+          "a": "t_trabajo",
+          "b": "t_valor"
+        },
+        {
+          "a": "t_valor",
+          "b": "t_entrega"
+        },
+        {
+          "a": "t_entrega",
+          "b": "t_emite"
+        },
+        {
+          "a": "t_emite",
+          "b": "g_firma"
+        },
+        {
+          "a": "g_firma",
+          "b": "t_firma"
+        },
+        {
+          "a": "g_firma",
+          "b": "t_paga"
+        },
+        {
+          "a": "t_firma",
+          "b": "g_firma"
+        },
+        {
+          "a": "t_paga",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 11
+    },
+    {
+      "id": "finanzas_la_quincena",
+      "titulo": "La quincena",
+      "produce": "",
+      "area_nombre": "Finanzas (flujos)",
+      "lanes": [
+        "1 · Lo que entra (clientes)",
+        "2 · Lo que sale (RR Aliados)",
+        "3 · La decisión de caja",
+        "4 · La fuente"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Día 15",
+          "tipo": "evento_inicio",
+          "carril": "1 · Lo que entra (clientes)"
+        },
+        {
+          "id": "g_abre",
+          "nombre": "g_abre",
+          "tipo": "decision",
+          "carril": "1 · Lo que entra (clientes)"
+        },
+        {
+          "id": "t_cliente_a",
+          "nombre": "Entra CLIENTE_A",
+          "tipo": "tarea",
+          "carril": "1 · Lo que entra (clientes)"
+        },
+        {
+          "id": "t_cand",
+          "nombre": "Entra CLIENTE_B",
+          "tipo": "tarea",
+          "carril": "1 · Lo que entra (clientes)"
+        },
+        {
+          "id": "t_cliente_c",
+          "nombre": "Entra CLIENTE_C",
+          "tipo": "tarea",
+          "carril": "1 · Lo que entra (clientes)"
+        },
+        {
+          "id": "g_cierra",
+          "nombre": "g_cierra",
+          "tipo": "decision",
+          "carril": "1 · Lo que entra (clientes)"
+        },
+        {
+          "id": "t_burn",
+          "nombre": "Sale el burn operativo",
+          "tipo": "tarea",
+          "carril": "2 · Lo que sale (RR Aliados)"
+        },
+        {
+          "id": "t_fijos",
+          "nombre": "Se pagan los fijos",
+          "tipo": "tarea",
+          "carril": "2 · Lo que sale (RR Aliados)"
+        },
+        {
+          "id": "g_alcanza",
+          "nombre": "¿Alcanzó el saldo?",
+          "tipo": "decision",
+          "carril": "3 · La decisión de caja"
+        },
+        {
+          "id": "t_ok",
+          "nombre": "Se repite en 15 días",
+          "tipo": "tarea",
+          "carril": "3 · La decisión de caja"
+        },
+        {
+          "id": "t_no",
+          "nombre": "Buscar cobertura",
+          "tipo": "tarea",
+          "carril": "3 · La decisión de caja"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Cierra la quincena",
+          "tipo": "evento_fin",
+          "carril": "3 · La decisión de caja"
+        },
+        {
+          "id": "d_captura",
+          "nombre": "captura.json",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "g_abre"
+        },
+        {
+          "a": "g_abre",
+          "b": "t_cliente_a"
+        },
+        {
+          "a": "g_abre",
+          "b": "t_cand"
+        },
+        {
+          "a": "g_abre",
+          "b": "t_cliente_c"
+        },
+        {
+          "a": "t_cliente_a",
+          "b": "g_cierra"
+        },
+        {
+          "a": "t_cand",
+          "b": "g_cierra"
+        },
+        {
+          "a": "t_cliente_c",
+          "b": "g_cierra"
+        },
+        {
+          "a": "g_cierra",
+          "b": "t_burn"
+        },
+        {
+          "a": "t_burn",
+          "b": "t_fijos"
+        },
+        {
+          "a": "t_fijos",
+          "b": "g_alcanza"
+        },
+        {
+          "a": "g_alcanza",
+          "b": "t_ok"
+        },
+        {
+          "a": "g_alcanza",
+          "b": "t_no"
+        },
+        {
+          "a": "t_ok",
+          "b": "g_abre"
+        },
+        {
+          "a": "t_no",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 13
+    },
+    {
+      "id": "ia_como_se_usa_la_ia_en_rr_aliados",
+      "titulo": "Uso de IA en RR",
+      "produce": "",
+      "area_nombre": "Operación de bots e IA",
+      "lanes": [
+        "1 · Quién lo pide",
+        "2 · Construcción",
+        "3 · Las reglas que no se rompen"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Alguien hace algo pesado",
+          "tipo": "evento_inicio",
+          "carril": "1 · Quién lo pide"
+        },
+        {
+          "id": "g_existe",
+          "nombre": "2. ¿Ya hay una herramienta?",
+          "tipo": "decision",
+          "carril": "1 · Quién lo pide"
+        },
+        {
+          "id": "t_reusar",
+          "nombre": "Se reusa la que ya está",
+          "tipo": "tarea",
+          "carril": "1 · Quién lo pide"
+        },
+        {
+          "id": "t_proveedor",
+          "nombre": "3. Se decide el proveedor",
+          "tipo": "tarea",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "g_permiso",
+          "nombre": "¿Está aprobado?",
+          "tipo": "decision",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "t_descarta",
+          "nombre": "Se descarta",
+          "tipo": "tarea",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "t_skill",
+          "nombre": "4. Se construye la skill",
+          "tipo": "tarea",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "t_prueba",
+          "nombre": "5. Se prueba con error real",
+          "tipo": "tarea",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "g_detecta",
+          "nombre": "¿Lo detectó?",
+          "tipo": "decision",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "t_instala",
+          "nombre": "6. Se instala donde corresponde",
+          "tipo": "tarea",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "t_docs",
+          "nombre": "7. Se documenta",
+          "tipo": "tarea",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Queda documentada",
+          "tipo": "evento_fin",
+          "carril": "2 · Construcción"
+        },
+        {
+          "id": "do_d_openrouter",
+          "nombre": "do_d_openrouter",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_openrouter",
+          "nombre": "OpenRouter",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "do_d_flota",
+          "nombre": "do_d_flota",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_flota",
+          "nombre": "La flota",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "g_existe"
+        },
+        {
+          "a": "g_existe",
+          "b": "t_reusar"
+        },
+        {
+          "a": "g_existe",
+          "b": "t_proveedor"
+        },
+        {
+          "a": "t_reusar",
+          "b": "t_docs"
+        },
+        {
+          "a": "t_proveedor",
+          "b": "g_permiso"
+        },
+        {
+          "a": "g_permiso",
+          "b": "t_descarta"
+        },
+        {
+          "a": "g_permiso",
+          "b": "t_skill"
+        },
+        {
+          "a": "t_descarta",
+          "b": "t_proveedor"
+        },
+        {
+          "a": "t_skill",
+          "b": "t_prueba"
+        },
+        {
+          "a": "t_prueba",
+          "b": "g_detecta"
+        },
+        {
+          "a": "g_detecta",
+          "b": "t_skill"
+        },
+        {
+          "a": "g_detecta",
+          "b": "t_instala"
+        },
+        {
+          "a": "t_instala",
+          "b": "t_docs"
+        },
+        {
+          "a": "t_docs",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 16
+    },
+    {
+      "id": "ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente",
+      "titulo": "Trabajo repetitivo a agente",
+      "produce": "",
+      "area_nombre": "Operación de bots e IA",
+      "lanes": [
+        "1 · Antes de automatizar",
+        "2 · La revisión humana"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Necesidad repetitiva",
+          "tipo": "evento_inicio",
+          "carril": "1 · Antes de automatizar"
+        },
+        {
+          "id": "t_tarea",
+          "nombre": "2. Definir la tarea",
+          "tipo": "tarea",
+          "carril": "1 · Antes de automatizar"
+        },
+        {
+          "id": "t_agente",
+          "nombre": "3. Elegir agente",
+          "tipo": "tarea",
+          "carril": "1 · Antes de automatizar"
+        },
+        {
+          "id": "t_skill",
+          "nombre": "4. Documentar el skill",
+          "tipo": "tarea",
+          "carril": "1 · Antes de automatizar"
+        },
+        {
+          "id": "t_prueba",
+          "nombre": "5. Probar caso pequeño",
+          "tipo": "tarea",
+          "carril": "1 · Antes de automatizar"
+        },
+        {
+          "id": "t_fuente",
+          "nombre": "6. Conectar a la fuente",
+          "tipo": "tarea",
+          "carril": "1 · Antes de automatizar"
+        },
+        {
+          "id": "g_revision",
+          "nombre": "7. ¿Revisó una persona?",
+          "tipo": "decision",
+          "carril": "2 · La revisión humana"
+        },
+        {
+          "id": "t_revisar",
+          "nombre": "Se salta la revisión",
+          "tipo": "tarea",
+          "carril": "2 · La revisión humana"
+        },
+        {
+          "id": "t_auto",
+          "nombre": "8. Automatizar si es estable",
+          "tipo": "tarea",
+          "carril": "2 · La revisión humana"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Agente que corre",
+          "tipo": "evento_fin",
+          "carril": "2 · La revisión humana"
+        },
+        {
+          "id": "do_d_flota",
+          "nombre": "do_d_flota",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_flota",
+          "nombre": "flota_ia.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_tarea"
+        },
+        {
+          "a": "t_tarea",
+          "b": "t_agente"
+        },
+        {
+          "a": "t_agente",
+          "b": "t_skill"
+        },
+        {
+          "a": "t_skill",
+          "b": "t_prueba"
+        },
+        {
+          "a": "t_prueba",
+          "b": "t_fuente"
+        },
+        {
+          "a": "t_fuente",
+          "b": "g_revision"
+        },
+        {
+          "a": "g_revision",
+          "b": "t_revisar"
+        },
+        {
+          "a": "g_revision",
+          "b": "t_auto"
+        },
+        {
+          "a": "t_revisar",
+          "b": "t_fuente"
+        },
+        {
+          "a": "t_auto",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 12
+    },
+    {
+      "id": "soporte_como_se_resuelve_un_problema_de_un_cliente",
+      "titulo": "Resolución de un problema de cliente",
+      "produce": "",
+      "area_nombre": "Soporte",
+      "lanes": [
+        "1 · Quién recibe",
+        "2 · Prioridad",
+        "3 · Quien lo resuelve"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Un cliente escribe",
+          "tipo": "evento_inicio",
+          "carril": "1 · Quién recibe"
+        },
+        {
+          "id": "t_anota",
+          "nombre": "2. Se anota",
+          "tipo": "tarea",
+          "carril": "1 · Quién recibe"
+        },
+        {
+          "id": "g_prio",
+          "nombre": "3. ¿Qué tan grave?",
+          "tipo": "decision",
+          "carril": "2 · Prioridad"
+        },
+        {
+          "id": "t_alta",
+          "nombre": "Alta · se resuelve ya",
+          "tipo": "tarea",
+          "carril": "2 · Prioridad"
+        },
+        {
+          "id": "t_media",
+          "nombre": "Media · pronto",
+          "tipo": "tarea",
+          "carril": "2 · Prioridad"
+        },
+        {
+          "id": "t_baja",
+          "nombre": "Baja · cuando se pueda",
+          "tipo": "tarea",
+          "carril": "2 · Prioridad"
+        },
+        {
+          "id": "g_ayuda",
+          "nombre": "4. ¿Le toca a alguien?",
+          "tipo": "decision",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "t_responde",
+          "nombre": "5. Se responde",
+          "tipo": "tarea",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "t_arregla",
+          "nombre": "6. Se arregla",
+          "tipo": "tarea",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "g_ok",
+          "nombre": "7. ¿El cliente quedó bien?",
+          "tipo": "decision",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "t_cierra",
+          "nombre": "8. Se cierra",
+          "tipo": "tarea",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "t_aprende",
+          "nombre": "9. Se aprende",
+          "tipo": "tarea",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Resuelto",
+          "tipo": "evento_fin",
+          "carril": "3 · Quien lo resuelve"
+        },
+        {
+          "id": "do_d_sop",
+          "nombre": "do_d_sop",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_sop",
+          "nombre": "SOPORTE.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_anota"
+        },
+        {
+          "a": "t_anota",
+          "b": "g_prio"
+        },
+        {
+          "a": "g_prio",
+          "b": "t_alta"
+        },
+        {
+          "a": "g_prio",
+          "b": "t_media"
+        },
+        {
+          "a": "g_prio",
+          "b": "t_baja"
+        },
+        {
+          "a": "t_alta",
+          "b": "g_ayuda"
+        },
+        {
+          "a": "t_media",
+          "b": "g_ayuda"
+        },
+        {
+          "a": "t_baja",
+          "b": "g_ayuda"
+        },
+        {
+          "a": "g_ayuda",
+          "b": "t_responde"
+        },
+        {
+          "a": "g_ayuda",
+          "b": "t_arregla"
+        },
+        {
+          "a": "t_responde",
+          "b": "g_ok"
+        },
+        {
+          "a": "t_arregla",
+          "b": "g_ok"
+        },
+        {
+          "a": "g_ok",
+          "b": "t_arregla"
+        },
+        {
+          "a": "g_ok",
+          "b": "t_cierra"
+        },
+        {
+          "a": "t_cierra",
+          "b": "t_aprende"
+        },
+        {
+          "a": "t_aprende",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 15
+    },
+    {
+      "id": "legal_como_se_firma_un_contrato",
+      "titulo": "Firma de contrato",
+      "produce": "",
+      "area_nombre": "Legal y administrativo",
+      "lanes": [
+        "1 · Legal",
+        "2 · Dirección",
+        "3 · Donde se traba"
+      ],
+      "nodos": [
+        {
+          "id": "e_ini",
+          "nombre": "Alguien lo pide",
+          "tipo": "evento_inicio",
+          "carril": "1 · Legal"
+        },
+        {
+          "id": "t_pide",
+          "nombre": "1. Se pide el contrato",
+          "tipo": "tarea",
+          "carril": "1 · Legal"
+        },
+        {
+          "id": "t_plantilla",
+          "nombre": "2. Se usa la plantilla",
+          "tipo": "tarea",
+          "carril": "1 · Legal"
+        },
+        {
+          "id": "t_rev_int",
+          "nombre": "3. Revisión interna",
+          "tipo": "tarea",
+          "carril": "1 · Legal"
+        },
+        {
+          "id": "g_acliente_cda",
+          "nombre": "4. ¿Requiere acliente_cda?",
+          "tipo": "decision",
+          "carril": "1 · Legal"
+        },
+        {
+          "id": "t_acliente_cda",
+          "nombre": "Revisión de acliente_cda externa",
+          "tipo": "tarea",
+          "carril": "1 · Legal"
+        },
+        {
+          "id": "t_aprueba",
+          "nombre": "5. Aprobación de Dirección",
+          "tipo": "tarea",
+          "carril": "2 · Dirección"
+        },
+        {
+          "id": "g_firmado",
+          "nombre": "6. ¿Firmaron las dos partes?",
+          "tipo": "decision",
+          "carril": "2 · Dirección"
+        },
+        {
+          "id": "t_firma",
+          "nombre": "Se firma y se devuelve",
+          "tipo": "tarea",
+          "carril": "2 · Dirección"
+        },
+        {
+          "id": "t_archiva",
+          "nombre": "7. Archivo en Drive",
+          "tipo": "tarea",
+          "carril": "2 · Dirección"
+        },
+        {
+          "id": "t_renueva",
+          "nombre": "8. Control de renovación",
+          "tipo": "tarea",
+          "carril": "2 · Dirección"
+        },
+        {
+          "id": "e_fin",
+          "nombre": "Firmado y controlado",
+          "tipo": "evento_fin",
+          "carril": "2 · Dirección"
+        },
+        {
+          "id": "do_d_contratos",
+          "nombre": "do_d_contratos",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_contratos",
+          "nombre": "CONTRATOS/",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "do_d_legal",
+          "nombre": "do_d_legal",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        },
+        {
+          "id": "d_legal",
+          "nombre": "LEGAL.md",
+          "tipo": "tarea",
+          "carril": "Sin carril"
+        }
+      ],
+      "conexiones": [
+        {
+          "a": "e_ini",
+          "b": "t_pide"
+        },
+        {
+          "a": "t_pide",
+          "b": "t_plantilla"
+        },
+        {
+          "a": "t_plantilla",
+          "b": "t_rev_int"
+        },
+        {
+          "a": "t_rev_int",
+          "b": "g_acliente_cda"
+        },
+        {
+          "a": "g_acliente_cda",
+          "b": "t_acliente_cda"
+        },
+        {
+          "a": "g_acliente_cda",
+          "b": "t_aprueba"
+        },
+        {
+          "a": "t_acliente_cda",
+          "b": "t_aprueba"
+        },
+        {
+          "a": "t_aprueba",
+          "b": "g_firmado"
+        },
+        {
+          "a": "g_firmado",
+          "b": "t_firma"
+        },
+        {
+          "a": "g_firmado",
+          "b": "t_archiva"
+        },
+        {
+          "a": "t_firma",
+          "b": "g_firmado"
+        },
+        {
+          "a": "t_archiva",
+          "b": "t_renueva"
+        },
+        {
+          "a": "t_renueva",
+          "b": "e_fin"
+        }
+      ],
+      "anotaciones": [],
+      "nodos_total": 16
+    }
+  ]
+}

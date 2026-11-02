@@ -11,6 +11,7 @@
     "preview:local": "node scripts/build.mjs --local && python3 -m http.server 4175 --bind 127.0.0.1 --directory dist",
     "audit:visual": "node scripts/audit-visual.mjs",
     "lint:bpmn": "node scripts/validate-bpmn.mjs",
+    "fixture:flujos": "node scripts/generar-fixture-flujos.mjs",
     "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build"
   },
   "dependencies": {
