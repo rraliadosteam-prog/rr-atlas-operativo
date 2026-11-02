@@ -64,14 +64,25 @@ function unrotateLaneLabel(parent, x, y) {
   });
 }
 
+// Colores RR que el usuario puede elegir en el inspector.
+// Solo se respetan si el valor guardado en el DI es exactamente uno de la marca.
+function colorElegido(color, theme) {
+  const permitidos = [theme.alarm, theme.attention, theme.lane, theme.muted, theme.fill, theme.stroke]
+    .map((valor) => String(valor || '').trim().toLowerCase())
+    .filter(Boolean);
+  const limpio = String(color || '').trim().toLowerCase();
+  return permitidos.includes(limpio) ? limpio : '';
+}
+
 function paint(parent, element) {
   const theme = readRrTheme();
   const kind = kindOf(element);
   const stroke = strokeFor(kind, theme);
+  const elegido = colorElegido(element?.businessObject?.di?.fill, theme);
   parent.querySelectorAll('rect, circle, polygon, path, ellipse, polyline').forEach((node) => {
     if (node.getAttribute('stroke') && node.getAttribute('stroke') !== 'none') node.setAttribute('stroke', stroke);
     const fill = node.getAttribute('fill');
-    if (fill && fill !== 'none') node.setAttribute('fill', theme.fill);
+    if (fill && fill !== 'none') node.setAttribute('fill', elegido || theme.fill);
     if (node.localName === 'rect' && Number(node.getAttribute('rx') || 0) > 3) {
       node.setAttribute('rx', '3');
       node.setAttribute('ry', '3');

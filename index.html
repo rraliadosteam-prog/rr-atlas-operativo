@@ -137,6 +137,22 @@
             <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar">＋</button>
             <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar">−</button>
             <button class="button button-small" type="button" data-bpmn-accion="encuadrar">Encuadrar</button>
+            <details class="bpmn-menu">
+              <summary class="button button-small">＋ Añadir</summary>
+              <div class="bpmn-menu__lista">
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-tarea">Tarea</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-tarea-usuario">Tarea de usuario</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-compuerta">Compuerta</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-evento">Evento de inicio</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-evento-fin">Evento de fin</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-carril">Carril</button>
+              </div>
+            </details>
+            <button class="button button-small" type="button" data-bpmn-accion="deshacer">Deshacer</button>
+            <button class="button button-small" type="button" data-bpmn-accion="rehacer">Rehacer</button>
+            <button class="button button-small" type="button" data-bpmn-accion="guardar">Guardar copia</button>
+            <button class="button button-small" type="button" data-bpmn-accion="restaurar">Restaurar semilla</button>
+            <span class="bpmn-badge bpmn-badge--info" data-bpmn-insignia>Semilla</span>
             <button class="button button-small" type="button" data-bpmn-accion="bpmn">Exportar .bpmn</button>
             <button class="button button-small" type="button" data-bpmn-accion="svg">Exportar SVG</button>
             <button class="button button-small" type="button" data-bpmn-accion="png">Exportar PNG</button>
@@ -147,6 +163,31 @@
             <aside class="bpmn-inspector" data-bpmn-inspector hidden aria-label="Detalle del elemento">
               <h2 data-bpmn-element-title>Elemento</h2>
               <p data-bpmn-element-meta></p>
+              <form class="bpmn-form" data-bpmn-form hidden>
+                <label class="bpmn-form__campo">Nombre
+                  <input type="text" data-bpmn-campo="nombre" autocomplete="off" spellcheck="false">
+                </label>
+                <label class="bpmn-form__campo">Carril
+                  <select data-bpmn-campo="carril"></select>
+                </label>
+                <label class="bpmn-form__campo">Color RR
+                  <select data-bpmn-campo="color"></select>
+                </label>
+                <label class="bpmn-form__campo">Notas
+                  <textarea data-bpmn-campo="notas" rows="3"></textarea>
+                </label>
+                <label class="bpmn-form__campo">Fuente
+                  <input type="text" data-bpmn-campo="fuente" autocomplete="off" spellcheck="false">
+                </label>
+                <label class="bpmn-form__campo">Corte
+                  <input type="text" data-bpmn-campo="corte" autocomplete="off" spellcheck="false">
+                </label>
+                <div class="bpmn-form__acciones">
+                  <button class="button button-small button-primary" type="button" data-bpmn-accion="aplicar">Aplicar</button>
+                  <button class="button button-small button-danger" type="button" data-bpmn-accion="eliminar">Eliminar</button>
+                </div>
+              </form>
+              <p class="bpmn-inspector__pista" data-bpmn-pista></p>
             </aside>
           </div>
         </section>

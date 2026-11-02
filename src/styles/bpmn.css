@@ -277,6 +277,67 @@
 }
 .bpmn-inspector p { margin: 0; font-size: 0.78rem; color: var(--bpmn-texto-suave); }
 
+/* Formulario de edición del elemento (item 3: BPMN editable en sitio) */
+.bpmn-form { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+.bpmn-form[hidden] { display: none; }
+.bpmn-form__campo {
+  display: grid;
+  gap: 4px;
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-form input,
+.bpmn-form select,
+.bpmn-form textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid rgba(7, 0, 1, 0.22);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.bpmn-form textarea { resize: vertical; min-height: 54px; }
+.bpmn-form input:disabled,
+.bpmn-form select:disabled,
+.bpmn-form textarea:disabled,
+.bpmn-form button:disabled { opacity: 0.55; cursor: not-allowed; }
+.bpmn-form__acciones { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.bpmn-inspector__pista { margin-top: var(--space-2); font-size: 0.72rem; }
+
+/* Menú «＋ Añadir»: agrupa la creación de elementos y ahorra alto en móvil */
+.bpmn-menu { position: relative; }
+.bpmn-menu > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.bpmn-menu > summary::-webkit-details-marker { display: none; }
+.bpmn-menu__lista {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  display: grid;
+  gap: 4px;
+  min-width: 190px;
+  padding: 8px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--bpmn-panel);
+  box-shadow: 0 12px 28px rgba(7, 0, 1, 0.18);
+}
+.bpmn-menu__lista .button { justify-content: flex-start; }
+
 .bpmn-report {
   border-top: 1px solid var(--bpmn-linea);
   background: var(--bpmn-panel);

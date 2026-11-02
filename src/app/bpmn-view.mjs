@@ -1,6 +1,9 @@
 // Vista BPMN del Atlas: catálogo por áreas + lienzo bpmn-js sobre el shell de B.
 // Rutas: #/bpmn (catálogo) y #/bpmn/<procesoId> (proceso abierto).
 // El motor viene compilado por esbuild en src/bpmn/bpmn-bundle.mjs (ver scripts/build.mjs).
+//
+// Item 3 del encargo (BPMN editable en sitio): todo elemento (eventos, tareas,
+// compuertas y carriles) se puede editar, crear y guardar; los colores son los de RR.
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 
@@ -24,7 +27,47 @@ const TIPO = {
   'bpmn:ParallelGateway': 'Compuerta paralela',
   'bpmn:InclusiveGateway': 'Compuerta inclusiva',
   'bpmn:SubProcess': 'Subproceso',
+  'bpmn:Lane': 'Carril',
+  'bpmn:Participant': 'Piscina',
 };
+
+// Paleta de colores RR: el valor sale de las variables CSS de B.
+const COLOR_RR = [
+  { id: '', label: 'Base RR (crema)', variable: '' },
+  { id: 'fucsia', label: 'Fucsia · se traba', variable: '--rr-fucsia' },
+  { id: 'mostaza', label: 'Mostaza · atención', variable: '--rr-mostaza' },
+  { id: 'oruquidea', label: 'Orquídea · carril', variable: '--rr-orquidea' },
+  { id: 'gris', label: 'Gris · dato', variable: '--rr-gris' },
+];
+
+const CLAVE_LOCAL = 'rr-atlas:bpmn:';
+
+function colorDe(id) {
+  if (!id) return '';
+  const opcion = COLOR_RR.find((item) => item.id === id);
+  if (!opcion?.variable) return '';
+  const estilos = getComputedStyle(document.body);
+  return (estilos.getPropertyValue(opcion.variable) || '').trim();
+}
+
+function separarNotas(texto) {
+  const notas = [];
+  let fuente = '';
+  let corte = '';
+  for (const linea of String(texto || '').split('\n')) {
+    const limpio = linea.trim();
+    if (/^fuente\s*:/i.test(limpio)) {
+      fuente = limpio.replace(/^fuente\s*:\s*/i, '');
+      continue;
+    }
+    if (/^corte\s*:/i.test(limpio)) {
+      corte = limpio.replace(/^corte\s*:\s*/i, '');
+      continue;
+    }
+    notas.push(linea);
+  }
+  return { notas: notas.join('\n').trim(), fuente, corte };
+}
 
 export function createBpmnView({ root, shell, notify }) {
   const lista = $('[data-bpmn-catalog]', root);
@@ -36,21 +79,74 @@ export function createBpmnView({ root, shell, notify }) {
   const inspector = $('[data-bpmn-inspector]', root);
   const inspectorTitulo = $('[data-bpmn-element-title]', root);
   const inspectorMeta = $('[data-bpmn-element-meta]', root);
+  const formulario = $('[data-bpmn-form]', root);
+  const pista = $('[data-bpmn-pista]', root);
+  const insignia = $('[data-bpmn-insignia]', root);
   // El botón de modo vive en index.html como data-bpmn-accion="modo";
   // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
   const botonModo = $('[data-bpmn-accion="modo"]', root);
   const buscador = $('[data-bpmn-search]', root);
+  const campos = {
+    nombre: $('[data-bpmn-campo="nombre"]', root),
+    carril: $('[data-bpmn-campo="carril"]', root),
+    color: $('[data-bpmn-campo="color"]', root),
+    notas: $('[data-bpmn-campo="notas"]', root),
+    fuente: $('[data-bpmn-campo="fuente"]', root),
+    corte: $('[data-bpmn-campo="corte"]', root),
+  };
 
   let catalogo = [];
   let actual = null;
   let workspace = null;
   let editando = false;
   let xmlActual = '';
+  let origen = 'semilla';
+  let seleccion = null;
   let filtro = '';
   let visible = false;
 
   const avisar = (mensaje) => {
     if (typeof notify === 'function') notify(mensaje);
+  };
+
+  const almacenamiento = (() => {
+    try {
+      const storage = window.localStorage;
+      const probe = '__rr_atlas_bpmn_probe__';
+      storage.setItem(probe, '1');
+      storage.removeItem(probe);
+      return storage;
+    } catch {
+      return null;
+    }
+  })();
+
+  const leerGuardado = (id) => {
+    if (!almacenamiento || !id) return '';
+    try {
+      return almacenamiento.getItem(CLAVE_LOCAL + id) || '';
+    } catch {
+      return '';
+    }
+  };
+
+  const escribirGuardado = (id, xml) => {
+    if (!almacenamiento || !id) return false;
+    try {
+      almacenamiento.setItem(CLAVE_LOCAL + id, xml);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const borrarGuardado = (id) => {
+    if (!almacenamiento || !id) return;
+    try {
+      almacenamiento.removeItem(CLAVE_LOCAL + id);
+    } catch {
+      /* sin almacenamiento no hay copia local */
+    }
   };
 
   async function cargarCatalogo() {
@@ -112,15 +208,76 @@ export function createBpmnView({ root, shell, notify }) {
     informe.innerHTML = partes.join('');
   }
 
+  // Insignia de estado de la copia local: semilla, copia guardada o cambios sin guardar.
+  function pintarInsignia() {
+    if (!insignia) return;
+    let texto = 'Semilla';
+    let tono = 'info';
+    if (origen === 'local') {
+      texto = 'Copia local';
+      tono = 'ok';
+    }
+    if (workspace?.cambiosPendientes) {
+      texto = 'Cambios sin guardar';
+      tono = 'warn';
+    }
+    insignia.textContent = texto;
+    insignia.className = `bpmn-badge bpmn-badge--${tono}`;
+  }
+
+  function pintarCarriles(carriles, elegido = '') {
+    if (!campos.carril) return;
+    const opciones = ['<option value="">Sin carril</option>'];
+    for (const carril of carriles || []) {
+      const marca = carril.id === elegido ? ' selected' : '';
+      opciones.push(`<option value="${esc(carril.id)}"${marca}>${esc(carril.name)}</option>`);
+    }
+    campos.carril.innerHTML = opciones.join('');
+  }
+
+  function pintarColores(elegido = '') {
+    if (!campos.color) return;
+    const opciones = COLOR_RR.map((item) => {
+      const valor = colorDe(item.id);
+      const marca = valor && valor.toLowerCase() === String(elegido || '').toLowerCase() ? ' selected' : '';
+      const muestra = valor ? ` style="--rr-muestra:${valor}"` : '';
+      return `<option value="${esc(valor)}"${marca}${muestra}>${esc(item.label)}</option>`;
+    });
+    campos.color.innerHTML = opciones.join('');
+  }
+
   function mostrarElemento(elemento) {
     if (!inspector) return;
     if (!elemento) {
       inspector.hidden = true;
+      seleccion = null;
       return;
     }
+    seleccion = elemento;
     inspector.hidden = false;
     inspectorTitulo.textContent = elemento.name || 'Sin nombre';
-    inspectorMeta.textContent = `${TIPO[elemento.type] ?? elemento.type ?? 'Elemento'} · ${elemento.incoming ?? 0} entradas · ${elemento.outgoing ?? 0} salidas`;
+    const tipo = TIPO[elemento.type] ?? elemento.type ?? 'Elemento';
+    inspectorMeta.textContent = `${tipo} · ${elemento.incoming ?? 0} entradas · ${elemento.outgoing ?? 0} salidas`;
+    const separacion = separarNotas(elemento.documentation || '');
+    if (campos.nombre) campos.nombre.value = elemento.name || '';
+    if (campos.notas) campos.notas.value = separacion.notas;
+    if (campos.fuente) campos.fuente.value = separacion.fuente;
+    if (campos.corte) campos.corte.value = separacion.corte;
+    pintarColores(elemento.color || '');
+    pintarCarriles(workspace?.carriles?.() || [], elemento.laneId || '');
+    const editable = Boolean(workspace && workspace.modo === 'edit');
+    if (formulario) formulario.hidden = false;
+    if (pista) {
+      pista.textContent = editable
+        ? 'Los cambios se guardan en este navegador con «Guardar».'
+        : 'Activa «Editar» para modificar este elemento.';
+    }
+    if (formulario) {
+      for (const control of formulario.querySelectorAll('input, textarea, select, button')) {
+        if (control.dataset.bpmnAccion === 'modo') continue;
+        control.disabled = !editable;
+      }
+    }
   }
 
   async function crearWorkspace() {
@@ -135,11 +292,18 @@ export function createBpmnView({ root, shell, notify }) {
       container: lienzo,
       onReport: pintarInforme,
       onElement: mostrarElemento,
+      onChange: () => {
+        pintarInsignia();
+        if (seleccion) {
+          const refreshed = workspace.elemento(seleccion.id);
+          if (refreshed) mostrarElemento(refreshed);
+        }
+      },
     });
     return workspace;
   }
 
-  async function abrir(procesoId, { editable = false } = {}) {
+  async function abrir(procesoId, { editable = false, xml = '' } = {}) {
     const proceso = catalogo.find((item) => item.id === procesoId);
     if (!proceso) {
       avisar('Ese proceso no está en el catálogo.');
@@ -151,14 +315,32 @@ export function createBpmnView({ root, shell, notify }) {
     pintarCatalogo();
     vacio.hidden = true;
     try {
-      const respuesta = await fetch(`/src/bpmn/seeds/${proceso.archivo}`, { cache: 'no-cache' });
-      if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-      xmlActual = await respuesta.text();
+      let contenido = xml;
+      if (!contenido) {
+        const respuesta = await fetch(`/src/bpmn/seeds/${proceso.archivo}`, { cache: 'no-cache' });
+        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+        const semilla = await respuesta.text();
+        const guardado = leerGuardado(proceso.id);
+        contenido = guardado || semilla;
+        origen = guardado ? 'local' : 'semilla';
+      } else {
+        origen = 'sesion';
+      }
+      xmlActual = contenido;
       const motor = await crearWorkspace();
-      const reporte = await motor.open(xmlActual, { fileName: proceso.archivo, editable });
+      const reporte = await motor.open(xmlActual, {
+        fileName: proceso.archivo,
+        editable,
+        cambiosPendientes: origen !== 'semilla',
+      });
       pintarInforme(reporte);
+      pintarInsignia();
       if (reporte?.step) {
         estado.textContent = `${proceso.area} · paso ${reporte.step.index + 1} de ${reporte.step.total} · ${reporte.step.name}`;
+      }
+      if (seleccion) {
+        const refreshed = motor.elemento(seleccion.id);
+        if (refreshed) mostrarElemento(refreshed);
       }
     } catch (error) {
       vacio.hidden = false;
@@ -185,11 +367,121 @@ export function createBpmnView({ root, shell, notify }) {
       avisar('Elige un proceso del catálogo primero.');
       return;
     }
+    // Antes de cambiar de modo se conserva el XML vivo para no perder lo editado.
+    let xml = '';
+    try {
+      xml = await workspace?.xml?.() || '';
+    } catch {
+      xml = xmlActual;
+    }
     editando = !editando;
     botonModo.textContent = editando ? 'Ver' : 'Editar';
     botonModo.setAttribute('aria-pressed', String(editando));
-    if (editando) avisar('Modo edición: los cambios viven solo en esta sesión hasta exportarlos.');
+    if (editando) avisar('Modo edición: cambia lo que quieras y guarda la copia en este navegador.');
+    await abrir(actual.id, { editable: editando, xml });
+    if (seleccion) {
+      const refreshed = workspace?.elemento(seleccion.id);
+      if (refreshed) mostrarElemento(refreshed);
+    }
+  }
+
+  function refrescarSeleccion() {
+    if (!seleccion || !workspace) return;
+    const refreshed = workspace.elemento(seleccion.id);
+    if (refreshed) mostrarElemento(refreshed);
+  }
+
+  function aplicarFormulario() {
+    if (!workspace || !seleccion) {
+      avisar('Primero haz clic en un elemento del diagrama.');
+      return;
+    }
+    if (workspace.modo !== 'edit') {
+      avisar('Activa «Editar» para modificar el diagrama.');
+      return;
+    }
+    try {
+      const colorValor = campos.color?.value || '';
+      const colorId = COLOR_RR.find((item) => colorDe(item.id).toLowerCase() === colorValor.toLowerCase())?.id ?? '';
+      const actualizado = workspace.actualizar(seleccion.id, {
+        nombre: campos.nombre?.value ?? '',
+        notas: campos.notas?.value ?? '',
+        fuente: campos.fuente?.value ?? '',
+        corte: campos.corte?.value ?? '',
+        color: colorValor,
+        carrilId: campos.carril?.value ?? '',
+      });
+      if (actualizado) mostrarElemento(actualizado);
+      pintarInsignia();
+      avisar('Cambio aplicado al diagrama.');
+    } catch (error) {
+      avisar(error.message);
+    }
+  }
+
+  function agregar(tipo) {
+    if (!workspace || !actual) {
+      avisar('Elige un proceso del catálogo primero.');
+      return;
+    }
+    if (workspace.modo !== 'edit') {
+      avisar('Activa «Editar» para agregar elementos.');
+      return;
+    }
+    try {
+      const creado = workspace.crear(tipo, { carrilId: seleccion?.laneId || '' });
+      if (creado) {
+        mostrarElemento(creado);
+        workspace.focus?.(creado.id);
+      }
+      pintarInsignia();
+      avisar('Elemento agregado al diagrama.');
+    } catch (error) {
+      avisar(error.message);
+    }
+  }
+
+  function eliminarSeleccion() {
+    if (!workspace || !seleccion) {
+      avisar('Primero haz clic en un elemento del diagrama.');
+      return;
+    }
+    try {
+      workspace.eliminar(seleccion.id);
+      seleccion = null;
+      if (inspector) inspector.hidden = true;
+      pintarInsignia();
+      avisar('Elemento eliminado del diagrama.');
+    } catch (error) {
+      avisar(error.message);
+    }
+  }
+
+  async function guardar() {
+    if (!workspace || !actual) {
+      avisar('Elige un proceso del catálogo primero.');
+      return;
+    }
+    try {
+      const xml = await workspace.xml();
+      if (!escribirGuardado(actual.id, xml)) {
+        avisar('Este navegador no dejó guardar la copia local.');
+        return;
+      }
+      origen = 'local';
+      pintarInsignia();
+      avisar('Copia guardada en este navegador.');
+    } catch (error) {
+      avisar(error.message);
+    }
+  }
+
+  async function restaurarSemilla() {
+    if (!actual) return;
+    borrarGuardado(actual.id);
+    origen = 'semilla';
     await abrir(actual.id, { editable: editando });
+    avisar('Se restauró la semilla del proceso.');
   }
 
   async function exportar(tipo) {
@@ -226,12 +518,56 @@ export function createBpmnView({ root, shell, notify }) {
     if (tipo === 'bpmn') exportar('xml');
     if (tipo === 'svg') exportar('svg');
     if (tipo === 'png') exportar('png');
+    if (tipo === 'aplicar') aplicarFormulario();
+    if (tipo === 'eliminar') eliminarSeleccion();
+    if (tipo === 'deshacer') {
+      if (workspace?.deshacer?.()) {
+        refrescarSeleccion();
+        pintarInsignia();
+        avisar('Se deshizo el último cambio.');
+      }
+    }
+    if (tipo === 'rehacer') {
+      if (workspace?.rehacer?.()) {
+        refrescarSeleccion();
+        pintarInsignia();
+        avisar('Se rehizo el cambio.');
+      }
+    }
+    if (tipo === 'guardar') guardar();
+    if (tipo === 'restaurar') restaurarSemilla();
+    if (tipo === 'agregar-tarea') agregar('tarea');
+    if (tipo === 'agregar-tarea-usuario') agregar('tarea-usuario');
+    if (tipo === 'agregar-compuerta') agregar('compuerta');
+    if (tipo === 'agregar-evento') agregar('evento');
+    if (tipo === 'agregar-evento-fin') agregar('evento-fin');
+    if (tipo === 'agregar-carril') agregar('carril');
   }
 
   root.addEventListener('click', alClic);
   buscador?.addEventListener('input', (event) => {
     filtro = event.target.value ?? '';
     pintarCatalogo();
+  });
+
+  // Deshacer y rehacer del propio diagrama (mismo atajo que el mapa, pero del BPMN).
+  document.addEventListener('keydown', (event) => {
+    if (!visible || !workspace) return;
+    if (event.defaultPrevented) return;
+    const target = event.target;
+    if (target.matches?.('input, textarea, select, [contenteditable="true"]')) return;
+    const modifier = event.metaKey || event.ctrlKey;
+    if (!modifier || event.key.toLowerCase() !== 'z') return;
+    event.preventDefault();
+    if (event.shiftKey) {
+      if (workspace.rehacer?.()) {
+        refrescarSeleccion();
+        pintarInsignia();
+      }
+    } else if (workspace.deshacer?.()) {
+      refrescarSeleccion();
+      pintarInsignia();
+    }
   });
 
   async function mostrar(procesoId = '') {
