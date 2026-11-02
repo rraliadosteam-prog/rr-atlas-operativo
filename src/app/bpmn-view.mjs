@@ -167,6 +167,19 @@ export function createBpmnView({ root, shell, notify }) {
     }
   }
 
+  // El recorrido por el flujo actualiza el rótulo con el paso actual:
+  // antes el diagrama avanzaba pero la interfaz se quedaba en «paso 1 de 11».
+  function avanzar(delta) {
+    if (!workspace || !actual) {
+      avisar('Elige un proceso del catálogo primero.');
+      return;
+    }
+    const paso = workspace.step(delta);
+    if (!paso) return;
+    estado.textContent = `${actual.area} · paso ${paso.index + 1} de ${paso.total} · ${paso.name}`;
+    if (paso.lane) estado.textContent += ` · ${paso.lane}`;
+  }
+
   async function alternarModo() {
     if (!actual) {
       avisar('Elige un proceso del catálogo primero.');
@@ -205,8 +218,8 @@ export function createBpmnView({ root, shell, notify }) {
     if (!accion) return;
     const tipo = accion.dataset.bpmnAccion;
     if (tipo === 'modo') alternarModo();
-    if (tipo === 'anterior') workspace?.step(-1);
-    if (tipo === 'siguiente') workspace?.step(1);
+    if (tipo === 'anterior') avanzar(-1);
+    if (tipo === 'siguiente') avanzar(1);
     if (tipo === 'acercar') workspace?.zoom(1.2);
     if (tipo === 'alejar') workspace?.zoom(0.85);
     if (tipo === 'encuadrar') workspace?.fit();

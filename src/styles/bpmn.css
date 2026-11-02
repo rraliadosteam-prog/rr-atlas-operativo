@@ -174,7 +174,7 @@
   background: var(--bpmn-panel);
 }
 
-.bpmn-canvas-wrap { position: relative; min-height: 0; overflow: hidden; }
+.bpmn-canvas-wrap { position: relative; min-height: 320px; overflow: hidden; }
 
 .bpmn-canvas {
   position: absolute;
@@ -203,6 +203,15 @@
   stroke-width: 3px;
 }
 .bpmn-canvas .djs-element.selected .djs-visual { filter: drop-shadow(3px 3px 0 var(--rr-negro)); }
+
+/* Paso actual del recorrido: se marca en fucsia para saber dónde estás. */
+.bpmn-canvas .rr-paso-actual .djs-visual {
+  filter: drop-shadow(0 0 0 var(--rr-fucsia)) drop-shadow(3px 3px 0 var(--rr-fucsia));
+}
+.bpmn-canvas .rr-paso-actual .djs-outline {
+  stroke: var(--rr-fucsia) !important;
+  stroke-width: 3px !important;
+}
 .bpmn-canvas .djs-palette,
 .bpmn-canvas .djs-context-pad {
   background: var(--bpmn-panel);
@@ -293,7 +302,10 @@
 }
 
 @media (max-width: 900px) {
-  .bpmn-view__body { grid-template-columns: 1fr; grid-template-rows: 220px minmax(0, 1fr); }
+  /* En vertical el catálogo va arriba y el diagrama necesita aire: sin esto el
+     lienzo quedaba con 0 px de alto y el diagrama no se montaba. */
+  .bpmn-view { overflow: auto; }
+  .bpmn-view__body { grid-template-columns: 1fr; grid-template-rows: 180px minmax(320px, 1fr); }
   .bpmn-catalog { border-right: 0; border-bottom: 1px solid var(--bpmn-linea); }
   .bpmn-view__head { flex-direction: column; }
 }

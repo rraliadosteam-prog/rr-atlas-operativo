@@ -220,8 +220,20 @@ export function createBpmnWorkspace({ container, onReport, onElement }) {
     const canvas = viewer.get('canvas');
     if (narrow()) canvas.zoom(Math.max(canvas.zoom() || 1, 1.15));
     canvas.scrollToElement(elements[stepIndex], { top: 72, right: 28, bottom: 88, left: 28 });
+    marcarPaso(elements[stepIndex]);
     nudgeLabels();
     return describeStep(elements);
+  }
+
+  // Marca visual del paso actual del recorrido (borrador RR).
+  function marcarPaso(element) {
+    const registry = viewer.get('elementRegistry');
+    for (const item of registry.getAll()) {
+      if (item.labelTarget) continue;
+      const gfx = registry.getGraphics(item);
+      if (!gfx) continue;
+      gfx.classList?.toggle('rr-paso-actual', item === element);
+    }
   }
 
   function frameInitial() {

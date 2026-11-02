@@ -288,7 +288,15 @@ for (const vp of VIEWPORTS) {
       lienzo: (() => { const e = document.querySelector('.bpmn-canvas'); const r = e.getBoundingClientRect(); return { ancho: Math.round(r.width), alto: Math.round(r.height) }; })(),
     }));
     // clic en un elemento -> inspector
-    await page.click('.bpmn-canvas .djs-element[data-element-id^="Activity_"] .djs-visual', { force: true }).catch(() => {});
+    // Las semillas usan ids tipo t_*, e_*, g_*, part_*, lane_* (no Activity_).
+    const forma = await page.evaluate(() => {
+      const el = [...document.querySelectorAll('.bpmn-canvas .djs-element')]
+        .find((item) => item.querySelector('.djs-hit') && !item.dataset.elementId.startsWith('lane_') && !item.dataset.elementId.startsWith('part_'));
+      const hit = el?.querySelector('.djs-hit');
+      const r = hit?.getBoundingClientRect();
+      return r ? { x: r.x + r.width / 2, y: r.y + r.height / 2, id: el.dataset.elementId } : null;
+    });
+    if (forma) await page.mouse.click(forma.x, forma.y);
     await page.waitForTimeout(500);
     const inspector = await page.evaluate(() => {
       const e = document.querySelector('[data-bpmn-inspector]');
@@ -318,23 +326,30 @@ for (const vp of VIEWPORTS) {
       contextPad: Boolean(document.querySelector('.bpmn-canvas .djs-context-pad')),
       editable: document.querySelector('.bpmn-canvas .djs-container')?.classList?.contains('djs-editable') ?? false,
     }));
-    // edición directa de una etiqueta
+    // Edición directa de una etiqueta: doble clic sobre la etiqueta del diagrama.
     let edicionDirecta = { disponible: false };
-    const forma = await page.$('.bpmn-canvas .djs-element[data-element-id^="Activity_"] .djs-visual');
-    if (forma) {
-      await forma.dblclick({ force: true }).catch(() => {});
-      await page.waitForTimeout(700);
-      const abierto = await page.$('.djs-direct-editing .djs-direct-editing-content');
+    const etiqueta = await page.evaluate(() => {
+      const el = [...document.querySelectorAll('.bpmn-canvas .djs-element')]
+        .find((item) => item.querySelector('.djs-label') && !item.dataset.elementId.startsWith('lane_') && !item.dataset.elementId.startsWith('part_') && !item.dataset.elementId.endsWith('_label'));
+      const l = el?.querySelector('.djs-label');
+      const r = l?.getBoundingClientRect();
+      return r ? { x: r.x + r.width / 2, y: r.y + r.height / 2, texto: l.textContent.trim(), id: el.dataset.elementId } : null;
+    });
+    if (etiqueta) {
+      await page.mouse.dblclick(etiqueta.x, etiqueta.y).catch(() => {});
+      await page.waitForTimeout(800);
+      const abierto = await page.$('.djs-direct-editing-content');
       if (abierto) {
-        edicionDirecta = { disponible: true };
-        await page.keyboard.press('Control+A').catch(() => {});
-        await page.keyboard.type(' Tarea auditada', { delay: 15 }).catch(() => {});
+        edicionDirecta = { disponible: true, textoOriginal: etiqueta.texto };
+        await page.keyboard.press('End');
+        await page.keyboard.type(' (editada)', { delay: 15 }).catch(() => {});
         await page.keyboard.press('Enter');
-        await page.waitForTimeout(700);
-        edicionDirecta.texto = await page.evaluate(() => {
-          const e = document.querySelector('.bpmn-canvas .djs-element[data-element-id^="Activity_"] .djs-label');
+        await page.waitForTimeout(800);
+        edicionDirecta.textoFinal = await page.evaluate(() => {
+          const e = [...document.querySelectorAll('.bpmn-canvas .djs-label')].find((x) => x.textContent.includes('editada'));
           return e?.textContent?.trim() ?? null;
         });
+        edicionDirecta.cambioAplicado = Boolean(edicionDirecta.textoFinal);
       }
     }
     return { modo, edicionDirecta, captura: await captura('05-bpmn-editar') };

@@ -134,3 +134,36 @@ Reglas de este archivo: una entrada por fase, en español de Colombia, sin secre
 ### Capturas
 - `docs/fusion/capturas/auditoria/` (17 capturas: mapa, navegar, catálogo, proceso, edición, export, vuelta al mapa en
   1440, 768 y 360).
+
+### Ampliación del bloque 2 · item 3 (arranque) — 2026-11-02
+
+Se siguió con el item 3 (BPMN editable en sitio) mientras se cerraba la auditoría, porque los bugs de la auditoría
+bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
+
+### Qué se hizo (arranque del item 3)
+- **Causa raíz del diagrama bloqueado en tablet y móvil**: `[hidden]` no ocultaba `.shell` (`.shell { display: grid }`
+  anulaba el `display:none` del navegador), así que el mapa seguía ocupando media pantalla y la vista BPMN recibía
+  376 px de alto en vez de 752. Se añadió la regla global `[hidden] { display: none !important; }` en `src/styles/rr-tree.css`
+  y `.bpmn-canvas-wrap { min-height: 320px }` + breakpoint ≤900 px en `src/styles/bpmn.css`.
+  **El diagrama ahora abre en 1440, 768 y 360.**
+- **Recorrido «Anterior»/«Siguiente»**: el diagrama avanzaba por dentro pero la interfaz se quedaba en «paso 1 de 11».
+  Nueva función `avanzar(delta)` en `src/app/bpmn-view.mjs` que actualiza el rótulo con el paso actual.
+- **Marca del paso actual**: `marcarPaso()` en `src/bpmn/entry.mjs` aplica la clase `rr-paso-actual` (contorno fucsia RR)
+  al elemento por el que va el recorrido.
+- **Auditoría corregida**: se detectaron dos falsos positivos de la sonda (el inspector de elementos y la edición directa
+  de etiquetas no fallaban; los selectores `Activity_*` no existen en las semillas). Se corrigió la sonda con los ids reales
+  (`t_*`, `e_*`, `g_*`, `part_*`, `lane_*`) y se reescribió `docs/fusion/AUDITORIA_UX.md` con los resultados reales:
+  el inspector responde («Llega alguien · Evento de inicio») y el doble clic **edita la etiqueta**
+  («2. Se anota» → «2. Se anota (editada)»).
+
+### Estado de los checks
+- `npm run check`: **verde** — 202 tests pass, 0 fail.
+- `npm run audit:ux`: **verde** — 3 viewports × 7 pasos, 0 errores de consola, diagrama abierto en los tres anchos,
+  inspector y recorrido funcionando en 1440 y 768.
+
+### Pendiente del item 3 (siguiente bloque)
+- Conectar el diagrama con el modelo v5: que editar una etiqueta, un carril o un nombre escriba en el modelo y en el XML,
+  con historial y deshacer/rehacer propios del diagrama (hoy el cambio vive solo en la sesión).
+- Menú contextual (*context pad*) y paleta por área con los colores RR: crear tareas, compuertas y eventos desde la interfaz.
+- Inspector editable del elemento (nombre, carril/rol, sistemas, entradas/salidas, notas, fuente y corte).
+- Modo de diagrama a pantalla completa (item 5 del encargo): resuelve también el táctil en 360 px.

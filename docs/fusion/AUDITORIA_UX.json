@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-02T22:12:23.901Z",
+  "generadoEn": "2026-11-02T22:22:08.000Z",
   "viewports": [
     {
       "viewport": {
@@ -19,13 +19,13 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -22,
-                "right": 1310,
+                "left": -23,
+                "right": 1309,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -22,
+                "left": -23,
                 "right": 121,
                 "ancho": 143
               }
@@ -51,7 +51,7 @@
               "ancho": 92
             },
             "botonHub": {
-              "visible": true
+              "visible": false
             },
             "nodo": {
               "ancho": 55,
@@ -92,13 +92,13 @@
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
                 "left": -85,
-                "right": 1246,
+                "right": 1247,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -85,
-                "right": 58,
+                "right": 59,
                 "ancho": 143
               }
             ],
@@ -109,7 +109,7 @@
           "cajas": {
             "vista": {
               "ancho": 1440,
-              "alto": 376
+              "alto": 752
             },
             "catalogo": {
               "ancho": 290
@@ -149,18 +149,18 @@
             "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
             "lienzo": {
               "ancho": 1150,
-              "alto": 147
+              "alto": 523
             }
           },
           "inspector": {
-            "visible": false,
-            "titulo": "Elemento",
-            "meta": ""
+            "visible": true,
+            "titulo": "Llega alguien",
+            "meta": "Evento de inicio · 0 entradas · 1 salidas"
           },
           "recorrido": {
             "antes": "Comercial y captación · paso 1 de 11 · Llega alguien",
-            "despues": "Comercial y captación · paso 1 de 11 · Llega alguien",
-            "avanza": false
+            "despues": "Comercial y captación · paso 2 de 11 · 2. Se anota · 1 · Comercial (lleva)",
+            "avanza": true
           },
           "layout": {
             "scrollWidth": 1440,
@@ -169,32 +169,20 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -268,
-                "right": 1064,
+                "left": -166,
+                "right": 1166,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -268,
-                "right": -125,
+                "left": -166,
+                "right": -22,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -125,
-                "right": -103,
-                "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": -103,
-                "right": -13,
-                "ancho": 90
-              },
-              {
-                "elemento": "span.atlas-ticker__glyph",
-                "left": -13,
-                "right": 9,
+                "left": -22,
+                "right": 0,
                 "ancho": 22
               }
             ],
@@ -214,7 +202,10 @@
             "editable": false
           },
           "edicionDirecta": {
-            "disponible": false
+            "disponible": true,
+            "textoOriginal": "2. Se anota",
+            "textoFinal": "2. Se anota (editada)",
+            "cambioAplicado": true
           },
           "captura": "docs/fusion/capturas/auditoria/escritorio-1440-05-bpmn-editar.png"
         },
@@ -224,15 +215,15 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 15525
+              "bytes": 15564
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38636
+              "bytes": 38760
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 413383
+              "bytes": 422222
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -276,62 +267,44 @@
             "overflowHorizontal": false,
             "desborde": [
               {
-                "elemento": "div.top-actions",
-                "left": 512,
-                "right": 871,
-                "ancho": 359
-              },
-              {
-                "elemento": "button.button.button-ghost[data-action=\"help\"]",
-                "left": 719,
-                "right": 784,
-                "ancho": 65
-              },
-              {
-                "elemento": "button.button.button-primary[data-action=\"add-node\"]",
-                "left": 792,
-                "right": 871,
-                "ancho": 79
-              },
-              {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -22,
+                "left": -21,
                 "right": 1310,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -22,
+                "left": -21,
                 "right": 122,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 644,
-                "right": 787,
+                "left": 645,
+                "right": 788,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 787,
+                "left": 788,
                 "right": 810,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 810,
-                "right": 899,
+                "right": 900,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 899,
-                "right": 921,
+                "left": 900,
+                "right": 922,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 921,
+                "left": 922,
                 "right": 974,
                 "ancho": 52
               },
@@ -346,6 +319,24 @@
                 "left": 996,
                 "right": 1051,
                 "ancho": 55
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 1051,
+                "right": 1073,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 1073,
+                "right": 1167,
+                "ancho": 94
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 1167,
+                "right": 1189,
+                "ancho": 22
               }
             ],
             "objetivosChicos": [],
@@ -369,7 +360,7 @@
               "ancho": 92
             },
             "botonHub": {
-              "visible": true
+              "visible": false
             },
             "nodo": {
               "ancho": 23,
@@ -398,76 +389,76 @@
             "overflowHorizontal": false,
             "desborde": [
               {
-                "elemento": "header.topbar",
-                "left": -103,
-                "right": 665,
-                "ancho": 768
-              },
-              {
-                "elemento": "a.brand",
-                "left": -75,
-                "right": 115,
-                "ancho": 190
-              },
-              {
-                "elemento": "span.brand-mark",
-                "left": -75,
-                "right": -33,
-                "ancho": 42
-              },
-              {
-                "elemento": "img.brand-mark__png",
-                "left": -75,
-                "right": -33,
-                "ancho": 42
-              },
-              {
-                "elemento": "span",
-                "left": -21,
-                "right": 73,
-                "ancho": 94
-              },
-              {
-                "elemento": "strong",
-                "left": -21,
-                "right": 73,
-                "ancho": 94
-              },
-              {
-                "elemento": "small",
-                "left": -21,
-                "right": 73,
-                "ancho": 94
-              },
-              {
-                "elemento": "div.atlas-ticker.rr-marquee[data-ticker=\"\"]",
-                "left": -103,
-                "right": 665,
-                "ancho": 768
-              },
-              {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -272,
-                "right": 1060,
+                "left": -168,
+                "right": 1164,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -272,
-                "right": -128,
+                "left": -168,
+                "right": -25,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -128,
-                "right": -106,
+                "left": -25,
+                "right": -3,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -106,
-                "right": -17,
+                "left": -3,
+                "right": 87,
                 "ancho": 90
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 753,
+                "right": 775,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 775,
+                "right": 827,
+                "ancho": 52
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 827,
+                "right": 850,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 850,
+                "right": 904,
+                "ancho": 55
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 904,
+                "right": 926,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 926,
+                "right": 1020,
+                "ancho": 94
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 1020,
+                "right": 1042,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 1042,
+                "right": 1142,
+                "ancho": 99
               }
             ],
             "objetivosChicos": [],
@@ -477,7 +468,7 @@
           "cajas": {
             "vista": {
               "ancho": 768,
-              "alto": 431
+              "alto": 861
             },
             "catalogo": {
               "ancho": 768
@@ -508,8 +499,105 @@
         },
         {
           "nombre": "bpmn-ver",
-          "ok": false,
-          "error": "page.waitForSelector: Timeout 25000ms exceeded.\nCall log:\n  - waiting for locator('.bpmn-canvas .djs-container svg') to be visible\n    51 × locator resolved to hidden <svg width=\"100%\" tabindex=\"0\" height=\"100%\" data-element-id=\"collab_1\">…</svg>\n"
+          "ok": true,
+          "estado": {
+            "hash": "#/bpmn/ventas_como_una_oportunidad_se_convierte_en_cliente",
+            "formas": 49,
+            "carriles": 3,
+            "titulo": "Oportunidad a cliente",
+            "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
+            "lienzo": {
+              "ancho": 768,
+              "alto": 320
+            }
+          },
+          "inspector": {
+            "visible": true,
+            "titulo": "Llega alguien",
+            "meta": "Evento de inicio · 0 entradas · 1 salidas"
+          },
+          "recorrido": {
+            "antes": "Comercial y captación · paso 1 de 11 · Llega alguien",
+            "despues": "Comercial y captación · paso 2 de 11 · 2. Se anota · 1 · Comercial (lleva)",
+            "avanza": true
+          },
+          "layout": {
+            "scrollWidth": 768,
+            "clientWidth": 768,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -248,
+                "right": 1084,
+                "ancho": 1332
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -248,
+                "right": -104,
+                "ancho": 143
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": -104,
+                "right": -82,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -82,
+                "right": 8,
+                "ancho": 90
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 748,
+                "right": 770,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 770,
+                "right": 825,
+                "ancho": 55
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 825,
+                "right": 847,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 847,
+                "right": 941,
+                "ancho": 94
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 941,
+                "right": 963,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 963,
+                "right": 1062,
+                "ancho": 99
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 1062,
+                "right": 1084,
+                "ancho": 22
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 1024
+          },
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-04-bpmn-proceso-ver.png"
         },
         {
           "nombre": "bpmn-editar",
@@ -521,7 +609,10 @@
             "editable": false
           },
           "edicionDirecta": {
-            "disponible": false
+            "disponible": true,
+            "textoOriginal": "2. Se anota",
+            "textoFinal": "2. Se anota (editada)",
+            "cambioAplicado": true
           },
           "captura": "docs/fusion/capturas/auditoria/tableta-768-05-bpmn-editar.png"
         },
@@ -531,15 +622,15 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 15525
+              "bytes": 15564
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38615
+              "bytes": 38753
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 407347
+              "bytes": 416868
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -584,75 +675,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -23,
-                "right": 1229,
+                "left": -20,
+                "right": 1231,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -23,
-                "right": 108,
+                "left": -20,
+                "right": 111,
                 "ancho": 131
               },
               {
+                "elemento": "span.atlas-ticker__item",
+                "left": 310,
+                "right": 361,
+                "ancho": 51
+              },
+              {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 358,
-                "right": 381,
+                "left": 361,
+                "right": 383,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 381,
-                "right": 467,
+                "left": 383,
+                "right": 470,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 467,
-                "right": 489,
+                "left": 470,
+                "right": 492,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 489,
-                "right": 580,
+                "left": 492,
+                "right": 583,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 580,
-                "right": 603,
+                "left": 583,
+                "right": 605,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 603,
-                "right": 734,
+                "left": 605,
+                "right": 737,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 734,
-                "right": 756,
+                "left": 737,
+                "right": 759,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 756,
-                "right": 839,
+                "left": 759,
+                "right": 842,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 839,
-                "right": 861,
+                "left": 842,
+                "right": 864,
                 "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 861,
-                "right": 911,
-                "ancho": 49
               }
             ],
             "objetivosChicos": [],
@@ -661,7 +752,7 @@
           },
           "cajas": {
             "topbar": {
-              "alto": 172
+              "alto": 124
             },
             "rail": {
               "ancho": 360,
@@ -676,7 +767,7 @@
               "ancho": 0
             },
             "botonHub": {
-              "visible": true
+              "visible": false
             },
             "nodo": {
               "ancho": 189,
@@ -706,74 +797,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -161,
-                "right": 1091,
+                "left": -157,
+                "right": 1095,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -161,
-                "right": -30,
+                "left": -157,
+                "right": -26,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -30,
-                "right": -7,
+                "left": -26,
+                "right": -4,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -7,
-                "right": 76,
+                "left": -4,
+                "right": 79,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 352,
-                "right": 443,
+                "left": 355,
+                "right": 446,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 443,
-                "right": 465,
+                "left": 446,
+                "right": 469,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 465,
-                "right": 596,
+                "left": 469,
+                "right": 600,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 596,
-                "right": 619,
+                "left": 600,
+                "right": 622,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 619,
-                "right": 702,
+                "left": 622,
+                "right": 705,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 702,
-                "right": 724,
+                "left": 705,
+                "right": 727,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 724,
-                "right": 773,
+                "left": 727,
+                "right": 777,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 773,
-                "right": 795,
+                "left": 777,
+                "right": 799,
                 "ancho": 22
               }
             ],
@@ -784,7 +875,7 @@
           "cajas": {
             "vista": {
               "ancho": 360,
-              "alto": 253
+              "alto": 554
             },
             "catalogo": {
               "ancho": 360
@@ -815,8 +906,111 @@
         },
         {
           "nombre": "bpmn-ver",
-          "ok": false,
-          "error": "page.waitForSelector: Timeout 25000ms exceeded.\nCall log:\n  - waiting for locator('.bpmn-canvas .djs-container svg') to be visible\n    52 × locator resolved to hidden <svg width=\"100%\" tabindex=\"0\" height=\"100%\" data-element-id=\"collab_1\">…</svg>\n"
+          "ok": true,
+          "estado": {
+            "hash": "#/bpmn/ventas_como_una_oportunidad_se_convierte_en_cliente",
+            "formas": 49,
+            "carriles": 3,
+            "titulo": "Oportunidad a cliente",
+            "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
+            "lienzo": {
+              "ancho": 360,
+              "alto": 320
+            }
+          },
+          "inspector": {
+            "visible": false,
+            "titulo": "Elemento",
+            "meta": ""
+          },
+          "recorrido": {
+            "antes": "Comercial y captación · paso 1 de 11 · Llega alguien",
+            "despues": "Comercial y captación · paso 2 de 11 · 2. Se anota · 1 · Comercial (lleva)",
+            "avanza": true
+          },
+          "layout": {
+            "scrollWidth": 360,
+            "clientWidth": 360,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -230,
+                "right": 1022,
+                "ancho": 1252
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -230,
+                "right": -99,
+                "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": -99,
+                "right": -77,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -77,
+                "right": 6,
+                "ancho": 83
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 282,
+                "right": 373,
+                "ancho": 91
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 373,
+                "right": 396,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 396,
+                "right": 527,
+                "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 527,
+                "right": 549,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 549,
+                "right": 632,
+                "ancho": 83
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 632,
+                "right": 654,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 654,
+                "right": 704,
+                "ancho": 49
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 704,
+                "right": 726,
+                "ancho": 22
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 740
+          },
+          "captura": "docs/fusion/capturas/auditoria/movil-360-04-bpmn-proceso-ver.png"
         },
         {
           "nombre": "bpmn-editar",
@@ -842,7 +1036,7 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38658
+              "bytes": 38673
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
