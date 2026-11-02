@@ -15,3 +15,10 @@ Formato: `TODO(Rosas): ...`
 - TODO(Rosas): El prompt habla de 17 semillas BPMN, pero A trae 16 archivos en `src/bpmn/seeds/` (y `scripts/validate-bpmn.mjs` exige 16). ¿Falta una semilla por modelar o la cuenta del prompt está desactualizada?
 - TODO(Rosas): Ninguna de las 16 semillas pasa el lint sin avisos (8 tienen la deuda documentada `no-gateway-join-fork`). ¿Se repara el modelado de esas compuertas (fase 5) o se acepta la deuda visible en la app?
 - TODO(Rosas): En móvil (≤760px) el acceso a BPMN queda oculto hasta que exista la tabbar de la fase 6. ¿Se aprueba esa espera o el enlace debe quedar visible en la barra superior?
+
+## Resueltas por Rosas (2026-11-02 17:01)
+- RESUELTO: título «RR Aliados · Atlas operativo».
+- RESUELTO: tipografía Inter Tight + Lexend.
+- RESUELTO: página de entrada = Mapa vivo.
+- RESUELTO: «Volver al hub» oculto hasta que exista la URL real.
+- Nota: a Rosas le gusta el look actual del preview; conservarlo.
