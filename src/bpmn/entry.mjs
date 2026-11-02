@@ -481,7 +481,19 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
       onReport?.({ ...report, step });
       return { ...report, step };
     },
-    fit() { return frameInitial(); },
+    // `completo: true` encuadra el diagrama entero aunque el lienzo sea estrecho:
+    // en pantalla completa el usuario debe ver la forma del proceso de una vez.
+    // En móvil (lienzo angosto) no: encoger todo deja las tareas ilegibles y
+    // es mejor arrancar en el primer paso, como hace el resto de la app.
+    fit(opciones = {}) {
+      if (opciones.completo && viewer && !narrow()) {
+        viewer.get('canvas').zoom('fit-viewport', 'auto');
+        stepIndex = 0;
+        nudgeLabels();
+        return describeStep();
+      }
+      return frameInitial();
+    },
     recenter() { return showStep(stepIndex); },
     step(delta) { return showStep(stepIndex + delta); },
     zoom(factor) {

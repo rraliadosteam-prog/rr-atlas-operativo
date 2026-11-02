@@ -33,6 +33,35 @@ Este archivo se actualiza al final de cada fase con las pruebas ejecutadas y sus
 - [x] Pruebas de clics reales (`node scripts/verificar-flujos.mjs`, Playwright headless): **32 rutas probadas** (16 rutas `#flujo/` × escritorio 1440×900 y móvil 390×844), 0 rutas vacías, 0 errores de consola.
 - [x] Capturas: `docs/fusion/capturas/bloque1-flujo-escritorio-1440.png`, `docs/fusion/capturas/bloque1-flujo-movil-390.png`.
 
+## Bloque 2 · Item 2 · Auditoría UX/UI completa
+
+- [x] `docs/fusion/AUDITORIA_UX.md` con 18 bugs (4 críticos, 5 altos, 6 medios, 2 bajos), recorridos (ver, navegar, editar, exportar) y mediciones a 360, 768 y 1440 px. Datos crudos en `docs/fusion/AUDITORIA_UX.json`.
+- [x] `npm run audit:ux` repetible con Playwright headless: 3 viewports × 7 pasos, 17 capturas en `docs/fusion/capturas/auditoria/`.
+- [x] Bugs críticos corregidos: el diagrama no abría en tablet ni móvil (0 px de alto), el botón «Editar» no activaba el modo (buscaba un atributo inexistente) y «Volver al mapa» quedaba en crema sobre crema (contraste 1,01:1).
+
+## Bloque 3 · Item 3 · BPMN editable en sitio
+
+- [x] `npm run verificar:bpmn-edicion` verde en escritorio 1440 y móvil 390: inspector con nombre, carril, color RR, notas, fuente y corte; creación de tareas, tareas de usuario, compuertas, eventos y carriles; deshacer/rehacer; copia local en `localStorage` y «Restaurar semilla».
+- [x] El color elegido viaja en el `.bpmn` exportado con la extensión `bioc:fill` de bpmn.io.
+
+## Bloque 4 · Item 4 · Panel por diagrama
+
+- [x] `src/bpmn/leyenda.mjs`: 11 símbolos, 5 colores de la marca RR, los 5 pasos para leer un diagrama y la ficha de los 16 procesos (qué busca, disparador, resultado, camino paso a paso), con fuente y corte.
+- [x] `npm run verificar:guia` verde en escritorio 1440 y móvil 390: la guía se abre, se actualiza al cambiar de proceso, se cierra y usa los tokens RR.
+
+## Bloque 5 · Item 5 · Modo diagrama a pantalla completa
+
+- [x] Al abrir un BPMN la página entera es el diagrama: la vista es una capa fija sobre el viewport, el catálogo se esconde y no hay scroll.
+- [x] Botón ⛶ «Pantalla completa» / «⛶ Dividir» + atajos **P** y **Esc**; botón «☰ Procesos» para volver al catálogo sin perder el proceso.
+- [x] La guía por diagrama se superpone al diagrama en pantalla completa (el lienzo no cambia de ancho).
+- [x] `npm run verificar:pantalla` verde en escritorio 1440×900, móvil 390×844 y móvil 360×740: 0 errores de consola, sin scroll, formas del diagrama a la vista.
+- [x] Bugs encontrados y corregidos: la paleta de bpmn-js tapaba media pantalla en móvil; el informe de lint se comía 186 px de alto en 360 px; la cabecera ocupaba 115 px en móvil.
+- [x] Atajos del mapa apagados dentro de la vista BPMN (antes `F`, `/`, `Supr` y `Ctrl/Cmd+Z` disparaban el mapa con el diagrama abierto).
+- [x] `npm run check` verde (202 tests, 0 fail) y `npm run lint:bpmn` verde (16 semillas).
+- [x] Regresión verde: `npm run verificar:bpmn-edicion`, `npm run verificar:guia`, `npm run audit:ux`.
+- [x] Medición del lienzo: escritorio 1150×471 → 1440×653 px; tableta 768×320 → 768×825 px; móvil 360×320 → 360×532 px.
+- [x] Capturas: `docs/fusion/capturas/pantalla-bpmn-*.png` (catálogo, pantalla completa y guía en escritorio, móvil 390 y móvil 360).
+
 ## Fases posteriores
 
 Se irán agregando conforme avance la fusión.

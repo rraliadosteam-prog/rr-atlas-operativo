@@ -234,3 +234,32 @@ viewports; el diagrama abre en 1440, 768 y 360; el inspector responde; «Siguien
   el mapa se recorre con zoom?
 
 Se anotan también en `docs/fusion/PREGUNTAS.md`.
+---
+
+## 9. Estado tras el item 5 (diagrama a pantalla completa) — 2026-11-02
+
+El item 5 del encargo (modo diagrama a pantalla completa) cierra varios de los bugs de esta
+auditoría. Mediciones tomadas con `npm run audit:ux` antes y después:
+
+| Viewport | Lienzo antes | Lienzo ahora | Scroll |
+|---|---|---|---|
+| Escritorio 1440×900 | 1150 × 471 px | **1440 × 653 px** | no |
+| Tableta 768×1024 | 768 × 320 px | **768 × 825 px** | no |
+| Móvil 360×740 | 360 × 320 px | **360 × 532 px** | no |
+
+- **Bug 2 (🟠) cerrado**: en 360 px el diagrama ya ocupa la pantalla sin scroll y el toque
+  llega a las formas (la paleta de bpmn-js pasó de una columna vertical de 450 px que tapaba
+  media pantalla a una franja horizontal deslizable de 44 px).
+- **Bug 7 (🟡) cerrado en móvil**: la barra de controles es una sola fila deslizable (antes
+  cinco filas y 165 px de alto).
+- **Bug 5 (🟠) parcial**: el *context pad* de bpmn-js sigue sin usarse en la interfaz (bug 5
+  abierto); la creación de elementos se hace con «＋ Añadir» (item 3, ya entregado).
+- **Bug 3 (🟠) sigue abierto**: los nodos del mapa no son clicables a 768 y 360 px. Se comparó
+  el JSON de la auditoría con el del bloque anterior y el fallo es idéntico: es un problema
+  del mapa, no del diagrama. Queda para el item 7 (responsive).
+- **Bug 1 (🔴) sigue abierto**: la barra superior se sale de pantalla a 768 px. No se tocó
+  porque el item 5 deja el diagrama por encima de esa barra en pantalla completa, pero la
+  vista partida sigue mostrando el shell.
+
+Evidencia: `npm run verificar:pantalla` (escritorio 1440, móvil 390 y móvil 360) y las capturas
+`docs/fusion/capturas/pantalla-bpmn-*.png`.

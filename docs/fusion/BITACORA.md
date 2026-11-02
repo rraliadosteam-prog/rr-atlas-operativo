@@ -232,3 +232,83 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 ### Capturas
 - `docs/fusion/capturas/guia-bpmn-escritorio-1440-panel.png`
 - `docs/fusion/capturas/guia-bpmn-movil-390-panel.png`
+
+## Bloque 5 · Item 5 · Modo diagrama a pantalla completa — 2026-11-02
+
+### Qué se hizo
+- **Al abrir un BPMN, toda la página es el diagrama** (item 5 del encargo). La vista BPMN
+  pasa a ser una capa fija sobre el viewport (`position: fixed`, `z-index: 45`), así que la
+  cabecera del shell, la marquesina y el pie quedan tapados y no hay scroll: el lienzo toma
+  la pantalla completa. En móvil de 360 px el diagrama ya se ve sin desplazar (era el bug que
+  había reportado Botardo).
+- **Botón ⛶ «Pantalla completa»** en la barra del diagrama: alterna entre la vista partida
+  (catálogo + diagrama) y la pantalla completa. En pantalla completa el botón dice «⛶ Dividir».
+  Atajos: **P** alterna el modo y **Esc** sale (si la guía está abierta, Esc la cierra primero).
+- **Botón «☰ Procesos»** en la cabecera de la vista: devuelve al catálogo (`#/bpmn`) sin perder
+  el proceso abierto. «Volver al mapa» sigue llevando al mapa vivo (`#top`).
+- **La guía por diagrama deja de dividir**: en pantalla completa se abre como una bandeja
+  superpuesta sobre el diagrama (el lienzo no cambia de ancho). En la vista partida sigue
+  siendo la tercera columna del item 4.
+- **Atajos del mapa apagados dentro de la vista BPMN** (`src/app/rr-tree.mjs`): antes, `F`,
+  `/`, `Supr` y `Ctrl/Cmd+Z` del mapa disparaban también con el diagrama abierto. Ahora la
+  vista BPMN maneja sus propios atajos: **P** (pantalla completa), **F** (encuadrar),
+  **Esc** y **Ctrl/Cmd+Z** (deshacer/rehacer del diagrama).
+- **Motor BPMN**: `workspace.fit({ completo: true })` encuadra el diagrama entero cuando el
+  lienzo es ancho. En móvil (lienzo angosto) no se encoge todo —quedaba ilegible—: se arranca
+  en el primer paso, como el resto de la app.
+- **Bugs reales encontrados por las pruebas de clic y corregidos**:
+  1. La paleta de bpmn-js venía en vertical con entradas de 44 px: en móvil tapaba media
+     pantalla (450 px de alto) y se comía los clics sobre las formas. Ahora es una franja
+     horizontal arriba, deslizable con el dedo.
+  2. En pantalla completa el informe de lint se comía hasta 186 px de alto en 360 px de ancho:
+     el lienzo quedaba en 383 px. El informe ahora se limita a 92 px con scroll propio.
+  3. La cabecera (marca RR + título + acciones) ocupaba 115 px en móvil: ahora es una sola
+     fila con el título recortado con puntos suspensivos.
+
+### Estado de los checks
+- `npm run check`: **verde** — 202 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores fuera de la deuda documentada.
+- `npm run verificar:pantalla`: **verde** — escritorio 1440×900, móvil 390×844 y móvil 360×740:
+  catálogo visible en la vista partida; al abrir un BPMN la página pasa a pantalla completa
+  (catálogo oculto, sin scroll, el diagrama no se sale de la pantalla, hay formas dibujadas a
+  la vista); la guía se superpone sin dividir el lienzo; ⛶ divide y vuelve a unir; Esc sale y
+  la tecla P vuelve a entrar; «Volver al mapa» regresa al mapa vivo. 0 errores de consola.
+- `npm run verificar:bpmn-edicion`: **verde** en escritorio 1440 y móvil 390 (el clic sobre la
+  forma ya no cae en la paleta).
+- `npm run verificar:guia`: **verde** en escritorio 1440 y móvil 390 (el cambio de proceso ahora
+  se hace con «☰ Procesos» + clic en la otra tarjeta, porque el catálogo se esconde en pantalla
+  completa).
+- `npm run audit:ux`: **verde** (3 viewports × 7 pasos, 0 errores de consola, sin desbordes
+  horizontales).
+
+### Medición del lienzo antes y después (de `npm run audit:ux`)
+| Viewport | Antes | Ahora |
+|---|---|---|
+| Escritorio 1440×900 | 1150 × 471 px | **1440 × 653 px** |
+| Tableta 768×1024 | 768 × 320 px | **768 × 825 px** |
+| Móvil 360×740 | 360 × 320 px | **360 × 532 px** (sin scroll) |
+
+### Hallazgos / riesgos
+- La vista partida en móvil (catálogo arriba, diagrama abajo) sigue siendo incómoda: es el
+  estado intermedio al que se vuelve con «☰ Procesos». El item 6 (pantalla dividida activable)
+  debe reemplazar esa vista improvisada.
+- El fallo «navegar» de la auditoría (clic en los nodos del mapa a 768 y 360 px) **ya existía
+  antes de este bloque**: se comparó con el JSON de la auditoría anterior y es idéntico. Queda
+  para el item 7 (responsive).
+- La edición directa por doble clic sigue sin estar disponible en 360 px (limite de bpmn-js con
+  `isMobile`); no es un cambio de este bloque.
+
+### Pendiente del bloque
+- Item 6: pantalla dividida opcional activable (diagrama + otro diagrama, o un esquema BPMN, o
+  el Inicio con tarjetas de cliente/servicio).
+- Item 7: responsive profundo de escritorio y móvil (gestos táctiles en el tablero, navegación
+  móvil, animaciones con sentido) y el clic en los nodos del mapa a 768/360.
+- Item 8: fase 2 (modelo de datos v5) y fases restantes del mega prompt.
+
+### Capturas
+- `docs/fusion/capturas/pantalla-bpmn-escritorio-1440-catalogo.png`
+- `docs/fusion/capturas/pantalla-bpmn-escritorio-1440-completo.png`
+- `docs/fusion/capturas/pantalla-bpmn-escritorio-1440-guia.png`
+- `docs/fusion/capturas/pantalla-bpmn-movil-390-completo.png`
+- `docs/fusion/capturas/pantalla-bpmn-movil-360-completo.png`
+- `docs/fusion/capturas/pantalla-bpmn-movil-360-guia.png`

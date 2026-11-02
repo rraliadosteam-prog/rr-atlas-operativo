@@ -90,6 +90,10 @@ async function corrida(nombreViewport, viewport, esMovil) {
   await page.screenshot({ path: `${CARPETA}/guia-bpmn-${nombreViewport}-panel.png`, fullPage: false });
 
   // Cambiar de proceso: la guía debe hablar del nuevo diagrama.
+  // Al abrir un BPMN la vista queda a pantalla completa (item 5), así que el
+  // catálogo se esconde: se vuelve con «☰ Procesos» y se abre el otro proceso.
+  await page.click('[data-bpmn-catalog-link]');
+  await page.waitForSelector('.bpmn-card', { timeout: 10000 });
   await page.click(`[data-bpmn-open="${PROCESO_2}"]`);
   await page.waitForTimeout(1800);
   pasos.guiaTrasCambio = await page.evaluate(() => ({

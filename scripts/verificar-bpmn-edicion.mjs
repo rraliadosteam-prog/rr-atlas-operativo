@@ -75,7 +75,16 @@ async function clicEnElemento(page, idPreferido) {
         && r.top >= 0 && r.bottom <= innerHeight && r.left >= 0 && r.right <= innerWidth;
     };
     const favorito = lista.find((nodo) => nodo.closest('[data-element-id]')?.dataset.elementId === preferido && dentro(nodo));
-    const elegido = favorito || lista.find(dentro);
+    // Se descarta la forma cuyo punto central esté tapado por la paleta o por
+    // el context pad de bpmn-js: el clic tiene que llegar a la forma.
+    const libre = (nodo) => {
+      const r = nodo.getBoundingClientRect();
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      const encima = document.elementFromPoint(x, y);
+      return encima?.closest('[data-element-id]')?.dataset.elementId === nodo.closest('[data-element-id]')?.dataset.elementId;
+    };
+    const elegido = (favorito && libre(favorito)) ? favorito : lista.find((nodo) => dentro(nodo) && libre(nodo));
     if (!elegido) return null;
     const r = elegido.getBoundingClientRect();
     return { id: elegido.closest('[data-element-id]')?.dataset.elementId, x: r.left + r.width / 2, y: r.top + r.height / 2 };

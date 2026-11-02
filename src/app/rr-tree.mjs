@@ -887,6 +887,11 @@ function bindActions() {
     if (inInput) {
       return;
     }
+    // En la vista BPMN los atajos son del diagrama (P, F, Esc, Ctrl/Cmd+Z):
+    // los del mapa no se ejecutan para no mover el lienzo equivocado.
+    if (bpmnView.visible) {
+      return;
+    }
     if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? store.redo() : store.undo(); return; }
     if (modifier && event.key.toLowerCase() === 'y') { event.preventDefault(); store.redo(); return; }
     if (event.key === 'Delete' || event.key === 'Backspace') { event.preventDefault(); $('.button-danger', inspector)?.click(); return; }

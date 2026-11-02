@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-02T22:52:20.897Z",
+  "generadoEn": "2026-11-02T23:17:47.568Z",
   "viewports": [
     {
       "viewport": {
@@ -91,13 +91,13 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -86,
+                "left": -85,
                 "right": 1246,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -86,
+                "left": -85,
                 "right": 58,
                 "ancho": 143
               }
@@ -148,8 +148,8 @@
             "titulo": "Oportunidad a cliente",
             "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
             "lienzo": {
-              "ancho": 1150,
-              "alto": 471
+              "ancho": 1440,
+              "alto": 653
             }
           },
           "inspector": {
@@ -169,20 +169,20 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -166,
-                "right": 1166,
+                "left": -165,
+                "right": 1167,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -166,
-                "right": -22,
+                "left": -165,
+                "right": -21,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -22,
-                "right": 0,
+                "left": -21,
+                "right": 1,
                 "ancho": 22
               }
             ],
@@ -223,7 +223,7 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 418849
+              "bytes": 418712
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -275,7 +275,7 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -22,
-                "right": 122,
+                "right": 121,
                 "ancho": 143
               },
               {
@@ -287,12 +287,12 @@
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 787,
-                "right": 810,
+                "right": 809,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 810,
+                "left": 809,
                 "right": 899,
                 "ancho": 90
               },
@@ -305,37 +305,37 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 921,
-                "right": 974,
+                "right": 973,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 974,
+                "left": 973,
                 "right": 996,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 996,
-                "right": 1051,
+                "right": 1050,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1051,
-                "right": 1073,
+                "left": 1050,
+                "right": 1072,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1073,
+                "left": 1072,
                 "right": 1166,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 1166,
-                "right": 1189,
+                "right": 1188,
                 "ancho": 22
               }
             ],
@@ -390,37 +390,37 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -169,
+                "left": -170,
                 "right": 1162,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -169,
-                "right": -26,
+                "left": -170,
+                "right": -27,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -26,
+                "left": -27,
                 "right": -4,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -4,
-                "right": 86,
+                "right": 85,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 752,
-                "right": 774,
+                "left": 751,
+                "right": 773,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 774,
+                "left": 773,
                 "right": 826,
                 "ancho": 52
               },
@@ -445,12 +445,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 925,
-                "right": 1019,
+                "right": 1018,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1019,
+                "left": 1018,
                 "right": 1041,
                 "ancho": 22
               },
@@ -482,7 +482,7 @@
             },
             "toolbarVisible": {
               "visible": true,
-              "alto": 113
+              "alto": 165
             }
           },
           "areas": [
@@ -508,7 +508,7 @@
             "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
             "lienzo": {
               "ancho": 768,
-              "alto": 320
+              "alto": 825
             }
           },
           "inspector": {
@@ -528,63 +528,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -249,
-                "right": 1083,
+                "left": -250,
+                "right": 1082,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -249,
+                "left": -250,
                 "right": -106,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": -106,
-                "right": -83,
+                "right": -84,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -83,
-                "right": 6,
+                "left": -84,
+                "right": 5,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 769,
-                "right": 824,
+                "left": 768,
+                "right": 823,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 824,
-                "right": 846,
+                "left": 823,
+                "right": 845,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 846,
+                "left": 845,
                 "right": 939,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 939,
-                "right": 962,
+                "right": 961,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 962,
-                "right": 1061,
+                "left": 961,
+                "right": 1060,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1061,
-                "right": 1083,
+                "left": 1060,
+                "right": 1082,
                 "ancho": 22
+              },
+              {
+                "elemento": "div.bpmn-menu__lista",
+                "left": 687,
+                "right": 877,
+                "ancho": 190
+              },
+              {
+                "elemento": "button.button.button-small[data-bpmn-accion=\"agregar-tarea\"]",
+                "left": 696,
+                "right": 868,
+                "ancho": 172
               }
             ],
             "objetivosChicos": [],
@@ -620,11 +632,11 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38753
+              "bytes": 38732
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 416868
+              "bytes": 416776
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -883,7 +895,7 @@
             },
             "toolbarVisible": {
               "visible": true,
-              "alto": 269
+              "alto": 321
             }
           },
           "areas": [
@@ -909,13 +921,13 @@
             "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
             "lienzo": {
               "ancho": 360,
-              "alto": 320
+              "alto": 532
             }
           },
           "inspector": {
-            "visible": false,
-            "titulo": "Elemento",
-            "meta": ""
+            "visible": true,
+            "titulo": "Llega alguien",
+            "meta": "Evento de inicio · 0 entradas · 1 salidas"
           },
           "recorrido": {
             "antes": "Comercial y captación · paso 1 de 11 · Llega alguien",
@@ -929,43 +941,43 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -232,
-                "right": 1020,
+                "left": -233,
+                "right": 1019,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -232,
+                "left": -233,
                 "right": -101,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": -101,
-                "right": -78,
+                "right": -79,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -78,
-                "right": 5,
+                "left": -79,
+                "right": 4,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 281,
-                "right": 372,
+                "left": 280,
+                "right": 371,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 372,
-                "right": 394,
+                "left": 371,
+                "right": 393,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 394,
+                "left": 393,
                 "right": 525,
                 "ancho": 131
               },
@@ -978,25 +990,25 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 547,
-                "right": 631,
+                "right": 630,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 631,
-                "right": 653,
+                "left": 630,
+                "right": 652,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 653,
-                "right": 702,
+                "left": 652,
+                "right": 701,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 702,
-                "right": 724,
+                "left": 701,
+                "right": 723,
                 "ancho": 22
               }
             ],

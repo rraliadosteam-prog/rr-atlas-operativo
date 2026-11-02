@@ -6,6 +6,8 @@
 // compuertas y carriles) se puede editar, crear y guardar; los colores son los de RR.
 // Item 4 del encargo: panel por diagrama con qué busca, cómo se lee y la leyenda
 // de símbolos y colores (src/bpmn/leyenda.mjs).
+// Item 5 del encargo: modo diagrama a pantalla completa: al abrir un BPMN toda
+// la página es el diagrama, sin división (y sin scroll en móvil de 360 px).
 
 import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA } from '../bpmn/leyenda.mjs';
 
@@ -90,6 +92,8 @@ export function createBpmnView({ root, shell, notify }) {
   const guiaTitulo = $('[data-bpmn-guia-titulo]', root);
   const guiaCuerpo = $('[data-bpmn-guia-cuerpo]', root);
   const botonGuia = $('[data-bpmn-accion="guia"]', root);
+  const botonPantalla = $('[data-bpmn-accion="pantalla"]', root);
+  const enlaceCatalogo = $('[data-bpmn-catalog-link]', root);
   // El botón de modo vive en index.html como data-bpmn-accion="modo";
   // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
   const botonModo = $('[data-bpmn-accion="modo"]', root);
@@ -113,6 +117,7 @@ export function createBpmnView({ root, shell, notify }) {
   let filtro = '';
   let visible = false;
   let guiaAbierta = false;
+  let completo = false;
 
   const avisar = (mensaje) => {
     if (typeof notify === 'function') notify(mensaje);
@@ -273,6 +278,33 @@ export function createBpmnView({ root, shell, notify }) {
     }
   }
 
+  // Item 5 del encargo: modo diagrama a pantalla completa.
+  // Al abrir un BPMN la página entera es el diagrama: el catálogo desaparece y
+  // el lienzo toma el viewport (en móvil de 360 px ya no hay que hacer scroll).
+  function encuadrar() {
+    if (!workspace || !actual) return;
+    const paso = workspace.fit?.({ completo: completo });
+    if (paso?.total) {
+      estado.textContent = `${actual.area} · paso ${paso.index + 1} de ${paso.total} · ${paso.name}`;
+      if (paso.lane) estado.textContent += ` · ${paso.lane}`;
+    }
+  }
+
+  function aplicarCompleto(valor) {
+    completo = Boolean(valor);
+    root.classList.toggle('is-completo', completo);
+    document.body.classList.toggle('is-bpmn-completo', completo);
+    if (botonPantalla) {
+      botonPantalla.setAttribute('aria-pressed', String(completo));
+      botonPantalla.textContent = completo ? '⛶ Dividir' : '⛶ Pantalla completa';
+      botonPantalla.title = completo
+        ? 'Ver el catálogo junto al diagrama'
+        : 'Abrir el diagrama a pantalla completa';
+    }
+    // El lienzo cambia de tamaño: se vuelve a encuadrar el diagrama entero.
+    requestAnimationFrame(() => requestAnimationFrame(() => encuadrar()));
+  }
+
   function pintarInforme(reporte) {
     if (!informe) return;
     const errores = reporte?.errors ?? [];
@@ -419,6 +451,7 @@ export function createBpmnView({ root, shell, notify }) {
       });
       pintarInforme(reporte);
       pintarInsignia();
+      if (completo) encuadrar();
       if (reporte?.step) {
         estado.textContent = `${proceso.area} · paso ${reporte.step.index + 1} de ${reporte.step.total} · ${reporte.step.name}`;
       }
@@ -603,6 +636,10 @@ export function createBpmnView({ root, shell, notify }) {
     if (tipo === 'encuadrar') workspace?.fit();
     if (tipo === 'guia') alternarGuia();
     if (tipo === 'cerrar-guia') alternarGuia(false);
+    if (tipo === 'pantalla') {
+      aplicarCompleto(!completo);
+      avisar(completo ? 'Diagrama a pantalla completa.' : 'Catálogo y diagrama a la vez.');
+    }
     if (tipo === 'bpmn') exportar('xml');
     if (tipo === 'svg') exportar('svg');
     if (tipo === 'png') exportar('png');
@@ -638,14 +675,42 @@ export function createBpmnView({ root, shell, notify }) {
     pintarCatalogo();
   });
 
-  // Deshacer y rehacer del propio diagrama (mismo atajo que el mapa, pero del BPMN).
+  // Atajos de la vista BPMN: P alterna la pantalla completa, F encuadra,
+  // Esc cierra la guía o sale de la pantalla completa y Ctrl/Cmd+Z deshace
+  // (el mismo atajo que el mapa, pero del diagrama).
   document.addEventListener('keydown', (event) => {
-    if (!visible || !workspace) return;
+    if (!visible) return;
     if (event.defaultPrevented) return;
     const target = event.target;
     if (target.matches?.('input, textarea, select, [contenteditable="true"]')) return;
     const modifier = event.metaKey || event.ctrlKey;
-    if (!modifier || event.key.toLowerCase() !== 'z') return;
+    const tecla = event.key.toLowerCase();
+    if (!modifier && tecla === 'p') {
+      event.preventDefault();
+      aplicarCompleto(!completo);
+      avisar(completo ? 'Diagrama a pantalla completa.' : 'Catálogo y diagrama a la vez.');
+      return;
+    }
+    if (!modifier && tecla === 'f' && workspace) {
+      event.preventDefault();
+      encuadrar();
+      return;
+    }
+    if (!modifier && event.key === 'Escape') {
+      if (guiaAbierta) {
+        event.preventDefault();
+        alternarGuia(false);
+        return;
+      }
+      if (completo) {
+        event.preventDefault();
+        aplicarCompleto(false);
+        avisar('Catálogo y diagrama a la vez.');
+        return;
+      }
+    }
+    if (!workspace) return;
+    if (!modifier || tecla !== 'z') return;
     event.preventDefault();
     if (event.shiftKey) {
       if (workspace.rehacer?.()) {
@@ -663,6 +728,9 @@ export function createBpmnView({ root, shell, notify }) {
     visible = true;
     if (shell) shell.hidden = true;
     document.body.classList.add('is-bpmn-view');
+    // Abrir un BPMN = diagrama a pantalla completa; el catálogo es la vista
+    // partida (se vuelve con «☰ Procesos» o con el botón ⛶).
+    aplicarCompleto(Boolean(procesoId));
     if (!catalogo.length) {
       try {
         await cargarCatalogo();
@@ -688,9 +756,17 @@ export function createBpmnView({ root, shell, notify }) {
     root.hidden = true;
     if (shell) shell.hidden = false;
     document.body.classList.remove('is-bpmn-view');
+    document.body.classList.remove('is-bpmn-completo');
+    root.classList.remove('is-completo');
     // El mapa vuelve a encajar cuando el shell recupera su tamaño.
     window.dispatchEvent(new Event('resize'));
   }
 
-  return { mostrar, ocultar, get activo() { return Boolean(actual); } };
+  return {
+    mostrar,
+    ocultar,
+    get activo() { return Boolean(actual); },
+    get visible() { return visible; },
+    get completo() { return completo; },
+  };
 }

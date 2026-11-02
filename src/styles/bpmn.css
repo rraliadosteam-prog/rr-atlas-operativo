@@ -68,6 +68,16 @@
 
 .bpmn-view__actions { display: flex; gap: var(--space-2); flex-shrink: 0; }
 
+.bpmn-view__identidad {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Solo aparece en pantalla completa: la cabecera del shell queda tapada. */
+.bpmn-view__marca { display: none; }
+
 .bpmn-view__body {
   flex: 1 1 0;
   min-height: 0;
@@ -480,7 +490,29 @@
   /* En móvil el acceso a BPMN llega por la tabbar (fase 6); el shell no crece. */
   .top-actions [data-bpmn-link],
   .rail-actions [data-bpmn-link-rail] { display: none; }
-  .bpmn-canvas .djs-palette .entry,
+  /* La paleta de bpmn-js venía en vertical y tapaba media pantalla: en móvil
+     es una franja horizontal arriba, deslizable con el dedo. */
+  .bpmn-canvas .djs-palette {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    padding: 4px;
+    overflow-x: auto;
+    background: var(--bpmn-panel);
+    border: 1px solid var(--bpmn-acento-2);
+    border-radius: var(--bpmn-radio);
+  }
+  .bpmn-canvas .djs-palette .separator { display: none; }
+  .bpmn-canvas .djs-palette .entry {
+    float: none;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+  }
   .bpmn-canvas .djs-context-pad .entry { width: 44px; height: 44px; }
 }
 
@@ -502,3 +534,96 @@
   .bpmn-catalog { border-right: 0; border-bottom: 1px solid var(--bpmn-linea); }
   .bpmn-view__head { flex-direction: column; }
 }
+
+/* --------------------------------------------------------------------------
+   Item 5 · Modo diagrama a pantalla completa
+   Al abrir un BPMN toda la página es el diagrama: sin catálogo, sin división
+   y sin scroll en móvil (360 px). El botón ⛶ alterna el modo.
+   -------------------------------------------------------------------------- */
+.bpmn-view.is-completo {
+  /* Cubre cabecera, marquesina y pie del shell: la página es el diagrama.
+     Queda bajo el aviso flotante (z 50) y bajo el marco RR (z 60). */
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  width: 100vw;
+  height: 100dvh;
+}
+.bpmn-view.is-completo .bpmn-catalog { display: none; }
+.bpmn-view.is-completo .bpmn-view__body {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+/* Con la guía abierta el diagrama no se divide: la guía va superpuesta. */
+.bpmn-view.is-completo.is-guia .bpmn-view__body {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+.bpmn-view.is-completo .bpmn-view__head {
+  padding: 8px 14px;
+  align-items: center;
+  gap: var(--space-3);
+}
+.bpmn-view.is-completo .bpmn-view__title {
+  font-size: 1.05rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bpmn-view.is-completo .bpmn-view__identidad { flex: 1 1 auto; min-width: 0; }
+.bpmn-view.is-completo .bpmn-view__actions { flex-shrink: 0; }
+.bpmn-view.is-completo .bpmn-view__hint { margin-top: 0; font-size: 0.74rem; }
+.bpmn-view.is-completo .bpmn-view__marca {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--rr-negro);
+  color: var(--rr-mostaza);
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.bpmn-view.is-completo .bpmn-report {
+  min-height: 28px;
+  max-height: 92px;
+  overflow: auto;
+  padding-block: 4px;
+  font-size: 0.72rem;
+}
+.bpmn-view.is-completo .bpmn-guia {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: min(360px, 92vw);
+  max-height: none;
+  border-left: 2px solid var(--bpmn-acento-2);
+  box-shadow: -14px 0 34px rgba(7, 0, 1, 0.22);
+}
+
+@media (max-width: 900px) {
+  /* En vertical la cabecera no puede partirse en dos filas: se apila y la
+     guía superpuesta no crea filas extra. */
+  .bpmn-view.is-completo .bpmn-view__head {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 6px 10px;
+  }
+  .bpmn-view.is-completo .bpmn-view__body { grid-template-rows: minmax(0, 1fr); }
+  .bpmn-view.is-completo .bpmn-view__hint { display: none; }
+  /* La barra de controles es una sola fila que se desliza con el dedo. */
+  .bpmn-view.is-completo .bpmn-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding: 6px 8px;
+  }
+  .bpmn-view.is-completo .bpmn-toolbar > * { flex: 0 0 auto; }
+  .bpmn-view.is-completo .bpmn-canvas-wrap { min-height: 0; }
+}
+
