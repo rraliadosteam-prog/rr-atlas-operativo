@@ -34,3 +34,9 @@ Formato: `TODO(Rosas): ...`
 - TODO(Rosas): La ficha de cada diagrama (qué busca, disparador, resultado y el camino paso a paso) sale del guion de procesos del mega prompt §6. ¿Se revisa esa redacción o se deja como texto de lectura provisional hasta que el equipo la valide?
 - TODO(Rosas): La leyenda de colores dice qué significa cada color RR (crema = paso normal, fucsia = se traba, mostaza = atención, orquídea = carriles, gris = datos). ¿Es la convención que quiere la marca o se cambia?
 - TODO(Rosas): La guía se abre en un panel a la derecha en escritorio y debajo del diagrama en móvil. ¿Se deja así o en escritorio también va como cajón superpuesto?
+
+## Abiertas por el bloque 5 (2026-11-02, item 5)
+- TODO(Rosas): En pantalla completa el diagrama tapa la cabecera del shell (marca RR, búsqueda y «Guía»). Se dejó la marca «RR» dentro de la propia vista BPMN. ¿Se mantiene así o se prefiere que la cabecera del shell siga visible encima del diagrama?
+- TODO(Rosas): El botón «☰ Procesos» devuelve al catálogo y el proceso abierto se conserva. Al volver al catálogo la vista queda partida (catálogo + un diagrama vacío). ¿Se prefiere que el catálogo sea una pantalla completa propia (sin diagrama al lado) hasta que exista la pantalla dividida del item 6?
+- TODO(Rosas): Al abrir un BPMN el diagrama entra siempre en pantalla completa. ¿Se deja así, o se recuerda la preferencia (pantalla completa o partida) entre sesiones?
+- TODO(Rosas): En móvil la barra de controles del diagrama es una fila deslizable. ¿Se acepta el deslizamiento o se prefiere un botón «⋯» que abra un menú con las acciones menos usadas (exportar, restaurar, deshacer)?
