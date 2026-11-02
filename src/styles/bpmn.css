@@ -81,6 +81,7 @@
 .bpmn-view__body {
   flex: 1 1 0;
   min-height: 0;
+  position: relative;
   display: grid;
   grid-template-columns: 290px minmax(0, 1fr);
 }
@@ -533,6 +534,208 @@
   }
   .bpmn-catalog { border-right: 0; border-bottom: 1px solid var(--bpmn-linea); }
   .bpmn-view__head { flex-direction: column; }
+}
+
+/* --------------------------------------------------------------------------
+   Item 6 · Pantalla dividida opcional
+   El diagrama se queda en un lado; al otro va otro diagrama, el esquema de
+   áreas y procesos o el Inicio con las tarjetas de cliente y servicio.
+   -------------------------------------------------------------------------- */
+.bpmn-split {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  border-left: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+}
+.bpmn-split[hidden] { display: none; }
+
+.bpmn-split__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border-bottom: 1px solid var(--bpmn-linea);
+}
+.bpmn-split__tabs { display: flex; gap: 4px; min-width: 0; overflow-x: auto; }
+.bpmn-split__tab {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--bpmn-radio);
+  background: transparent;
+  color: var(--bpmn-texto-suave);
+  font-family: var(--font-titulo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bpmn-split__tab:hover { color: var(--bpmn-texto); }
+.bpmn-split__tab[aria-selected="true"] {
+  color: var(--bpmn-acento);
+  border-color: var(--bpmn-acento);
+  background: rgba(190, 7, 109, 0.08);
+}
+.bpmn-split__tab:focus-visible { outline: 3px solid var(--bpmn-alerta); outline-offset: 2px; }
+
+.bpmn-split__body { min-height: 0; display: grid; }
+.bpmn-split__pane { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.bpmn-split__pane[hidden] { display: none; }
+.bpmn-split__picker { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--bpmn-linea); }
+.bpmn-split__picker select {
+  width: 100%;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.8rem;
+}
+.bpmn-split__lienzo { position: relative; min-height: 0; overflow: hidden; }
+.bpmn-split__lienzo .bpmn-canvas { position: absolute; inset: 0; }
+.bpmn-split__vacio {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  padding: var(--space-4);
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--bpmn-texto-suave);
+  pointer-events: none;
+}
+.bpmn-split__vacio[hidden] { display: none; }
+.bpmn-split__scroll { min-height: 0; overflow: auto; padding: var(--space-3); }
+
+/* Esquema: columnas por área con los procesos como fichas. */
+.bpmn-esquema__intro {
+  margin: 0 0 var(--space-3);
+  font-size: 0.76rem;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-esquema__areas { display: grid; gap: var(--space-3); }
+.bpmn-esquema__area {
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  padding: var(--space-2);
+}
+.bpmn-esquema__area h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+.bpmn-esquema__chip {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: 4px;
+  padding: 7px 9px;
+  border: 1px solid var(--bpmn-linea);
+  border-left: 3px solid var(--bpmn-acento-2);
+  border-radius: var(--bpmn-radio);
+  background: var(--bpmn-panel);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.78rem;
+  text-align: left;
+  cursor: pointer;
+}
+.bpmn-esquema__chip:hover { border-color: var(--bpmn-acento); }
+.bpmn-esquema__chip.is-active {
+  border-color: var(--bpmn-acento);
+  background: rgba(190, 7, 109, 0.08);
+}
+.bpmn-esquema__chip:focus-visible { outline: 3px solid var(--bpmn-alerta); outline-offset: 2px; }
+.bpmn-esquema__chip-titulo { min-width: 0; }
+
+/* Inicio: tarjetas de cliente y de servicio. */
+.bpmn-inicio__grupo { margin-bottom: var(--space-4); }
+.bpmn-inicio__grupo h3 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+.bpmn-inicio__tarjetas { display: grid; gap: 6px; }
+.bpmn-tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+}
+.bpmn-tarjeta__nombre {
+  font-family: var(--font-titulo);
+  font-size: 0.84rem;
+  min-width: 0;
+}
+.bpmn-tarjeta__nota,
+.bpmn-tarjeta__fuente {
+  grid-column: 1 / -1;
+  font-size: 0.72rem;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-tarjeta__fuente { font-family: var(--font-mono); font-size: 0.66rem; }
+.bpmn-inicio__nota {
+  margin: 0;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--bpmn-linea);
+  font-size: 0.7rem;
+  color: var(--bpmn-texto-suave);
+}
+
+/* La vista partida con el panel al lado: el diagrama no se encoge a cero. */
+.bpmn-view.is-dividido .bpmn-view__body {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 34%);
+}
+.bpmn-view.is-completo.is-dividido .bpmn-view__body {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 34%);
+}
+/* Con la guía abierta y la pantalla dividida, la guía se superpone: no
+   divide más el diagrama. */
+.bpmn-view.is-dividido.is-guia .bpmn-guia {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 92vw);
+  z-index: 12;
+  box-shadow: -14px 0 34px rgba(7, 0, 1, 0.22);
+}
+
+@media (max-width: 900px) {
+  /* En vertical el panel va debajo del diagrama: cada uno con su alto. */
+  .bpmn-view.is-dividido .bpmn-view__body,
+  .bpmn-view.is-completo.is-dividido .bpmn-view__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(240px, 55%) minmax(0, 45%);
+  }
+  .bpmn-split { border-left: 0; border-top: 1px solid var(--bpmn-linea); }
 }
 
 /* --------------------------------------------------------------------------

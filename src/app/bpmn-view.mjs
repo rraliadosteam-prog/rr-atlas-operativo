@@ -10,6 +10,7 @@
 // la página es el diagrama, sin división (y sin scroll en móvil de 360 px).
 
 import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA } from '../bpmn/leyenda.mjs';
+import { CLIENTES, SERVICIOS, ESTADOS as ESTADOS_INICIO } from '../data/inicio-tarjetas.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 
@@ -93,6 +94,16 @@ export function createBpmnView({ root, shell, notify }) {
   const guiaCuerpo = $('[data-bpmn-guia-cuerpo]', root);
   const botonGuia = $('[data-bpmn-accion="guia"]', root);
   const botonPantalla = $('[data-bpmn-accion="pantalla"]', root);
+  // Item 6: pantalla dividida opcional. Hay dos botones «▥ Dividir»
+  // (cabecera y barra del diagrama): se actualizan juntos.
+  const botonesDividir = [...root.querySelectorAll('[data-bpmn-accion="dividir"]')];
+  const panelSplit = $('[data-bpmn-split]', root);
+  const lienzoSplit = $('[data-bpmn-split-canvas]', root);
+  const vacioSplit = $('[data-bpmn-split-vacio]', root);
+  const selectorSplit = $('[data-bpmn-split-proceso]', root);
+  const esquemaSplit = $('[data-bpmn-esquema]', root);
+  const inicioSplit = $('[data-bpmn-inicio]', root);
+  const pestanasSplit = [...root.querySelectorAll('[data-bpmn-panel]')];
   // El botón de modo vive en index.html como data-bpmn-accion="modo";
   // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
   const botonModo = $('[data-bpmn-accion="modo"]', root);
@@ -117,6 +128,11 @@ export function createBpmnView({ root, shell, notify }) {
   let visible = false;
   let guiaAbierta = false;
   let completo = false;
+  // Item 6: estado de la pantalla dividida.
+  let dividido = false;
+  let panelActivo = 'diagrama';
+  let secundario = null;
+  let procesoSecundario = '';
 
   const avisar = (mensaje) => {
     if (typeof notify === 'function') notify(mensaje);
@@ -304,6 +320,160 @@ export function createBpmnView({ root, shell, notify }) {
     requestAnimationFrame(() => requestAnimationFrame(() => encuadrar()));
   }
 
+  // ---------------------------------------------------------------------
+  // Item 6: pantalla dividida opcional.
+  // El diagrama se queda en un lado y al otro va uno de tres acompañantes:
+  // otro diagrama, el esquema de áreas y procesos, o el Inicio con las
+  // tarjetas de cliente y servicio.
+  // ---------------------------------------------------------------------
+
+  function pintarProcesosSecundarios() {
+    if (!selectorSplit) return;
+    const porArea = new Map();
+    for (const proceso of catalogo) {
+      const grupo = porArea.get(proceso.area) ?? [];
+      grupo.push(proceso);
+      porArea.set(proceso.area, grupo);
+    }
+    const partes = [];
+    for (const [area, procesos] of porArea) {
+      partes.push(`<optgroup label="${esc(area)}">`);
+      for (const proceso of procesos) {
+        const marca = proceso.id === procesoSecundario ? ' selected' : '';
+        partes.push(`<option value="${esc(proceso.id)}"${marca}>${esc(proceso.titulo)}</option>`);
+      }
+      partes.push('</optgroup>');
+    }
+    selectorSplit.innerHTML = partes.join('');
+  }
+
+  // El segundo diagrama es un visor aparte (solo ver): no toca el lienzo
+  // principal ni el informe de lint.
+  async function abrirSecundario(procesoId) {
+    if (!procesoId || !lienzoSplit) return;
+    const proceso = catalogo.find((item) => item.id === procesoId);
+    if (!proceso) return;
+    procesoSecundario = procesoId;
+    pintarProcesosSecundarios();
+    if (vacioSplit) vacioSplit.hidden = true;
+    try {
+      const modulo = await import('/src/bpmn/bpmn-bundle.mjs');
+      if (!secundario) {
+        secundario = modulo.createBpmnWorkspace({
+          container: lienzoSplit,
+          onReport: () => {},
+          onElement: () => {},
+          onChange: () => {},
+        });
+      }
+      const respuesta = await fetch(`/src/bpmn/seeds/${proceso.archivo}`, { cache: 'no-cache' });
+      if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+      const semilla = await respuesta.text();
+      const guardado = leerGuardado(proceso.id);
+      await secundario.open(guardado || semilla, { fileName: proceso.archivo, editable: false });
+      // El visor de al lado muestra el proceso entero, aunque sea pequeño.
+      requestAnimationFrame(() => secundario?.fit?.({ completo: true, forzar: true }));
+    } catch (error) {
+      if (vacioSplit) {
+        vacioSplit.hidden = false;
+        vacioSplit.textContent = `No se pudo abrir este proceso: ${error.message}`;
+      }
+    }
+  }
+
+  // El esquema: un mapa de las áreas del Atlas con sus procesos.
+  function pintarEsquema() {
+    if (!esquemaSplit) return;
+    const porArea = new Map();
+    for (const proceso of catalogo) {
+      const grupo = porArea.get(proceso.area) ?? [];
+      grupo.push(proceso);
+      porArea.set(proceso.area, grupo);
+    }
+    const partes = [
+      '<p class="bpmn-esquema__intro">Cada columna es un área del Atlas. Toca un proceso para abrirlo en el diagrama.</p>',
+      '<div class="bpmn-esquema__areas">',
+    ];
+    for (const [area, procesos] of porArea) {
+      const chips = procesos.map((proceso) => {
+        const activo = actual && actual.id === proceso.id ? ' is-active' : '';
+        const estado = ESTADOS[proceso.estado] ?? { label: proceso.estado ?? 'Sin estado', tone: 'info' };
+        return `<button type="button" class="bpmn-esquema__chip${activo}" data-bpmn-esquema-proceso="${esc(proceso.id)}">`
+          + `<span class="bpmn-esquema__chip-titulo">${esc(proceso.titulo)}</span>`
+          + `<span class="bpmn-badge bpmn-badge--${estado.tone}">${esc(estado.label)}</span>`
+          + '</button>';
+      }).join('');
+      partes.push(`<section class="bpmn-esquema__area"><h3>${esc(area)}<span>${procesos.length}</span></h3>${chips}</section>`);
+    }
+    partes.push('</div>');
+    esquemaSplit.innerHTML = partes.join('');
+  }
+
+  // El Inicio del Atlas: tarjetas de cliente y de servicio (solo nombre,
+  // estado y nota; con su fuente y su corte). Nunca cifras ni datos personales.
+  function pintarInicio() {
+    if (!inicioSplit) return;
+    const tarjeta = (item) => {
+      const estado = ESTADOS_INICIO[item.estado] ?? { label: item.estado ?? 'Sin estado', tone: 'info' };
+      return `<article class="bpmn-tarjeta" title="Fuente: ${esc(item.fuente)} · corte ${esc(item.corte)}">`
+        + `<strong class="bpmn-tarjeta__nombre">${esc(item.nombre)}</strong>`
+        + `<span class="bpmn-badge bpmn-badge--${estado.tone}">${esc(estado.label)}</span>`
+        + `<span class="bpmn-tarjeta__nota">${esc(item.nota)}</span>`
+        + `<span class="bpmn-tarjeta__fuente">${esc(item.fuente)} · ${esc(item.corte)}</span>`
+        + '</article>';
+    };
+    inicioSplit.innerHTML = [
+      '<section class="bpmn-inicio__grupo"><h3>Clientes</h3><div class="bpmn-inicio__tarjetas">',
+      CLIENTES.map(tarjeta).join(''),
+      '</div></section>',
+      '<section class="bpmn-inicio__grupo"><h3>Servicios</h3><div class="bpmn-inicio__tarjetas">',
+      SERVICIOS.map(tarjeta).join(''),
+      '</div></section>',
+      '<p class="bpmn-inicio__nota">Los estados salen del inventario de RR; lo que no está confirmado aparece como «Sin confirmar». Sin cifras ni datos de personas.</p>',
+    ].join('');
+  }
+
+  function activarPanel(nombre, { recargar = true } = {}) {
+    panelActivo = nombre;
+    for (const pestana of pestanasSplit) {
+      pestana.setAttribute('aria-selected', String(pestana.dataset.bpmnPanel === nombre));
+    }
+    for (const pane of root.querySelectorAll('[data-bpmn-pane]')) {
+      pane.hidden = pane.dataset.bpmnPane !== nombre;
+    }
+    if (nombre === 'esquema') pintarEsquema();
+    if (nombre === 'inicio') pintarInicio();
+    if (nombre === 'diagrama') {
+      // El lienzo del visor cambia de tamaño al mostrarse: se vuelve a abrir
+      // para que el diagrama quede bien encuadrado.
+      if (recargar) abrirSecundario(procesoSecundario);
+      else requestAnimationFrame(() => secundario?.fit?.({ completo: true, forzar: true }));
+    }
+  }
+
+  function aplicarDividido(valor) {
+    dividido = Boolean(valor);
+    root.classList.toggle('is-dividido', dividido);
+    document.body.classList.toggle('is-bpmn-dividido', dividido);
+    if (panelSplit) panelSplit.hidden = !dividido;
+    for (const boton of botonesDividir) {
+      boton.setAttribute('aria-pressed', String(dividido));
+      boton.textContent = dividido ? '▥ Unir' : '▥ Dividir';
+      boton.title = dividido
+        ? 'Volver a un solo diagrama en la pantalla'
+        : 'Dividir la pantalla: diagrama y panel al lado';
+    }
+    if (dividido) {
+      pintarProcesosSecundarios();
+      const otro = catalogo.find((item) => !actual || item.id !== actual.id) || catalogo[0];
+      activarPanel(panelActivo, { recargar: false });
+      if (procesoSecundario) abrirSecundario(procesoSecundario);
+      else if (otro) abrirSecundario(otro.id);
+    }
+    // El lienzo principal cambia de ancho: se vuelve a encuadrar.
+    requestAnimationFrame(() => requestAnimationFrame(() => encuadrar()));
+  }
+
   function pintarInforme(reporte) {
     if (!informe) return;
     const errores = reporte?.errors ?? [];
@@ -428,6 +598,7 @@ export function createBpmnView({ root, shell, notify }) {
     titulo.textContent = proceso.titulo;
     estado.textContent = `${proceso.area} · ${proceso.archivo}`;
     pintarCatalogo();
+    repintarEsquema();
     vacio.hidden = true;
     try {
       let contenido = xml;
@@ -618,6 +789,17 @@ export function createBpmnView({ root, shell, notify }) {
   }
 
   function alClic(event) {
+    const pestana = event.target.closest('[data-bpmn-panel]');
+    if (pestana) {
+      activarPanel(pestana.dataset.bpmnPanel);
+      return;
+    }
+    const chip = event.target.closest('[data-bpmn-esquema-proceso]');
+    if (chip) {
+      // Desde el esquema se abre el proceso en el diagrama principal.
+      location.hash = `#/bpmn/${chip.dataset.bpmnEsquemaProceso}`;
+      return;
+    }
     const boton = event.target.closest('[data-bpmn-open]');
     if (boton) {
       const id = boton.dataset.bpmnOpen;
@@ -638,6 +820,18 @@ export function createBpmnView({ root, shell, notify }) {
     if (tipo === 'pantalla') {
       aplicarCompleto(!completo);
       avisar(completo ? 'Diagrama a pantalla completa.' : 'Catálogo y diagrama a la vez.');
+    }
+    if (tipo === 'dividir') {
+      aplicarDividido(!dividido);
+      avisar(dividido
+        ? 'Pantalla dividida: el diagrama queda con el panel al lado.'
+        : 'Vuelve el diagrama a ocupar toda la pantalla.');
+      return;
+    }
+    if (tipo === 'cerrar-split') {
+      aplicarDividido(false);
+      avisar('Se cerró el panel dividido.');
+      return;
     }
     if (tipo === 'bpmn') exportar('xml');
     if (tipo === 'svg') exportar('svg');
@@ -673,6 +867,25 @@ export function createBpmnView({ root, shell, notify }) {
     filtro = event.target.value ?? '';
     pintarCatalogo();
   });
+  selectorSplit?.addEventListener('change', (event) => {
+    abrirSecundario(event.target.value);
+  });
+
+  // Al cambiar de proceso, el esquema se repinta para marcar el nuevo actual.
+  const repintarEsquema = () => {
+    if (dividido && panelActivo === 'esquema') pintarEsquema();
+  };
+
+  // El visor del segundo diagrama no se redimensiona solo: al cambiar el
+  // tamaño de la ventana hay que volver a encajarlo.
+  let temporizadorResize = 0;
+  window.addEventListener('resize', () => {
+    if (!dividido) return;
+    window.clearTimeout(temporizadorResize);
+    temporizadorResize = window.setTimeout(() => {
+      secundario?.fit?.({ completo: true, forzar: true });
+    }, 250);
+  });
 
   // Atajos de la vista BPMN: P alterna la pantalla completa, F encuadra,
   // Esc cierra la guía o sale de la pantalla completa y Ctrl/Cmd+Z deshace
@@ -693,6 +906,14 @@ export function createBpmnView({ root, shell, notify }) {
     if (!modifier && tecla === 'f' && workspace) {
       event.preventDefault();
       encuadrar();
+      return;
+    }
+    if (!modifier && tecla === 'd') {
+      event.preventDefault();
+      aplicarDividido(!dividido);
+      avisar(dividido
+        ? 'Pantalla dividida: el diagrama queda con el panel al lado.'
+        : 'Vuelve el diagrama a ocupar toda la pantalla.');
       return;
     }
     if (!modifier && event.key === 'Escape') {
@@ -756,7 +977,9 @@ export function createBpmnView({ root, shell, notify }) {
     if (shell) shell.hidden = false;
     document.body.classList.remove('is-bpmn-view');
     document.body.classList.remove('is-bpmn-completo');
+    document.body.classList.remove('is-bpmn-dividido');
     root.classList.remove('is-completo');
+    if (dividido) aplicarDividido(false);
     // El mapa vuelve a encajar cuando el shell recupera su tamaño.
     window.dispatchEvent(new Event('resize'));
   }
@@ -767,5 +990,6 @@ export function createBpmnView({ root, shell, notify }) {
     get activo() { return Boolean(actual); },
     get visible() { return visible; },
     get completo() { return completo; },
+    get dividido() { return dividido; },
   };
 }

@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-02T23:17:47.568Z",
+  "generadoEn": "2026-11-02T23:43:04.162Z",
   "viewports": [
     {
       "viewport": {
@@ -19,13 +19,13 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -23,
-                "right": 1309,
+                "left": -22,
+                "right": 1310,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -23,
+                "left": -22,
                 "right": 121,
                 "ancho": 143
               }
@@ -91,14 +91,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -85,
-                "right": 1246,
+                "left": -84,
+                "right": 1248,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -85,
-                "right": 58,
+                "left": -84,
+                "right": 60,
                 "ancho": 143
               }
             ],
@@ -169,20 +169,20 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -165,
-                "right": 1167,
+                "left": -163,
+                "right": 1169,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -165,
-                "right": -21,
+                "left": -163,
+                "right": -20,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -21,
-                "right": 1,
+                "left": -20,
+                "right": 2,
                 "ancho": 22
               }
             ],
@@ -390,37 +390,37 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -170,
+                "left": -169,
                 "right": 1162,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -170,
-                "right": -27,
+                "left": -169,
+                "right": -26,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -27,
+                "left": -26,
                 "right": -4,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -4,
-                "right": 85,
+                "right": 86,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 751,
-                "right": 773,
+                "left": 752,
+                "right": 774,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 773,
+                "left": 774,
                 "right": 826,
                 "ancho": 52
               },
@@ -445,12 +445,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 925,
-                "right": 1018,
+                "right": 1019,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1018,
+                "left": 1019,
                 "right": 1041,
                 "ancho": 22
               },
@@ -528,13 +528,13 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -250,
-                "right": 1082,
+                "left": -249,
+                "right": 1083,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -250,
+                "left": -249,
                 "right": -106,
                 "ancho": 143
               },
@@ -547,7 +547,7 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -84,
-                "right": 5,
+                "right": 6,
                 "ancho": 90
               },
               {
@@ -583,20 +583,20 @@
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 1060,
-                "right": 1082,
+                "right": 1083,
                 "ancho": 22
               },
               {
-                "elemento": "div.bpmn-menu__lista",
-                "left": 687,
-                "right": 877,
-                "ancho": 190
+                "elemento": "details.bpmn-menu",
+                "left": 776,
+                "right": 858,
+                "ancho": 82
               },
               {
-                "elemento": "button.button.button-small[data-bpmn-accion=\"agregar-tarea\"]",
-                "left": 696,
-                "right": 868,
-                "ancho": 172
+                "elemento": "summary.button.button-small",
+                "left": 776,
+                "right": 858,
+                "ancho": 82
               }
             ],
             "objetivosChicos": [],
@@ -693,7 +693,7 @@
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 361,
+                "left": 360,
                 "right": 383,
                 "ancho": 22
               },
@@ -706,18 +706,18 @@
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 469,
-                "right": 492,
+                "right": 491,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 492,
-                "right": 583,
+                "left": 491,
+                "right": 582,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 583,
+                "left": 582,
                 "right": 605,
                 "ancho": 22
               },
@@ -736,18 +736,18 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 758,
-                "right": 842,
+                "right": 841,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 842,
-                "right": 864,
+                "left": 841,
+                "right": 863,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 864,
+                "left": 863,
                 "right": 913,
                 "ancho": 49
               }

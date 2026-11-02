@@ -121,6 +121,7 @@
           </div>
         </div>
         <div class="bpmn-view__actions">
+          <button class="button button-ghost" type="button" data-bpmn-accion="dividir" aria-pressed="false" title="Dividir la pantalla: diagrama y panel al lado">▥ Dividir</button>
           <a class="button button-ghost" href="#/bpmn" data-bpmn-catalog-link>☰ Procesos</a>
           <a class="button button-ghost" href="#top" data-bpmn-back>Volver al mapa</a>
         </div>
@@ -136,6 +137,7 @@
         <section class="bpmn-stage" aria-label="Lienzo BPMN">
           <div class="bpmn-toolbar" role="toolbar" aria-label="Controles del proceso BPMN">
             <button class="button button-small" type="button" data-bpmn-accion="pantalla" aria-pressed="false" title="Abrir el diagrama a pantalla completa">⛶ Pantalla completa</button>
+            <button class="button button-small" type="button" data-bpmn-accion="dividir" aria-pressed="false" title="Dividir la pantalla: diagrama y panel al lado">▥ Dividir</button>
             <button class="button button-small" type="button" data-bpmn-accion="modo" aria-pressed="false">Editar</button>
             <button class="button button-small" type="button" data-bpmn-accion="anterior">Anterior</button>
             <button class="button button-small" type="button" data-bpmn-accion="siguiente">Siguiente</button>
@@ -197,6 +199,34 @@
             </aside>
           </div>
         </section>
+        <aside class="bpmn-split" data-bpmn-split hidden aria-label="Panel dividido">
+          <div class="bpmn-split__head">
+            <div class="bpmn-split__tabs" role="tablist" aria-label="Qué se ve al lado del diagrama">
+              <button class="bpmn-split__tab" type="button" role="tab" data-bpmn-panel="diagrama" aria-selected="true" id="bpmn-tab-diagrama" aria-controls="bpmn-panel-diagrama">Otro diagrama</button>
+              <button class="bpmn-split__tab" type="button" role="tab" data-bpmn-panel="esquema" aria-selected="false" id="bpmn-tab-esquema" aria-controls="bpmn-panel-esquema">Esquema</button>
+              <button class="bpmn-split__tab" type="button" role="tab" data-bpmn-panel="inicio" aria-selected="false" id="bpmn-tab-inicio" aria-controls="bpmn-panel-inicio">Inicio</button>
+            </div>
+            <button class="icon-button" type="button" data-bpmn-accion="cerrar-split" aria-label="Cerrar el panel dividido">×</button>
+          </div>
+          <div class="bpmn-split__body">
+            <section class="bpmn-split__pane" id="bpmn-panel-diagrama" role="tabpanel" aria-labelledby="bpmn-tab-diagrama" data-bpmn-pane="diagrama">
+              <div class="bpmn-split__picker">
+                <label class="sr-only" for="bpmn-split-proceso">Proceso del segundo diagrama</label>
+                <select id="bpmn-split-proceso" data-bpmn-split-proceso></select>
+              </div>
+              <div class="bpmn-split__lienzo">
+                <div class="bpmn-canvas bpmn-canvas--mini" data-bpmn-split-canvas></div>
+                <p class="bpmn-split__vacio" data-bpmn-split-vacio>Elige un proceso para verlo al lado.</p>
+              </div>
+            </section>
+            <section class="bpmn-split__pane" id="bpmn-panel-esquema" role="tabpanel" aria-labelledby="bpmn-tab-esquema" data-bpmn-pane="esquema" hidden>
+              <div class="bpmn-split__scroll" data-bpmn-esquema></div>
+            </section>
+            <section class="bpmn-split__pane" id="bpmn-panel-inicio" role="tabpanel" aria-labelledby="bpmn-tab-inicio" data-bpmn-pane="inicio" hidden>
+              <div class="bpmn-split__scroll" data-bpmn-inicio></div>
+            </section>
+          </div>
+        </aside>
         <aside class="bpmn-guia" id="bpmn-guia" data-bpmn-guia hidden aria-label="Guía del diagrama">
           <div class="bpmn-guia__head">
             <div>

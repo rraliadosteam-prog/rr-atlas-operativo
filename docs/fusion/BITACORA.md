@@ -312,3 +312,61 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - `docs/fusion/capturas/pantalla-bpmn-movil-390-completo.png`
 - `docs/fusion/capturas/pantalla-bpmn-movil-360-completo.png`
 - `docs/fusion/capturas/pantalla-bpmn-movil-360-guia.png`
+
+## Bloque 6 · Item 6 · Pantalla dividida opcional — 2026-11-02
+
+### Qué se hizo
+- **La pantalla se puede dividir** (item 6 del encargo): el diagrama se queda en un lado y al otro
+  va uno de tres acompañantes. Botón **«▥ Dividir»** en la cabecera de la vista y en la barra del
+  diagrama; el atajo **D** también lo alterna. Con el panel abierto el botón dice «▥ Unir».
+  - **Otro diagrama**: un segundo visor bpmn-js (solo ver) con un selector de proceso por área.
+    Es una instancia aparte: no toca el lienzo principal ni el informe de lint.
+  - **Esquema**: el mapa de las áreas del Atlas con sus procesos (16 fichas en 7 áreas). Tocar una
+    ficha abre ese proceso en el diagrama principal. El proceso abierto queda marcado.
+  - **Inicio**: tarjetas de **cliente** (11) y de **servicio** (9) con nombre, estado y nota, más la
+    fuente y el corte. Sin cifras, sin datos de personas y sin estados inventados: lo que no está
+    confirmado aparece como «Sin confirmar».
+- **Datos nuevos**: `src/data/inicio-tarjetas.mjs` (clientes y servicios con `fuente` y `corte`).
+  Es la versión mínima que funciona antes del modelo v5; el item 8 lo reemplaza por
+  `src/data/base/*.json`.
+- **`src/bpmn/entry.mjs`**: `fit({ forzar: true })` encuadra el proceso entero aunque el lienzo sea
+  angosto. El visor del panel de al lado lo usa para mostrar el diagrama completo, no el primer paso.
+- **En escritorio** el diagrama queda en 950×653 px y el panel en 489×656 px. **En móvil (390 px)**
+  el panel va debajo del diagrama (390×324 px el diagrama, 390×201 px el panel): no hay scroll
+  horizontal ni vertical.
+- La **guía del diagrama** (item 4), con la pantalla dividida, se superpone sobre el panel en vez de
+  partir el lienzo en otra columna.
+
+### Estado de los checks
+- `npm run check`: **verde** — 202 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores fuera de la deuda documentada.
+- `npm run verificar:dividido` (nuevo, `scripts/verificar-dividido.mjs`): **verde** — escritorio 1440×900
+  y móvil 390×844 con clics reales: el panel abre, el diagrama principal sigue con sus 49 formas, el
+  segundo diagrama dibuja 66 formas visibles, el esquema lista 16 procesos en 7 áreas y al tocar uno se
+  abre en el diagrama principal, el Inicio muestra 20 tarjetas (11 clientes), «×» cierra el panel y la
+  tecla D lo vuelve a abrir. 0 errores de consola.
+- `npm run verificar:pantalla`, `npm run verificar:guia`, `npm run verificar:bpmn-edicion` y
+  `npm run audit:ux`: **verdes** (no se rompió nada de los items 3, 4 y 5).
+
+### Hallazgos / riesgos
+- El visor del panel de al lado es de solo lectura: no se edita desde ahí (a propósito, para no tener
+  dos lienzos editables compitiendo por el mismo proceso).
+- El esquema se arma con el catálogo de semillas (16 procesos, 7 áreas). Cuando el item 8 modele los
+  procesos del guion §6 que faltan, el esquema crece automáticamente porque lee el mismo índice.
+- Los estados de clientes y servicios son lectura del inventario; los que no tienen estado escrito en
+  la fuente van como «Sin confirmar». Queda en `docs/fusion/PREGUNTAS.md` para que Rosas los ajuste.
+
+### Pendiente del bloque
+- Item 7: responsive profundo de escritorio y móvil (gestos táctiles en el tablero, navegación móvil,
+  animaciones con sentido) y el clic en los nodos del mapa a 768/360 px.
+- Item 8: fase 2 (modelo de datos v5) y fases restantes del mega prompt.
+
+### Capturas
+- `docs/fusion/capturas/dividido-escritorio-1440-diagrama.png`
+- `docs/fusion/capturas/dividido-escritorio-1440-esquema.png`
+- `docs/fusion/capturas/dividido-escritorio-1440-inicio.png`
+- `docs/fusion/capturas/dividido-escritorio-1440-completo.png`
+- `docs/fusion/capturas/dividido-movil-390-diagrama.png`
+- `docs/fusion/capturas/dividido-movil-390-esquema.png`
+- `docs/fusion/capturas/dividido-movil-390-inicio.png`
+- `docs/fusion/capturas/dividido-movil-390-completo.png`
