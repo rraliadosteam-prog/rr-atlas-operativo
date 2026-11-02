@@ -28,6 +28,18 @@
 
 .bpmn-view[hidden] { display: none; }
 
+/* La vista BPMN va sobre crema: los botones de texto claro del shell (cream)
+   quedaban ilegibles (contraste 1.01:1). Aquí se pasan a tinta RR. */
+.bpmn-view .button-ghost {
+  color: var(--rr-negro);
+  border-color: rgba(7, 0, 1, 0.28);
+}
+.bpmn-view .button-ghost:hover,
+.bpmn-view .button-ghost:focus-visible {
+  color: var(--rr-fucsia);
+  border-color: var(--rr-fucsia);
+}
+
 .bpmn-view__head {
   display: flex;
   align-items: flex-start;

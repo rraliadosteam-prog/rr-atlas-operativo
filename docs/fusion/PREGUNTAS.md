@@ -16,6 +16,14 @@ Formato: `TODO(Rosas): ...`
 - TODO(Rosas): Ninguna de las 16 semillas pasa el lint sin avisos (8 tienen la deuda documentada `no-gateway-join-fork`). ¿Se repara el modelado de esas compuertas (fase 5) o se acepta la deuda visible en la app?
 - TODO(Rosas): En móvil (≤760px) el acceso a BPMN queda oculto hasta que exista la tabbar de la fase 6. ¿Se aprueba esa espera o el enlace debe quedar visible en la barra superior?
 
+## Abiertas por la auditoría UX/UI (2026-11-02, bloque 2)
+
+- TODO(Rosas): El diagrama BPMN hoy no se puede abrir en tablet (768 px) ni en móvil (360 px) porque el lienzo queda con 0 px de alto. ¿Se aprueba que el catálogo BPMN solo exista en escritorio hasta la fase de responsive, o el diagrama debe abrir en todas las pantallas (modo pantalla completa)?
+- TODO(Rosas): En 768 px la barra superior se sale de la pantalla (el botón «Añadir nodo» queda a 103 px del borde). ¿Se compactan los botones de la barra o «Añadir nodo» pasa al panel lateral?
+- TODO(Rosas): En tablet el nodo del mapa queda en 23×12 px y en móvil los botones del nodo en 31×31 px. ¿Se sube el tamaño mínimo de tarjeta o se deja el mapa pensado solo para zoom con ratón?
+- TODO(Rosas): En el mapa, una búsqueda sin resultados deja el lienzo vacío sin aviso. ¿Se muestra un estado vacío («no encontramos ese nodo») o basta con el aviso al pulsar Enter?
+- TODO(Rosas): Las 16 semillas BPMN siguen marcadas como «borrador» o «con deuda» porque ninguna pasa el lint sin avisos. ¿Se reparan en la fase 5 o se acepta la deuda visible en la app?
+
 ## Resueltas por Rosas (2026-11-02 17:01)
 - RESUELTO: título «RR Aliados · Atlas operativo».
 - RESUELTO: tipografía Inter Tight + Lexend.

@@ -36,7 +36,9 @@ export function createBpmnView({ root, shell, notify }) {
   const inspector = $('[data-bpmn-inspector]', root);
   const inspectorTitulo = $('[data-bpmn-element-title]', root);
   const inspectorMeta = $('[data-bpmn-element-meta]', root);
-  const botonModo = $('[data-bpmn-mode]', root);
+  // El botón de modo vive en index.html como data-bpmn-accion="modo";
+  // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
+  const botonModo = $('[data-bpmn-accion="modo"]', root);
   const buscador = $('[data-bpmn-search]', root);
 
   let catalogo = [];

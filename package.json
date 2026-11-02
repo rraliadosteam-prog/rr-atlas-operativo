@@ -10,6 +10,7 @@
     "test": "node --test \"src/**/*.test.mjs\" \"scripts/**/*.test.mjs\" scripts/test-persistence.mjs",
     "preview:local": "node scripts/build.mjs --local && python3 -m http.server 4175 --bind 127.0.0.1 --directory dist",
     "audit:visual": "node scripts/audit-visual.mjs",
+    "audit:ux": "node scripts/auditoria-ux-fusion.mjs",
     "lint:bpmn": "node scripts/validate-bpmn.mjs",
     "fixture:flujos": "node scripts/generar-fixture-flujos.mjs",
     "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build"

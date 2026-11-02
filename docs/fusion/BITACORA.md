@@ -92,3 +92,45 @@ Reglas de este archivo: una entrada por fase, en español de Colombia, sin secre
 ### Capturas
 - `docs/fusion/capturas/bloque1-flujo-escritorio-1440.png`
 - `docs/fusion/capturas/bloque1-flujo-movil-390.png`
+
+## Bloque 2 · Item 2 · Auditoría UX/UI completa — 2026-11-02
+
+### Qué se hizo
+- **`scripts/auditoria-ux-fusion.mjs` (nuevo, `npm run audit:ux`)**: auditoría repetible con Playwright headless + Chrome
+  real sobre `dist/`. Recorre el mapa vivo, el catálogo BPMN y un proceso (49 formas, 3 carriles) en **1440×900, 768×1024 y
+  360×740**, mide overflow, contraste WCAG, objetivos táctiles y cajas, ejecuta los cuatro recorridos (ver, navegar, editar,
+  exportar) y guarda 17 capturas en `docs/fusion/capturas/auditoria/`. Datos crudos en `docs/fusion/AUDITORIA_UX.json`.
+- **`docs/fusion/AUDITORIA_UX.md` (nuevo)**: informe con 18 bugs clasificados (4 críticos, 5 altos, 6 medios, 2 bajos),
+  tablas de medición por viewport y el resultado de cada recorrido por ancho.
+- **Correcciones aplicadas de los bugs encontrados**:
+  1. `src/app/bpmn-view.mjs`: el botón de modo buscaba `[data-bpmn-mode]`, atributo que **no existe** en `index.html`
+     (el real es `data-bpmn-accion="modo"`). Al hacer clic en «Editar» se lanzaba `TypeError: Cannot set properties of null`
+     y **el modo de edición nunca se activaba**. Ahora cambia a «Ver» y aparece la paleta de bpmn-js.
+  2. `src/styles/bpmn.css`: los botones de la vista BPMN usan tinta RR sobre crema. «Volver al mapa» estaba en crema sobre
+     crema (**contraste 1,01:1**, ilegible).
+  3. `index.html` + `src/styles/rr-tree.css`: «Volver al hub RR» queda oculto (decisión de Rosas) y `hidden` gana sobre
+     `display:inline-flex` (el enlace apuntaba a `http://localhost:8081/`, roto en producción).
+
+### Estado de los checks
+- `npm run check`: **verde** — 202 tests pass, 0 fail, build ok.
+- `npm run audit:ux`: **verde** — 3 viewports × 7 pasos, 0 errores de consola tras las correcciones.
+- Sonda de verificación: hub `hidden: true`; «Volver al mapa» en `rgb(7,0,1)` sobre crema; modo = «Ver» con paleta visible.
+
+### Hallazgos / riesgos
+- 🔴 **El diagrama BPMN no abre en tablet ni en móvil**: `.bpmn-canvas` queda con 0 px de alto y el `svg` de bpmn-js nunca
+  se monta. Bloquea los items 3, 5 y 7 del encargo.
+- 🔴 En 768 px la barra superior se sale de la pantalla (`div.top-actions` termina en `right: 871`): «Guía» y «＋ Añadir
+  nodo» quedan inalcanzables.
+- 🟠 El inspector de elemento del diagrama no aparece al hacer clic en una forma y «Siguiente» no avanza el paso: hoy solo
+  se puede *ver* el dibujo, no recorrerlo ni editarlo (requisitos §8.4–8.7 del mega prompt).
+- 🟠 Los nodos del mapa no son clicables a 768/360 y quedan en 23×12 px; los botones del nodo en 31×31 px.
+- 🟡 Una búsqueda sin resultados deja el lienzo vacío sin aviso; el toolbar BPMN mide 165 px en móvil; el topbar 172 px.
+
+### Pendiente del bloque
+- Item 3 del encargo: BPMN editable en sitio. Orden sugerido en `AUDITORIA_UX.md` §6: (1) altura del lienzo + diagrama a
+  pantalla completa, (2) inspector y `step()`, (3) edición directa de etiquetas y colores RR, (4) guardado en el modelo v5.
+- Decisiones abiertas para Rosas añadidas a `docs/fusion/PREGUNTAS.md` (5 preguntas nuevas).
+
+### Capturas
+- `docs/fusion/capturas/auditoria/` (17 capturas: mapa, navegar, catálogo, proceso, edición, export, vuelta al mapa en
+  1440, 768 y 360).

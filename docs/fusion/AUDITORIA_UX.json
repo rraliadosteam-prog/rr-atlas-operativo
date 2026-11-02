@@ -1,0 +1,873 @@
+{
+  "generadoEn": "2026-11-02T22:12:23.901Z",
+  "viewports": [
+    {
+      "viewport": {
+        "nombre": "escritorio-1440",
+        "width": 1440,
+        "height": 900,
+        "movil": false
+      },
+      "pasos": [
+        {
+          "nombre": "mapa-vivo",
+          "ok": true,
+          "layout": {
+            "scrollWidth": 1440,
+            "clientWidth": 1440,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -22,
+                "right": 1310,
+                "ancho": 1332
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -22,
+                "right": 121,
+                "ancho": 143
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 900
+          },
+          "cajas": {
+            "topbar": {
+              "alto": 81
+            },
+            "rail": {
+              "ancho": 255,
+              "visible": true
+            },
+            "busqueda": {
+              "ancho": 620,
+              "visible": true
+            },
+            "botonBpmn": {
+              "visible": true,
+              "ancho": 92
+            },
+            "botonHub": {
+              "visible": true
+            },
+            "nodo": {
+              "ancho": 55,
+              "alto": 27
+            },
+            "minimapa": {
+              "visible": false
+            },
+            "tabbar": {
+              "visible": false
+            }
+          },
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-01-mapa-vivo.png"
+        },
+        {
+          "nombre": "navegar",
+          "ok": true,
+          "busqueda": {
+            "antes": 71,
+            "despues": 0,
+            "filtra": true
+          },
+          "inspector": {
+            "visible": true,
+            "titulo": "RR Labs"
+          },
+          "migas": "RR Labs",
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-02-navegar-inspector.png"
+        },
+        {
+          "nombre": "bpmn-catalogo",
+          "ok": true,
+          "layout": {
+            "scrollWidth": 1440,
+            "clientWidth": 1440,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -85,
+                "right": 1246,
+                "ancho": 1332
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -85,
+                "right": 58,
+                "ancho": 143
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 900
+          },
+          "cajas": {
+            "vista": {
+              "ancho": 1440,
+              "alto": 376
+            },
+            "catalogo": {
+              "ancho": 290
+            },
+            "area": {
+              "ancho": 265
+            },
+            "tarjeta": {
+              "ancho": 332,
+              "alto": 82
+            },
+            "toolbarVisible": {
+              "visible": true,
+              "alto": 61
+            }
+          },
+          "areas": [
+            "Dirección",
+            "Comercial y captación",
+            "Entrega de servicios",
+            "Finanzas (flujos)",
+            "Operación de bots e IA",
+            "Soporte",
+            "Legal y administrativo"
+          ],
+          "tarjetas": 16,
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-03-bpmn-catalogo.png"
+        },
+        {
+          "nombre": "bpmn-ver",
+          "ok": true,
+          "estado": {
+            "hash": "#/bpmn/ventas_como_una_oportunidad_se_convierte_en_cliente",
+            "formas": 49,
+            "carriles": 3,
+            "titulo": "Oportunidad a cliente",
+            "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
+            "lienzo": {
+              "ancho": 1150,
+              "alto": 147
+            }
+          },
+          "inspector": {
+            "visible": false,
+            "titulo": "Elemento",
+            "meta": ""
+          },
+          "recorrido": {
+            "antes": "Comercial y captación · paso 1 de 11 · Llega alguien",
+            "despues": "Comercial y captación · paso 1 de 11 · Llega alguien",
+            "avanza": false
+          },
+          "layout": {
+            "scrollWidth": 1440,
+            "clientWidth": 1440,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -268,
+                "right": 1064,
+                "ancho": 1332
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -268,
+                "right": -125,
+                "ancho": 143
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": -125,
+                "right": -103,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -103,
+                "right": -13,
+                "ancho": 90
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": -13,
+                "right": 9,
+                "ancho": 22
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 900
+          },
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-04-bpmn-proceso-ver.png"
+        },
+        {
+          "nombre": "bpmn-editar",
+          "ok": true,
+          "modo": {
+            "etiqueta": "Ver",
+            "paleta": true,
+            "contextPad": false,
+            "editable": false
+          },
+          "edicionDirecta": {
+            "disponible": false
+          },
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-05-bpmn-editar.png"
+        },
+        {
+          "nombre": "exportar",
+          "ok": true,
+          "descargas": [
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
+              "bytes": 15525
+            },
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
+              "bytes": 38636
+            },
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
+              "bytes": 413383
+            },
+            {
+              "archivo": "rr-atlas-arbol.json",
+              "bytes": 80471
+            }
+          ],
+          "toast": {
+            "visible": true,
+            "texto": "JSON versionado exportado."
+          },
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-06-exportar.png"
+        },
+        {
+          "nombre": "volver-al-mapa",
+          "ok": true,
+          "estado": {
+            "hash": "#top",
+            "bpmnOculto": true,
+            "shellVisible": true,
+            "scrollHorizontal": 0
+          },
+          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-07-volver-al-mapa.png"
+        }
+      ],
+      "consola": []
+    },
+    {
+      "viewport": {
+        "nombre": "tableta-768",
+        "width": 768,
+        "height": 1024,
+        "movil": false
+      },
+      "pasos": [
+        {
+          "nombre": "mapa-vivo",
+          "ok": true,
+          "layout": {
+            "scrollWidth": 768,
+            "clientWidth": 768,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.top-actions",
+                "left": 512,
+                "right": 871,
+                "ancho": 359
+              },
+              {
+                "elemento": "button.button.button-ghost[data-action=\"help\"]",
+                "left": 719,
+                "right": 784,
+                "ancho": 65
+              },
+              {
+                "elemento": "button.button.button-primary[data-action=\"add-node\"]",
+                "left": 792,
+                "right": 871,
+                "ancho": 79
+              },
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -22,
+                "right": 1310,
+                "ancho": 1332
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -22,
+                "right": 122,
+                "ancho": 143
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 644,
+                "right": 787,
+                "ancho": 143
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 787,
+                "right": 810,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 810,
+                "right": 899,
+                "ancho": 90
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 899,
+                "right": 921,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 921,
+                "right": 974,
+                "ancho": 52
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 974,
+                "right": 996,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 996,
+                "right": 1051,
+                "ancho": 55
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 1024
+          },
+          "cajas": {
+            "topbar": {
+              "alto": 96
+            },
+            "rail": {
+              "ancho": 210,
+              "visible": true
+            },
+            "busqueda": {
+              "ancho": 246,
+              "visible": true
+            },
+            "botonBpmn": {
+              "visible": true,
+              "ancho": 92
+            },
+            "botonHub": {
+              "visible": true
+            },
+            "nodo": {
+              "ancho": 23,
+              "alto": 12
+            },
+            "minimapa": {
+              "visible": false
+            },
+            "tabbar": {
+              "visible": false
+            }
+          },
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-01-mapa-vivo.png"
+        },
+        {
+          "nombre": "navegar",
+          "ok": false,
+          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.node-card')\n    - locator resolved to 71 elements. Proceeding with the first one: <article tabindex=\"0\" role=\"button\" data-id=\"rr-labs\" class=\"node-card node-root tone-ink lod-low\" aria-label=\"RR Labs, root, Sistema completo\">"
+        },
+        {
+          "nombre": "bpmn-catalogo",
+          "ok": true,
+          "layout": {
+            "scrollWidth": 768,
+            "clientWidth": 768,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "header.topbar",
+                "left": -103,
+                "right": 665,
+                "ancho": 768
+              },
+              {
+                "elemento": "a.brand",
+                "left": -75,
+                "right": 115,
+                "ancho": 190
+              },
+              {
+                "elemento": "span.brand-mark",
+                "left": -75,
+                "right": -33,
+                "ancho": 42
+              },
+              {
+                "elemento": "img.brand-mark__png",
+                "left": -75,
+                "right": -33,
+                "ancho": 42
+              },
+              {
+                "elemento": "span",
+                "left": -21,
+                "right": 73,
+                "ancho": 94
+              },
+              {
+                "elemento": "strong",
+                "left": -21,
+                "right": 73,
+                "ancho": 94
+              },
+              {
+                "elemento": "small",
+                "left": -21,
+                "right": 73,
+                "ancho": 94
+              },
+              {
+                "elemento": "div.atlas-ticker.rr-marquee[data-ticker=\"\"]",
+                "left": -103,
+                "right": 665,
+                "ancho": 768
+              },
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -272,
+                "right": 1060,
+                "ancho": 1332
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -272,
+                "right": -128,
+                "ancho": 143
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": -128,
+                "right": -106,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -106,
+                "right": -17,
+                "ancho": 90
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 1024
+          },
+          "cajas": {
+            "vista": {
+              "ancho": 768,
+              "alto": 431
+            },
+            "catalogo": {
+              "ancho": 768
+            },
+            "area": {
+              "ancho": 744
+            },
+            "tarjeta": {
+              "ancho": 744,
+              "alto": 60
+            },
+            "toolbarVisible": {
+              "visible": true,
+              "alto": 113
+            }
+          },
+          "areas": [
+            "Dirección",
+            "Comercial y captación",
+            "Entrega de servicios",
+            "Finanzas (flujos)",
+            "Operación de bots e IA",
+            "Soporte",
+            "Legal y administrativo"
+          ],
+          "tarjetas": 16,
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-03-bpmn-catalogo.png"
+        },
+        {
+          "nombre": "bpmn-ver",
+          "ok": false,
+          "error": "page.waitForSelector: Timeout 25000ms exceeded.\nCall log:\n  - waiting for locator('.bpmn-canvas .djs-container svg') to be visible\n    51 × locator resolved to hidden <svg width=\"100%\" tabindex=\"0\" height=\"100%\" data-element-id=\"collab_1\">…</svg>\n"
+        },
+        {
+          "nombre": "bpmn-editar",
+          "ok": true,
+          "modo": {
+            "etiqueta": "Ver",
+            "paleta": true,
+            "contextPad": false,
+            "editable": false
+          },
+          "edicionDirecta": {
+            "disponible": false
+          },
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-05-bpmn-editar.png"
+        },
+        {
+          "nombre": "exportar",
+          "ok": true,
+          "descargas": [
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
+              "bytes": 15525
+            },
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
+              "bytes": 38615
+            },
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
+              "bytes": 407347
+            },
+            {
+              "archivo": "rr-atlas-arbol.json",
+              "bytes": 80471
+            }
+          ],
+          "toast": {
+            "visible": true,
+            "texto": "JSON versionado exportado."
+          },
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-06-exportar.png"
+        },
+        {
+          "nombre": "volver-al-mapa",
+          "ok": true,
+          "estado": {
+            "hash": "#top",
+            "bpmnOculto": true,
+            "shellVisible": true,
+            "scrollHorizontal": 0
+          },
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-07-volver-al-mapa.png"
+        }
+      ],
+      "consola": []
+    },
+    {
+      "viewport": {
+        "nombre": "movil-360",
+        "width": 360,
+        "height": 740,
+        "movil": true
+      },
+      "pasos": [
+        {
+          "nombre": "mapa-vivo",
+          "ok": true,
+          "layout": {
+            "scrollWidth": 360,
+            "clientWidth": 360,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -23,
+                "right": 1229,
+                "ancho": 1252
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -23,
+                "right": 108,
+                "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 358,
+                "right": 381,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 381,
+                "right": 467,
+                "ancho": 86
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 467,
+                "right": 489,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 489,
+                "right": 580,
+                "ancho": 91
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 580,
+                "right": 603,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 603,
+                "right": 734,
+                "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 734,
+                "right": 756,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 756,
+                "right": 839,
+                "ancho": 83
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 839,
+                "right": 861,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 861,
+                "right": 911,
+                "ancho": 49
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 740
+          },
+          "cajas": {
+            "topbar": {
+              "alto": 172
+            },
+            "rail": {
+              "ancho": 360,
+              "visible": true
+            },
+            "busqueda": {
+              "ancho": 336,
+              "visible": true
+            },
+            "botonBpmn": {
+              "visible": false,
+              "ancho": 0
+            },
+            "botonHub": {
+              "visible": true
+            },
+            "nodo": {
+              "ancho": 189,
+              "alto": 95
+            },
+            "minimapa": {
+              "visible": false
+            },
+            "tabbar": {
+              "visible": false
+            }
+          },
+          "captura": "docs/fusion/capturas/auditoria/movil-360-01-mapa-vivo.png"
+        },
+        {
+          "nombre": "navegar",
+          "ok": false,
+          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.node-card')\n    - locator resolved to 71 elements. Proceeding with the first one: <article tabindex=\"0\" role=\"button\" data-id=\"rr-labs\" class=\"node-card node-root tone-ink lod-mid\" aria-label=\"RR Labs, root, Sistema completo\">"
+        },
+        {
+          "nombre": "bpmn-catalogo",
+          "ok": true,
+          "layout": {
+            "scrollWidth": 360,
+            "clientWidth": 360,
+            "overflowHorizontal": false,
+            "desborde": [
+              {
+                "elemento": "div.rr-marquee__track.atlas-ticker__track",
+                "left": -161,
+                "right": 1091,
+                "ancho": 1252
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -161,
+                "right": -30,
+                "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": -30,
+                "right": -7,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -7,
+                "right": 76,
+                "ancho": 83
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 352,
+                "right": 443,
+                "ancho": 91
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 443,
+                "right": 465,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 465,
+                "right": 596,
+                "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 596,
+                "right": 619,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 619,
+                "right": 702,
+                "ancho": 83
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 702,
+                "right": 724,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 724,
+                "right": 773,
+                "ancho": 49
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 773,
+                "right": 795,
+                "ancho": 22
+              }
+            ],
+            "objetivosChicos": [],
+            "contraste": [],
+            "alto": 740
+          },
+          "cajas": {
+            "vista": {
+              "ancho": 360,
+              "alto": 253
+            },
+            "catalogo": {
+              "ancho": 360
+            },
+            "area": {
+              "ancho": 336
+            },
+            "tarjeta": {
+              "ancho": 336,
+              "alto": 82
+            },
+            "toolbarVisible": {
+              "visible": true,
+              "alto": 165
+            }
+          },
+          "areas": [
+            "Dirección",
+            "Comercial y captación",
+            "Entrega de servicios",
+            "Finanzas (flujos)",
+            "Operación de bots e IA",
+            "Soporte",
+            "Legal y administrativo"
+          ],
+          "tarjetas": 16,
+          "captura": "docs/fusion/capturas/auditoria/movil-360-03-bpmn-catalogo.png"
+        },
+        {
+          "nombre": "bpmn-ver",
+          "ok": false,
+          "error": "page.waitForSelector: Timeout 25000ms exceeded.\nCall log:\n  - waiting for locator('.bpmn-canvas .djs-container svg') to be visible\n    52 × locator resolved to hidden <svg width=\"100%\" tabindex=\"0\" height=\"100%\" data-element-id=\"collab_1\">…</svg>\n"
+        },
+        {
+          "nombre": "bpmn-editar",
+          "ok": true,
+          "modo": {
+            "etiqueta": "Ver",
+            "paleta": true,
+            "contextPad": false,
+            "editable": false
+          },
+          "edicionDirecta": {
+            "disponible": false
+          },
+          "captura": "docs/fusion/capturas/auditoria/movil-360-05-bpmn-editar.png"
+        },
+        {
+          "nombre": "exportar",
+          "ok": true,
+          "descargas": [
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
+              "bytes": 15525
+            },
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
+              "bytes": 38658
+            },
+            {
+              "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
+              "bytes": 416208
+            }
+          ],
+          "toast": {
+            "visible": false,
+            "texto": "Archivo exportado."
+          },
+          "captura": "docs/fusion/capturas/auditoria/movil-360-06-exportar.png"
+        },
+        {
+          "nombre": "volver-al-mapa",
+          "ok": true,
+          "estado": {
+            "hash": "#top",
+            "bpmnOculto": true,
+            "shellVisible": true,
+            "scrollHorizontal": 0
+          },
+          "captura": "docs/fusion/capturas/auditoria/movil-360-07-volver-al-mapa.png"
+        }
+      ],
+      "consola": []
+    }
+  ]
+}

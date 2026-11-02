@@ -341,6 +341,10 @@ body::before {
 }
 
 /* Enlace "Volver al hub RR" ---------------------------------------------- */
+/* "hidden" debe ganar a display:flex/inline-flex de los botones. */
+.button-hub[hidden],
+.button[hidden] { display: none; }
+
 .button-hub {
   border: 2px solid var(--ink);
   border-radius: 0;
