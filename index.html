@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="RR Labs · Atlas de procesos y bots">
-  <title>RR Labs · Atlas de procesos</title>
+  <meta name="description" content="RR Aliados · Atlas operativo de procesos y bots">
+  <title>RR Aliados · Atlas operativo</title>
   <link rel="icon" type="image/png" href="/src/rr-estilo/logos/simbolo_transparent_mostaza.png">
   <!-- Sistema de diseño único RR (vendorizado desde ~/rr-estilo) -->
   <link rel="stylesheet" href="/src/rr-estilo/tokens.css">
@@ -18,11 +18,11 @@
 <body>
   <div class="app" id="rr-app">
     <header class="topbar">
-      <a class="brand" href="#top" aria-label="RR Labs, inicio">
+      <a class="brand" href="#top" aria-label="RR Aliados, inicio">
         <span class="brand-mark" aria-hidden="true">
           <img class="brand-mark__png" src="/src/rr-estilo/logos/simbolo_transparent_mostaza.png" alt="" width="42" height="42" decoding="async">
         </span>
-        <span><strong>RR LABS</strong><small>Atlas de procesos</small></span>
+        <span><strong>RR ALIADOS</strong><small>Atlas operativo</small></span>
       </a>
       <div class="searchbar" role="search">
         <label class="sr-only" for="node-search">Buscar en el Atlas</label>
@@ -137,6 +137,7 @@
             <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar">＋</button>
             <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar">−</button>
             <button class="button button-small" type="button" data-bpmn-accion="encuadrar">Encuadrar</button>
+            <button class="button button-small" type="button" data-bpmn-accion="guia" aria-pressed="false" aria-controls="bpmn-guia">Guía del diagrama</button>
             <details class="bpmn-menu">
               <summary class="button button-small">＋ Añadir</summary>
               <div class="bpmn-menu__lista">
@@ -191,6 +192,16 @@
             </aside>
           </div>
         </section>
+        <aside class="bpmn-guia" id="bpmn-guia" data-bpmn-guia hidden aria-label="Guía del diagrama">
+          <div class="bpmn-guia__head">
+            <div>
+              <span class="eyebrow">Guía del diagrama</span>
+              <h2 data-bpmn-guia-titulo>Qué busca este diagrama</h2>
+            </div>
+            <button class="icon-button" type="button" data-bpmn-accion="cerrar-guia" aria-label="Cerrar la guía">×</button>
+          </div>
+          <div class="bpmn-guia__body" data-bpmn-guia-cuerpo></div>
+        </aside>
       </div>
       <div class="bpmn-report" data-bpmn-report role="status" aria-live="polite"></div>
     </section>

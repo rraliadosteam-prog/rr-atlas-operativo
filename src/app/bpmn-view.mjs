@@ -4,6 +4,10 @@
 //
 // Item 3 del encargo (BPMN editable en sitio): todo elemento (eventos, tareas,
 // compuertas y carriles) se puede editar, crear y guardar; los colores son los de RR.
+// Item 4 del encargo: panel por diagrama con qué busca, cómo se lee y la leyenda
+// de símbolos y colores (src/bpmn/leyenda.mjs).
+
+import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA } from '../bpmn/leyenda.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 
@@ -82,6 +86,10 @@ export function createBpmnView({ root, shell, notify }) {
   const formulario = $('[data-bpmn-form]', root);
   const pista = $('[data-bpmn-pista]', root);
   const insignia = $('[data-bpmn-insignia]', root);
+  const guia = $('[data-bpmn-guia]', root);
+  const guiaTitulo = $('[data-bpmn-guia-titulo]', root);
+  const guiaCuerpo = $('[data-bpmn-guia-cuerpo]', root);
+  const botonGuia = $('[data-bpmn-accion="guia"]', root);
   // El botón de modo vive en index.html como data-bpmn-accion="modo";
   // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
   const botonModo = $('[data-bpmn-accion="modo"]', root);
@@ -104,6 +112,7 @@ export function createBpmnView({ root, shell, notify }) {
   let seleccion = null;
   let filtro = '';
   let visible = false;
+  let guiaAbierta = false;
 
   const avisar = (mensaje) => {
     if (typeof notify === 'function') notify(mensaje);
@@ -189,6 +198,79 @@ export function createBpmnView({ root, shell, notify }) {
       partes.push('</ul></section>');
     }
     lista.innerHTML = partes.join('');
+  }
+
+  // Panel por diagrama (item 4 del encargo): qué busca el diagrama, cómo se lee
+  // y la leyenda de símbolos y colores de la marca RR.
+  function pintarGuia() {
+    if (!guiaCuerpo) return;
+    const ficha = actual ? fichaDeProceso(actual.id) : null;
+    const partes = [];
+    if (ficha) {
+      partes.push(
+        '<section class="bpmn-guia__bloque"><h3>Qué busca este diagrama</h3>'
+        + `<p>${esc(ficha.objetivo)}</p></section>`,
+      );
+      partes.push(
+        '<section class="bpmn-guia__bloque"><h3>Cómo empieza y qué entrega</h3>'
+        + `<dl class="bpmn-guia__datos"><dt>Disparador</dt><dd>${esc(ficha.disparador)}</dd>`
+        + `<dt>Resultado</dt><dd>${esc(ficha.resultado)}</dd></dl></section>`,
+      );
+      if (ficha.pasos?.length) {
+        partes.push(
+          '<section class="bpmn-guia__bloque"><h3>El camino, paso a paso</h3>'
+          + `<ol class="bpmn-guia__pasos">${ficha.pasos.map((paso) => `<li>${esc(paso)}</li>`).join('')}</ol></section>`,
+        );
+      }
+      if (ficha.ojo) {
+        partes.push(`<p class="bpmn-guia__ojo"><strong>Para mirar:</strong> ${esc(ficha.ojo)}</p>`);
+      }
+    }
+    partes.push(
+      '<section class="bpmn-guia__bloque"><h3>Cómo se lee un diagrama</h3>'
+      + `<ol class="bpmn-guia__pasos">${COMO_LEER.map((linea) => `<li>${esc(linea)}</li>`).join('')}</ol></section>`,
+    );
+    partes.push(
+      '<section class="bpmn-guia__bloque"><h3>Leyenda de símbolos</h3><ul class="bpmn-guia__simbolos">'
+      + SIMBOLOS.map((simbolo) => (
+        '<li>'
+        + `<span class="bpmn-guia__glifo" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false">${simbolo.glifo}</svg></span>`
+        + `<span class="bpmn-guia__leyenda__texto"><strong>${esc(simbolo.nombre)}</strong><span>${esc(simbolo.descripcion)}</span></span>`
+        + '</li>'
+      )).join('')
+      + '</ul></section>',
+    );
+    partes.push(
+      '<section class="bpmn-guia__bloque"><h3>Leyenda de colores</h3><ul class="bpmn-guia__colores">'
+      + COLORES.map((color) => (
+        '<li>'
+        + `<span class="bpmn-guia__muestra" style="--rr-guia-color: var(${esc(color.variable)})" aria-hidden="true"></span>`
+        + `<span class="bpmn-guia__leyenda__texto"><strong>${esc(color.nombre)}</strong><span>${esc(color.uso)}</span></span>`
+        + '</li>'
+      )).join('')
+      + '</ul></section>',
+    );
+    partes.push(`<p class="bpmn-guia__fuente"><strong>Fuente:</strong> ${esc(FUENTE_GUIA)}<br><strong>Corte:</strong> ${esc(CORTE_GUIA)}</p>`);
+    guiaCuerpo.innerHTML = partes.join('');
+    if (guiaTitulo) guiaTitulo.textContent = actual ? actual.titulo : 'Qué busca este diagrama';
+  }
+
+  function alternarGuia(forzar) {
+    guiaAbierta = typeof forzar === 'boolean' ? forzar : !guiaAbierta;
+    if (guia) guia.hidden = !guiaAbierta;
+    root.classList.toggle('is-guia', guiaAbierta);
+    if (botonGuia) {
+      botonGuia.setAttribute('aria-pressed', String(guiaAbierta));
+      botonGuia.textContent = guiaAbierta ? 'Cerrar guía' : 'Guía del diagrama';
+    }
+    if (guiaAbierta) {
+      pintarGuia();
+      // En vertical la guía queda debajo del diagrama: se trae a la vista
+      // para que no parezca que no se abrió.
+      if (window.matchMedia?.('(max-width: 900px)').matches) {
+        guia?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    }
   }
 
   function pintarInforme(reporte) {
@@ -300,6 +382,8 @@ export function createBpmnView({ root, shell, notify }) {
         }
       },
     });
+    // Gancho de depuración: permite auditar el diagrama desde la consola.
+    window.__rrAtlasBpmn = workspace;
     return workspace;
   }
 
@@ -342,6 +426,7 @@ export function createBpmnView({ root, shell, notify }) {
         const refreshed = motor.elemento(seleccion.id);
         if (refreshed) mostrarElemento(refreshed);
       }
+      if (guiaAbierta) pintarGuia();
     } catch (error) {
       vacio.hidden = false;
       vacio.innerHTML = `<strong>No se pudo abrir el proceso</strong><span>${esc(error.message)}</span>`;
@@ -469,6 +554,7 @@ export function createBpmnView({ root, shell, notify }) {
         return;
       }
       origen = 'local';
+      workspace.marcarGuardado?.();
       pintarInsignia();
       avisar('Copia guardada en este navegador.');
     } catch (error) {
@@ -515,6 +601,8 @@ export function createBpmnView({ root, shell, notify }) {
     if (tipo === 'acercar') workspace?.zoom(1.2);
     if (tipo === 'alejar') workspace?.zoom(0.85);
     if (tipo === 'encuadrar') workspace?.fit();
+    if (tipo === 'guia') alternarGuia();
+    if (tipo === 'cerrar-guia') alternarGuia(false);
     if (tipo === 'bpmn') exportar('xml');
     if (tipo === 'svg') exportar('svg');
     if (tipo === 'png') exportar('png');

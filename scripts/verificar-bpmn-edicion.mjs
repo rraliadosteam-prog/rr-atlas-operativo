@@ -58,6 +58,9 @@ const NOMBRE_EDITADO = '2. Se anota (editada en sitio)';
 // Clic real sobre una forma del lienzo: se calcula el centro del bounding box
 // y se hace clic con el mouse (el «scrollIntoView» no funciona dentro del SVG).
 async function clicEnElemento(page, idPreferido) {
+  // En móvil el lienzo queda por debajo del pliegue: primero se acerca a la vista.
+  await page.evaluate(() => document.querySelector('.bpmn-canvas')?.scrollIntoView({ block: 'center' }));
+  await page.waitForTimeout(400);
   const caja = await page.evaluate((preferido) => {
     const lienzo = document.querySelector('.bpmn-canvas')?.getBoundingClientRect();
     if (!lienzo) return null;
@@ -68,7 +71,8 @@ async function clicEnElemento(page, idPreferido) {
       const r = nodo.getBoundingClientRect();
       return r.width > 4 && r.height > 4
         && r.left >= lienzo.left && r.right <= lienzo.right
-        && r.top >= lienzo.top && r.bottom <= lienzo.bottom;
+        && r.top >= lienzo.top && r.bottom <= lienzo.bottom
+        && r.top >= 0 && r.bottom <= innerHeight && r.left >= 0 && r.right <= innerWidth;
     };
     const favorito = lista.find((nodo) => nodo.closest('[data-element-id]')?.dataset.elementId === preferido && dentro(nodo));
     const elegido = favorito || lista.find(dentro);

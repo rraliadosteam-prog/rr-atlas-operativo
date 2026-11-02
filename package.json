@@ -13,7 +13,9 @@
     "audit:ux": "node scripts/auditoria-ux-fusion.mjs",
     "lint:bpmn": "node scripts/validate-bpmn.mjs",
     "fixture:flujos": "node scripts/generar-fixture-flujos.mjs",
-    "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build"
+    "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build",
+    "verificar:bpmn-edicion": "node scripts/verificar-bpmn-edicion.mjs",
+    "verificar:guia": "node scripts/verificar-guia-bpmn.mjs"
   },
   "dependencies": {
     "bpmn-js": "18.31.1",

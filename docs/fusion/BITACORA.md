@@ -167,3 +167,68 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - Menú contextual (*context pad*) y paleta por área con los colores RR: crear tareas, compuertas y eventos desde la interfaz.
 - Inspector editable del elemento (nombre, carril/rol, sistemas, entradas/salidas, notas, fuente y corte).
 - Modo de diagrama a pantalla completa (item 5 del encargo): resuelve también el táctil en 360 px.
+
+## Bloque 3 · Item 3 · BPMN editable en sitio — 2026-11-02 (cierre)
+
+### Qué se hizo
+- La edición en sitio quedó cerrada en el commit `9a76f5c`: inspector con nombre, carril, color RR, notas, fuente y corte;
+  creación de tareas, tareas de usuario, compuertas, eventos y carriles desde «＋ Añadir»; deshacer/rehacer del propio
+  diagrama; copia local en `localStorage` («Guardar copia») y «Restaurar semilla».
+- El color elegido se guarda en el DI con la extensión `bioc:fill` (la de bpmn.io), no con un atributo propio: así el
+  color viaja en el `.bpmn` exportado y `rr-renderer.mjs` solo respeta los colores de la marca RR.
+- Se corrigió un detalle del bloque anterior: el nombre del paso nuevo se pone **antes** de crear la forma, para que la
+  creación sea un solo comando (deshacer la quita completa y no deja el paso a medio hacer).
+- Se cerró el «guardado»: `marcarGuardado()` baja la insignia de «Cambios sin guardar» a «Copia local».
+
+### Estado de los checks
+- `npm run check`: verde (202 tests, 0 fail, build ok).
+- `npm run verificar:bpmn-edicion`: verde en escritorio 1440 y móvil 390 (inspector, edición de etiqueta, cambio de
+  carril, color RR, agregar, deshacer/rehacer, guardar, recargar y restaurar).
+
+## Bloque 4 · Item 4 · Panel por diagrama (qué busca y cómo se lee) — 2026-11-02
+
+### Qué se hizo
+- **`src/bpmn/leyenda.mjs` (nuevo)**: fuente única de la lectura de los diagramas.
+  - `SIMBOLOS` (11): evento de inicio, evento de fin, tarea, tarea de usuario, tarea de servicio, compuerta, compuerta
+    paralela, carril/piscina, flujo de secuencia, dato y «punto donde se traba». Cada uno con su glifo SVG y su explicación.
+  - `COLORES` (5): crema RR (paso normal), fucsia (se traba), mostaza (atención/decisiones), orquídea (carriles) y gris
+    (datos y flechas). Los colores salen de los tokens de B, no de valores propios.
+  - `COMO_LEER`: los cinco pasos para leer cualquier diagrama (inicio → flechas → carriles → compuertas → fin).
+  - `PROCESOS`: ficha de los 16 diagramas (qué busca, disparador, resultado, el camino paso a paso y «para mirar»),
+    escrita desde el guion de procesos del mega prompt §6, con `FUENTE_GUIA` y `CORTE_GUIA` (2026-11-02).
+- **Panel por diagrama** (`src/app/bpmn-view.mjs` + `index.html` + `src/styles/bpmn.css`):
+  - Botón «Guía del diagrama» en la barra del proceso: abre un panel con *qué busca este diagrama*, *cómo empieza y qué
+    entrega*, *el camino paso a paso*, *cómo se lee un diagrama*, *leyenda de símbolos* y *leyenda de colores*, más la
+    fuente y el corte.
+  - El panel se actualiza solo al cambiar de proceso y se cierra con «×» o con el mismo botón.
+  - En escritorio el panel es una tercera columna (340 px); en vertical (≤900 px) baja debajo del diagrama y se trae a la
+    vista al abrirlo.
+- **Corrección de marca (decisión de Rosas ya resuelta)**: `<title>`, `meta description` y el encabezado ahora dicen
+  «RR Aliados · Atlas operativo» (antes «RR Labs · Atlas de procesos»).
+- **Bug real encontrado por las pruebas de clic**: el lienzo de bpmn-js crea SVG del tamaño del diagrama (más anchos que
+  su columna) y quedaban **por encima** del panel: se comían los clics del botón de cerrar. Se resolvió con
+  `position: relative; z-index: 10` en `.bpmn-guia` (el panel siempre gana) y con `scrollIntoView` al abrir en móvil.
+
+### Estado de los checks
+- `npm run check`: verde (202 tests, 0 fail, build ok).
+- `npm run verificar:guia`: **verde** — escritorio 1440 y móvil 390: el título dice «RR Aliados · Atlas operativo», la
+  guía se abre con 11 símbolos, 5 colores, el camino paso a paso y la fuente; se actualiza al cambiar de proceso, se
+  cierra y no deja errores de consola.
+
+### Hallazgos / riesgos
+- El texto de la ficha de cada diagrama es lectura de proceso (guion §6), no dato verificado por el equipo: queda en
+  `docs/fusion/PREGUNTAS.md` para que Rosas lo revise.
+- En el mapa vivo sigue apareciendo «RR Labs → operación conectada» en el subtítulo de la barra; no se tocó para no
+  romper el look que le gusta a Rosas (queda anotado aquí para el siguiente bloque).
+- La leyenda es del motor BPMN genérico: no distingue todavía las tareas de bot de las de persona (el tema de RR las
+  pinta igual). Se puede afinar en el item 5.
+
+### Pendiente del bloque
+- Item 5 del encargo: **modo diagrama a pantalla completa** (abrir un BPMN hace que toda la página sea el diagrama, sin
+  división). En móvil 360 px el diagrama sigue pidiendo scroll y convive con el catálogo y el panel de inspector.
+- Items 6 y 7 (pantalla dividida activable y responsive profundo con gestos táctiles).
+- Item 8: fase 2 (modelo de datos v5) y fases restantes.
+
+### Capturas
+- `docs/fusion/capturas/guia-bpmn-escritorio-1440-panel.png`
+- `docs/fusion/capturas/guia-bpmn-movil-390-panel.png`

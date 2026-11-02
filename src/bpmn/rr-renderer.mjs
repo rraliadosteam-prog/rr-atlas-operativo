@@ -74,11 +74,19 @@ function colorElegido(color, theme) {
   return permitidos.includes(limpio) ? limpio : '';
 }
 
+// El color que elige la persona viaja en el DI como bioc:fill (extension de
+// color de bpmn.io). Solo se respeta si es un color de la marca RR.
+function fillElegido(element, theme) {
+  const di = element?.di || element?.businessObject?.di;
+  const valor = di?.get?.('bioc:fill') || di?.$attrs?.['bioc:fill'] || '';
+  return colorElegido(valor, theme);
+}
+
 function paint(parent, element) {
   const theme = readRrTheme();
   const kind = kindOf(element);
   const stroke = strokeFor(kind, theme);
-  const elegido = colorElegido(element?.businessObject?.di?.fill, theme);
+  const elegido = fillElegido(element, theme);
   parent.querySelectorAll('rect, circle, polygon, path, ellipse, polyline').forEach((node) => {
     if (node.getAttribute('stroke') && node.getAttribute('stroke') !== 'none') node.setAttribute('stroke', stroke);
     const fill = node.getAttribute('fill');

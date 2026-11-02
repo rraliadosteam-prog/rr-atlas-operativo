@@ -2,7 +2,6 @@
 
 Formato: `TODO(Rosas): ...`
 
-- TODO(Rosas): Confirmar si el título final debe ser «RR Labs · Atlas de procesos» (B) o «RR Aliados · Atlas operativo» (A). El prompt dice conservar el shell de B, pero la navegación de A habla de «Atlas Operativo RR».
 - TODO(Rosas): Confirmar tipografía oficial: ¿se mantiene Inter Tight + Lexend o el brand kit usa Neue Haas Grotesk / Graphie? (marcado como «sin confirmar»).
 - TODO(Rosas): ¿Se conserva la vista "Mapa vivo" jerárquica de B como landing principal o se quiere la vista "Inicio" con tarjetas de A como entrada?
 - TODO(Rosas): ¿Cuál es el hub RR al que apunta "Volver al hub RR"? En B está `http://localhost:8081/`; en producción necesita URL real.
@@ -25,8 +24,13 @@ Formato: `TODO(Rosas): ...`
 - TODO(Rosas): Las 16 semillas BPMN siguen marcadas como «borrador» o «con deuda» porque ninguna pasa el lint sin avisos. ¿Se reparan en la fase 5 o se acepta la deuda visible en la app?
 
 ## Resueltas por Rosas (2026-11-02 17:01)
-- RESUELTO: título «RR Aliados · Atlas operativo».
+- RESUELTO: título «RR Aliados · Atlas operativo» (aplicado en el bloque 4: `<title>`, `meta description` y encabezado).
 - RESUELTO: tipografía Inter Tight + Lexend.
 - RESUELTO: página de entrada = Mapa vivo.
 - RESUELTO: «Volver al hub» oculto hasta que exista la URL real.
 - Nota: a Rosas le gusta el look actual del preview; conservarlo.
+
+## Abiertas por el bloque 4 (2026-11-02, item 4)
+- TODO(Rosas): La ficha de cada diagrama (qué busca, disparador, resultado y el camino paso a paso) sale del guion de procesos del mega prompt §6. ¿Se revisa esa redacción o se deja como texto de lectura provisional hasta que el equipo la valide?
+- TODO(Rosas): La leyenda de colores dice qué significa cada color RR (crema = paso normal, fucsia = se traba, mostaza = atención, orquídea = carriles, gris = datos). ¿Es la convención que quiere la marca o se cambia?
+- TODO(Rosas): La guía se abre en un panel a la derecha en escritorio y debajo del diagrama en móvil. ¿Se deja así o en escritorio también va como cajón superpuesto?

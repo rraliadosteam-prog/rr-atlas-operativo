@@ -82,6 +82,17 @@ function download(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+const NOMBRE_POR_TIPO = {
+  'bpmn:Task': 'Tarea nueva',
+  'bpmn:UserTask': 'Tarea de usuario',
+  'bpmn:ServiceTask': 'Tarea de servicio',
+  'bpmn:ExclusiveGateway': '¿Se cumple?',
+  'bpmn:ParallelGateway': '¿En paralelo?',
+  'bpmn:StartEvent': 'Inicio',
+  'bpmn:EndEvent': 'Fin',
+  'bpmn:Lane': 'Carril nuevo',
+};
+
 const TIPOS_NUEVOS = {
   tarea: 'bpmn:Task',
   'tarea-usuario': 'bpmn:UserTask',
@@ -302,8 +313,12 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     return partes.join('\n');
   }
 
+  // El color elegido por la persona se guarda en el DI con la extension de
+  // color de bpmn.io (bioc:fill): asi viaja en el XML y lo pinta bpmn-js.
   function colorDe(element) {
-    const fill = element?.businessObject?.di?.fill || '';
+    // En bpmn-js el DI vive en el elemento del diagrama (element.di).
+    const di = element?.di || element?.businessObject?.di;
+    const fill = di?.get?.('bioc:fill') || di?.$attrs?.['bioc:fill'] || '';
     return fill ? String(fill).trim().toLowerCase() : '';
   }
 
@@ -337,8 +352,7 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     }
     if (cambios.color !== undefined) {
       const color = String(cambios.color || '').trim();
-      if (color) modeling.updateProperties(element, { di: { fill: color } });
-      else modeling.updateProperties(element, { di: { fill: undefined } });
+      modeling.updateProperties(element, { di: { 'bioc:fill': color || undefined } });
     }
     if (cambios.carrilId !== undefined) {
       const lane = cambios.carrilId ? elementoDe(cambios.carrilId) : null;
@@ -374,9 +388,12 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     const canvas = viewer.get('canvas');
     const tipoBpmn = TIPOS_NUEVOS[tipo] || tipo;
     const businessObject = bpmnFactory.create(tipoBpmn);
-    if (nombre) businessObject.name = nombre;
+    // El nombre va antes de crear la forma: asi la creacion es un solo comando
+    // (deshacer la quita completa, sin dejar el paso a medio hacer).
+    businessObject.name = nombre || NOMBRE_POR_TIPO[tipoBpmn] || 'Paso nuevo';
     const shape = elementFactory.createShape({ type: tipoBpmn, businessObject });
-    const centro = canvas.getCenter();
+    const vista = canvas.viewbox();
+    const centro = { x: vista.x + vista.width / 2, y: vista.y + vista.height / 2 };
     if (tipoBpmn === 'bpmn:Lane') {
       const laneSet = registro()?.find((item) => item.type === 'bpmn:LaneSet');
       if (!laneSet) throw new Error('Este proceso no tiene carriles: no se puede crear uno nuevo.');
@@ -388,7 +405,6 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     const lane = carrilId ? elementoDe(carrilId) : null;
     const padre = lane?.type === 'bpmn:Lane' ? lane : registro()?.find((item) => item.type === 'bpmn:Participant') || null;
     const nuevo = modeling.createShape(shape, { x: centro.x, y: centro.y }, padre);
-    if (!nombre) modeling.updateProperties(nuevo, { name: tipoBpmn === 'bpmn:ExclusiveGateway' ? '¿Se cumple?' : 'Paso nuevo' });
     return describeElement(nuevo);
   }
 
@@ -449,6 +465,7 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     setDebt(value) { debt = value; },
     get modo() { return mode; },
     get cambiosPendientes() { return cambiosPendientes; },
+    marcarGuardado() { cambiosPendientes = false; },
     async open(xml, options = {}) {
       fileName = options.fileName || '';
       await ensure(options.editable ? 'edit' : 'view');
@@ -503,6 +520,17 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     elemento(id) {
       const element = elementoDe(id);
       return element ? describeElement(element) : null;
+    },
+    depurar(id) {
+      const element = elementoDe(id);
+      if (!element) return null;
+      const di = element.di || element.businessObject?.di;
+      return {
+        color: colorDe(element),
+        diFill: di?.get?.('bioc:fill') ?? null,
+        attrs: di?.$attrs ? { ...di.$attrs } : null,
+        tieneDi: Boolean(di),
+      };
     },
     actualizar,
     crear,

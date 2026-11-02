@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-02T22:22:08.000Z",
+  "generadoEn": "2026-11-02T22:52:20.897Z",
   "viewports": [
     {
       "viewport": {
@@ -91,14 +91,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -85,
-                "right": 1247,
+                "left": -86,
+                "right": 1246,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -85,
-                "right": 59,
+                "left": -86,
+                "right": 58,
                 "ancho": 143
               }
             ],
@@ -123,7 +123,7 @@
             },
             "toolbarVisible": {
               "visible": true,
-              "alto": 61
+              "alto": 113
             }
           },
           "areas": [
@@ -149,7 +149,7 @@
             "informe": "0 errores de lint16 avisosIncoming flows do not joinSequence flow has superfluous labelSequence flow has superfluous lab",
             "lienzo": {
               "ancho": 1150,
-              "alto": 523
+              "alto": 471
             }
           },
           "inspector": {
@@ -223,7 +223,7 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 422222
+              "bytes": 418849
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -268,43 +268,43 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -21,
+                "left": -22,
                 "right": 1310,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -21,
+                "left": -22,
                 "right": 122,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 645,
-                "right": 788,
+                "left": 644,
+                "right": 787,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 788,
+                "left": 787,
                 "right": 810,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 810,
-                "right": 900,
+                "right": 899,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 900,
-                "right": 922,
+                "left": 899,
+                "right": 921,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 922,
+                "left": 921,
                 "right": 974,
                 "ancho": 52
               },
@@ -329,12 +329,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 1073,
-                "right": 1167,
+                "right": 1166,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1167,
+                "left": 1166,
                 "right": 1189,
                 "ancho": 22
               }
@@ -390,74 +390,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -168,
-                "right": 1164,
+                "left": -169,
+                "right": 1162,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -168,
-                "right": -25,
+                "left": -169,
+                "right": -26,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -25,
-                "right": -3,
+                "left": -26,
+                "right": -4,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -3,
-                "right": 87,
+                "left": -4,
+                "right": 86,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 753,
-                "right": 775,
+                "left": 752,
+                "right": 774,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 775,
-                "right": 827,
+                "left": 774,
+                "right": 826,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 827,
-                "right": 850,
+                "left": 826,
+                "right": 848,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 850,
-                "right": 904,
+                "left": 848,
+                "right": 903,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 904,
-                "right": 926,
+                "left": 903,
+                "right": 925,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 926,
-                "right": 1020,
+                "left": 925,
+                "right": 1019,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1020,
-                "right": 1042,
+                "left": 1019,
+                "right": 1041,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1042,
-                "right": 1142,
+                "left": 1041,
+                "right": 1140,
                 "ancho": 99
               }
             ],
@@ -528,68 +528,62 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -248,
-                "right": 1084,
+                "left": -249,
+                "right": 1083,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -248,
-                "right": -104,
+                "left": -249,
+                "right": -106,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -104,
-                "right": -82,
+                "left": -106,
+                "right": -83,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -82,
-                "right": 8,
+                "left": -83,
+                "right": 6,
                 "ancho": 90
               },
               {
-                "elemento": "span.atlas-ticker__glyph",
-                "left": 748,
-                "right": 770,
-                "ancho": 22
-              },
-              {
                 "elemento": "span.atlas-ticker__item",
-                "left": 770,
-                "right": 825,
+                "left": 769,
+                "right": 824,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 825,
-                "right": 847,
+                "left": 824,
+                "right": 846,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 847,
-                "right": 941,
+                "left": 846,
+                "right": 939,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 941,
-                "right": 963,
+                "left": 939,
+                "right": 962,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 963,
-                "right": 1062,
+                "left": 962,
+                "right": 1061,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1062,
-                "right": 1084,
+                "left": 1061,
+                "right": 1083,
                 "ancho": 22
               }
             ],
@@ -675,21 +669,15 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -20,
+                "left": -21,
                 "right": 1231,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -20,
-                "right": 111,
+                "left": -21,
+                "right": 110,
                 "ancho": 131
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 310,
-                "right": 361,
-                "ancho": 51
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
@@ -700,12 +688,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 383,
-                "right": 470,
+                "right": 469,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 470,
+                "left": 469,
                 "right": 492,
                 "ancho": 22
               },
@@ -724,18 +712,18 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 605,
-                "right": 737,
+                "right": 736,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 737,
-                "right": 759,
+                "left": 736,
+                "right": 758,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 759,
+                "left": 758,
                 "right": 842,
                 "ancho": 83
               },
@@ -744,6 +732,12 @@
                 "left": 842,
                 "right": 864,
                 "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 864,
+                "right": 913,
+                "ancho": 49
               }
             ],
             "objetivosChicos": [],
@@ -797,74 +791,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -157,
-                "right": 1095,
+                "left": -158,
+                "right": 1093,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -157,
-                "right": -26,
+                "left": -158,
+                "right": -27,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -26,
-                "right": -4,
+                "left": -27,
+                "right": -5,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -4,
-                "right": 79,
+                "left": -5,
+                "right": 78,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 355,
-                "right": 446,
+                "left": 354,
+                "right": 445,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 446,
-                "right": 469,
+                "left": 445,
+                "right": 467,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 469,
-                "right": 600,
+                "left": 467,
+                "right": 599,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 600,
-                "right": 622,
+                "left": 599,
+                "right": 621,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 622,
-                "right": 705,
+                "left": 621,
+                "right": 704,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 705,
-                "right": 727,
+                "left": 704,
+                "right": 726,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 727,
-                "right": 777,
+                "left": 726,
+                "right": 776,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 777,
-                "right": 799,
+                "left": 776,
+                "right": 798,
                 "ancho": 22
               }
             ],
@@ -889,7 +883,7 @@
             },
             "toolbarVisible": {
               "visible": true,
-              "alto": 165
+              "alto": 269
             }
           },
           "areas": [
@@ -935,74 +929,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -230,
-                "right": 1022,
+                "left": -232,
+                "right": 1020,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -230,
-                "right": -99,
+                "left": -232,
+                "right": -101,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -99,
-                "right": -77,
+                "left": -101,
+                "right": -78,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -77,
-                "right": 6,
+                "left": -78,
+                "right": 5,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 282,
-                "right": 373,
+                "left": 281,
+                "right": 372,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 373,
-                "right": 396,
+                "left": 372,
+                "right": 394,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 396,
-                "right": 527,
+                "left": 394,
+                "right": 525,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 527,
-                "right": 549,
+                "left": 525,
+                "right": 547,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 549,
-                "right": 632,
+                "left": 547,
+                "right": 631,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 632,
-                "right": 654,
+                "left": 631,
+                "right": 653,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 654,
-                "right": 704,
+                "left": 653,
+                "right": 702,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 704,
-                "right": 726,
+                "left": 702,
+                "right": 724,
                 "ancho": 22
               }
             ],
