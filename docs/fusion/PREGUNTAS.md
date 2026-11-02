@@ -12,3 +12,6 @@ Formato: `TODO(Rosas): ...`
 - TODO(Rosas): ¿Quién puede tener cuenta de cobro en RR? (colaborador vs contrato vs otros).
 - TODO(Rosas): ¿Existen datos públicos de contacto personal del equipo (correo/teléfono) que sí se puedan mostrar, o se mantiene solo nombre + rol?
 - TODO(Rosas): ¿Se incluyen cifras agregadas no financieras en "Mensaje ejecutivo diario" (por ejemplo, número de tareas bloqueadas) o se deja solo como flujo sin datos?
+- TODO(Rosas): El prompt habla de 17 semillas BPMN, pero A trae 16 archivos en `src/bpmn/seeds/` (y `scripts/validate-bpmn.mjs` exige 16). ¿Falta una semilla por modelar o la cuenta del prompt está desactualizada?
+- TODO(Rosas): Ninguna de las 16 semillas pasa el lint sin avisos (8 tienen la deuda documentada `no-gateway-join-fork`). ¿Se repara el modelado de esas compuertas (fase 5) o se acepta la deuda visible en la app?
+- TODO(Rosas): En móvil (≤760px) el acceso a BPMN queda oculto hasta que exista la tabbar de la fase 6. ¿Se aprueba esa espera o el enlace debe quedar visible en la barra superior?

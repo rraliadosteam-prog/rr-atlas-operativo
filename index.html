@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="/src/rr-estilo/tokens.css">
   <link rel="stylesheet" href="/src/rr-estilo/componentes.css">
   <link rel="stylesheet" href="/src/styles/rr-tree.css">
+  <link rel="stylesheet" href="/src/styles/bpmn.css">
+  <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
+  <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
+  <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
 </head>
 <body>
   <div class="app" id="rr-app">
@@ -27,6 +31,7 @@
       </div>
       <div class="top-actions">
         <a class="button button-hub" data-hub-link href="http://localhost:8081/" rel="noopener" aria-label="Volver al hub RR"><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
+        <a class="button button-ghost" data-bpmn-link href="#/bpmn" aria-label="Ver el catálogo BPMN"><span aria-hidden="true">◇</span><span class="hub-label hub-label--full" aria-hidden="true">BPMN</span></a>
         <button class="button button-ghost" data-action="help" type="button">Guía</button>
         <button class="button button-primary" data-action="add-node" type="button">＋ Añadir nodo</button>
       </div>
@@ -57,7 +62,8 @@
           <button class="button button-outline" data-action="focus-branch" type="button">◎ Enfocar rama</button>
           <button class="button button-outline" data-action="order" type="button">↕ Ordenar árbol</button>
           <button class="button button-outline" data-action="toggle-cross" type="button" aria-pressed="false">◇ Mostrar cross</button>
-          <button class="button button-outline" data-action="restore" type="button">↺ Restaurar original</button>
+          <a class="button button-outline" data-bpmn-link-rail href="#/bpmn">◇ Procesos BPMN</a>
+        <button class="button button-outline" data-action="restore" type="button">↺ Restaurar original</button>
           <button class="button button-outline" data-action="export" type="button">↓ Exportar JSON</button>
           <button class="button button-outline" data-action="import" type="button">↑ Importar JSON</button>
           <input data-import-input type="file" accept="application/json,.json" hidden>
@@ -101,6 +107,51 @@
         <div class="inspector-body" data-inspector-body><p class="empty">Selecciona un cuadro del mapa para ver sus detalles.</p></div>
       </aside>
     </main>
+
+    <!-- Vista BPMN: catálogo por áreas + lienzo bpmn-js (ruta #/bpmn) -->
+    <section class="bpmn-view" data-bpmn-view hidden aria-label="Catálogo de procesos BPMN">
+      <div class="bpmn-view__head">
+        <div>
+          <span class="eyebrow">Procesos</span>
+          <h1 class="bpmn-view__title" data-bpmn-title>Catálogo BPMN</h1>
+          <p class="bpmn-view__hint" data-bpmn-status>Elige un proceso del catálogo para verlo en el lienzo.</p>
+        </div>
+        <div class="bpmn-view__actions">
+          <a class="button button-ghost" href="#top" data-bpmn-back>Volver al mapa</a>
+        </div>
+      </div>
+      <div class="bpmn-view__body">
+        <aside class="bpmn-catalog" aria-label="Catálogo por áreas">
+          <div class="bpmn-catalog__search">
+            <label class="sr-only" for="bpmn-search">Buscar proceso BPMN</label>
+            <input id="bpmn-search" type="search" data-bpmn-search placeholder="Buscar proceso" autocomplete="off">
+          </div>
+          <div data-bpmn-catalog></div>
+        </aside>
+        <section class="bpmn-stage" aria-label="Lienzo BPMN">
+          <div class="bpmn-toolbar" role="toolbar" aria-label="Controles del proceso BPMN">
+            <button class="button button-small" type="button" data-bpmn-accion="modo" aria-pressed="false">Editar</button>
+            <button class="button button-small" type="button" data-bpmn-accion="anterior">Anterior</button>
+            <button class="button button-small" type="button" data-bpmn-accion="siguiente">Siguiente</button>
+            <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar">＋</button>
+            <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar">−</button>
+            <button class="button button-small" type="button" data-bpmn-accion="encuadrar">Encuadrar</button>
+            <button class="button button-small" type="button" data-bpmn-accion="bpmn">Exportar .bpmn</button>
+            <button class="button button-small" type="button" data-bpmn-accion="svg">Exportar SVG</button>
+            <button class="button button-small" type="button" data-bpmn-accion="png">Exportar PNG</button>
+          </div>
+          <div class="bpmn-canvas-wrap">
+            <div class="bpmn-canvas" data-bpmn-canvas></div>
+            <div class="bpmn-empty" data-bpmn-empty><strong>Selecciona un proceso</strong><span>Las semillas viven en src/bpmn/seeds.</span></div>
+            <aside class="bpmn-inspector" data-bpmn-inspector hidden aria-label="Detalle del elemento">
+              <h2 data-bpmn-element-title>Elemento</h2>
+              <p data-bpmn-element-meta></p>
+            </aside>
+          </div>
+        </section>
+      </div>
+      <div class="bpmn-report" data-bpmn-report role="status" aria-live="polite"></div>
+    </section>
 
     <footer class="footer"><span>RR ALIADOS · Atlas operativo</span><span>Edición local · se guarda en este navegador</span></footer>
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>

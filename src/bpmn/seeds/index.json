@@ -1,4 +1,7 @@
 {
+  "version": 2,
+  "fuente": "Atlas RR · semillas BPMN de la rama atlas-v4-rebuild",
+  "corte": "2026-11-02",
   "files": [
     "alianzas_como_nace_una_alianza.bpmn",
     "clientes_que_pasa_despues_de_entregar.bpmn",
@@ -16,5 +19,151 @@
     "produccion_como_se_hace_una_pieza.bpmn",
     "soporte_como_se_resuelve_un_problema_de_un_cliente.bpmn",
     "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn"
+  ],
+  "procesos": [
+    {
+      "id": "gobierno_como_se_gobierna_la_documentacion",
+      "archivo": "gobierno_como_se_gobierna_la_documentacion.bpmn",
+      "titulo": "Gobierno documental",
+      "area": "Dirección",
+      "areaId": "direccion",
+      "estado": "con-deuda",
+      "lint": { "errores": 1, "avisos": 7 }
+    },
+    {
+      "id": "informacion_de_donde_sale_la_respuesta",
+      "archivo": "informacion_de_donde_sale_la_respuesta.bpmn",
+      "titulo": "De dónde sale una respuesta",
+      "area": "Dirección",
+      "areaId": "direccion",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 5 }
+    },
+    {
+      "id": "ventas_como_una_oportunidad_se_convierte_en_cliente",
+      "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
+      "titulo": "Oportunidad a cliente",
+      "area": "Comercial y captación",
+      "areaId": "comercial",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 5 }
+    },
+    {
+      "id": "alianzas_como_nace_una_alianza",
+      "archivo": "alianzas_como_nace_una_alianza.bpmn",
+      "titulo": "Alianzas y referidos",
+      "area": "Comercial y captación",
+      "areaId": "comercial",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 2 }
+    },
+    {
+      "id": "clientes_que_pasa_despues_de_que_firman",
+      "archivo": "clientes_que_pasa_despues_de_que_firman.bpmn",
+      "titulo": "Después de que firman",
+      "area": "Entrega de servicios",
+      "areaId": "entrega",
+      "estado": "con-deuda",
+      "lint": { "errores": 1, "avisos": 1 }
+    },
+    {
+      "id": "clientes_que_pasa_despues_de_entregar",
+      "archivo": "clientes_que_pasa_despues_de_entregar.bpmn",
+      "titulo": "Después de entregar",
+      "area": "Entrega de servicios",
+      "areaId": "entrega",
+      "estado": "con-deuda",
+      "lint": { "errores": 1, "avisos": 1 }
+    },
+    {
+      "id": "desarrollo_como_llega_un_producto_de_software_a_produccion",
+      "archivo": "desarrollo_como_llega_un_producto_de_software_a_produccion.bpmn",
+      "titulo": "Desarrollo de software a producción",
+      "area": "Entrega de servicios",
+      "areaId": "entrega",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 3 }
+    },
+    {
+      "id": "produccion_como_se_hace_una_pieza",
+      "archivo": "produccion_como_se_hace_una_pieza.bpmn",
+      "titulo": "Producción de una pieza de contenido",
+      "area": "Entrega de servicios",
+      "areaId": "entrega",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 1 }
+    },
+    {
+      "id": "finanzas_como_entra_y_se_sale_la_plata",
+      "archivo": "finanzas_como_entra_y_se_sale_la_plata.bpmn",
+      "titulo": "Cómo entra y sale la plata",
+      "area": "Finanzas (flujos)",
+      "areaId": "finanzas",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 5 }
+    },
+    {
+      "id": "finanzas_como_entra_un_peso_a_la_cuenta",
+      "archivo": "finanzas_como_entra_un_peso_a_la_cuenta.bpmn",
+      "titulo": "Facturación y cuenta de cobro",
+      "area": "Finanzas (flujos)",
+      "areaId": "finanzas",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 2 }
+    },
+    {
+      "id": "finanzas_como_se_le_paga_a_alguien",
+      "archivo": "finanzas_como_se_le_paga_a_alguien.bpmn",
+      "titulo": "Pagos a colaboradores y proveedores",
+      "area": "Finanzas (flujos)",
+      "areaId": "finanzas",
+      "estado": "con-deuda",
+      "lint": { "errores": 1, "avisos": 2 }
+    },
+    {
+      "id": "finanzas_la_quincena",
+      "archivo": "finanzas_la_quincena.bpmn",
+      "titulo": "La quincena",
+      "area": "Finanzas (flujos)",
+      "areaId": "finanzas",
+      "estado": "con-deuda",
+      "lint": { "errores": 1, "avisos": 2 }
+    },
+    {
+      "id": "ia_como_se_usa_la_ia_en_rr_aliados",
+      "archivo": "ia_como_se_usa_la_ia_en_rr_aliados.bpmn",
+      "titulo": "Uso de IA en RR",
+      "area": "Operación de bots e IA",
+      "areaId": "bots",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 3 }
+    },
+    {
+      "id": "ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente",
+      "archivo": "ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente.bpmn",
+      "titulo": "Trabajo repetitivo a agente",
+      "area": "Operación de bots e IA",
+      "areaId": "bots",
+      "estado": "borrador",
+      "lint": { "errores": 0, "avisos": 1 }
+    },
+    {
+      "id": "soporte_como_se_resuelve_un_problema_de_un_cliente",
+      "archivo": "soporte_como_se_resuelve_un_problema_de_un_cliente.bpmn",
+      "titulo": "Resolución de un problema de cliente",
+      "area": "Soporte",
+      "areaId": "soporte",
+      "estado": "con-deuda",
+      "lint": { "errores": 2, "avisos": 3 }
+    },
+    {
+      "id": "legal_como_se_firma_un_contrato",
+      "archivo": "legal_como_se_firma_un_contrato.bpmn",
+      "titulo": "Firma de contrato",
+      "area": "Legal y administrativo",
+      "areaId": "legal",
+      "estado": "con-deuda",
+      "lint": { "errores": 1, "avisos": 1 }
+    }
   ]
 }

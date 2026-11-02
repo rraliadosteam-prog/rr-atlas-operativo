@@ -1,6 +1,7 @@
 import { HUB_LABEL, hubUrlFrom } from '../data/hub-link.mjs';
 import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
 import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
+import { createBpmnView } from './bpmn-view.mjs';
 import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
@@ -70,6 +71,12 @@ const notify = (message) => {
   window.clearTimeout(notify.timer);
   notify.timer = window.setTimeout(() => { toastElement.hidden = true; }, 3_200);
 };
+
+const bpmnView = createBpmnView({
+  root: $('[data-bpmn-view]'),
+  shell: $('.shell'),
+  notify,
+});
 
 const safeStorage = (() => {
   try {
@@ -930,6 +937,12 @@ window.addEventListener('resize', scheduleFit);
 
 function applyHashRoute() {
   const hash = String(location.hash || '');
+  const bpmnMatch = hash.match(/^#\/bpmn(?:\/(.+))?$/);
+  if (bpmnMatch) {
+    showFlujoView(false);
+    bpmnView.mostrar(bpmnMatch[1] ? decodeURIComponent(bpmnMatch[1]) : '');
+    return;
+  }
   const flujoMatch = hash.match(/^#flujo\/(.+)$/);
   if (flujoMatch) {
     navigateToFlujo(decodeURIComponent(flujoMatch[1]));
@@ -944,6 +957,7 @@ function applyHashRoute() {
     }
     return;
   }
+  bpmnView.ocultar();
   showFlujoView(false);
 }
 window.addEventListener('hashchange', applyHashRoute);
