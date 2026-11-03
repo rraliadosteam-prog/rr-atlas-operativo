@@ -19,6 +19,7 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
       </bpmn:lane>
       <bpmn:lane id="lane_2" name="2 · Dirección (aprueba)">
         <bpmn:flowNodeRef>t_negocia</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_negocia_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_firma</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_firmar</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_onboard</bpmn:flowNodeRef>
@@ -59,8 +60,7 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
     </bpmn:task>
     <bpmn:task id="t_negocia" name="6. Se negocia">
       <bpmn:documentation>Se ajusta precio, alcance o fechas. Ejemplo: CLIENTE_A, [CIFRA] por 2 meses por delante.</bpmn:documentation>
-      <bpmn:incoming>sf_5</bpmn:incoming>
-      <bpmn:incoming>sf_9</bpmn:incoming>
+      <bpmn:incoming>sf_t_negocia_join</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
       <bpmn:property id="prop_t_negocia" name="__targetRef_placeholder"/>
       <bpmn:dataInputAssociation id="dia_2">
@@ -69,6 +69,11 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
         <bpmn:targetRef>prop_t_negocia</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_negocia_join">
+      <bpmn:incoming>sf_5</bpmn:incoming>
+      <bpmn:incoming>sf_9</bpmn:incoming>
+      <bpmn:outgoing>sf_t_negocia_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:exclusiveGateway id="g_firma" name="¿Se firmó?">
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
@@ -101,16 +106,17 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
       <bpmn:documentation>Los 5 cargos de planta y 2 sin llenar.</bpmn:documentation>
     </bpmn:dataObjectReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_anota"/>
-    <bpmn:sequenceFlow id="sf_2" sourceRef="t_anota" targetRef="t_mira" name="se revisa"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="t_mira" targetRef="t_propone" name="se propone"/>
-    <bpmn:sequenceFlow id="sf_4" sourceRef="t_propone" targetRef="t_pre" name="se formaliza"/>
-    <bpmn:sequenceFlow id="sf_5" sourceRef="t_pre" targetRef="t_negocia"/>
+    <bpmn:sequenceFlow id="sf_2" sourceRef="t_anota" targetRef="t_mira"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="t_mira" targetRef="t_propone"/>
+    <bpmn:sequenceFlow id="sf_4" sourceRef="t_propone" targetRef="t_pre"/>
+    <bpmn:sequenceFlow id="sf_5" sourceRef="t_pre" targetRef="t_negocia_join"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="t_negocia" targetRef="g_firma"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="g_firma" targetRef="t_firmar" name="no"/>
     <bpmn:sequenceFlow id="sf_8" sourceRef="g_firma" targetRef="t_onboard" name="sí"/>
-    <bpmn:sequenceFlow id="sf_9" sourceRef="t_firmar" targetRef="t_negocia" name="se vuelve a negociar"/>
+    <bpmn:sequenceFlow id="sf_9" sourceRef="t_firmar" targetRef="t_negocia_join"/>
     <bpmn:sequenceFlow id="sf_10" sourceRef="t_onboard" targetRef="t_arranca"/>
     <bpmn:sequenceFlow id="sf_11" sourceRef="t_arranca" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_t_negocia_join" sourceRef="t_negocia_join" targetRef="t_negocia"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>CONTROL ROJO: pagar sin contrato firmado es el error más caro que hay. CLIENTE_A y CLIENTE_C están en esa situación, y el 15/10 de CLIENTE_A son [CIFRA].</bpmn:text>
     </bpmn:textAnnotation>
@@ -162,6 +168,9 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_negocia_di" bpmnElement="t_negocia">
         <dc:Bounds x="1250" y="305" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_negocia_di_join_di" bpmnElement="t_negocia_join" isMarkerVisible="true">
+        <dc:Bounds x="1160" y="305" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="g_firma_di" bpmnElement="g_firma" isMarkerVisible="true">
         <dc:Bounds x="1510" y="320" width="50" height="50"/>
@@ -216,6 +225,10 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
         <di:waypoint x="1190" y="145"/>
         <di:waypoint x="1230" y="145"/>
         <di:waypoint x="1230" y="345"/>
+        <di:waypoint x="1210" y="330"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_negocia_join_di" bpmnElement="sf_t_negocia_join">
+        <di:waypoint x="1210" y="330"/>
         <di:waypoint x="1250" y="345"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_6_di" bpmnElement="sf_6">
@@ -236,7 +249,7 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
         <di:waypoint x="1745" y="385"/>
         <di:waypoint x="1745" y="598"/>
         <di:waypoint x="1325" y="598"/>
-        <di:waypoint x="1325" y="385"/>
+        <di:waypoint x="1210" y="330"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1820" y="475"/>

@@ -13,6 +13,7 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
       <bpmn:lane id="lane_1" name="1 · Lo que hace EQUIPO_2">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_ideas</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_ideas_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_guiones</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_prepara</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_consigue</bpmn:flowNodeRef>
@@ -37,10 +38,14 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
     </bpmn:startEvent>
     <bpmn:task id="t_ideas" name="2. Se buscan ideas">
       <bpmn:documentation>Se llenan ideas distintas. No una sola idea.</bpmn:documentation>
-      <bpmn:incoming>sf_1</bpmn:incoming>
-      <bpmn:incoming>sf_6</bpmn:incoming>
+      <bpmn:incoming>sf_t_ideas_join</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_ideas_join">
+      <bpmn:incoming>sf_1</bpmn:incoming>
+      <bpmn:incoming>sf_6</bpmn:incoming>
+      <bpmn:outgoing>sf_t_ideas_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:task id="t_guiones" name="3. Se escribe">
       <bpmn:documentation>Los guiones o conceptos de cada idea.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
@@ -109,12 +114,12 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
     <bpmn:dataObjectReference id="d_prod" dataObjectRef="do_d_prod" name="PRODUCCION.md">
       <bpmn:documentation>Lo que la función sí tiene escrito.</bpmn:documentation>
     </bpmn:dataObjectReference>
-    <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_ideas"/>
+    <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_ideas_join"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_ideas" targetRef="t_guiones"/>
     <bpmn:sequenceFlow id="sf_3" sourceRef="t_guiones" targetRef="g_aprueba"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_aprueba" targetRef="t_brief" name="no: falta el brief"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="g_aprueba" targetRef="t_prepara" name="sí: así lo quiero"/>
-    <bpmn:sequenceFlow id="sf_6" sourceRef="t_brief" targetRef="t_ideas"/>
+    <bpmn:sequenceFlow id="sf_6" sourceRef="t_brief" targetRef="t_ideas_join"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="t_prepara" targetRef="t_consigue"/>
     <bpmn:sequenceFlow id="sf_8" sourceRef="t_consigue" targetRef="t_graba"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="t_graba" targetRef="t_edita"/>
@@ -123,6 +128,7 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
     <bpmn:sequenceFlow id="sf_12" sourceRef="t_entrega" targetRef="t_mide"/>
     <bpmn:sequenceFlow id="sf_13" sourceRef="t_mide" targetRef="t_que"/>
     <bpmn:sequenceFlow id="sf_14" sourceRef="t_que" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_t_ideas_join" sourceRef="t_ideas_join" targetRef="t_ideas"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>REGLA ROJA: nada se publica sin la aprobación del cliente. Sin este paso, todo lo demás es trabajo gratis.</bpmn:text>
     </bpmn:textAnnotation>
@@ -162,6 +168,9 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_ideas_di" bpmnElement="t_ideas">
         <dc:Bounds x="410" y="105" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_ideas_di_join_di" bpmnElement="t_ideas_join" isMarkerVisible="true">
+        <dc:Bounds x="320" y="105" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_guiones_di" bpmnElement="t_guiones">
         <dc:Bounds x="620" y="105" width="150" height="80"/>
@@ -213,6 +222,10 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="sf_1_di" bpmnElement="sf_1">
         <di:waypoint x="293" y="145"/>
+        <di:waypoint x="370" y="130"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_ideas_join_di" bpmnElement="sf_t_ideas_join">
+        <di:waypoint x="370" y="130"/>
         <di:waypoint x="410" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_2_di" bpmnElement="sf_2">
@@ -239,7 +252,7 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
         <di:waypoint x="1115" y="515"/>
         <di:waypoint x="1115" y="598"/>
         <di:waypoint x="485" y="598"/>
-        <di:waypoint x="485" y="185"/>
+        <di:waypoint x="370" y="130"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_7_di" bpmnElement="sf_7">
         <di:waypoint x="1190" y="145"/>

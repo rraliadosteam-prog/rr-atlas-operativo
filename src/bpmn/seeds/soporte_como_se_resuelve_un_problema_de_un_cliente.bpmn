@@ -22,9 +22,12 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       </bpmn:lane>
       <bpmn:lane id="lane_3" name="3 · Quien lo resuelve">
         <bpmn:flowNodeRef>g_ayuda</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_ayuda_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_responde</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_arregla</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_arregla_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_ok</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_ok_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cierra</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_aprende</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
@@ -61,11 +64,15 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
     <bpmn:parallelGateway id="g_ayuda" name="4. ¿Le toca a alguien?">
+      <bpmn:incoming>sf_g_ayuda_join</bpmn:incoming>
+      <bpmn:outgoing>sf_9</bpmn:outgoing>
+      <bpmn:outgoing>sf_10</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="g_ayuda_join">
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:incoming>sf_8</bpmn:incoming>
-      <bpmn:outgoing>sf_9</bpmn:outgoing>
-      <bpmn:outgoing>sf_10</bpmn:outgoing>
+      <bpmn:outgoing>sf_g_ayuda_join</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:task id="t_responde" name="5. Se responde">
       <bpmn:documentation>Se le contesta al cliente.</bpmn:documentation>
@@ -74,15 +81,23 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
     </bpmn:task>
     <bpmn:task id="t_arregla" name="6. Se arregla">
       <bpmn:documentation>Se resuelve de verdad, no solo se contesta.</bpmn:documentation>
-      <bpmn:incoming>sf_10</bpmn:incoming>
-      <bpmn:incoming>sf_13</bpmn:incoming>
+      <bpmn:incoming>sf_t_arregla_join</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_arregla_join">
+      <bpmn:incoming>sf_10</bpmn:incoming>
+      <bpmn:incoming>sf_13</bpmn:incoming>
+      <bpmn:outgoing>sf_t_arregla_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:exclusiveGateway id="g_ok" name="7. ¿El cliente quedó bien?">
-      <bpmn:incoming>sf_11</bpmn:incoming>
-      <bpmn:incoming>sf_12</bpmn:incoming>
+      <bpmn:incoming>sf_g_ok_join</bpmn:incoming>
       <bpmn:outgoing>sf_13</bpmn:outgoing>
       <bpmn:outgoing>sf_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="g_ok_join">
+      <bpmn:incoming>sf_11</bpmn:incoming>
+      <bpmn:incoming>sf_12</bpmn:incoming>
+      <bpmn:outgoing>sf_g_ok_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:task id="t_cierra" name="8. Se cierra">
       <bpmn:documentation>Queda resuelto y archivado.</bpmn:documentation>
@@ -102,21 +117,24 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       <bpmn:documentation>Lo que la función sí tiene escrito hoy.</bpmn:documentation>
     </bpmn:dataObjectReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_anota"/>
-    <bpmn:sequenceFlow id="sf_2" sourceRef="t_anota" targetRef="g_prio" name="se prioriza"/>
+    <bpmn:sequenceFlow id="sf_2" sourceRef="t_anota" targetRef="g_prio"/>
     <bpmn:sequenceFlow id="sf_3" sourceRef="g_prio" targetRef="t_alta" name="alta"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_prio" targetRef="t_media" name="media"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="g_prio" targetRef="t_baja" name="baja"/>
-    <bpmn:sequenceFlow id="sf_6" sourceRef="t_alta" targetRef="g_ayuda"/>
-    <bpmn:sequenceFlow id="sf_7" sourceRef="t_media" targetRef="g_ayuda"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="t_baja" targetRef="g_ayuda"/>
+    <bpmn:sequenceFlow id="sf_6" sourceRef="t_alta" targetRef="g_ayuda_join"/>
+    <bpmn:sequenceFlow id="sf_7" sourceRef="t_media" targetRef="g_ayuda_join"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="t_baja" targetRef="g_ayuda_join"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="g_ayuda" targetRef="t_responde"/>
-    <bpmn:sequenceFlow id="sf_10" sourceRef="g_ayuda" targetRef="t_arregla"/>
-    <bpmn:sequenceFlow id="sf_11" sourceRef="t_responde" targetRef="g_ok"/>
-    <bpmn:sequenceFlow id="sf_12" sourceRef="t_arregla" targetRef="g_ok"/>
-    <bpmn:sequenceFlow id="sf_13" sourceRef="g_ok" targetRef="t_arregla" name="no: otra vez"/>
+    <bpmn:sequenceFlow id="sf_10" sourceRef="g_ayuda" targetRef="t_arregla_join"/>
+    <bpmn:sequenceFlow id="sf_11" sourceRef="t_responde" targetRef="g_ok_join"/>
+    <bpmn:sequenceFlow id="sf_12" sourceRef="t_arregla" targetRef="g_ok_join"/>
+    <bpmn:sequenceFlow id="sf_13" sourceRef="g_ok" targetRef="t_arregla_join" name="no: otra vez"/>
     <bpmn:sequenceFlow id="sf_14" sourceRef="g_ok" targetRef="t_cierra" name="sí"/>
-    <bpmn:sequenceFlow id="sf_15" sourceRef="t_cierra" targetRef="t_aprende" name="de aquí sale el aprendizaje"/>
+    <bpmn:sequenceFlow id="sf_15" sourceRef="t_cierra" targetRef="t_aprende"/>
     <bpmn:sequenceFlow id="sf_16" sourceRef="t_aprende" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_g_ayuda_join" sourceRef="g_ayuda_join" targetRef="g_ayuda"/>
+    <bpmn:sequenceFlow id="sf_g_ok_join" sourceRef="g_ok_join" targetRef="g_ok"/>
+    <bpmn:sequenceFlow id="sf_t_arregla_join" sourceRef="t_arregla_join" targetRef="t_arregla"/>
     <bpmn:association id="as_1" sourceRef="d_sop" targetRef="g_prio" associationDirection="One">
       <bpmn:documentation>qué está escrito</bpmn:documentation>
     </bpmn:association>
@@ -177,17 +195,26 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
           <dc:Bounds x="1045" y="834" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_ayuda_di_join_di" bpmnElement="g_ayuda_join" isMarkerVisible="true">
+        <dc:Bounds x="1000" y="780" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_responde_di" bpmnElement="t_responde">
         <dc:Bounds x="1250" y="765" width="150" height="80"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_arregla_di" bpmnElement="t_arregla">
         <dc:Bounds x="1670" y="765" width="150" height="80"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_arregla_di_join_di" bpmnElement="t_arregla_join" isMarkerVisible="true">
+        <dc:Bounds x="1580" y="765" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="g_ok_di" bpmnElement="g_ok" isMarkerVisible="true">
         <dc:Bounds x="1510" y="780" width="50" height="50"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1465" y="834" width="140" height="36"/>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_ok_di_join_di" bpmnElement="g_ok_join" isMarkerVisible="true">
+        <dc:Bounds x="1420" y="780" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_cierra_di" bpmnElement="t_cierra" bioc:stroke="#4d9e5c">
         <dc:Bounds x="1670" y="895" width="150" height="80"/>
@@ -237,19 +264,23 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
         <di:waypoint x="980" y="345"/>
         <di:waypoint x="1070" y="345"/>
         <di:waypoint x="1070" y="805"/>
+        <di:waypoint x="1050" y="805"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_ayuda_join_di" bpmnElement="sf_g_ayuda_join">
+        <di:waypoint x="1050" y="805"/>
         <di:waypoint x="1090" y="805"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_7_di" bpmnElement="sf_7">
         <di:waypoint x="980" y="475"/>
         <di:waypoint x="1070" y="475"/>
         <di:waypoint x="1070" y="805"/>
-        <di:waypoint x="1090" y="805"/>
+        <di:waypoint x="1050" y="805"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_8_di" bpmnElement="sf_8">
         <di:waypoint x="980" y="605"/>
         <di:waypoint x="1070" y="605"/>
         <di:waypoint x="1070" y="805"/>
-        <di:waypoint x="1090" y="805"/>
+        <di:waypoint x="1050" y="805"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_9_di" bpmnElement="sf_9">
         <di:waypoint x="1140" y="805"/>
@@ -257,21 +288,29 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1140" y="805"/>
+        <di:waypoint x="1630" y="790"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_arregla_join_di" bpmnElement="sf_t_arregla_join">
+        <di:waypoint x="1630" y="790"/>
         <di:waypoint x="1670" y="805"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_11_di" bpmnElement="sf_11">
         <di:waypoint x="1400" y="805"/>
+        <di:waypoint x="1470" y="805"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_ok_join_di" bpmnElement="sf_g_ok_join">
+        <di:waypoint x="1470" y="805"/>
         <di:waypoint x="1510" y="805"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_12_di" bpmnElement="sf_12">
         <di:waypoint x="1745" y="845"/>
         <di:waypoint x="1745" y="1058"/>
         <di:waypoint x="1535" y="1058"/>
-        <di:waypoint x="1535" y="830"/>
+        <di:waypoint x="1470" y="805"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_13_di" bpmnElement="sf_13">
         <di:waypoint x="1560" y="805"/>
-        <di:waypoint x="1670" y="805"/>
+        <di:waypoint x="1630" y="790"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_14_di" bpmnElement="sf_14">
         <di:waypoint x="1560" y="805"/>

@@ -13,6 +13,7 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
       <bpmn:lane id="lane_1" name="1 · Lo que entra (clientes)">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_abre</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_abre_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cliente_a</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cand</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cliente_c</bpmn:flowNodeRef>
@@ -35,11 +36,15 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
       <bpmn:timerEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
     <bpmn:parallelGateway id="g_abre">
-      <bpmn:incoming>sf_1</bpmn:incoming>
-      <bpmn:incoming>sf_13</bpmn:incoming>
+      <bpmn:incoming>sf_g_abre_join</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="g_abre_join">
+      <bpmn:incoming>sf_1</bpmn:incoming>
+      <bpmn:incoming>sf_13</bpmn:incoming>
+      <bpmn:outgoing>sf_g_abre_join</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:task id="t_cliente_a" name="Entra CLIENTE_A">
       <bpmn:documentation>[CIFRA] el 15/10 (2 meses). Luego [CIFRA]/mes hasta febrero. Contrato sin firmar.</bpmn:documentation>
@@ -93,20 +98,21 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
     <bpmn:dataStoreReference id="d_captura" name="captura.json">
       <bpmn:documentation>Almacén · de aquí salen todos los números.</bpmn:documentation>
     </bpmn:dataStoreReference>
-    <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="g_abre"/>
+    <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="g_abre_join"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="g_abre" targetRef="t_cliente_a"/>
     <bpmn:sequenceFlow id="sf_3" sourceRef="g_abre" targetRef="t_cand"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_abre" targetRef="t_cliente_c"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="t_cliente_a" targetRef="g_cierra"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="t_cand" targetRef="g_cierra"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="t_cliente_c" targetRef="g_cierra"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="g_cierra" targetRef="t_burn" name="y sale"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="g_cierra" targetRef="t_burn"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="t_burn" targetRef="t_fijos"/>
     <bpmn:sequenceFlow id="sf_10" sourceRef="t_fijos" targetRef="g_alcanza"/>
     <bpmn:sequenceFlow id="sf_11" sourceRef="g_alcanza" targetRef="t_ok" name="sí"/>
     <bpmn:sequenceFlow id="sf_12" sourceRef="g_alcanza" targetRef="t_no" name="no"/>
-    <bpmn:sequenceFlow id="sf_13" sourceRef="t_ok" targetRef="g_abre" name="a los 15 días, de nuevo"/>
+    <bpmn:sequenceFlow id="sf_13" sourceRef="t_ok" targetRef="g_abre_join"/>
     <bpmn:sequenceFlow id="sf_14" sourceRef="t_no" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_g_abre_join" sourceRef="g_abre_join" targetRef="g_abre"/>
     <bpmn:association id="as_1" sourceRef="d_captura" targetRef="g_alcanza" associationDirection="One">
       <bpmn:documentation>los números</bpmn:documentation>
     </bpmn:association>
@@ -160,6 +166,9 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
           <dc:Bounds x="415" y="174" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_abre_di_join_di" bpmnElement="g_abre_join" isMarkerVisible="true">
+        <dc:Bounds x="370" y="120" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_cliente_a_di" bpmnElement="t_cliente_a" bioc:stroke="#4d9e5c">
         <dc:Bounds x="620" y="105" width="150" height="80"/>
       </bpmndi:BPMNShape>
@@ -207,6 +216,10 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="sf_1_di" bpmnElement="sf_1">
         <di:waypoint x="293" y="145"/>
+        <di:waypoint x="420" y="145"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_abre_join_di" bpmnElement="sf_g_abre_join">
+        <di:waypoint x="420" y="145"/>
         <di:waypoint x="460" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_2_di" bpmnElement="sf_2">
@@ -271,7 +284,7 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
         <di:waypoint x="1745" y="845"/>
         <di:waypoint x="1745" y="1058"/>
         <di:waypoint x="485" y="1058"/>
-        <di:waypoint x="485" y="170"/>
+        <di:waypoint x="420" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_14_di" bpmnElement="sf_14">
         <di:waypoint x="1820" y="935"/>

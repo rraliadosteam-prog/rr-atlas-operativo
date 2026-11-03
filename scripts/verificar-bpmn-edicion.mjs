@@ -186,7 +186,8 @@ async function corrida(nombreViewport, viewport, esMovil) {
   await page.screenshot({ path: `${CARPETA}/bpmn-edicion-${nombreViewport}-inspector.png` });
 
   // Agregar una tarea nueva desde «＋ Añadir».
-  await page.click('.bpmn-menu > summary');
+  // El menú de «+ Añadir» (no el de «⋯», que vive en la barra de celular).
+  await page.click('.bpmn-menu:not(.bpmn-menu--mas) > summary');
   await page.waitForTimeout(300);
   await page.click('[data-bpmn-accion="agregar-tarea"]');
   await page.waitForTimeout(1000);

@@ -1,14 +1,18 @@
 {
-  "comentario": "Deuda de modelado G2. Estas ocho compuertas abren y cierran a la vez (regla bpmnlint no-gateway-join-fork). El XML de las semillas no se reescribe: el fallo está en el modelado del spec, no en el exportador. El CI las cuenta como avisos conocidos para que el chequeo pase y la deuda siga visible. La validación en vivo de la app las sigue mostrando como error.",
+  "comentario": "La deuda de modelado G2 (compuertas que abrían y cerraban a la vez) se reparó el 2026-11-02 por decisión de Rosas: las 8 compuertas con la regla no-gateway-join-fork se dividieron en una compuerta que une (join) y otra que reparte (fork), con scripts/reparar-compuertas.mjs. En la misma pasada se repararon las entradas sin join (regla fake-join) y las etiquetas de sobra en los flujos (regla superfluous-label). Las 16 semillas quedan con 0 errores y 0 avisos de las reglas estructurales de bpmnlint. Lo que queda son avisos de estilo de contenido del plugin de RR (rr/lane-es-rol y rr/tarea-infinitivo): los nombres de los carriles y de las tareas se validan con el equipo antes de cambiarlos, porque son el texto que ve la gente en el diagrama.",
   "regla": "no-gateway-join-fork",
-  "casos": [
-    { "archivo": "clientes_que_pasa_despues_de_entregar.bpmn", "id": "g_vida" },
-    { "archivo": "clientes_que_pasa_despues_de_que_firman.bpmn", "id": "g_listo" },
-    { "archivo": "finanzas_como_se_le_paga_a_alguien.bpmn", "id": "g_firma" },
-    { "archivo": "finanzas_la_quincena.bpmn", "id": "g_abre" },
-    { "archivo": "gobierno_como_se_gobierna_la_documentacion.bpmn", "id": "g_dueno" },
-    { "archivo": "legal_como_se_firma_un_contrato.bpmn", "id": "g_firmado" },
-    { "archivo": "soporte_como_se_resuelve_un_problema_de_un_cliente.bpmn", "id": "g_ayuda" },
-    { "archivo": "soporte_como_se_resuelve_un_problema_de_un_cliente.bpmn", "id": "g_ok" }
-  ]
+  "reparadoEl": "2026-11-02",
+  "casos": [],
+  "avisosDeContenidoPendientes": {
+    "rr/lane-es-rol": {
+      "que": "43 carriles se llaman como una etapa («1 · Prioridad», «3 · Quien lo resuelve»). En RR un carril es un rol.",
+      "porQueNoSeCambia": "El nombre del carril es texto de lectura del diagrama: se cambia con el equipo, no de una vez.",
+      "equipo": "Dirección"
+    },
+    "rr/tarea-infinitivo": {
+      "que": "109 tareas no están en infinitivo de 2 a 6 palabras («2. Se anota», «6. Se cierra»).",
+      "porQueNoSeCambia": "El nombre de la tarea es el texto que la gente lee en el diagrama y en la guía: reescribirlo es un pase de contenido con el equipo.",
+      "equipo": "Dirección"
+    }
+  }
 }

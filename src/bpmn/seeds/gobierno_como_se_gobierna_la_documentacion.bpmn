@@ -13,11 +13,13 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       <bpmn:lane id="lane_1" name="1 · El documento entra">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_dueno</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_dueno_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_decide</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="lane_2" name="2 · Gobierno documental">
         <bpmn:flowNodeRef>t_contexto</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_dup</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_dup_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_hist</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_indices</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_espejos</bpmn:flowNodeRef>
@@ -32,10 +34,14 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
     <bpmn:exclusiveGateway id="g_dueno" name="2. ¿Tiene dueño de área?">
-      <bpmn:incoming>sf_1</bpmn:incoming>
-      <bpmn:incoming>sf_13</bpmn:incoming>
+      <bpmn:incoming>sf_g_dueno_join</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="g_dueno_join">
+      <bpmn:incoming>sf_1</bpmn:incoming>
+      <bpmn:incoming>sf_13</bpmn:incoming>
+      <bpmn:outgoing>sf_g_dueno_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:task id="t_decide" name="Se decide el área canónica">
       <bpmn:documentation>¿Qué área es dueña de este contenido? La puerta es 00_LEEME_PRIMERO. Si el área está mal, todo lo de abajo queda mal: aparecen dos versiones del mismo dato y nadie sabe cuál manda.</bpmn:documentation>
@@ -55,10 +61,14 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
     </bpmn:task>
     <bpmn:task id="t_dup" name="4. Se evitan duplicados">
       <bpmn:documentation>Se busca si ya existe copia, espejo o versión vieja, en el mapa de fuentes y en el índice del área. No se edita un histórico: se cita como evidencia. Un espejo sin dueño se vuelve una contradicción.</bpmn:documentation>
-      <bpmn:incoming>sf_3</bpmn:incoming>
-      <bpmn:incoming>sf_4</bpmn:incoming>
+      <bpmn:incoming>sf_t_dup_join</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_dup_join">
+      <bpmn:incoming>sf_3</bpmn:incoming>
+      <bpmn:incoming>sf_4</bpmn:incoming>
+      <bpmn:outgoing>sf_t_dup_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:task id="t_hist" name="5. Se registra el historial">
       <bpmn:documentation>Si algo cambió de verdad, se anota cuándo y por qué en el _HISTORIAL.md del nivel más cercano. Un typo no genera historial; un alta, una baja o una regla nueva, sí.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
@@ -120,19 +130,21 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
     <bpmn:dataObjectReference id="d_bandeja" dataObjectRef="do_d_bandeja" name="INBOX">
       <bpmn:documentation>Las tres salidas de la regla 4: promover a nota, mover a la carpeta correcta o descartar. TTL de 7 días en la bandeja interna, 14 en documentacion_pa_leer.</bpmn:documentation>
     </bpmn:dataObjectReference>
-    <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="g_dueno"/>
+    <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="g_dueno_join"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="g_dueno" targetRef="t_decide" name="no: sin dueño claro"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="g_dueno" targetRef="t_dup" name="sí: el área está clara"/>
-    <bpmn:sequenceFlow id="sf_4" sourceRef="t_decide" targetRef="t_dup"/>
-    <bpmn:sequenceFlow id="sf_5" sourceRef="t_dup" targetRef="t_contexto" name="sin copia rival: se escribe"/>
-    <bpmn:sequenceFlow id="sf_6" sourceRef="t_contexto" targetRef="t_hist" name="cambió el inventario"/>
-    <bpmn:sequenceFlow id="sf_7" sourceRef="t_hist" targetRef="t_indices" name="queda anotado en el área"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="t_indices" targetRef="t_espejos" name="los índices ya apuntan"/>
-    <bpmn:sequenceFlow id="sf_9" sourceRef="t_espejos" targetRef="g_revision" name="se pide la revisión"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="g_dueno" targetRef="t_dup_join" name="sí: el área está clara"/>
+    <bpmn:sequenceFlow id="sf_4" sourceRef="t_decide" targetRef="t_dup_join"/>
+    <bpmn:sequenceFlow id="sf_5" sourceRef="t_dup" targetRef="t_contexto"/>
+    <bpmn:sequenceFlow id="sf_6" sourceRef="t_contexto" targetRef="t_hist"/>
+    <bpmn:sequenceFlow id="sf_7" sourceRef="t_hist" targetRef="t_indices"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="t_indices" targetRef="t_espejos"/>
+    <bpmn:sequenceFlow id="sf_9" sourceRef="t_espejos" targetRef="g_revision"/>
     <bpmn:sequenceFlow id="sf_10" sourceRef="g_revision" targetRef="t_canonico" name="sí: lo aprueba una persona"/>
     <bpmn:sequenceFlow id="sf_11" sourceRef="g_revision" targetRef="t_bandeja" name="no: no hay aprobación"/>
     <bpmn:sequenceFlow id="sf_12" sourceRef="t_canonico" targetRef="e_fin"/>
-    <bpmn:sequenceFlow id="sf_13" sourceRef="t_bandeja" targetRef="g_dueno" name="y se vuelve a preguntar"/>
+    <bpmn:sequenceFlow id="sf_13" sourceRef="t_bandeja" targetRef="g_dueno_join"/>
+    <bpmn:sequenceFlow id="sf_g_dueno_join" sourceRef="g_dueno_join" targetRef="g_dueno"/>
+    <bpmn:sequenceFlow id="sf_t_dup_join" sourceRef="t_dup_join" targetRef="t_dup"/>
     <bpmn:association id="as_1" sourceRef="d_reglas" targetRef="g_dueno" associationDirection="One">
       <bpmn:documentation>las reglas del agente</bpmn:documentation>
     </bpmn:association>
@@ -184,6 +196,9 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
           <dc:Bounds x="415" y="174" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_dueno_di_join_di" bpmnElement="g_dueno_join" isMarkerVisible="true">
+        <dc:Bounds x="370" y="120" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_decide_di" bpmnElement="t_decide">
         <dc:Bounds x="620" y="105" width="150" height="80"/>
       </bpmndi:BPMNShape>
@@ -192,6 +207,9 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_dup_di" bpmnElement="t_dup" bioc:stroke="#e08b45">
         <dc:Bounds x="830" y="435" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_dup_di_join_di" bpmnElement="t_dup_join" isMarkerVisible="true">
+        <dc:Bounds x="740" y="435" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_hist_di" bpmnElement="t_hist">
         <dc:Bounds x="1250" y="435" width="150" height="80"/>
@@ -246,6 +264,10 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="sf_1_di" bpmnElement="sf_1">
         <di:waypoint x="293" y="145"/>
+        <di:waypoint x="420" y="145"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_dueno_join_di" bpmnElement="sf_g_dueno_join">
+        <di:waypoint x="420" y="145"/>
         <di:waypoint x="460" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_2_di" bpmnElement="sf_2">
@@ -256,13 +278,17 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
         <di:waypoint x="510" y="145"/>
         <di:waypoint x="810" y="145"/>
         <di:waypoint x="810" y="475"/>
+        <di:waypoint x="790" y="460"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_dup_join_di" bpmnElement="sf_t_dup_join">
+        <di:waypoint x="790" y="460"/>
         <di:waypoint x="830" y="475"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_4_di" bpmnElement="sf_4">
         <di:waypoint x="770" y="145"/>
         <di:waypoint x="810" y="145"/>
         <di:waypoint x="810" y="475"/>
-        <di:waypoint x="830" y="475"/>
+        <di:waypoint x="790" y="460"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_5_di" bpmnElement="sf_5">
         <di:waypoint x="980" y="475"/>
@@ -302,7 +328,7 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
         <di:waypoint x="2165" y="645"/>
         <di:waypoint x="2165" y="858"/>
         <di:waypoint x="485" y="858"/>
-        <di:waypoint x="485" y="170"/>
+        <di:waypoint x="420" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="dia_1_di" bpmnElement="dia_1">
         <di:waypoint x="695" y="250"/>

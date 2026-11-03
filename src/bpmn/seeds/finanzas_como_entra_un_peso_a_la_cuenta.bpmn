@@ -21,6 +21,7 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
         <bpmn:flowNodeRef>t_cliente_c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cand</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_caja</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_caja_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
@@ -67,11 +68,15 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
     </bpmn:task>
     <bpmn:task id="t_caja" name="Entra a la cuenta">
       <bpmn:documentation>Cartera vencida: [CIFRA] Nadie nos debe hoy.</bpmn:documentation>
+      <bpmn:incoming>sf_t_caja_join</bpmn:incoming>
+      <bpmn:outgoing>sf_10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="t_caja_join">
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:incoming>sf_9</bpmn:incoming>
-      <bpmn:outgoing>sf_10</bpmn:outgoing>
-    </bpmn:task>
+      <bpmn:outgoing>sf_t_caja_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:endEvent id="e_fin" name="En la cuenta">
       <bpmn:incoming>sf_10</bpmn:incoming>
     </bpmn:endEvent>
@@ -80,14 +85,15 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
     </bpmn:dataStoreReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_contrato"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_contrato" targetRef="t_factura"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="t_factura" targetRef="g_paga" name="a fin de mes"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="t_factura" targetRef="g_paga"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_paga" targetRef="t_cliente_a"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="g_paga" targetRef="t_cliente_c"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="g_paga" targetRef="t_cand"/>
-    <bpmn:sequenceFlow id="sf_7" sourceRef="t_cliente_a" targetRef="t_caja"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="t_cliente_c" targetRef="t_caja"/>
-    <bpmn:sequenceFlow id="sf_9" sourceRef="t_cand" targetRef="t_caja"/>
+    <bpmn:sequenceFlow id="sf_7" sourceRef="t_cliente_a" targetRef="t_caja_join"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="t_cliente_c" targetRef="t_caja_join"/>
+    <bpmn:sequenceFlow id="sf_9" sourceRef="t_cand" targetRef="t_caja_join"/>
     <bpmn:sequenceFlow id="sf_10" sourceRef="t_caja" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_t_caja_join" sourceRef="t_caja_join" targetRef="t_caja"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>ESTO FRENA LA QUINCENA: sin firma no hay factura que emitir, y el 15/10 entran [CIFRA] que hoy no están respaldados por un documento firmado.</bpmn:text>
     </bpmn:textAnnotation>
@@ -142,6 +148,9 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       <bpmndi:BPMNShape id="t_caja_di" bpmnElement="t_caja">
         <dc:Bounds x="1250" y="435" width="150" height="80"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_caja_di_join_di" bpmnElement="t_caja_join" isMarkerVisible="true">
+        <dc:Bounds x="1160" y="355" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="e_fin_di" bpmnElement="e_fin">
         <dc:Bounds x="1517" y="457" width="36" height="36"/>
         <bpmndi:BPMNLabel>
@@ -186,19 +195,23 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_7_di" bpmnElement="sf_7">
         <di:waypoint x="1190" y="475"/>
+        <di:waypoint x="1210" y="380"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_caja_join_di" bpmnElement="sf_t_caja_join">
+        <di:waypoint x="1210" y="380"/>
         <di:waypoint x="1250" y="475"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_8_di" bpmnElement="sf_8">
         <di:waypoint x="1190" y="605"/>
         <di:waypoint x="1230" y="605"/>
         <di:waypoint x="1230" y="475"/>
-        <di:waypoint x="1250" y="475"/>
+        <di:waypoint x="1210" y="380"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_9_di" bpmnElement="sf_9">
         <di:waypoint x="1190" y="735"/>
         <di:waypoint x="1230" y="735"/>
         <di:waypoint x="1230" y="475"/>
-        <di:waypoint x="1250" y="475"/>
+        <di:waypoint x="1210" y="380"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1400" y="475"/>

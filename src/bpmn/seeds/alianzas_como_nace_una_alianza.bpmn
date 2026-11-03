@@ -16,6 +16,7 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
         <bpmn:flowNodeRef>g_relacion</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_acuerdo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_registra</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_registra_join</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="lane_2" name="2 · Comercial">
         <bpmn:flowNodeRef>t_llega</bpmn:flowNodeRef>
@@ -23,6 +24,7 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
         <bpmn:flowNodeRef>g_cierra</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_reporta</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_fin_join</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="lane_3" name="3 · Lo que no está escrito"/>
     </bpmn:laneSet>
@@ -47,10 +49,14 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
     </bpmn:task>
     <bpmn:task id="t_registra" name="4. Se registra el origen">
       <bpmn:documentation>Cada cliente nuevo anota de dónde vino. Sin esto no se sabe qué aliado funciona.</bpmn:documentation>
-      <bpmn:incoming>sf_4</bpmn:incoming>
-      <bpmn:incoming>sf_5</bpmn:incoming>
+      <bpmn:incoming>sf_t_registra_join</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_registra_join">
+      <bpmn:incoming>sf_4</bpmn:incoming>
+      <bpmn:incoming>sf_5</bpmn:incoming>
+      <bpmn:outgoing>sf_t_registra_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:task id="t_llega" name="6. Llega el prospecto">
       <bpmn:documentation>El aliado manda el contacto. Se trata como cliente normal.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
@@ -72,9 +78,13 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       <bpmn:outgoing>sf_11</bpmn:outgoing>
     </bpmn:task>
     <bpmn:endEvent id="e_fin" name="Alianza que produce">
+      <bpmn:incoming>sf_e_fin_join</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="e_fin_join">
       <bpmn:incoming>sf_10</bpmn:incoming>
       <bpmn:incoming>sf_11</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>sf_e_fin_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:dataObject id="do_d_alianzas"/>
     <bpmn:dataObjectReference id="d_alianzas" dataObjectRef="do_d_alianzas" name="ALIANZAS.md">
       <bpmn:documentation>La función existe en el organigrama. Los aliados registrados, no.</bpmn:documentation>
@@ -82,14 +92,16 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_valida"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_valida" targetRef="g_relacion"/>
     <bpmn:sequenceFlow id="sf_3" sourceRef="g_relacion" targetRef="t_acuerdo" name="no: hay que escribirlo"/>
-    <bpmn:sequenceFlow id="sf_4" sourceRef="g_relacion" targetRef="t_registra" name="sí: hay acuerdo"/>
-    <bpmn:sequenceFlow id="sf_5" sourceRef="t_acuerdo" targetRef="t_registra"/>
+    <bpmn:sequenceFlow id="sf_4" sourceRef="g_relacion" targetRef="t_registra_join" name="sí: hay acuerdo"/>
+    <bpmn:sequenceFlow id="sf_5" sourceRef="t_acuerdo" targetRef="t_registra_join"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="t_registra" targetRef="t_llega"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="t_llega" targetRef="t_embudo"/>
     <bpmn:sequenceFlow id="sf_8" sourceRef="t_embudo" targetRef="g_cierra"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="g_cierra" targetRef="t_reporta" name="sí"/>
-    <bpmn:sequenceFlow id="sf_10" sourceRef="g_cierra" targetRef="e_fin" name="no: se perdió"/>
-    <bpmn:sequenceFlow id="sf_11" sourceRef="t_reporta" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_10" sourceRef="g_cierra" targetRef="e_fin_join" name="no: se perdió"/>
+    <bpmn:sequenceFlow id="sf_11" sourceRef="t_reporta" targetRef="e_fin_join"/>
+    <bpmn:sequenceFlow id="sf_t_registra_join" sourceRef="t_registra_join" targetRef="t_registra"/>
+    <bpmn:sequenceFlow id="sf_e_fin_join" sourceRef="e_fin_join" targetRef="e_fin"/>
     <bpmn:association id="as_1" sourceRef="d_alianzas" targetRef="g_relacion" associationDirection="One">
       <bpmn:documentation>el modelo</bpmn:documentation>
     </bpmn:association>
@@ -145,6 +157,9 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       <bpmndi:BPMNShape id="t_registra_di" bpmnElement="t_registra">
         <dc:Bounds x="1040" y="105" width="150" height="80"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_registra_di_join_di" bpmnElement="t_registra_join" isMarkerVisible="true">
+        <dc:Bounds x="950" y="265" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_llega_di" bpmnElement="t_llega">
         <dc:Bounds x="1250" y="305" width="150" height="80"/>
       </bpmndi:BPMNShape>
@@ -166,6 +181,9 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
           <dc:Bounds x="2095" y="367" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e_fin_di_join_di" bpmnElement="e_fin_join" isMarkerVisible="true">
+        <dc:Bounds x="2057" y="327" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_alianzas_di" bpmnElement="d_alianzas">
         <dc:Bounds x="677" y="520" width="36" height="50"/>
         <bpmndi:BPMNLabel>
@@ -186,11 +204,15 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_4_di" bpmnElement="sf_4">
         <di:waypoint x="720" y="145"/>
-        <di:waypoint x="1040" y="145"/>
+        <di:waypoint x="975" y="265"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_registra_join_di" bpmnElement="sf_t_registra_join">
+        <di:waypoint x="975" y="265"/>
+        <di:waypoint x="1115" y="185"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_5_di" bpmnElement="sf_5">
         <di:waypoint x="980" y="145"/>
-        <di:waypoint x="1040" y="145"/>
+        <di:waypoint x="975" y="265"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_6_di" bpmnElement="sf_6">
         <di:waypoint x="1190" y="145"/>
@@ -212,11 +234,15 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1770" y="345"/>
+        <di:waypoint x="2107" y="352"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_e_fin_join_di" bpmnElement="sf_e_fin_join">
+        <di:waypoint x="2107" y="352"/>
         <di:waypoint x="2147" y="345"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_11_di" bpmnElement="sf_11">
         <di:waypoint x="2030" y="345"/>
-        <di:waypoint x="2147" y="345"/>
+        <di:waypoint x="2107" y="352"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="as_1_di" bpmnElement="as_1">
         <di:waypoint x="695" y="520"/>
