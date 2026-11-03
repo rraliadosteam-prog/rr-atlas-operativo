@@ -62,6 +62,44 @@ Este archivo se actualiza al final de cada fase con las pruebas ejecutadas y sus
 - [x] Medición del lienzo: escritorio 1150×471 → 1440×653 px; tableta 768×320 → 768×825 px; móvil 360×320 → 360×532 px.
 - [x] Capturas: `docs/fusion/capturas/pantalla-bpmn-*.png` (catálogo, pantalla completa y guía en escritorio, móvil 390 y móvil 360).
 
+## Bloque 6 · Item 6 · Pantalla dividida opcional
+
+- [x] `npm run verificar:dividido` verde en escritorio 1440×900 y móvil 390×844: el panel abre con **Otro diagrama** (66 formas visibles), **Esquema** (16 procesos en 7 áreas) e **Inicio** (20 tarjetas: 11 clientes y 9 servicios); tocar una ficha abre el proceso en el diagrama principal; la tecla **D** alterna el panel.
+- [x] Cero errores de consola en escritorio y móvil.
+
+## Bloque 7 · Item 7 · Responsive y táctil + decisiones de Rosas
+
+### Pruebas de clic real (Playwright sobre `/usr/bin/google-chrome`)
+
+| Prueba | 1440 | 768 | 360 | Evidencia |
+|---|---|---|---|---|
+| Clic en un nodo del mapa abre el inspector | ✅ | ✅ | ✅ | el paso «navegar» de `npm run audit:ux` pasó en las tres medidas (antes fallaba con *timeout* en 768 y 360) |
+| Zoom del mapa legible (≥ 45 %) | 20 % (encuadre completo) | 45 % | 45 % | `src/app/rr-tree-view.test.mjs` (J8 y P2) |
+| La raíz del Atlas queda a la vista y se puede tocar | ✅ | ✅ | ✅ | idem (nueva comprobación `assertMovilUsable`) |
+| Pellizco con dos dedos (zoom) | ✅ 20 % → 51 % | — | ✅ 45 % → 113 % | prueba propia con `PointerEvent` de tipo `touch` |
+| Pan con un dedo | ✅ | — | ✅ | misma prueba |
+| Cabecera BPMN sin solape (título vs «▥ Unir») | ✅ | ✅ | ✅ | título 60→228 px, acciones 240→380 px a 390 px |
+| Menú «⋯» del diagrama con 7 acciones de 44 px | — | — | ✅ | `.bpmn-menu--mas` fijo a la izquierda, dentro de la pantalla |
+| Objetivos táctiles ≥ 44 px | ✅ | ✅ | ✅ | `npm run audit:ux` sin «objetivosChicos» en ninguna medida |
+| Cero errores de consola | ✅ | ✅ | ✅ | `docs/fusion/AUDITORIA_UX.json` → `consola: []` |
+
+### Comprobaciones del repo
+
+- [x] `npm run check`: **verde** — 202 tests pass, 0 fail, build ok.
+- [x] `npm run lint:bpmn`: **verde** — 16 semillas, moddle sin avisos, **0 errores** y **0 avisos de las reglas estructurales de bpmnlint** (antes: 196 avisos, entre ellos 8 `no-gateway-join-fork`, 19 `fake-join` y 25 `superfluous-label`).
+- [x] `npm run verificar:bpmn-edicion` verde (escritorio 1440 y móvil 390).
+- [x] `npm run verificar:pantalla` verde (1440×900, 390×844 y 360×740).
+- [x] `npm run verificar:guia` verde (escritorio y móvil).
+- [x] `npm run verificar:dividido` verde (escritorio y móvil).
+- [x] `npm run audit:ux` verde: 3 viewports × 7 pasos, **21 pasos**, 0 errores de consola, sin desbordes horizontales y sin objetivos táctiles pequeños.
+- [x] Capturas: `docs/fusion/capturas/auditoria/` (21 capturas por viewport y paso) y `docs/fusion/capturas/bpmn-edicion-*.png`.
+
+### Cambios en las pruebas del repo
+
+- `src/app/rr-tree-view.test.mjs`: el zoom móvil mínimo pasa de 60 % a **45 %** y se adds la comprobación de que la raíz del Atlas queda dentro del lienzo y mide ≥ 90×44 px. En 1440 px el encuadre completo no cambia.
+- `src/data/rr-tree.test.mjs`: el estado de los bots ahora es el que dicta la decisión de Rosas (Vigente / Sin confirmar) en vez del «Por confirmar con Rosas» automático.
+- `scripts/verificar-bpmn-edicion.mjs` y `scripts/auditoria-ux-fusion.mjs`: abren el menú «⋯» antes de pulsar deshacer, rehacer, guardar, restaurar y exportar (en celular esas acciones viven en el menú).
+
 ## Fases posteriores
 
 Se irán agregando conforme avance la fusión.
