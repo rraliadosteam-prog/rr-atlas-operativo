@@ -852,3 +852,31 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas sobre los
   nombres de los carriles (queda en `docs/fusion/PREGUNTAS.md`).
 - El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.
+
+## Bloque 12 · Parte 2 · Mapeo carril → rol (avance) — 2026-11-02
+
+### Qué se hizo
+- El único pendiente que quedaba del bloque 11 era el **mapeo carril → rol** de los 16 diagramas.
+  Se avanzó **dos carriles más** que sí tienen fuente en RR, y el resto se dejó pendiente (no se
+  inventa):
+  - **«Comercial» → Bot Captación**: el mega prompt §6.2.1 pone el carril de «Oportunidad a
+    cliente» como «Comercial/Captación» y el Manual de los bots (corte 2026-10-24) describe a
+    Captación como el de estrategia y reparto de leads. En el manual de roles **no hay** un cargo
+    humano de ventas, así que el único rol con fuente es el bot.
+  - **«Contenido» → Director Creativo**: el mega prompt §6.3.4 lista el carril de «Producción de
+    una pieza de contenido» como «Dir. Creativo, Consultora, Editor, Camarógrafo (por definir),
+    cliente», y el manual de roles (corte 2026-09-26) pone contenido crudo y liderazgo de
+    grabación en el Director Creativo.
+- `src/data/base/procesos.json` se regeneró con `npm run carriles:extraer`: el diff toca **solo 6
+  líneas** (los 6 procesos que tienen carril «Comercial» o «Contenido»).
+- **Lo que sigue pendiente** (sin fuente): «Soporte», «Soporte · Prioridad», «Cliente», «Bot»,
+  «Solicitante» y «Equipo RR» con sus coletillas. No hay cargo humano de soporte, ni rol externo
+  para el cliente, ni un «solicitante» en el manual de roles: se quedan como «sin confirmar» y la
+  pregunta sigue abierta en `docs/fusion/PREGUNTAS.md`.
+
+### Estado de los checks
+- `npm run check`: **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre 26/26.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:cierre`: **verde** — 30 de 30, 0 errores de consola.
+- `npm run verificar:tactil`: **verde** — 18 de 18, 0 errores de consola.
+- `npm run audit:ux`: **verde** — 3 viewports × 7 pasos, 0 errores de consola.

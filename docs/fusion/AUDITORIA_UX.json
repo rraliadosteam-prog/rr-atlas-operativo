@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-03T00:48:55.109Z",
+  "generadoEn": "2026-11-03T01:57:17.552Z",
   "viewports": [
     {
       "viewport": {
@@ -20,13 +20,13 @@
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
                 "left": -23,
-                "right": 1308,
+                "right": 1309,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -23,
-                "right": 120,
+                "right": 121,
                 "ancho": 143
               }
             ],
@@ -91,14 +91,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -87,
-                "right": 1245,
+                "left": -86,
+                "right": 1246,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -87,
-                "right": 56,
+                "left": -86,
+                "right": 57,
                 "ancho": 143
               }
             ],
@@ -146,10 +146,10 @@
             "formas": 47,
             "carriles": 3,
             "titulo": "Oportunidad a cliente",
-            "informe": "0 errores de lint11 avisosEl carril «1 · Comercial (lleva)» parece una etapa o una persona. En RR un carril es un rol.El",
+            "informe": "0 errores de lint0 avisos",
             "lienzo": {
               "ancho": 1440,
-              "alto": 624
+              "alto": 679
             }
           },
           "inspector": {
@@ -159,7 +159,7 @@
           },
           "recorrido": {
             "antes": "Comercial y captación · paso 1 de 12 · Llega alguien",
-            "despues": "Comercial y captación · paso 2 de 12 · 2. Se anota · 1 · Comercial (lleva)",
+            "despues": "Comercial y captación · paso 2 de 12 · 2. Registrar el prospecto · Comercial",
             "avanza": true
           },
           "layout": {
@@ -169,27 +169,21 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -166,
-                "right": 1165,
+                "left": -165,
+                "right": 1167,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -166,
-                "right": -23,
+                "left": -165,
+                "right": -22,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -23,
-                "right": -1,
+                "left": -22,
+                "right": 0,
                 "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": -1,
-                "right": 89,
-                "ancho": 90
               }
             ],
             "objetivosChicos": [],
@@ -209,8 +203,8 @@
           },
           "edicionDirecta": {
             "disponible": true,
-            "textoOriginal": "2. Se anota",
-            "textoFinal": "2. Se anota (editada)",
+            "textoOriginal": "2. Registrar el prospecto",
+            "textoFinal": "2. Registrar el prospecto (editada)",
             "cambioAplicado": true
           },
           "captura": "docs/fusion/capturas/auditoria/escritorio-1440-05-bpmn-editar.png"
@@ -221,19 +215,19 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 16214
+              "bytes": 16262
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38259
+              "bytes": 38390
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 423271
+              "bytes": 435192
             },
             {
               "archivo": "rr-atlas-arbol.json",
-              "bytes": 80438
+              "bytes": 80414
             }
           ],
           "toast": {
@@ -358,7 +352,7 @@
               "visible": true
             },
             "busqueda": {
-              "ancho": 383,
+              "ancho": 296,
               "visible": true
             },
             "botonBpmn": {
@@ -406,74 +400,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -84,
-                "right": 1248,
+                "left": -82,
+                "right": 1250,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -84,
-                "right": 60,
+                "left": -82,
+                "right": 62,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 748,
-                "right": 837,
+                "left": 750,
+                "right": 839,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 837,
-                "right": 859,
+                "left": 839,
+                "right": 862,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 859,
-                "right": 912,
+                "left": 862,
+                "right": 914,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 912,
-                "right": 934,
+                "left": 914,
+                "right": 936,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 934,
-                "right": 989,
+                "left": 936,
+                "right": 991,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 989,
-                "right": 1011,
+                "left": 991,
+                "right": 1013,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1011,
-                "right": 1105,
+                "left": 1013,
+                "right": 1107,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1105,
-                "right": 1127,
+                "left": 1107,
+                "right": 1129,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1127,
-                "right": 1226,
+                "left": 1129,
+                "right": 1228,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1226,
-                "right": 1248,
+                "left": 1228,
+                "right": 1250,
                 "ancho": 22
               }
             ],
@@ -521,10 +515,10 @@
             "formas": 47,
             "carriles": 3,
             "titulo": "Oportunidad a cliente",
-            "informe": "0 errores de lint11 avisosEl carril «1 · Comercial (lleva)» parece una etapa o una persona. En RR un carril es un rol.El",
+            "informe": "0 errores de lint0 avisos",
             "lienzo": {
               "ancho": 768,
-              "alto": 816
+              "alto": 880
             }
           },
           "inspector": {
@@ -534,7 +528,7 @@
           },
           "recorrido": {
             "antes": "Comercial y captación · paso 1 de 12 · Llega alguien",
-            "despues": "Comercial y captación · paso 2 de 12 · 2. Se anota · 1 · Comercial (lleva)",
+            "despues": "Comercial y captación · paso 2 de 12 · 2. Registrar el prospecto · Comercial",
             "avanza": true
           },
           "layout": {
@@ -544,74 +538,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -163,
-                "right": 1169,
+                "left": -160,
+                "right": 1171,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -163,
-                "right": -19,
+                "left": -160,
+                "right": -17,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -19,
-                "right": 3,
+                "left": -17,
+                "right": 5,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 758,
-                "right": 781,
+                "left": 760,
+                "right": 783,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 781,
-                "right": 833,
+                "left": 783,
+                "right": 835,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 833,
-                "right": 855,
+                "left": 835,
+                "right": 857,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 855,
-                "right": 910,
+                "left": 857,
+                "right": 912,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 910,
-                "right": 932,
+                "left": 912,
+                "right": 934,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 932,
-                "right": 1026,
+                "left": 934,
+                "right": 1028,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1026,
-                "right": 1048,
+                "left": 1028,
+                "right": 1050,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1048,
-                "right": 1147,
+                "left": 1050,
+                "right": 1149,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1147,
-                "right": 1169,
+                "left": 1149,
+                "right": 1171,
                 "ancho": 22
               }
             ],
@@ -632,8 +626,8 @@
           },
           "edicionDirecta": {
             "disponible": true,
-            "textoOriginal": "2. Se anota",
-            "textoFinal": "2. Se anota (editada)",
+            "textoOriginal": "2. Registrar el prospecto",
+            "textoFinal": "2. Registrar el prospecto (editada)",
             "cambioAplicado": true
           },
           "captura": "docs/fusion/capturas/auditoria/tableta-768-05-bpmn-editar.png"
@@ -644,19 +638,19 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 16214
+              "bytes": 16262
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38231
+              "bytes": 38362
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 421404
+              "bytes": 431023
             },
             {
               "archivo": "rr-atlas-arbol.json",
-              "bytes": 80438
+              "bytes": 80414
             }
           ],
           "toast": {
@@ -697,21 +691,15 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -20,
+                "left": -21,
                 "right": 1231,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -20,
-                "right": 111,
+                "left": -21,
+                "right": 110,
                 "ancho": 131
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 310,
-                "right": 361,
-                "ancho": 51
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
@@ -722,12 +710,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 383,
-                "right": 470,
+                "right": 469,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 470,
+                "left": 469,
                 "right": 492,
                 "ancho": 22
               },
@@ -746,18 +734,18 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 605,
-                "right": 737,
+                "right": 736,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 737,
-                "right": 759,
+                "left": 736,
+                "right": 758,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 759,
+                "left": 758,
                 "right": 842,
                 "ancho": 83
               },
@@ -766,6 +754,12 @@
                 "left": 842,
                 "right": 864,
                 "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 864,
+                "right": 913,
+                "ancho": 49
               }
             ],
             "objetivosChicos": [],
@@ -944,10 +938,10 @@
             "formas": 47,
             "carriles": 3,
             "titulo": "Oportunidad a cliente",
-            "informe": "0 errores de lint11 avisosEl carril «1 · Comercial (lleva)» parece una etapa o una persona. En RR un carril es un rol.El",
+            "informe": "0 errores de lint0 avisos",
             "lienzo": {
               "ancho": 360,
-              "alto": 532
+              "alto": 596
             }
           },
           "inspector": {
@@ -957,7 +951,7 @@
           },
           "recorrido": {
             "antes": "Comercial y captación · paso 1 de 12 · Llega alguien",
-            "despues": "Comercial y captación · paso 2 de 12 · 2. Se anota · 1 · Comercial (lleva)",
+            "despues": "Comercial y captación · paso 2 de 12 · 2. Registrar el prospecto · Comercial",
             "avanza": true
           },
           "layout": {
@@ -980,24 +974,24 @@
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": -18,
-                "right": 5,
+                "right": 4,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 341,
-                "right": 364,
+                "right": 363,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 364,
-                "right": 455,
+                "left": 363,
+                "right": 454,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 455,
+                "left": 454,
                 "right": 477,
                 "ancho": 22
               },
@@ -1010,24 +1004,24 @@
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 608,
-                "right": 631,
+                "right": 630,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 631,
-                "right": 714,
+                "left": 630,
+                "right": 713,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 714,
-                "right": 736,
+                "left": 713,
+                "right": 735,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 736,
+                "left": 735,
                 "right": 785,
                 "ancho": 49
               },
@@ -1064,15 +1058,15 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 16175
+              "bytes": 16223
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38172
+              "bytes": 38274
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 420543
+              "bytes": 429024
             }
           ],
           "toast": {
