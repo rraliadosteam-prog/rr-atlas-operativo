@@ -229,8 +229,7 @@ async function flujoDividido(page, errores) {
 }
 
 /** Flujo de la vista Datos: resumen, validador y export del modelo v5. */
-async function flujoDatos(page, errores) {
-  await page.waitForSelector('[data-datos-view]:not([hidden])', { timeout: 15000 });
+async function flujoDatos(page, errores) {  await page.waitForSelector('[data-datos-view]:not([hidden])', { timeout: 15000 });
   await page.waitForSelector('[data-datos-resumen] .datos__item', { timeout: 15000 });
   const colecciones = await page.locator('[data-datos-resumen] .datos__item').count();
   if (colecciones < 11) return { ok: false, detalle: `el resumen solo trae ${colecciones} colecciones` };
@@ -245,6 +244,25 @@ async function flujoDatos(page, errores) {
   const archivo = await descarga;
   if (!archivo) return { ok: false, detalle: 'el botón Exportar JSON no descargó el archivo' };
   return { ok: true, detalle: `${colecciones} colecciones, ${fuentes} fuentes, validador en verde, export «${archivo.suggestedFilename()}»` };
+}
+
+/**
+ * Flujo de los huecos «sin confirmar» (mega prompt §10): la vista Datos los
+ * lista con su fuente y su corte, y el Inicio de la pantalla dividida los
+ * muestra sin salir de RR.
+ */
+async function flujoPendientes(page, errores) {
+  await page.waitForSelector('[data-datos-view]:not([hidden])', { timeout: 15000 });
+  await page.waitForSelector('[data-datos-pendientes] .datos__linea', { timeout: 15000 });
+  const huecos = await page.locator('[data-datos-pendientes] .datos__linea').count();
+  if (huecos < 15) return { ok: false, detalle: `solo hay ${huecos} huecos visibles` };
+  const conFuente = await page.locator('[data-datos-pendientes] .datos__fuente').count();
+  if (conFuente < 15) return { ok: false, detalle: `solo ${conFuente} huecos muestran su fuente y su corte` };
+  const texto = (await page.locator('[data-datos-pendientes]').textContent() ?? '').trim();
+  if (!/sin confirmar/i.test(texto)) return { ok: false, detalle: 'la lista no dice que están «sin confirmar»' };
+  await page.locator('[data-datos-pendientes]').scrollIntoViewIfNeeded().catch(() => {});
+  await page.waitForTimeout(300);
+  return { ok: true, detalle: `${huecos} huecos sin confirmar, cada uno con su fuente y su corte` };
 }
 
 /** Envuelve un flujo: si truena, el fallo queda registrado y el QA sigue. */
@@ -342,6 +360,15 @@ for (const medida of ANCHOS) {
     const res = await intentar(() => flujoDatos(page, errores));
     const captura = await capturar(page, 'datos', medida.nombre);
     await registrar('datos', medida.ancho, res.ok, res.detalle, errores, captura);
+    await page.close();
+  }
+
+  // 10. Huecos «sin confirmar» (mega prompt §10)
+  {
+    const { page, errores } = await abrirPagina(context, '#/datos');
+    const res = await intentar(() => flujoPendientes(page, errores));
+    const captura = await capturar(page, 'pendientes', medida.nombre);
+    await registrar('pendientes', medida.ancho, res.ok, res.detalle, errores, captura);
     await page.close();
   }
 

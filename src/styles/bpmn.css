@@ -752,6 +752,24 @@
   font-size: 0.7rem;
   color: var(--bpmn-texto-suave);
 }
+/* Lo que falta confirmar (mega prompt §10): cada hueco con su fuente. */
+.bpmn-inicio__pendientes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  max-height: 220px;
+  overflow: auto;
+}
+.bpmn-inicio__pendientes li {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  padding: 6px 8px;
+  border-left: 3px solid var(--bpmn-alerta);
+  background: var(--rr-crema);
+  overflow-wrap: anywhere;
+}
 
 /* La vista partida con el panel al lado: el diagrama no se encoge a cero. */
 .bpmn-view.is-dividido .bpmn-view__body {

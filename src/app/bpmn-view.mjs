@@ -11,6 +11,7 @@
 
 import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA, AVISO_GUIA } from '../bpmn/leyenda.mjs';
 import { CLIENTES, SERVICIOS, ESTADOS as ESTADOS_INICIO } from '../data/inicio-tarjetas.mjs';
+import { PENDIENTES, lineaPendiente } from '../data/pendientes.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 
@@ -431,6 +432,9 @@ export function createBpmnView({ root, shell, notify }) {
       '<section class="bpmn-inicio__grupo"><h3>Servicios</h3><div class="bpmn-inicio__tarjetas">',
       SERVICIOS.map(tarjeta).join(''),
       '</div></section>',
+      '<section class="bpmn-inicio__grupo"><h3>Sin confirmar</h3><ul class="bpmn-inicio__pendientes">',
+      PENDIENTES.map((pendiente) => `<li title="${esc(pendiente.detalle)}">${esc(lineaPendiente(pendiente))}</li>`).join(''),
+      '</ul></section>',
       '<p class="bpmn-inicio__nota">Los estados salen del inventario de RR; lo que no está confirmado aparece como «Sin confirmar». Sin cifras ni datos de personas.</p>',
     ].join('');
   }

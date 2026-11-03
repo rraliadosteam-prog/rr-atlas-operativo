@@ -16,6 +16,7 @@
 import { componerBase, ARCHIVOS_BASE } from '../data/base/componer.mjs';
 import { crearStore } from '../core/store.mjs';
 import { COLECCIONES, SCHEMA_VERSION, diff, importar } from '../core/model.mjs';
+import { PENDIENTES, agruparPendientes, lineaPendiente } from '../data/pendientes.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -83,6 +84,27 @@ export function resumirFuentes(entidades = {}) {
     .sort((a, b) => b.registros - a.registros);
 }
 
+/**
+ * Los huecos «sin confirmar» que el Atlas deja a la vista (mega prompt §10).
+ * Se agrupan por tipo para que se lean de un vistazo y cada hueco dice de
+ * dónde sale y hasta qué corte.
+ */
+export function resumirPendientes(pendientes = PENDIENTES) {
+  return agruparPendientes(pendientes).map((grupo) => ({
+    tipo: grupo.tipo,
+    titulo: grupo.titulo,
+    total: grupo.pendientes.length,
+    pendientes: grupo.pendientes.map((pendiente) => ({
+      id: pendiente.id,
+      titulo: pendiente.titulo,
+      detalle: pendiente.detalle,
+      fuente: pendiente.fuente,
+      corte: pendiente.corte,
+      linea: lineaPendiente(pendiente),
+    })),
+  }));
+}
+
 /** Texto corto de un cambio, para las listas de la vista. */
 export function textoCambio(cambio) {
   const campos = cambio.campos?.length ? ` · ${cambio.campos.join(', ')}` : '';
@@ -133,6 +155,7 @@ export function createDatosView({ root, shell, notify } = {}) {
   const validacion = $('[data-datos-validacion]', root);
   const historial = $('[data-datos-historial]', root);
   const fuentes = $('[data-datos-fuentes]', root);
+  const pendientes = $('[data-datos-pendientes]', root);
   const version = $('[data-datos-version]', root);
   const entradaArchivo = $('[data-datos-archivo]', root);
 
@@ -195,7 +218,31 @@ export function createDatosView({ root, shell, notify } = {}) {
       .join('')}</ul>`;
   }
 
+  function renderPendientes() {
+    if (!pendientes) return;
+    const grupos = resumirPendientes();
+    const total = grupos.reduce((suma, grupo) => suma + grupo.total, 0);
+    pendientes.innerHTML = [
+      `<p class="datos__intro">${total} punto(s) sin confirmar, con su fuente y su corte. Lo que no tiene fuente escrita queda como «sin confirmar»: no se inventa.</p>`,
+      ...grupos.map((grupo) => [
+        `<section class="datos-pendientes__grupo">`,
+        `<h3 class="datos-pendientes__titulo">${esc(grupo.titulo)}<span>${grupo.total}</span></h3>`,
+        '<ul class="datos__lista">',
+        ...grupo.pendientes.map((hueco) => [
+          `<li class="datos__linea">`,
+          `<strong>${esc(hueco.titulo)}</strong>`,
+          `<span class="datos__detalle">${esc(hueco.detalle)}</span>`,
+          `<span class="datos__fuente">${esc(hueco.fuente)} · corte ${esc(hueco.corte)}</span>`,
+          '</li>',
+        ].join('')),
+        '</ul>',
+        '</section>',
+      ].join('')),
+    ].join('');
+  }
+
   function render() {
+    renderPendientes();
     if (!store) {
       if (resumen) resumen.innerHTML = '<li class="datos__vacio">Cargando la base del Atlas…</li>';
       return;

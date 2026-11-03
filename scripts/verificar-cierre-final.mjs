@@ -42,6 +42,7 @@ import { fileURLToPath } from 'node:url';
 
 import { validateXml } from '../src/bpmn/lint/run.mjs';
 import { BASE } from '../src/data/base/index.mjs';
+import { PENDIENTES } from '../src/data/pendientes.mjs';
 import { botDefinitions, VIGENTE, SIN_CONFIRMAR } from '../src/data/rr-tree.mjs';
 import { CLIENTES as CLIENTES_UI } from '../src/data/inicio-tarjetas.mjs';
 import { AVISO_GUIA, SIMBOLOS } from '../src/bpmn/leyenda.mjs';
@@ -358,10 +359,58 @@ check(
 );
 
 // ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Item C · huecos «sin confirmar» visibles en la app (mega prompt §10)
+// ─────────────────────────────────────────────────────────────
+
+const pendientesView = await leer('src/app/datos-view.mjs');
+const huecosSinFuente = PENDIENTES.filter((hueco) => !String(hueco.fuente ?? '').trim() || !String(hueco.corte ?? '').trim());
+const huecosEnApp = pendientesView.includes('data-datos-pendientes')
+  && bpmnView.includes('PENDIENTES')
+  && indexHtml.includes('data-datos-pendientes');
+check(
+  'pendientes-visibles',
+  'Los huecos «sin confirmar» se ven en la app (vista Datos e Inicio), con fuente y corte',
+  PENDIENTES.length >= 15 && huecosSinFuente.length === 0 && huecosEnApp,
+  `${PENDIENTES.length} huecos · ${huecosSinFuente.length} sin fuente o corte · la app los muestra: ${huecosEnApp ? 'sí' : 'no'}`,
+);
+
+const huecosMinimos = [
+  'project manager',
+  'camarógrafo',
+  'sla de soporte',
+  'kpi de producción',
+  'sesión de grabación',
+  'quién cubre soporte',
+  'cuenta de cobro',
+  'precios y planes',
+  'buen puente',
+  'flota hermes',
+  'media manager',
+  'martín',
+  'isabela',
+  'tipografía oficial',
+  'zapatos',
+  'turismo anheyca',
+  'satiro_sushi',
+  'imf visions',
+  'amsterdam',
+  'billares charly brown',
+];
+const textoHuecos = PENDIENTES.map((hueco) => `${hueco.titulo} ${hueco.detalle}`).join(' ').toLowerCase();
+const huecosFaltantes = huecosMinimos.filter((frase) => !textoHuecos.includes(frase));
+check(
+  'pendientes-minimos',
+  'La lista de huecos cubre la lista mínima del mega prompt §10',
+  huecosFaltantes.length === 0,
+  huecosFaltantes.length ? `faltan: ${huecosFaltantes.join(', ')}` : `${huecosMinimos.length} huecos mínimos presentes`,
+);
+
+// ─────────────────────────────────────────────────────────────
 // Items A y D · entregables
 // ─────────────────────────────────────────────────────────────
 
-const FLUJOS = ['mapa', 'busqueda', 'catalogo', 'bpmn', 'edicion', 'guia', 'pantalla', 'dividido', 'datos'];
+const FLUJOS = ['mapa', 'busqueda', 'catalogo', 'bpmn', 'edicion', 'guia', 'pantalla', 'dividido', 'datos', 'pendientes'];
 const ANCHOS = ['390', '768', '1440'];
 const faltanCapturas = [];
 for (const flujo of FLUJOS) {
@@ -392,18 +441,19 @@ const palabrasFlujo = {
   pantalla: 'pantalla completa',
   dividido: 'pantalla dividida',
   datos: 'datos',
+  pendientes: 'sin confirmar',
 };
 const flujosFaltantes = Object.entries(palabrasFlujo)
   .filter(([, palabra]) => !pruebasNormalizadas.includes(palabra))
   .map(([flujo]) => flujo);
-const tieneConteo = /\b27\b/.test(pruebasMd) && /0 errores y 0 avisos/.test(pruebasNormalizadas);
+const tieneConteo = /\b30\b/.test(pruebasMd) && /0 errores y 0 avisos/.test(pruebasNormalizadas);
 check(
   'pruebas-doc',
   'PRUEBAS.md tiene el conteo de pruebas y los avisos de lint',
   Boolean(pruebasMd) && flujosFaltantes.length === 0 && tieneConteo,
   flujosFaltantes.length
     ? `faltan los flujos: ${flujosFaltantes.join(', ')}`
-    : `los 9 flujos, el conteo de pruebas y «0 errores y 0 avisos» de lint están documentados`,
+    : `los ${FLUJOS.length} flujos, el conteo de pruebas y «0 errores y 0 avisos» de lint están documentados`,
 );
 
 const preguntasMd = (await existe('docs/fusion/PREGUNTAS.md')) ? await leer('docs/fusion/PREGUNTAS.md') : '';

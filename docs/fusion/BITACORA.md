@@ -804,3 +804,51 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
   puerta de cierre) y lo que necesita Rosas. Sigue **sin fusionar y sin desplegar**.
 - `gh pr edit` no funciona en este repo (error de la API de proyectos clásicos); el cuerpo se
   actualizó por la API REST (`gh api -X PATCH repos/.../pulls/7 -F body=@archivo`).
+
+## Bloque 12 · Huecos «sin confirmar» visibles en la app (mega prompt §10) — 2026-11-02
+
+### Qué se hizo
+- Los ítems A, B, C y D **ya estaban cerrados** (bloques 7 a 11) y la puerta de cierre ya los
+  comprobaba. Este bloque cerró el **último hueco que faltaba del mega prompt**: el §10 pide que
+  los «sin confirmar» **se vean en la app**, y hasta ahora solo estaban en la documentación y
+  como marca suelta en algunos registros de la base.
+- **`src/data/pendientes.mjs` (nuevo)**: los **21 huecos** del Atlas RR con `id`, `titulo`,
+  `detalle`, `tipo`, `fuente`, `corte` y `estado: «sin confirmar»». Cubren la lista mínima del §10:
+  Project Manager y Camarógrafo por definir; SLA de soporte; quién cubre soporte; KPI de
+  producción; método de la sesión de grabación; quién puede tener cuenta de cobro; obligaciones
+  fiscales; precios y planes de SaaS Ropa/Resto/Creadores; estado de Buen Puente; vigencia de la
+  flota Hermes; Media Manager y Gains; las personas de la tarjeta de talento de la rama A; los
+  cargos reales de los carriles; la tipografía oficial del brand kit; la relación
+  Zapatos/Shoes Colombia; los clientes en pausa; el nombre canónico de IMF; las rutas `/bpmn/`,
+  `/flujos/` y `/grafo/` de A; las cifras de demostración de A; y las notas del vault vencidas.
+  **Sin cifras financieras y sin datos personales.**
+- **Vista Datos (`#/datos`)**: panel nuevo **«Lo que falta confirmar»**, agrupado por tipo, con el
+  detalle de cada hueco y su fuente y su corte. Se pinta aunque la base no haya cargado.
+- **Panel Inicio** de la pantalla dividida: grupo **«Sin confirmar»** con los 21 huecos.
+- **Pruebas**: `src/data/pendientes.test.mjs` (6 pruebas: fuente y corte en todo hueco, estado
+  «sin confirmar», ids sin repetir, cobertura de la lista mínima del §10, sin cifras financieras,
+  agrupación legible).
+- **Puerta de cierre**: `scripts/verificar-cierre-final.mjs` gana dos comprobaciones
+  (`pendientes-visibles` y `pendientes-minimos`): 24 → **26**, y sigue dentro de `npm run check`.
+- **QA de cierre**: `scripts/verificar-cierre.mjs` gana el flujo **«pendientes»** (abre la vista
+  Datos y comprueba que la lista se ve con fuente y corte): 27 → **30** pruebas (10 flujos × 3
+  anchos) y 3 capturas nuevas (`cierre-pendientes-390/768/1440.png`).
+
+### Estado de los checks
+- `npm run check`: **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre 26/26.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:cierre`: **verde** — 30 de 30 (10 flujos × 3 anchos), 0 errores de consola.
+- `npm run verificar:tactil`: **verde** — 18 de 18 (6 flujos × 390, 768 y 360 px), 0 errores de consola.
+
+### Hallazgos / riesgos
+- La lista de huecos **no entra al store v5**: es un inventario de lo que falta, no una entidad
+  editable del modelo. Por eso vive en `src/data/pendientes.mjs` y no en `src/data/base/*.json`.
+- El «Sin confirmar» que decidió Rosas quitar del **estado de los clientes** sigue fuera: esta
+  lista es de huecos de información, no de estados de cliente.
+- Cada hueco apunta a una fuente escrita de RR o al inventario; lo que no tiene fuente escrita no
+  se inventa: queda «sin confirmar» con su corte.
+
+### Pendiente del bloque
+- El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas sobre los
+  nombres de los carriles (queda en `docs/fusion/PREGUNTAS.md`).
+- El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.

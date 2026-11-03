@@ -1,6 +1,6 @@
 {
-  "fecha": "2026-11-03T01:40:31.127Z",
-  "pruebas": 27,
+  "fecha": "2026-11-03T01:54:09.531Z",
+  "pruebas": 30,
   "flujos": [
     "mapa",
     "busqueda",
@@ -10,14 +10,15 @@
     "guia",
     "pantalla",
     "dividido",
-    "datos"
+    "datos",
+    "pendientes"
   ],
   "anchos": [
     390,
     768,
     1440
   ],
-  "pasar": 27,
+  "pasar": 30,
   "fallar": 0,
   "erroresDeConsola": 0,
   "resultados": [
@@ -94,6 +95,14 @@
       "captura": "docs/fusion/capturas/cierre-datos-390.png"
     },
     {
+      "flujo": "pendientes",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "21 huecos sin confirmar, cada uno con su fuente y su corte",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-pendientes-390.png"
+    },
+    {
       "flujo": "mapa",
       "ancho": 768,
       "ok": true,
@@ -166,6 +175,14 @@
       "captura": "docs/fusion/capturas/cierre-datos-768.png"
     },
     {
+      "flujo": "pendientes",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "21 huecos sin confirmar, cada uno con su fuente y su corte",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-pendientes-768.png"
+    },
+    {
       "flujo": "mapa",
       "ancho": 1440,
       "ok": true,
@@ -236,6 +253,14 @@
       "detalle": "11 colecciones, 41 fuentes, validador en verde, export «rr-atlas-v5.json»",
       "errores": [],
       "captura": "docs/fusion/capturas/cierre-datos-1440.png"
+    },
+    {
+      "flujo": "pendientes",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "21 huecos sin confirmar, cada uno con su fuente y su corte",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-pendientes-1440.png"
     }
   ]
 }

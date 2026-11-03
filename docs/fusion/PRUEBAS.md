@@ -245,3 +245,61 @@ Datos crudos: `docs/fusion/CIERRE.json`.
 - `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
 - `npm run verificar:cierre`: **verde** — 27 de 27 (9 flujos × 3 anchos), 0 errores de consola.
 - `npm run verificar:tactil`: **verde** — 18 de 18 (6 flujos × 390, 768 y 360 px), 0 errores de consola.
+
+## Bloque 12 · Huecos «sin confirmar» visibles en la app (mega prompt §10)
+
+Los ítems A, B, C y D ya estaban cerrados. Este bloque cerró el **último hueco del mega prompt**:
+la lista de «sin confirmar» que el §10 exige que se vea **dentro de la app** (no solo en la
+documentación). Antes esos huecos vivían únicamente en `PREGUNTAS.md` y en la base con la marca
+«sin confirmar» registro por registro; ahora hay una lista propia, con fuente y corte, que se ve
+en dos lugares de la app.
+
+### Qué se hizo
+- **`src/data/pendientes.mjs` (nuevo)**: los **21 huecos** del Atlas RR, cada uno con `id`,
+  `titulo`, `detalle`, `tipo`, `fuente`, `corte` y `estado: «sin confirmar»». Cubren la lista
+  mínima del §10: Project Manager y Camarógrafo por definir, SLA de soporte, quién cubre soporte,
+  KPI de producción, método de la sesión de grabación, quién puede tener cuenta de cobro,
+  obligaciones fiscales, precios y planes de SaaS Ropa/Resto/Creadores, estado de Buen Puente,
+  vigencia de la flota Hermes, Media Manager y Gains, las personas de la tarjeta de talento de la
+  rama A, los cargos reales de los carriles, la tipografía oficial del brand kit, la relación
+  Zapatos/Shoes Colombia, los clientes en pausa, el nombre canónico de IMF, las rutas `/bpmn/`,
+  `/flujos/` y `/grafo/` de A, las cifras de demostración de A y las notas del vault vencidas.
+  **Ninguna cifra financiera** y ningún dato personal.
+- **Vista Datos** (`#/datos`): panel nuevo **«Lo que falta confirmar»**, agrupado por tipo, con el
+  detalle de cada hueco y su fuente y su corte. Se renderiza aunque la base no haya cargado, para
+  que el aviso nunca desaparezca.
+- **Panel Inicio** de la pantalla dividida: grupo **«Sin confirmar»** con los 21 huecos (título ·
+  fuente · corte) para poder verlos sin salir del diagrama.
+- **Pruebas** (`src/data/pendientes.test.mjs`, 6 pruebas): fuente y corte en todo hueco, estado
+  «sin confirmar», ids sin repetir, cobertura de la lista mínima del §10, sin cifras financieras y
+  agrupación legible.
+- **Puerta de cierre** (`scripts/verificar-cierre-final.mjs`): dos comprobaciones nuevas
+  (`pendientes-visibles` y `pendientes-minimos`) que comprueban que los huecos están en la app y
+  que cubren la lista mínima. Sube de 24 a **26** comprobaciones.
+- **QA de cierre** (`scripts/verificar-cierre.mjs`): flujo nuevo **«pendientes»** (abre la vista
+  Datos y verifica que la lista se ve, con fuente y corte). Sube de 27 a **30** pruebas
+  (10 flujos × 3 anchos) y deja 3 capturas nuevas.
+
+### Conteo de pruebas
+| Dato | Resultado |
+|---|---|
+| Pruebas ejecutadas | **30** (10 flujos × 3 anchos) |
+| En verde | **30** |
+| Con fallo | **0** |
+| Errores de consola | **0** |
+| Comprobaciones de la puerta de cierre | **26** (26 en verde) |
+| `npm run check` | **verde** — 238 tests pass, 0 fail, build ok |
+| `npm run lint:bpmn` | **verde** — 16 semillas, **0 errores y 0 avisos** |
+| Capturas | **30** — `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` |
+
+### El flujo nuevo, por ancho
+| Flujo | 390 px | 768 px | 1440 px |
+|---|---|---|---|
+| **Sin confirmar** | ✔ 21 huecos con fuente y corte | ✔ | ✔ |
+
+### Nota
+- La lista de huecos **no es un modelo editable**: es un inventario de lo que falta, y por eso vive
+  junto a los datos y no dentro del store v5 (que solo edita el modelo). Cada hueco sale de una
+  fuente escrita de RR o del inventario; lo que no tiene fuente escrita no se inventa.
+- El «Sin confirmar» del estado de los **clientes** sigue fuera (decisión de Rosas): esta lista es de
+  huecos de información, no de estados de cliente.

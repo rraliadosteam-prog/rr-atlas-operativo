@@ -67,6 +67,10 @@ Formato: `TODO(Rosas): ...`
 - TODO(Rosas): En celular el nodo del mapa no se arrastra (el dedo mueve y pellizca el tablero) y el arrastre de nodos quedó solo para ratón. ¿Se quiere un modo «editar mapa» en móvil?
 - TODO(Rosas): El menú «⋯» del diagrama (deshacer, rehacer, guardar, restaurar, exportar) solo existe en celular. ¿Se deja así o se muestra también en escritorio al lado de la barra?
 
+## Abiertas por el bloque 12 (2026-11-02, huecos «sin confirmar» visibles en la app)
+- TODO(Rosas): Los 21 huecos «sin confirmar» del Atlas RR quedaron **visibles en la app** (panel «Lo que falta confirmar» de la vista Datos y grupo «Sin confirmar» del panel Inicio). Cada uno trae su fuente y su corte. Falta que se confirmen o se descarten uno por uno: la lista completa está en `src/data/pendientes.mjs` y en la vista Datos.
+- TODO(Rosas): ¿La lista de huecos debe poder editarse en la app (como el resto del modelo v5) o queda como inventario de solo lectura hasta que se confirme cada punto?
+
 ## Abiertas por el bloque 4 (2026-11-02, item 4)
 - TODO(Rosas): La ficha de cada diagrama (qué busca, disparador, resultado y el camino paso a paso) sale del guion de procesos del mega prompt §6. ¿Se revisa esa redacción o se deja como texto de lectura provisional hasta que el equipo la valide?
 - TODO(Rosas): La leyenda de colores dice qué significa cada color RR (crema = paso normal, fucsia = se traba, mostaza = atención, orquídea = carriles, gris = datos). ¿Es la convención que quiere la marca o se cambia?
