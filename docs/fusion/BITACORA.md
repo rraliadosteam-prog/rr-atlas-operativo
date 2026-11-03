@@ -370,3 +370,62 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - `docs/fusion/capturas/dividido-movil-390-esquema.png`
 - `docs/fusion/capturas/dividido-movil-390-inicio.png`
 - `docs/fusion/capturas/dividido-movil-390-completo.png`
+
+## Bloque 7 · Item 7 · Responsive y táctil — 2026-11-02
+
+### Qué se hizo
+- **El mapa ahora se puede usar con el dedo y con el mouse en tablet y celular.** El fallo de fondo era
+  el encuadre: `fit()` metía el árbol completo en la pantalla, y en 768 px eso daba **9 % de zoom**
+  (los nodos medían 23×12 px: ningún clic era posible) y en 360 px la raíz quedaba **fuera del lienzo**
+  (tapada por la barra lateral). Ahora, en ventanas de hasta 900 px, el mapa baja como máximo al
+  **45 % de zoom** y queda **anclado en la raíz del Atlas** (`nodoAncla()`: la selección actual o la
+  raíz), de modo que el nodo se lee y se toca. En escritorio **no se toca nada**: el encuadre completo
+  se conserva tal cual lo conoce Rosas.
+- **Clic en los nodos del mapa a 768 y 360 px**: verificado con clic real de Playwright. Antes el paso
+  «navegar» de la auditoría fallaba con `Timeout 30000ms exceeded` en las dos medidas; ahora el clic
+  abre el editor del nodo (`rr-labs`) en las dos.
+- **«Unir» ya no se monta sobre el título a 390 px**: la cabecera de la vista BPMN pasa a íconos en
+  celular (`▥`, `☰`, `←`) con `aria-label` y `title`, y el título se recorta con puntos suspensivos
+  (`.bpmn-view__identidad > div { min-width: 0 }` + `max-width: 100 %` en el título). Medido: el título
+  termina en 228 px y las acciones empiezan en 240 px → **sin solape** (antes: 258 vs 240).
+- **Controles del diagrama en un botón «⋯»**: en celular la barra se queda con lo esencial (pantalla
+  completa, editar, anterior, siguiente, zoom, encuadrar, guía) y **deshacer, rehacer, guardar copia,
+  restaurar semilla y exportar (.bpmn, SVG, PNG)** quedan en el menú **«⋯»**, que va fijo a la
+  izquierda de la barra deslizable. Las siete acciones miden 44 px de alto. En escritorio la barra
+  sigue igual que antes (el menú es solo de celular).
+- **Barra superior compacta en tablet** (≤ 900 px): marca y logo más chicos, «Añadir nodo» queda en el
+  ícono `＋` y todos los botones siguen con 44 px de alto.
+- **Gestos táctiles del tablero**: pan con un dedo y **pellizco con dos dedos** (zoom alrededor del punto
+  medio). En pantalla táctil el nodo no se arrastra: el dedo mueve o pellizca el mapa; con ratón el
+  arrastre de nodos sigue igual. El diagrama BPMN ya tenía `touch-action: none` en el contenedor de
+  bpmn-js, así que el pellizco funciona también allí.
+
+### Estado de los checks
+- `npm run check`: **verde** — 202 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores fuera de la deuda documentada.
+- `npm run audit:ux`: se vuelve a correr al cierre de este bloque (resultado en la tabla de abajo).
+- Pruebas de clic propias (Playwright, `/usr/bin/google-chrome`): clic en nodo del mapa **ok** a 768 y
+  360; pellizco en el mapa **ok** (zoom 45 % → 113 % en 390 px, 20 % → 51 % en 1440); pan con un dedo
+  **ok**; cabecera BPMN **sin solape** a 390, 360 y 768; menú «⋯» abierto y dentro de la pantalla con
+  las 7 acciones de 44 px; 0 errores de consola.
+
+### Cambios en las pruebas
+- `src/app/rr-tree-view.test.mjs`: el zoom móvil mínimo baja de 60 % a **45 %** (J8 y P2) porque el
+  encuadre completo en celular dejó de ser usable. Se añadió la comprobación nueva: **la raíz del Atlas
+  queda dentro del lienzo y se puede tocar** (≥ 90×44 px). En 1440 px las reglas de encuadre completo
+  siguen iguales.
+
+### Hallazgos / riesgos
+- En celular el mapa ya no muestra el árbol entero de un vistazo (se ve la rama anclada). Es el precio de
+  que los nodos se puedan tocar; el minimapa y «Encuadrar mapa» siguen disponibles.
+- En 360 px la barra del diagrama sigue siendo una fila deslizable: «Guía del diagrama» y «＋ Añadir»
+  quedan fuera de la vista inicial. El menú «⋯» sí queda visible.
+- El arrastre de nodos con el dedo se desactivó a propósito (el dedo mueve el mapa). Si Rosas quiere
+  reordenar en móvil, se puede reactivar con un modo explícito.
+
+### Pendiente del bloque
+- Item 8: modelo de datos v5 (fase 2 del mega prompt) con migración, store, export/import idempotente
+  y validador de campos prohibidos.
+- Aplicar las DECISIONES DE ROSAS (item B): quitar «RR Labs» del Mapa vivo, estados de clientes,
+  «Guía provisional», leyenda con íconos, reparar las 16 semillas a 0 avisos de lint, bots vigentes.
+- QA final (item D): clics reales de todos los flujos a 390, 768 y 1440 px + capturas por ancho.
