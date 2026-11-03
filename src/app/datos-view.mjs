@@ -13,7 +13,7 @@
 // registro lleva su fuente y su corte. El validador rechaza los campos
 // prohibidos (salario, cédula, cuenta, token, password).
 
-import { BASE } from '../data/base/index.mjs';
+import { componerBase, ARCHIVOS_BASE } from '../data/base/componer.mjs';
 import { crearStore } from '../core/store.mjs';
 import { COLECCIONES, SCHEMA_VERSION, diff, importar } from '../core/model.mjs';
 
@@ -89,6 +89,27 @@ export function textoCambio(cambio) {
   return `${cambio.etiqueta}: ${cambio.titulo} · ${cambio.id}${campos}`;
 }
 
+/**
+ * La base se baja por `fetch` (no como módulos JSON) para que la app no
+ * dependa del soporte de módulos JSON del navegador: si la base no carga, solo
+ * se cae la vista Datos y el resto del Atlas sigue vivo.
+ */
+export async function cargarBase(ruta = '/src/data/base') {
+  const archivos = await Promise.all(ARCHIVOS_BASE.map(async (archivo) => {
+    const respuesta = await fetch(`${ruta}/${archivo}`, { cache: 'no-cache' });
+    if (!respuesta.ok) throw new Error(`No se pudo cargar ${archivo} (${respuesta.status}).`);
+    return [archivo.replace('.json', ''), await respuesta.json()];
+  }));
+  const crudos = Object.fromEntries(archivos);
+  return componerBase({
+    empresa: crudos.empresa,
+    equipo: crudos.equipo,
+    clientes: crudos.clientes,
+    proyectos: crudos.proyectos,
+    procesos: crudos.procesos,
+  });
+}
+
 function almacenamientoSeguro() {
   try {
     const storage = window.localStorage;
@@ -102,8 +123,8 @@ function almacenamientoSeguro() {
 }
 
 export function createDatosView({ root, shell, notify } = {}) {
-  const store = crearStore({ base: BASE, storage: almacenamientoSeguro() });
-  store.cargar();
+  let store = null;
+  let cargando = null;
 
   const resumen = $('[data-datos-resumen]', root);
   const listaDiff = $('[data-datos-diff]', root);
@@ -175,6 +196,10 @@ export function createDatosView({ root, shell, notify } = {}) {
   }
 
   function render() {
+    if (!store) {
+      if (resumen) resumen.innerHTML = '<li class="datos__vacio">Cargando la base del Atlas…</li>';
+      return;
+    }
     const estado = store.estado();
     if (version) version.textContent = `Esquema v${SCHEMA_VERSION}`;
     renderResumen(estado.entidades);
@@ -184,7 +209,27 @@ export function createDatosView({ root, shell, notify } = {}) {
     renderFuentes(estado.entidades);
   }
 
-  store.suscribir(() => render());
+  store?.suscribir(() => render());
+
+  /** Crea el store la primera vez que se necesita (la base se baja perezosa). */
+  async function asegurarStore() {
+    if (store) return store;
+    if (!cargando) {
+      cargando = (async () => {
+        const base = await cargarBase();
+        const nuevo = crearStore({ base, storage: almacenamientoSeguro() });
+        nuevo.cargar();
+        nuevo.suscribir(() => render());
+        store = nuevo;
+        return store;
+      })().catch((error) => {
+        cargando = null;
+        avisar(`No se pudo cargar la base del Atlas: ${error?.message ?? 'error desconocido'}.`);
+        throw error;
+      });
+    }
+    return cargando;
+  }
 
   function descargar(nombre, contenido) {
     const blob = new Blob([contenido], { type: 'application/json' });
@@ -198,8 +243,9 @@ export function createDatosView({ root, shell, notify } = {}) {
     window.setTimeout(() => URL.revokeObjectURL(url), 1_000);
   }
 
-  function exportar() {
-    const paquete = store.exportar();
+  async function exportar() {
+    const actual = await asegurarStore();
+    const paquete = actual.exportar();
     descargar(`rr-atlas-v${SCHEMA_VERSION}.json`, `${JSON.stringify(paquete, null, 2)}\n`);
     avisar('Se exportó el modelo completo del Atlas.');
   }
@@ -232,10 +278,11 @@ export function createDatosView({ root, shell, notify } = {}) {
     }
   }
 
-  function confirmarImportacion() {
+  async function confirmarImportacion() {
     if (!paquetePendiente) return;
     try {
-      const resumen = store.importar(paquetePendiente);
+      const actual = await asegurarStore();
+      const resumen = actual.importar(paquetePendiente);
       paquetePendiente = null;
       if (confirmacion) confirmacion.hidden = true;
       avisar(`Importación lista: ${resumen.length} cambio(s) sobre la base.`);
@@ -249,15 +296,17 @@ export function createDatosView({ root, shell, notify } = {}) {
     if (confirmacion) confirmacion.hidden = true;
   }
 
-  function restaurarBase() {
+  async function restaurarBase() {
+    const actual = await asegurarStore();
     const respuesta = window.confirm('¿Restaurar la base del repo? Se pierden los cambios locales de este equipo.');
     if (!respuesta) return;
-    store.restaurarBase();
+    actual.restaurarBase();
     avisar('Se restauró la base del repo.');
   }
 
-  function validarAhora() {
-    const reporte = store.validar();
+  async function validarAhora() {
+    const actual = await asegurarStore();
+    const reporte = actual.validar();
     renderValidacion(reporte);
     avisar(reporte.ok ? 'El modelo pasa el validador.' : `El modelo tiene ${reporte.errores.length} problema(s).`);
   }
@@ -283,11 +332,17 @@ export function createDatosView({ root, shell, notify } = {}) {
     });
   }
 
-  function mostrar() {
+  async function mostrar() {
     visible = true;
     root.hidden = false;
     if (shell) shell.hidden = true;
     render();
+    try {
+      await asegurarStore();
+      render();
+    } catch {
+      // El aviso ya salió por `avisar`; la vista queda con el estado vacío.
+    }
   }
 
   function ocultar() {

@@ -633,9 +633,10 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
     validando antes y pidiendo confirmación** (muestra el diff del archivo y un botón «Sobrescribir
     con el archivo»), restaura la base del repo con confirmación, muestra el **validador** y el
     **historial** de cambios, y lista las **fuentes y cortes** de todo lo que hay cargado.
-  - **La base se carga desde el repo**: `src/data/base/*.json` entra al bundle por módulos JSON
-    (`import ... with { type: 'json' }`), así que la vista ve exactamente la misma base que las
-    pruebas.
+  - **La base se carga desde el repo por `fetch`** (`src/data/base/*.json`), no como módulos JSON:
+    así la app **no depende** de que el navegador soporte módulos JSON (si la base no carga, se cae
+    solo la vista Datos y el resto del Atlas sigue vivo). La composición de la base vive en
+    `src/data/base/componer.mjs`, que usan lo mismo las pruebas de Node y el navegador.
   - **`src/styles/datos.css` (nuevo)**: estilos con los tokens de B (nada de colores propios) y
     breakpoint de 900 px para que en tablet y celular los botones queden con 44 px de alto.
   - **`src/app/rr-tree.mjs`**: la ruta `#/datos` abre la vista y la esconde cuando se vuelve al
@@ -651,9 +652,8 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - `npm run verificar:cierre`: **verde** — 27 de 27, 0 errores de consola.
 
 ### Hallazgos / riesgos
-- La base se carga con módulos JSON: el navegador tiene que soportarlos (Chrome 123+). En el
-  preview de Vercel y en el Chrome de las pruebas funciona; en navegadores viejos la vista Datos
-  se quedaría vacía (el resto de la app no depende de esto).
+- La base se baja por `fetch` y **de forma perezosa** (solo cuando se abre la vista Datos): si el
+  servidor no sirve los `.json`, la vista avisa por toast y el resto de la app no se entera.
 - La importación **reemplaza** los cambios locales del equipo: por eso la vista muestra el diff
   del archivo y pide confirmación antes de sobrescribir.
 - El **mapeo de los carriles de los diagramas a los roles del modelo** (`carriles` y matriz RACI)
