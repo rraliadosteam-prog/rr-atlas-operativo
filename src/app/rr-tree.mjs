@@ -2,6 +2,7 @@ import { HUB_LABEL, hubUrlFrom } from '../data/hub-link.mjs';
 import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
 import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
 import { createBpmnView } from './bpmn-view.mjs';
+import { createDatosView } from './datos-view.mjs';
 import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
@@ -78,6 +79,14 @@ const notify = (message) => {
 
 const bpmnView = createBpmnView({
   root: $('[data-bpmn-view]'),
+  shell: $('.shell'),
+  notify,
+});
+
+// Item 8 · la vista Datos conecta el store v5 con la app: exportar, importar
+// con confirmación, restaurar base, validador e historial.
+const datosView = createDatosView({
+  root: $('[data-datos-view]'),
   shell: $('.shell'),
   notify,
 });
@@ -964,6 +973,10 @@ function bindActions() {
     if (bpmnView.visible) {
       return;
     }
+    // En la vista Datos los atajos del mapa tampoco aplican.
+    if (datosView.visible) {
+      return;
+    }
     if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? store.redo() : store.undo(); return; }
     if (modifier && event.key.toLowerCase() === 'y') { event.preventDefault(); store.redo(); return; }
     if (event.key === 'Delete' || event.key === 'Backspace') { event.preventDefault(); $('.button-danger', inspector)?.click(); return; }
@@ -1030,6 +1043,12 @@ window.addEventListener('resize', scheduleFit);
 
 function applyHashRoute() {
   const hash = String(location.hash || '');
+  if (/^#\/datos\/?$/.test(hash)) {
+    showFlujoView(false);
+    bpmnView.ocultar();
+    datosView.mostrar();
+    return;
+  }
   const bpmnMatch = hash.match(/^#\/bpmn(?:\/(.+))?$/);
   if (bpmnMatch) {
     showFlujoView(false);
@@ -1051,6 +1070,7 @@ function applyHashRoute() {
     return;
   }
   bpmnView.ocultar();
+  datosView.ocultar();
   showFlujoView(false);
 }
 window.addEventListener('hashchange', applyHashRoute);

@@ -1,6 +1,6 @@
 {
-  "fecha": "2026-11-03T01:10:36.893Z",
-  "pruebas": 24,
+  "fecha": "2026-11-03T01:16:31.511Z",
+  "pruebas": 27,
   "flujos": [
     "mapa",
     "busqueda",
@@ -9,14 +9,15 @@
     "edicion",
     "guia",
     "pantalla",
-    "dividido"
+    "dividido",
+    "datos"
   ],
   "anchos": [
     390,
     768,
     1440
   ],
-  "pasar": 24,
+  "pasar": 27,
   "fallar": 0,
   "erroresDeConsola": 0,
   "resultados": [
@@ -85,6 +86,14 @@
       "captura": "docs/fusion/capturas/cierre-dividido-390.png"
     },
     {
+      "flujo": "datos",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "11 colecciones, 41 fuentes, validador en verde, export «rr-atlas-v5.json»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-datos-390.png"
+    },
+    {
       "flujo": "mapa",
       "ancho": 768,
       "ok": true,
@@ -149,6 +158,14 @@
       "captura": "docs/fusion/capturas/cierre-dividido-768.png"
     },
     {
+      "flujo": "datos",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "11 colecciones, 41 fuentes, validador en verde, export «rr-atlas-v5.json»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-datos-768.png"
+    },
+    {
       "flujo": "mapa",
       "ancho": 1440,
       "ok": true,
@@ -211,6 +228,14 @@
       "detalle": "3 panel(es) de acompañamiento",
       "errores": [],
       "captura": "docs/fusion/capturas/cierre-dividido-1440.png"
+    },
+    {
+      "flujo": "datos",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "11 colecciones, 41 fuentes, validador en verde, export «rr-atlas-v5.json»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-datos-1440.png"
     }
   ]
 }

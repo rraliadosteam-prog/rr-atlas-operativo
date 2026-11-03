@@ -228,6 +228,25 @@ async function flujoDividido(page, errores) {
   return { ok: true, detalle: `${paneles} panel(es) de acompañamiento` };
 }
 
+/** Flujo de la vista Datos: resumen, validador y export del modelo v5. */
+async function flujoDatos(page, errores) {
+  await page.waitForSelector('[data-datos-view]:not([hidden])', { timeout: 15000 });
+  await page.waitForSelector('[data-datos-resumen] .datos__item', { timeout: 15000 });
+  const colecciones = await page.locator('[data-datos-resumen] .datos__item').count();
+  if (colecciones < 11) return { ok: false, detalle: `el resumen solo trae ${colecciones} colecciones` };
+  const fuentes = await page.locator('[data-datos-fuentes] .datos__linea').count();
+  if (!fuentes) return { ok: false, detalle: 'la lista de fuentes y cortes quedó vacía' };
+  await page.click('[data-datos-accion="validar"]');
+  await page.waitForTimeout(400);
+  const texto = (await page.locator('[data-datos-validacion]').textContent() ?? '').trim();
+  if (!/pasa el validador/i.test(texto)) return { ok: false, detalle: `el validador no dio verde: «${texto.slice(0, 80)}»` };
+  const descarga = page.waitForEvent('download', { timeout: 8000 }).catch(() => null);
+  await page.click('[data-datos-accion="exportar"]');
+  const archivo = await descarga;
+  if (!archivo) return { ok: false, detalle: 'el botón Exportar JSON no descargó el archivo' };
+  return { ok: true, detalle: `${colecciones} colecciones, ${fuentes} fuentes, validador en verde, export «${archivo.suggestedFilename()}»` };
+}
+
 /** Envuelve un flujo: si truena, el fallo queda registrado y el QA sigue. */
 async function intentar(fn) {
   try {
@@ -314,6 +333,15 @@ for (const medida of ANCHOS) {
     const res = await intentar(() => flujoDividido(page, errores));
     const captura = await capturar(page, 'dividido', medida.nombre);
     await registrar('dividido', medida.ancho, res.ok, res.detalle, errores, captura);
+    await page.close();
+  }
+
+  // 9. Vista Datos (modelo v5: resumen, validador y export)
+  {
+    const { page, errores } = await abrirPagina(context, '#/datos');
+    const res = await intentar(() => flujoDatos(page, errores));
+    const captura = await capturar(page, 'datos', medida.nombre);
+    await registrar('datos', medida.ancho, res.ok, res.detalle, errores, captura);
     await page.close();
   }
 

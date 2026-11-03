@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/src/rr-estilo/componentes.css">
   <link rel="stylesheet" href="/src/styles/rr-tree.css">
   <link rel="stylesheet" href="/src/styles/bpmn.css">
+  <link rel="stylesheet" href="/src/styles/datos.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
   <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
@@ -33,6 +34,7 @@
         <!-- "Volver al hub RR" queda oculto hasta que exista la URL real del hub (decisión de Rosas). -->
         <a class="button button-hub" data-hub-link href="http://localhost:8081/" rel="noopener" aria-label="Volver al hub RR" hidden><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
         <a class="button button-ghost" data-bpmn-link href="#/bpmn" aria-label="Ver el catálogo BPMN"><span aria-hidden="true">◇</span><span class="hub-label hub-label--full" aria-hidden="true">BPMN</span></a>
+        <a class="button button-ghost" data-datos-link href="#/datos" aria-label="Ver los datos del Atlas" title="Datos del Atlas: exportar, importar y validar"><span aria-hidden="true">⛁</span><span class="hub-label hub-label--full" aria-hidden="true">Datos</span></a>
         <button class="button button-ghost" data-action="help" type="button">Guía</button>
         <button class="button button-primary" data-action="add-node" type="button" aria-label="Añadir nodo" title="Añadir nodo"><span aria-hidden="true">＋</span><span class="topbar__texto">Añadir nodo</span></button>
       </div>
@@ -253,6 +255,57 @@
         </aside>
       </div>
       <div class="bpmn-report" data-bpmn-report role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Vista Datos: export/import del modelo v5, validador e historial (ruta #/datos) -->
+    <section class="datos-view" data-datos-view hidden aria-label="Datos del Atlas">
+      <header class="datos-view__head">
+        <div class="datos-view__identidad">
+          <span class="datos-view__marca" aria-hidden="true">RR</span>
+          <div>
+            <span class="eyebrow">Datos</span>
+            <h1 class="datos-view__title">Datos del Atlas</h1>
+            <p class="datos-view__hint">Todo lo que hay en el Atlas en un solo archivo: base del repo + cambios de este equipo. <span class="datos-view__version" data-datos-version>Esquema v5</span></p>
+          </div>
+        </div>
+        <div class="datos-view__actions">
+          <button class="button button-ghost" type="button" data-datos-accion="exportar">↓ Exportar JSON</button>
+          <button class="button button-ghost" type="button" data-datos-accion="importar">↑ Importar JSON</button>
+          <button class="button button-ghost" type="button" data-datos-accion="restaurar">↺ Restaurar base</button>
+          <button class="button button-ghost" type="button" data-datos-accion="validar">✓ Validar</button>
+          <a class="button button-ghost" href="#top" data-datos-back aria-label="Volver al mapa vivo" title="Volver al mapa vivo"><span aria-hidden="true">←</span><span class="datos-accion__texto">Volver al mapa</span></a>
+          <input type="file" accept="application/json,.json" data-datos-archivo hidden>
+        </div>
+      </header>
+      <div class="datos-view__body">
+        <section class="datos-panel" aria-label="Resumen del modelo">
+          <h2 class="datos-panel__titulo">Qué hay en el Atlas</h2>
+          <ul class="datos__rejilla" data-datos-resumen></ul>
+        </section>
+        <section class="datos-panel" aria-label="Cambios locales">
+          <h2 class="datos-panel__titulo">Cambios locales</h2>
+          <div data-datos-diff></div>
+          <div class="datos-confirmacion" data-datos-confirmacion hidden>
+            <div data-datos-confirmacion-cuerpo></div>
+            <div class="datos-confirmacion__acciones">
+              <button class="button button-primary" type="button" data-datos-accion="confirmar">Sobrescribir con el archivo</button>
+              <button class="button button-ghost" type="button" data-datos-accion="cancelar">Cancelar</button>
+            </div>
+          </div>
+        </section>
+        <section class="datos-panel" aria-label="Validación del modelo">
+          <h2 class="datos-panel__titulo">Validador</h2>
+          <div data-datos-validacion></div>
+        </section>
+        <section class="datos-panel" aria-label="Historial de cambios">
+          <h2 class="datos-panel__titulo">Historial</h2>
+          <div data-datos-historial></div>
+        </section>
+        <section class="datos-panel datos-panel--ancho" aria-label="Fuentes y cortes">
+          <h2 class="datos-panel__titulo">Fuentes y cortes</h2>
+          <div data-datos-fuentes></div>
+        </section>
+      </div>
     </section>
 
     <footer class="footer"><span>RR ALIADOS · Atlas operativo</span><span>Edición local · se guarda en este navegador</span></footer>

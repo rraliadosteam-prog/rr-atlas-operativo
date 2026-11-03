@@ -144,3 +144,38 @@ El clic sobre una forma del diagrama se hace con coordenadas (centro de la forma
 `click()` del locator: el grupo SVG del diagrama nunca queda «estable» porque el lienzo está
 escalado, y el locator se queda esperando. No es un defecto de la app: es una peculiaridad de
 Playwright con lienzos transformados.
+
+## Bloque 9 · Item 8 (cierre) · Vista Datos conectada al store v5
+
+Script: `scripts/verificar-cierre.mjs` (`npm run verificar:cierre`), ahora con **9 flujos** (se
+sumó el de la vista Datos). Cada flujo se prueba con clics reales en Chrome a 390, 768 y 1440 px.
+
+### Conteo de pruebas
+| Dato | Resultado |
+|---|---|
+| Pruebas ejecutadas | **27** (9 flujos × 3 anchos) |
+| En verde | **27** |
+| Con fallo | **0** |
+| Errores de consola | **0** |
+| Avisos de lint (`npm run lint:bpmn`) | **0** en las 16 semillas |
+| Capturas | **27** — `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` |
+
+### Los nueve flujos, por ancho
+| Flujo | 390 px | 768 px | 1440 px |
+|---|---|---|---|
+| Mapa vivo | ✔ 71 nodos; el clic abre el editor | ✔ | ✔ |
+| Búsqueda | ✔ «finanzas» deja 5 nodos visibles de 71 | ✔ | ✔ |
+| Catálogo BPMN | ✔ 16 procesos | ✔ | ✔ |
+| Abrir diagrama | ✔ 64 formas, pantalla completa | ✔ | ✔ |
+| Edición | ✔ nombre editado y guardado | ✔ | ✔ |
+| Guía | ✔ aviso «Guía provisional» | ✔ | ✔ |
+| Pantalla completa | ✔ ⛶ divide y vuelve a unir | ✔ | ✔ |
+| Pantalla dividida | ✔ 3 paneles de acompañamiento | ✔ | ✔ |
+| **Datos** | ✔ 11 colecciones, 41 fuentes, validador en verde y export `rr-atlas-v5.json` | ✔ | ✔ |
+
+### Pruebas de código (`node --test`)
+- `src/app/datos-view.test.mjs` (nuevo, 5 pruebas): el resumen trae las once colecciones del
+  esquema v5, el diff se describe en palabras, la lista de fuentes y cortes cubre todos los
+  registros, el store arranca en la base sin cambios y validando, y **exportar → importar es
+  idempotente**.
+- `npm run check`: **228 tests pass, 0 fail** (antes 223).

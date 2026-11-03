@@ -622,3 +622,45 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - **Item 8 (cierre)**: falta conectar el store v5 a la app (vista Datos `#/datos` con export/import,
   diff, confirmar y «Restaurar base») y el mapeo de los carriles de los diagramas a los roles del
   modelo (`carriles` y matriz RACI).
+
+## Bloque 9 · Item 8 (cierre) · La vista Datos ya está conectada al store v5 — 2026-11-02
+
+### Qué se hizo
+- **El store v5 ya es parte de la app**: la vista **Datos** (`#/datos`, botón «⛁ Datos» en la barra
+  superior) es la pantalla que el mega prompt pide en §2.
+  - **`src/app/datos-view.mjs` (nuevo)**: resume lo que hay en el Atlas (las once colecciones del
+    esquema v5 con su conteo), exporta el modelo completo a un JSON versionado, **importa un JSON
+    validando antes y pidiendo confirmación** (muestra el diff del archivo y un botón «Sobrescribir
+    con el archivo»), restaura la base del repo con confirmación, muestra el **validador** y el
+    **historial** de cambios, y lista las **fuentes y cortes** de todo lo que hay cargado.
+  - **La base se carga desde el repo**: `src/data/base/*.json` entra al bundle por módulos JSON
+    (`import ... with { type: 'json' }`), así que la vista ve exactamente la misma base que las
+    pruebas.
+  - **`src/styles/datos.css` (nuevo)**: estilos con los tokens de B (nada de colores propios) y
+    breakpoint de 900 px para que en tablet y celular los botones queden con 44 px de alto.
+  - **`src/app/rr-tree.mjs`**: la ruta `#/datos` abre la vista y la esconde cuando se vuelve al
+    mapa; los atajos del mapa quedan apagados mientras la vista Datos está abierta.
+- **Pruebas**: `src/app/datos-view.test.mjs` (5 pruebas nuevas). `npm run check`: **228 tests pass,
+  0 fail**. `npm run verificar:cierre`: **27 de 27** (9 flujos × 3 anchos), **0 errores de consola**.
+- **QA de cierre actualizado**: `scripts/verificar-cierre.mjs` ahora incluye el flujo «datos» con
+  clics reales (abrir la vista, leer el resumen, pasar el validador y descargar el JSON).
+
+### Estado de los checks
+- `npm run check`: **verde** — 228 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:cierre`: **verde** — 27 de 27, 0 errores de consola.
+
+### Hallazgos / riesgos
+- La base se carga con módulos JSON: el navegador tiene que soportarlos (Chrome 123+). En el
+  preview de Vercel y en el Chrome de las pruebas funciona; en navegadores viejos la vista Datos
+  se quedaría vacía (el resto de la app no depende de esto).
+- La importación **reemplaza** los cambios locales del equipo: por eso la vista muestra el diff
+  del archivo y pide confirmación antes de sobrescribir.
+- El **mapeo de los carriles de los diagramas a los roles del modelo** (`carriles` y matriz RACI)
+  sigue pendiente: los carriles quedaron con roles genéricos porque no hay fuente que diga qué
+  cargo real está en cada carril. Queda como **TODO(Rosas)** en `docs/fusion/PREGUNTAS.md`.
+
+### Pendiente del bloque
+- Cerrar el **mapeo carril → rol** de los 16 diagramas (depende de la respuesta de Rosas sobre los
+  nombres de los carriles).
+- Revisar con Rosas las preguntas abiertas de `docs/fusion/PREGUNTAS.md`.
