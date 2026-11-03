@@ -42,7 +42,7 @@ test('la lista cubre los huecos mínimos del mega prompt §10', () => {
     'zapatos',
     'turismo anheyca',
     'satiro_sushi',
-    'imf visions',
+    'imf weddings',
     'amsterdam',
     'billares charly brown',
     'rutas /bpmn/',

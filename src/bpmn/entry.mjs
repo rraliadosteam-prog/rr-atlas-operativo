@@ -449,16 +449,52 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     return true;
   }
 
+  // Bloque 1 (b): el título del pool y el nombre de los carriles van verticales
+  // dentro de su banda. El motor los ancla por la línea base, y con mayúsculas
+  // acentuadas («CÓMO…») la caja de texto se sube y rozaba el borde de la
+  // piscina. Aquí se recentra la tinta dentro de la banda de 30 unidades.
+  function centrarTitulosEnBanda() {
+    if (!viewer) return;
+    const registry = viewer.get('elementRegistry');
+    for (const element of registry.getAll()) {
+      if (element.type !== 'bpmn:Lane' && element.type !== 'bpmn:Participant') continue;
+      const gfx = registry.getGraphics(element);
+      const texto = gfx?.querySelector?.('text.rr-banda-vertical');
+      if (!texto) continue;
+      let caja = null;
+      try {
+        caja = texto.getBBox();
+      } catch {
+        caja = null;
+      }
+      if (!caja?.height) continue;
+      const delta = (30 - caja.height) / 2 - caja.y;
+      if (Math.abs(delta) < 0.5) continue;
+      texto.querySelectorAll('tspan').forEach((span) => {
+        const y = Number(span.getAttribute('y'));
+        if (!Number.isFinite(y)) return;
+        span.setAttribute('y', String(y + delta));
+      });
+    }
+  }
+
   function frameInitial() {
     if (!viewer) return { index: 0, total: 0, name: '', lane: '' };
-    if (!narrow()) {
-      viewer.get('canvas').zoom('fit-viewport', 'auto');
-      stepIndex = 0;
-      nudgeLabels();
-      if (container.clientWidth < 800) viewer.get('canvas').zoom(Math.max(0.2, viewer.get('canvas').zoom() * 0.9));
-      return describeStep();
-    }
-    return showStep(0);
+    return encuadrarContenido();
+  }
+
+  // Bloque 1 (a): el diagrama abre encuadrado al contenido y centrado, en
+  // cualquier pantalla. Antes, en un lienzo angosto (celular), arrancaba
+  // pegado a la izquierda mostrando solo el evento de inicio.
+  function encuadrarContenido() {
+    if (!viewer) return { index: 0, total: 0, name: '', lane: '' };
+    const canvas = viewer.get('canvas');
+    canvas.zoom('fit-viewport', 'auto');
+    // Un poco de aire alrededor: el borde del pool no queda pegado al marco.
+    canvas.zoom(Math.max(0.05, canvas.zoom() * 0.94));
+    stepIndex = 0;
+    nudgeLabels();
+    return describeStep();
   }
 
   return {
@@ -477,22 +513,18 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
         return report;
       }
       await viewer.importXML(xml);
+      centrarTitulosEnBanda();
       const step = frameInitial();
       onReport?.({ ...report, step });
       return { ...report, step };
     },
     // `completo: true` encuadra el diagrama entero aunque el lienzo sea estrecho:
     // en pantalla completa el usuario debe ver la forma del proceso de una vez.
-    // En móvil (lienzo angosto) no: encoger todo deja las tareas ilegibles y
-    // es mejor arrancar en el primer paso, como hace el resto de la app.
+    // Bloque 1 (a): ahora también en celular el diagrama abre encuadrado al
+    // contenido y centrado, no pegado a la izquierda con el evento de inicio.
     // `forzar: true` (el visor pequeño del panel dividido) sí encuadra todo.
     fit(opciones = {}) {
-      if (opciones.completo && viewer && (opciones.forzar || !narrow())) {
-        viewer.get('canvas').zoom('fit-viewport', 'auto');
-        stepIndex = 0;
-        nudgeLabels();
-        return describeStep();
-      }
+      if (viewer) return encuadrarContenido();
       return frameInitial();
     },
     recenter() { return showStep(stepIndex); },

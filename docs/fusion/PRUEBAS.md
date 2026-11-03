@@ -303,3 +303,43 @@ en dos lugares de la app.
   fuente escrita de RR o del inventario; lo que no tiene fuente escrita no se inventa.
 - El «Sin confirmar» del estado de los **clientes** sigue fuera (decisión de Rosas): esta lista es de
   huecos de información, no de estados de cliente.
+
+## Bloque 1 · Cadena de pulido (2026-11-02 21:33) · Visor BPMN a 390 px
+
+Los tres arreglos del visor BPMN, revisados en **los 16 diagramas** a 390 px con Chrome real
+(`npm run verificar:pulido`, evidencia cruda en `docs/fusion/PULIDO.json`):
+
+- [x] **(a) El diagrama abre encuadrado.** Se aplica `fit-viewport` con centrado en cualquier
+  pantalla: antes, en un lienzo angosto, el visor arrancaba en el evento de inicio, pegado a la
+  izquierda. Comprobación: todo el diagrama queda dentro del lienzo y su centro coincide con el
+  centro del lienzo (±4 px). **16/16 en verde.**
+- [x] **(b) La línea del borde no tacha el título del pool.** El título de la piscina y el nombre de
+  los carriles vuelven a ir **verticales dentro de su banda de 30 unidades**, como los dibuja
+  bpmn-js (antes se tumbaban en horizontal y la línea del borde los cruzaba). Además se recentra la
+  tinta en la banda: con mayúsculas acentuadas («CÓMO…») la caja del texto se subía y rozaba el
+  borde de la piscina. Comprobación: el título queda a más de 1,5 unidades del borde de la piscina y
+  de la línea que separa la banda. **16/16 en verde.**
+- [x] **(c) La etiqueta «entra» no se monta sobre el ícono del evento de inicio.** La palabra se
+  pone al lado libre de la forma (arriba cuando el nombre del evento está abajo, que es lo
+  habitual). Comprobación: el texto no se cruza con el círculo del evento. **16/16 en verde.**
+- [x] **Unificación de IMF** (decisión de Rosas del 2-nov 21:33): «IMF Weddings» e «IMF Visions» son
+  el mismo cliente. En los datos (`src/data/base/clientes.json`) y en la interfaz
+  (`src/data/inicio-tarjetas.mjs`, `src/data/ecosystem-catalog.mjs`) queda **un solo nombre**,
+  «IMF Weddings», sin duplicados. Se actualizó la prueba que dependía del nombre anterior
+  (`src/data/pendientes.test.mjs`) y la puerta de cierre ganó la comprobación `imf-unificado`.
+- [x] `npm run check`: **verde** — 238 tests pass, 0 fail, build ok, puerta de cierre **27/27**.
+- [x] `npm run lint:bpmn`: **verde** — 16 semillas, **0 errores y 0 avisos**.
+- [x] Capturas a 390 px: `docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png`,
+  `pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png` y
+  `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`.
+
+### Conteo de pruebas del bloque
+| Dato | Resultado |
+|---|---|
+| Diagramas revisados a 390 px | **16** (los 10 flujos de la cadena, revisados los 16) |
+| Con los tres arreglos bien | **16** |
+| Con fallos | **0** |
+| Errores de consola | **0** |
+| Comprobaciones de la puerta de cierre | **27** (27 en verde) |
+| `npm run check` | **verde** — 238 tests pass, 0 fail, build ok |
+| `npm run lint:bpmn` | **verde** — 16 semillas, **0 errores y 0 avisos** |

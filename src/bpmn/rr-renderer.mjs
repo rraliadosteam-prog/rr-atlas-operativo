@@ -30,19 +30,24 @@ function strokeFor(kind, theme) {
   return theme.stroke;
 }
 
-function addWord(parent, word, color, x, y) {
+function addWord(parent, word, color, x, y, { ancla = '' } = {}) {
   const text = document.createElementNS(SVG_NS, 'text');
   text.setAttribute('class', 'rr-sem-word');
   text.setAttribute('x', String(x));
   text.setAttribute('y', String(y));
   text.setAttribute('fill', color);
   text.setAttribute('font-size', '12');
+  if (ancla) text.setAttribute('text-anchor', ancla);
   text.textContent = word;
   parent.appendChild(text);
 }
 
-function quarterTurn(transform) {
-  if (!transform) return false;
+// Bloque 1 (b): el título del pool y el nombre de los carriles se dejan
+// verticales, como los dibuja bpmn-js, dentro de su banda de 30 px. Antes se
+// tumbaban en horizontal y la línea del borde (o la del pool) los tachaba.
+// La banda es el espacio libre del diagrama: el texto nunca cruza una línea.
+function rotacionVertical(text) {
+  const transform = text.getAttribute('transform') || '';
   if (/rotate\(\s*(?:-?90|270|-270)\b/.test(transform)) return true;
   const match = /matrix\(\s*([-\d.eE+]+)[\s,]+([-\d.eE+]+)[\s,]+([-\d.eE+]+)[\s,]+([-\d.eE+]+)/.exec(transform);
   if (!match) return false;
@@ -50,17 +55,14 @@ function quarterTurn(transform) {
   return Math.abs(a) < 0.02 && Math.abs(d) < 0.02 && Math.abs(Math.abs(b) - 1) < 0.02 && Math.abs(Math.abs(c) - 1) < 0.02;
 }
 
-function unrotateLaneLabel(parent, x, y) {
+// El motor ya dibuja el título del pool y el nombre de los carriles verticales
+// y centrados en su banda: basta con respetarlos (antes se tumbaban y la
+// línea del borde los tachaba). Se marca la clase; el recentrado fino de la
+// tinta dentro de la banda lo hace `centrarTitulosEnBanda` (entry.mjs), que
+// ya tiene el diagrama medido en pantalla.
+function marcarBandaVertical(parent) {
   parent.querySelectorAll('text').forEach((text) => {
-    if (!quarterTurn(text.getAttribute('transform') || '')) return;
-    text.removeAttribute('transform');
-    if (text.transform?.baseVal) text.transform.baseVal.clear();
-    text.setAttribute('x', String(x));
-    text.setAttribute('y', String(y));
-    text.querySelectorAll('tspan').forEach((span) => {
-      span.setAttribute('x', String(x));
-      span.setAttribute('y', String(y));
-    });
+    if (rotacionVertical(text)) text.classList.add('rr-banda-vertical');
   });
 }
 
@@ -115,11 +117,26 @@ function paint(parent, element) {
     parent.querySelectorAll('rect').forEach((node) => node.setAttribute('stroke-width', '3'));
     addWord(parent, 'se traba', theme.alarm, 8, 16);
   }
-  if (kind === 'entra') addWord(parent, 'entra', theme.stroke, 4, Math.max(20, (element.height || 36) - 8));
+  if (kind === 'entra') {
+    // Bloque 1 (c): la palabra «entra» ya no se monta sobre el ícono del
+    // evento de inicio. Se pone al lado libre de la forma: arriba cuando el
+    // nombre del evento está abajo (que es lo habitual) y abajo si no.
+    const ancho = element.width || 36;
+    const alto = element.height || 36;
+    const di = element.businessObject?.di || element.di;
+    const etiqueta = di?.label?.bounds;
+    const nombreAbajo = Boolean(etiqueta) && etiqueta.y >= (element.y ?? 0) + alto - 8;
+    if (nombreAbajo) {
+      addWord(parent, 'entra', theme.stroke, ancho / 2, -7, { ancla: 'middle' });
+    } else {
+      addWord(parent, 'entra', theme.stroke, ancho / 2, alto + 14, { ancla: 'middle' });
+    }
+  }
   if (kind === 'dato') addWord(parent, 'dato', theme.muted, 4, Math.max(16, (element.height || 50) - 6));
   if (kind === 'lane') {
-    const pool = element.type === 'bpmn:Participant';
-    unrotateLaneLabel(parent, pool ? 2 : 22, pool ? 6 : 20);
+    // Bloque 1 (b): el título del pool y el nombre del carril se respetan
+    // verticales y dentro de su banda: ninguna línea del borde los tacha.
+    marcarBandaVertical(parent);
     parent.querySelectorAll('text').forEach((text) => text.classList.add('rr-lane-label'));
   }
   parent.querySelectorAll('text').forEach((text) => {

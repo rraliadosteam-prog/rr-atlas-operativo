@@ -11,6 +11,11 @@
 // RR el nombre canónico es «IMF Visions»). Los demás quedan en pausa y se
 // quita «Sin confirmar» del estado de clientes. Las notas de cada tarjeta
 // siguen citando la fuente y su corte.
+//
+// Decisión de Rosas (2026-11-02 21:33): «IMF Weddings» e «IMF Visions» son EL
+// MISMO cliente. En los datos y en la interfaz queda un solo nombre:
+// «IMF Weddings», sin duplicados. La fuente que dice «IMF Visions» se sigue
+// citando en la nota de la tarjeta.
 
 export const FUENTE_CLIENTES = 'RR · 00_RUTAS.md y 20_Empresa/proyectos.md';
 export const CORTE_CLIENTES = '2026-10-14';
@@ -53,10 +58,10 @@ export const CLIENTES = [
     corte: '2026-09-26',
   },
   {
-    id: 'imf-visions',
-    nombre: 'IMF Visions',
+    id: 'imf-weddings',
+    nombre: 'IMF Weddings',
     estado: 'activo',
-    nota: 'Relación comercial activa.',
+    nota: 'Relación comercial activa. Es el mismo cliente que en las fuentes aparece como «IMF Visions».',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
   },

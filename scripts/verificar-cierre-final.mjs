@@ -203,6 +203,23 @@ check(
   `estados en la interfaz: ${estadosUi.join(', ')}`,
 );
 
+// Decisión de Rosas (2026-11-02 21:33): «IMF Weddings» e «IMF Visions» son el
+// mismo cliente. En los datos y en la interfaz hay un solo nombre y sin
+// duplicados.
+const nombresClientes = clientesBase.map((cliente) => cliente.nombreCanonico ?? cliente.nombre);
+const nombresUi = CLIENTES_UI.map((cliente) => cliente.nombre);
+const repetidos = (lista) => lista.filter((nombre, indice) => lista.indexOf(nombre) !== indice);
+const duplicados = [...repetidos(nombresClientes), ...repetidos(nombresUi)];
+const sinIduplicado = !duplicados.length
+  && !nombresClientes.some((nombre) => /imf visions/i.test(nombre))
+  && !nombresUi.some((nombre) => /imf visions/i.test(nombre));
+check(
+  'imf-unificado',
+  '«IMF Weddings» es el único nombre del cliente IMF (sin duplicados)',
+  sinIduplicado,
+  `datos: ${nombresClientes.filter((n) => /imf/i.test(n)).join(', ') || '—'} · interfaz: ${nombresUi.filter((n) => /imf/i.test(n)).join(', ') || '—'}${duplicados.length ? ` · duplicados: ${duplicados.join(', ')}` : ''}`,
+);
+
 const guiaUsaAviso = bpmnView.includes('AVISO_GUIA');
 check(
   'guia-provisional',

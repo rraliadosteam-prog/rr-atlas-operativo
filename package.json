@@ -22,6 +22,7 @@
     "verificar:pantalla": "node scripts/verificar-pantalla-completa.mjs",
     "verificar:dividido": "node scripts/verificar-dividido.mjs",
     "verificar:cierre": "node scripts/verificar-cierre.mjs",
+    "verificar:pulido": "node scripts/verificar-pulido.mjs",
     "verificar:tactil": "node scripts/verificar-tactil.mjs",
     "verificar:cierre:final": "node scripts/verificar-cierre-final.mjs"
   },

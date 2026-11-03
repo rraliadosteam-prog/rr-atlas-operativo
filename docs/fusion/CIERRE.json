@@ -1,7 +1,7 @@
 {
-  "generadoEn": "2026-11-03T02:00:24.365Z",
-  "total": 26,
-  "ok": 26,
+  "generadoEn": "2026-11-03T02:58:23.487Z",
+  "total": 27,
+  "ok": 27,
   "fallos": 0,
   "resultados": [
     {
@@ -57,6 +57,12 @@
       "nombre": "El panel de Inicio no muestra «Sin confirmar» en los clientes",
       "ok": true,
       "detalle": "estados en la interfaz: activo, pausado"
+    },
+    {
+      "id": "imf-unificado",
+      "nombre": "«IMF Weddings» es el único nombre del cliente IMF (sin duplicados)",
+      "ok": true,
+      "detalle": "datos: IMF Weddings · interfaz: IMF Weddings"
     },
     {
       "id": "guia-provisional",
@@ -152,13 +158,13 @@
       "id": "preguntas-resuelto",
       "nombre": "PREGUNTAS.md registra las decisiones de Rosas como RESUELTO",
       "ok": true,
-      "detalle": "23 decisiones marcadas como RESUELTO"
+      "detalle": "26 decisiones marcadas como RESUELTO"
     },
     {
       "id": "bitacora",
       "nombre": "BITACORA.md cuenta lo hecho, lo que falta y la evidencia de cada bloque",
       "ok": true,
-      "detalle": "15 bloques registrados"
+      "detalle": "16 bloques registrados"
     }
   ]
 }

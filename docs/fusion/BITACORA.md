@@ -880,3 +880,62 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - `npm run verificar:cierre`: **verde** — 30 de 30, 0 errores de consola.
 - `npm run verificar:tactil`: **verde** — 18 de 18, 0 errores de consola.
 - `npm run audit:ux`: **verde** — 3 viewports × 7 pasos, 0 errores de consola.
+
+## Bloque 1 · Cadena de pulido · Visor BPMN a 390 px + unificación de IMF — 2026-11-02 (21:33)
+
+### Qué se hizo
+- **Decisiones de Rosas aplicadas y registradas** en `docs/fusion/PREGUNTAS.md` como **RESUELTO**:
+  (1) «IMF Weddings» e «IMF Visions» son **el mismo cliente** → un solo nombre, sin duplicados;
+  (2) **Wundeer sigue en pausa**; (3) los **carriles sin rol** (Soporte, Soporte · Prioridad,
+  Cliente, Bot, Solicitante, Equipo RR y sus coletillas) **se quedan «sin confirmar» y no se
+  tocan**.
+- **(a) El diagrama abre encuadrado** (`src/bpmn/entry.mjs`): `fit-viewport` con centrado en
+  cualquier pantalla, también en celular. Antes, con un lienzo angosto, el visor arrancaba en
+  `showStep(0)`: pegado a la izquierda, mostrando solo el evento de inicio. Ahora el diagrama
+  completo se ve de una vez, con un 6 % de aire alrededor (para que el borde del pool no quede
+  pegado al marco). El recorrido «Anterior/Siguiente» sigue haciendo zoom al paso.
+- **(b) El título del pool no lo tacha ninguna línea** (`src/bpmn/rr-renderer.mjs`): se eliminó el
+  `unrotateLaneLabel` que tumbaba el título de la piscina y el nombre de los carriles en horizontal
+  (cruzando el borde y la línea de la banda) y se respetó el dibujo vertical nativo de bpmn-js.
+  Como el motor ancla el texto por la línea base, con mayúsculas acentuadas («CÓMO…») la caja se
+  subía y rozaba el borde: `centrarTitulosEnBanda()` (en `entry.mjs`) recentra la tinta dentro de
+  la banda de 30 unidades.
+- **(c) La etiqueta «entra» no se monta sobre el ícono del evento de inicio**
+  (`src/bpmn/rr-renderer.mjs`): la palabra se pone al lado libre de la forma, arriba cuando el
+  nombre del evento está abajo (que es lo habitual en las 16 semillas) y abajo si no.
+- **Unificación de IMF en los datos y en la interfaz**: `src/data/base/clientes.json`,
+  `src/data/inicio-tarjetas.mjs` y `src/data/ecosystem-catalog.mjs` quedan con un solo nombre,
+  «IMF Weddings». En `src/data/pendientes.mjs` el hueco «Nombre canónico de IMF» se cierra (queda
+  como RESUELTO en PREGUNTAS) y se abre el hueco real que queda: el alcance del prototipo de bodas
+  y su responsable. Se actualizó `src/data/pendientes.test.mjs`, que dependía del nombre anterior.
+- **Prueba nueva**: `scripts/verificar-pulido.mjs` (`npm run verificar:pulido`) revisa los tres
+  arreglos en los **16 diagramas a 390 px** con Chrome real y deja la evidencia en
+  `docs/fusion/PULIDO.json` y tres capturas `pulido-<flujo>-390.png`.
+- **Puerta de cierre**: `scripts/verificar-cierre-final.mjs` gana la comprobación
+  `imf-unificado` (un solo nombre y sin duplicados): 26 → **27**.
+
+### Estado de los checks
+- `npm run check`: **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre **27/27**.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:pulido`: **verde** — 16 de 16 diagramas con los tres arreglos bien a 390 px,
+  0 errores de consola.
+
+### Hallazgos / riesgos
+- En el celular el diagrama encuadrado se ve **pequeño** (escala 1:4 a 1:8 según el proceso): es
+  lo que pide «zoom fit al contenido». Para leerlo hay que pellizcar (ya funciona) o usar los
+  botones de zoom de la barra y la tecla `F` para volver a encuadrar.
+- La palabra «entra» del evento de inicio se decide con la posición de la etiqueta del evento en el
+  DI: si el nombre está abajo, la palabra va arriba; si no, abajo.
+- No se tocó ningún carril de los diagramas: los que no tienen rol siguen «sin confirmar».
+
+### Pendiente del bloque
+- El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas (queda en
+  `docs/fusion/PREGUNTAS.md`).
+- El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.
+
+### Evidencia
+- `docs/fusion/PULIDO.json` (16 diagramas, los tres arreglos y 0 errores de consola).
+- `docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png`,
+  `pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png`,
+  `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`.
+- `docs/fusion/CIERRE.json` (27/27) y `docs/fusion/PRUEBAS.md`.
