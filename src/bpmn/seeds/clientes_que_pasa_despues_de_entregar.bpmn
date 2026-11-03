@@ -10,15 +10,17 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Con el cliente vivo">
+      <bpmn:lane id="lane_1" name="Comercial">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_informe</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_post</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_vida</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_vida_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_seva</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_fin_join</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Cuando algo falla">
+      <bpmn:lane id="lane_2" name="Soporte">
         <bpmn:flowNodeRef>g_falla</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_escala</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_garantia</bpmn:flowNodeRef>
@@ -28,12 +30,12 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
     <bpmn:startEvent id="e_ini" name="Se entregó la pieza">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:task id="t_informe" name="6. Informe mensual">
+    <bpmn:task id="t_informe" name="6. Entregar el informe mensual">
       <bpmn:documentation>Etapa 09: qué se reporta al cliente. Con CLIENTE_A son 4 informes de nov a feb, uno cada mes.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_post" name="7. Post mortem">
+    <bpmn:task id="t_post" name="7. Hacer el post mortem">
       <bpmn:documentation>Etapa 10: qué se aprende de cada trabajo, para el siguiente. HOY NO HAY NINGUNO. El aprendizaje se queda en la cabeza de quien hizo el trabajo.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -43,7 +45,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       <bpmn:outgoing>sf_4</bpmn:outgoing>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_escala" name="Se escala">
+    <bpmn:task id="t_escala" name="Escalar el caso">
       <bpmn:documentation>Etapa 12. No hay SLA de soporte: decir 'alta' no significa nada porque no hay tiempos definidos.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
@@ -53,18 +55,22 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       <bpmn:outgoing>sf_7</bpmn:outgoing>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_garantia" name="Se define la garantía">
+    <bpmn:task id="t_garantia" name="Definir la garantía">
       <bpmn:documentation>No hay política escrita: qué se corrige, qué no, y quién lo decide.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:task>
     <bpmn:exclusiveGateway id="g_vida" name="10. ¿El cliente sigue?">
-      <bpmn:incoming>sf_5</bpmn:incoming>
-      <bpmn:incoming>sf_8</bpmn:incoming>
+      <bpmn:incoming>sf_g_vida_join</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_seva" name="11. Se registra por qué se fue">
+    <bpmn:exclusiveGateway id="g_vida_join">
+      <bpmn:incoming>sf_5</bpmn:incoming>
+      <bpmn:incoming>sf_8</bpmn:incoming>
+      <bpmn:outgoing>sf_g_vida_join</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_seva" name="11. Registrar el motivo de salida">
       <bpmn:documentation>Por qué se fue, qué faltó. HOY NO SE REGISTRA. La carpeta ex_clientes existe, el motivo no.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>
@@ -76,10 +82,14 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       </bpmn:dataInputAssociation>
     </bpmn:task>
     <bpmn:endEvent id="e_fin" name="Ciclo de postventa">
+      <bpmn:incoming>sf_e_fin_join</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="e_fin_join">
       <bpmn:incoming>sf_10</bpmn:incoming>
       <bpmn:incoming>sf_11</bpmn:incoming>
       <bpmn:incoming>sf_12</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>sf_e_fin_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:dataObject id="do_d_ex"/>
     <bpmn:dataObjectReference id="d_ex" dataObjectRef="do_d_ex" name="ex_clientes.md">
       <bpmn:documentation>Siraitia: no debe nada, no es cliente. Alma: ex cliente. 5 personas en la lista, sin motivo registrado.</bpmn:documentation>
@@ -88,14 +98,16 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_informe" targetRef="t_post"/>
     <bpmn:sequenceFlow id="sf_3" sourceRef="t_post" targetRef="g_falla"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_falla" targetRef="t_escala" name="sí"/>
-    <bpmn:sequenceFlow id="sf_5" sourceRef="g_falla" targetRef="g_vida" name="no"/>
+    <bpmn:sequenceFlow id="sf_5" sourceRef="g_falla" targetRef="g_vida_join" name="no"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="t_escala" targetRef="g_garantia"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="g_garantia" targetRef="t_garantia" name="reclamo"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="g_garantia" targetRef="g_vida" name="no era reclamo"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="g_garantia" targetRef="g_vida_join" name="no era reclamo"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="g_vida" targetRef="t_seva" name="no: se fue"/>
-    <bpmn:sequenceFlow id="sf_10" sourceRef="g_vida" targetRef="e_fin" name="sí: sigue"/>
-    <bpmn:sequenceFlow id="sf_11" sourceRef="t_seva" targetRef="e_fin"/>
-    <bpmn:sequenceFlow id="sf_12" sourceRef="t_garantia" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_10" sourceRef="g_vida" targetRef="e_fin_join" name="sí: sigue"/>
+    <bpmn:sequenceFlow id="sf_11" sourceRef="t_seva" targetRef="e_fin_join"/>
+    <bpmn:sequenceFlow id="sf_12" sourceRef="t_garantia" targetRef="e_fin_join"/>
+    <bpmn:sequenceFlow id="sf_g_vida_join" sourceRef="g_vida_join" targetRef="g_vida"/>
+    <bpmn:sequenceFlow id="sf_e_fin_join" sourceRef="e_fin_join" targetRef="e_fin"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>SIN POST MORTEM NO HAY APRENDIZAJE: cada trabajo debería dejar una nota de qué funcionó y qué no. No hay ninguno. El aprendizaje vive en la cabeza del que hizo el trabajo, y ese se va.</bpmn:text>
     </bpmn:textAnnotation>
@@ -156,6 +168,9 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
           <dc:Bounds x="1465" y="174" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_vida_di_join_di" bpmnElement="g_vida_join" isMarkerVisible="true">
+        <dc:Bounds x="1420" y="120" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_seva_di" bpmnElement="t_seva" bioc:stroke="#e05252">
         <dc:Bounds x="1670" y="105" width="150" height="80"/>
       </bpmndi:BPMNShape>
@@ -164,6 +179,9 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1885" y="167" width="140" height="36"/>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e_fin_di_join_di" bpmnElement="e_fin_join" isMarkerVisible="true">
+        <dc:Bounds x="1847" y="127" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_ex_di" bpmnElement="d_ex">
         <dc:Bounds x="1727" y="250" width="36" height="50"/>
@@ -193,6 +211,10 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
         <di:waypoint x="930" y="475"/>
         <di:waypoint x="1490" y="475"/>
         <di:waypoint x="1490" y="145"/>
+        <di:waypoint x="1470" y="145"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_vida_join_di" bpmnElement="sf_g_vida_join">
+        <di:waypoint x="1470" y="145"/>
         <di:waypoint x="1510" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_6_di" bpmnElement="sf_6">
@@ -207,7 +229,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
         <di:waypoint x="1350" y="475"/>
         <di:waypoint x="1490" y="475"/>
         <di:waypoint x="1490" y="145"/>
-        <di:waypoint x="1510" y="145"/>
+        <di:waypoint x="1470" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_9_di" bpmnElement="sf_9">
         <di:waypoint x="1560" y="145"/>
@@ -215,17 +237,21 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1560" y="145"/>
+        <di:waypoint x="1897" y="152"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_e_fin_join_di" bpmnElement="sf_e_fin_join">
+        <di:waypoint x="1897" y="152"/>
         <di:waypoint x="1937" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_11_di" bpmnElement="sf_11">
         <di:waypoint x="1820" y="145"/>
-        <di:waypoint x="1937" y="145"/>
+        <di:waypoint x="1897" y="152"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_12_di" bpmnElement="sf_12">
         <di:waypoint x="1610" y="475"/>
         <di:waypoint x="1917" y="475"/>
         <di:waypoint x="1917" y="145"/>
-        <di:waypoint x="1937" y="145"/>
+        <di:waypoint x="1897" y="152"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="dia_1_di" bpmnElement="dia_1">
         <di:waypoint x="1745" y="250"/>

@@ -1,0 +1,47 @@
+{
+  "generadoEn": "2026-11-03T03:20:42.960Z",
+  "modo": "agregar",
+  "checks": [
+    {
+      "nombre": "lint-semillas",
+      "ok": true,
+      "detalle": "16 semillas · 0 errores · 0 avisos · 0 avisos de moddle"
+    },
+    {
+      "nombre": "verificar-cierre",
+      "ok": true,
+      "detalle": "30/30 en verde (10 flujos × 390, 768, 1440 px) · 0 errores de consola"
+    },
+    {
+      "nombre": "verificar-tactil",
+      "ok": true,
+      "detalle": "18/18 en verde (390, 768, 360 px) · 0 errores de consola"
+    },
+    {
+      "nombre": "verificar-pulido",
+      "ok": true,
+      "detalle": "16/16 diagramas con los tres arreglos a 390 px"
+    },
+    {
+      "nombre": "verificar-movil",
+      "ok": true,
+      "detalle": "10/10 en verde (390, 360 px)"
+    },
+    {
+      "nombre": "capturas-390",
+      "ok": true,
+      "detalle": "3 capturas pulido-<flujo>-390.png (incluida «Gobierno documental»)"
+    },
+    {
+      "nombre": "puerta-cierre",
+      "ok": true,
+      "detalle": "28/28 comprobaciones en verde"
+    }
+  ],
+  "totales": {
+    "checks": 7,
+    "enVerde": 7,
+    "fallos": 0
+  },
+  "fallos": []
+}

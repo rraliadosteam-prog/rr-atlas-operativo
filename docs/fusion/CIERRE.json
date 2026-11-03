@@ -1,0 +1,176 @@
+{
+  "generadoEn": "2026-11-03T03:20:39.524Z",
+  "total": 28,
+  "ok": 28,
+  "fallos": 0,
+  "resultados": [
+    {
+      "id": "titulo-pagina",
+      "nombre": "El título de la página es «RR Aliados · Atlas operativo»",
+      "ok": true,
+      "detalle": "title = «RR Aliados · Atlas operativo»"
+    },
+    {
+      "id": "sin-rr-labs",
+      "nombre": "No queda «RR Labs» en la app (título, mapa vivo ni bundle)",
+      "ok": true,
+      "detalle": "no aparece en src/, index.html ni dist/"
+    },
+    {
+      "id": "subtitulo-mapa",
+      "nombre": "El Mapa vivo se titula «RR Aliados» y la barra dice «RR Aliados → Atlas operativo»",
+      "ok": true,
+      "detalle": "raíz del árbol: title: 'RR Aliados'; barra: sí"
+    },
+    {
+      "id": "fuentes",
+      "nombre": "Las fuentes son Inter Tight (títulos) y Lexend (cuerpo)",
+      "ok": true,
+      "detalle": "--font-titulo Inter Tight: sí; --font-texto Lexend: sí"
+    },
+    {
+      "id": "entrada-mapa",
+      "nombre": "La entrada de la app es el Mapa vivo (no la vista Inicio)",
+      "ok": true,
+      "detalle": "el shell abre con el mapa y no hay ruta #/inicio"
+    },
+    {
+      "id": "hub-oculto",
+      "nombre": "«Volver al hub» está oculto (falta la URL real del hub)",
+      "ok": true,
+      "detalle": "enlace: <a class=\"button button-hub\" data-hub-link href=\"http://localhost:8081/\" rel=\"noopener\" ar…"
+    },
+    {
+      "id": "clientes-activos",
+      "nombre": "BOGA, Candilejas e IMF Weddings están activos",
+      "ok": true,
+      "detalle": "BOGA: activo · Candilejas + 553: activo · IMF Weddings: activo"
+    },
+    {
+      "id": "clientes-pausa",
+      "nombre": "Los demás clientes están en pausa y ninguno quedó «sin confirmar»",
+      "ok": true,
+      "detalle": "8 en pausa, 0 sin confirmar"
+    },
+    {
+      "id": "clientes-en-la-app",
+      "nombre": "El panel de Inicio no muestra «Sin confirmar» en los clientes",
+      "ok": true,
+      "detalle": "estados en la interfaz: activo, pausado"
+    },
+    {
+      "id": "imf-unificado",
+      "nombre": "«IMF Weddings» es el único nombre del cliente IMF (sin duplicados)",
+      "ok": true,
+      "detalle": "datos: IMF Weddings · interfaz: IMF Weddings"
+    },
+    {
+      "id": "guia-provisional",
+      "nombre": "La guía de cada diagrama muestra el aviso «Guía provisional»",
+      "ok": true,
+      "detalle": "constante: «Guía provisional»; la vista la usa: sí"
+    },
+    {
+      "id": "leyenda-bot-persona",
+      "nombre": "La leyenda separa «Tarea de persona» y «Tarea de bot» con íconos distintos",
+      "ok": true,
+      "detalle": "ícono de persona: sí; ícono de bot: sí"
+    },
+    {
+      "id": "semillas-lint",
+      "nombre": "Las 16 semillas BPMN pasan el lint con 0 errores y 0 avisos",
+      "ok": true,
+      "detalle": "16 semillas · 0 errores · 0 avisos · 0 avisos de moddle"
+    },
+    {
+      "id": "pantalla-completa",
+      "nombre": "Abrir un diagrama siempre lo deja a pantalla completa",
+      "ok": true,
+      "detalle": "al abrir un proceso se aplica el modo completo"
+    },
+    {
+      "id": "bots-vigentes",
+      "nombre": "Buen Puente y Becas de Exposición vigentes; Media Manager y Gains «sin confirmar»",
+      "ok": true,
+      "detalle": "Buen Puente: Vigente · Becas: Vigente · Media Manager: Sin confirmar · Gains: Sin confirmar"
+    },
+    {
+      "id": "esquema-v5",
+      "nombre": "El modelo es el esquema 5 y se guarda en localStorage con su clave",
+      "ok": true,
+      "detalle": "schemaVersion 5 · rr-atlas:v5"
+    },
+    {
+      "id": "migraciones",
+      "nombre": "Hay migración desde el JSON v4 de B y desde el estado de la rama A",
+      "ok": true,
+      "detalle": "v4 → esquema 5; estado de A → esquema 5"
+    },
+    {
+      "id": "export-import-idempotente",
+      "nombre": "Exportar e importar es idempotente (exportar(importar(paquete)) === paquete)",
+      "ok": true,
+      "detalle": "paquete con 11 colecciones · 11 clientes"
+    },
+    {
+      "id": "validador-rechaza-prohibidos",
+      "nombre": "El validador rechaza los campos prohibidos (salario, cédula, cuenta, token, password)",
+      "ok": true,
+      "detalle": "rechazado: persona.persona-santiago-rosas.salario"
+    },
+    {
+      "id": "base-fuentes",
+      "nombre": "Cada registro de la base trae su fuente y su corte",
+      "ok": true,
+      "detalle": "124 registros · 0 sin fuente · 0 con corte mal escrito"
+    },
+    {
+      "id": "sin-cifras-financieras",
+      "nombre": "No hay ninguna cifra financiera en los datos ni en el bundle",
+      "ok": true,
+      "detalle": "los datos solo hablan de flujos, sin montos"
+    },
+    {
+      "id": "pendientes-visibles",
+      "nombre": "Los huecos «sin confirmar» se ven en la app (vista Datos e Inicio), con fuente y corte",
+      "ok": true,
+      "detalle": "21 huecos · 0 sin fuente o corte · la app los muestra: sí"
+    },
+    {
+      "id": "pendientes-minimos",
+      "nombre": "La lista de huecos cubre la lista mínima del mega prompt §10",
+      "ok": true,
+      "detalle": "20 huecos mínimos presentes"
+    },
+    {
+      "id": "capturas-por-ancho",
+      "nombre": "Hay una captura por flujo y por ancho (390, 768 y 1440 px)",
+      "ok": true,
+      "detalle": "10 flujos × 3 anchos = 30 capturas"
+    },
+    {
+      "id": "qa-final",
+      "nombre": "El QA final está en verde y hay capturas a 390 px de los tres flujos (uno es «Gobierno documental»)",
+      "ok": true,
+      "detalle": "7/7 comprobaciones en verde · 3 capturas a 390 px"
+    },
+    {
+      "id": "pruebas-doc",
+      "nombre": "PRUEBAS.md tiene el conteo de pruebas y los avisos de lint",
+      "ok": true,
+      "detalle": "los 10 flujos, el conteo de pruebas y «0 errores y 0 avisos» de lint están documentados"
+    },
+    {
+      "id": "preguntas-resuelto",
+      "nombre": "PREGUNTAS.md registra las decisiones de Rosas como RESUELTO",
+      "ok": true,
+      "detalle": "26 decisiones marcadas como RESUELTO"
+    },
+    {
+      "id": "bitacora",
+      "nombre": "BITACORA.md cuenta lo hecho, lo que falta y la evidencia de cada bloque",
+      "ok": true,
+      "detalle": "19 bloques registrados"
+    }
+  ]
+}

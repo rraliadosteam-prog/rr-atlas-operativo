@@ -1,34 +1,241 @@
-.atlas-bpmn-canvas {
-  --bio-primary: var(--rr-fuchsia);
-  --bio-focus: var(--rr-focus);
-  --accent-color: var(--rr-fuchsia);
-  --bjs-font-family: var(--rr-font-body);
+/* --------------------------------------------------------------------------
+   Atlas RR · vista BPMN
+   Se apoya en el sistema de diseño de B (src/rr-estilo/tokens.css).
+   Regla: ningún color, tipografía ni espaciado propio; solo tokens de marca.
+   Paleta: --rr-fucsia, --rr-mostaza, --rr-orquidea, --rr-negro, --rr-crema.
+   -------------------------------------------------------------------------- */
+
+.bpmn-view {
+  --bpmn-fondo: var(--rr-crema);
+  --bpmn-panel: #fffdf5;
+  --bpmn-linea: rgba(7, 0, 1, 0.13);
+  --bpmn-texto: var(--rr-negro);
+  --bpmn-texto-suave: rgba(7, 0, 1, 0.62);
+  --bpmn-acento: var(--rr-fucsia);
+  --bpmn-acento-2: var(--rr-orquidea);
+  --bpmn-alerta: var(--rr-mostaza);
+  --bpmn-ok: #2f7d4f;
+  --bpmn-radio: 4px;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bpmn-fondo);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  overflow: hidden;
 }
-.atlas-bpmn-canvas .djs-container,
-.atlas-bpmn-canvas .djs-container > svg { width: 100%; height: 100%; }
-.atlas-bpmn-canvas .djs-container { position: absolute; inset: 0; touch-action: none; background: var(--rr-canvas); }
-.atlas-bpmn-canvas .djs-visual text { font-family: var(--rr-font-body); font-size: 12px; }
-.atlas-bpmn-canvas .djs-label text { paint-order: stroke; stroke: var(--rr-bpmn-base-fill); stroke-width: 3px; stroke-linejoin: round; }
-.atlas-bpmn-canvas .rr-lane-label,
-.atlas-bpmn-canvas .rr-lane-label tspan {
-  font-family: var(--rr-font-display);
-  letter-spacing: -.04em;
+
+.bpmn-view[hidden] { display: none; }
+
+/* La vista BPMN va sobre crema: los botones de texto claro del shell (cream)
+   quedaban ilegibles (contraste 1.01:1). Aquí se pasan a tinta RR. */
+.bpmn-view .button-ghost {
+  color: var(--rr-negro);
+  border-color: rgba(7, 0, 1, 0.28);
+}
+.bpmn-view .button-ghost:hover,
+.bpmn-view .button-ghost:focus-visible {
+  color: var(--rr-fucsia);
+  border-color: var(--rr-fucsia);
+}
+
+.bpmn-view__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5) var(--space-3);
+  border-bottom: 2px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+}
+
+.bpmn-view__title {
+  margin: 0;
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.35rem;
   text-transform: uppercase;
 }
-.atlas-bpmn-canvas .djs-element.selected .djs-outline {
-  stroke: var(--rr-mustard);
-  stroke-width: 2px;
+
+.bpmn-view__hint {
+  margin: var(--space-1) 0 0;
+  font-size: 0.8rem;
+  color: var(--bpmn-texto-suave);
+  max-width: 70ch;
 }
-.atlas-bpmn-canvas .djs-element.selected .djs-visual {
-  filter: drop-shadow(3px 3px 0 var(--rr-ink-fixed));
+
+.bpmn-view__actions { display: flex; gap: var(--space-2); flex-shrink: 0; }
+
+.bpmn-view__identidad {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
 }
-.atlas-bpmn-canvas .djs-palette,
-.atlas-bpmn-canvas .djs-context-pad {
-  background: var(--rr-panel);
-  border: 1px solid var(--rr-orchid);
-  border-radius: 3px;
+
+/* Solo aparece en pantalla completa: la cabecera del shell queda tapada. */
+.bpmn-view__marca { display: none; }
+
+.bpmn-view__body {
+  flex: 1 1 0;
+  min-height: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
 }
-.atlas-bpmn-canvas .bjs-powered-by {
+
+.bpmn-catalog {
+  border-right: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+  overflow: auto;
+  padding: var(--space-3);
+}
+
+.bpmn-catalog__search { margin-bottom: var(--space-3); }
+.bpmn-catalog__search input {
+  width: 100%;
+  min-height: 38px;
+  padding: 6px 10px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.85rem;
+}
+
+.bpmn-area + .bpmn-area { margin-top: var(--space-4); }
+.bpmn-area__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-titulo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+.bpmn-area__count {
+  font-family: var(--font-texto);
+  font-size: 0.7rem;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+
+.bpmn-card {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--bpmn-linea);
+  border-left: 3px solid var(--bpmn-acento-2);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+.bpmn-card:hover { border-color: var(--bpmn-acento); }
+.bpmn-card:focus-visible { outline: 3px solid var(--bpmn-alerta); outline-offset: 2px; }
+.bpmn-card.is-active {
+  border-color: var(--bpmn-acento);
+  background: rgba(190, 7, 109, 0.08);
+}
+.bpmn-card__title { font-family: var(--font-titulo); font-weight: 600; }
+.bpmn-card__meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.bpmn-card__file { font-size: 0.68rem; color: var(--bpmn-texto-suave); font-family: var(--font-mono); }
+/* Bloque 2 · el nombre del archivo es una palabra larga: sin esto la tarjeta
+   estiraba el catálogo y lo hacía deslizar de lado en el celular. */
+.bpmn-card__file { min-width: 0; overflow-wrap: anywhere; }
+.bpmn-card { min-width: 0; }
+
+.bpmn-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.bpmn-badge--ok { color: var(--bpmn-ok); }
+.bpmn-badge--warn { color: #8a6d00; }
+.bpmn-badge--bad { color: var(--bpmn-acento); }
+.bpmn-badge--info { color: var(--bpmn-acento-2); }
+
+.bpmn-stage {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.bpmn-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+}
+
+.bpmn-canvas-wrap { position: relative; min-height: 320px; overflow: hidden; }
+
+.bpmn-canvas {
+  position: absolute;
+  inset: 0;
+  background: var(--bpmn-fondo);
+  --bjs-font-family: var(--font-texto);
+}
+.bpmn-canvas .djs-container,
+.bpmn-canvas .djs-container > svg { width: 100%; height: 100%; }
+.bpmn-canvas .djs-container { position: absolute; inset: 0; touch-action: none; }
+.bpmn-canvas .djs-visual text { font-family: var(--font-texto); font-size: 12px; }
+.bpmn-canvas .djs-label text {
+  paint-order: stroke;
+  stroke: var(--rr-crema);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.bpmn-canvas .rr-lane-label,
+.bpmn-canvas .rr-lane-label tspan {
+  font-family: var(--font-titulo);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.bpmn-canvas .djs-element.selected .djs-outline {
+  stroke: var(--rr-mostaza);
+  stroke-width: 3px;
+}
+.bpmn-canvas .djs-element.selected .djs-visual { filter: drop-shadow(3px 3px 0 var(--rr-negro)); }
+
+/* Paso actual del recorrido: se marca en fucsia para saber dónde estás. */
+.bpmn-canvas .rr-paso-actual .djs-visual {
+  filter: drop-shadow(0 0 0 var(--rr-fucsia)) drop-shadow(3px 3px 0 var(--rr-fucsia));
+}
+.bpmn-canvas .rr-paso-actual .djs-outline {
+  stroke: var(--rr-fucsia) !important;
+  stroke-width: 3px !important;
+}
+.bpmn-canvas .djs-palette,
+.bpmn-canvas .djs-context-pad {
+  background: var(--bpmn-panel);
+  border: 1px solid var(--bpmn-acento-2);
+  border-radius: var(--bpmn-radio);
+}
+.bpmn-canvas .djs-palette .entry,
+.bpmn-canvas .djs-context-pad .entry { border-radius: 2px; }
+.bpmn-canvas .bjs-powered-by {
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
@@ -39,18 +246,672 @@
   min-width: 44px;
   min-height: 44px;
   padding: 4px 6px;
-  background: var(--rr-paper-fixed);
-  border-radius: 3px;
+  background: var(--bpmn-panel);
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
   opacity: 1 !important;
 }
-.atlas-lane-legend { display: flex; gap: 6px; margin: 0; padding: 6px 8px; overflow: auto; background: var(--rr-panel); border-bottom: 1px solid var(--rr-orchid); }
-@media (min-width: 761px) {
-  .atlas-lane-legend { display: none !important; }
+
+.bpmn-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--space-2);
+  text-align: center;
+  padding: var(--space-6);
+  color: var(--bpmn-texto-suave);
+  pointer-events: none;
 }
-.atlas-lane-legend span { flex: 0 0 auto; min-height: 32px; display: inline-flex; align-items: center; padding: 4px 8px; border: 1px solid var(--rr-orchid); color: var(--rr-paper); font-size: 14px; }
+.bpmn-empty[hidden] { display: none; }
+.bpmn-empty strong { font-family: var(--font-titulo); color: var(--bpmn-texto); }
+.bpmn-empty code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: rgba(7, 0, 1, 0.06);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.bpmn-inspector {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  padding: var(--space-3);
+  border-left: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+  overflow: auto;
+}
+.bpmn-inspector[hidden] { display: none; }
+.bpmn-inspector h2 {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-titulo);
+  font-size: 0.95rem;
+}
+.bpmn-inspector p { margin: 0; font-size: 0.78rem; color: var(--bpmn-texto-suave); }
+
+/* Formulario de edición del elemento (item 3: BPMN editable en sitio) */
+.bpmn-form { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+.bpmn-form[hidden] { display: none; }
+.bpmn-form__campo {
+  display: grid;
+  gap: 4px;
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-form input,
+.bpmn-form select,
+.bpmn-form textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid rgba(7, 0, 1, 0.22);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.bpmn-form textarea { resize: vertical; min-height: 54px; }
+.bpmn-form input:disabled,
+.bpmn-form select:disabled,
+.bpmn-form textarea:disabled,
+.bpmn-form button:disabled { opacity: 0.55; cursor: not-allowed; }
+.bpmn-form__acciones { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.bpmn-inspector__pista { margin-top: var(--space-2); font-size: 0.72rem; }
+
+/* Menú «＋ Añadir»: agrupa la creación de elementos y ahorra alto en móvil */
+.bpmn-menu { position: relative; }
+.bpmn-menu > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.bpmn-menu > summary::-webkit-details-marker { display: none; }
+.bpmn-menu__lista {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  display: grid;
+  gap: 4px;
+  min-width: 190px;
+  padding: 8px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--bpmn-panel);
+  box-shadow: 0 12px 28px rgba(7, 0, 1, 0.18);
+}
+.bpmn-menu__lista .button { justify-content: flex-start; }
+
+/* Panel por diagrama (item 4): qué busca, cómo se lee y leyenda de la marca. */
+.bpmn-view.is-guia .bpmn-view__body { grid-template-columns: 290px minmax(0, 1fr) 340px; }
+.bpmn-guia {
+  position: relative;
+  /* El lienzo de bpmn-js crea SVG del tamaño del diagrama (a veces más ancho que
+     su columna) y esos SVG quedaban por encima del panel: se comían los clics
+     del botón de cerrar. Con posición y z-index la guía siempre gana. */
+  z-index: 10;
+  border-left: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+  overflow: auto;
+  padding: var(--space-3);
+}
+.bpmn-guia[hidden] { display: none; }
+.bpmn-guia__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--bpmn-linea);
+  margin-bottom: var(--space-3);
+}
+.bpmn-guia__head h2 {
+  margin: 0;
+  font-family: var(--font-titulo);
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.bpmn-guia__bloque { margin-bottom: var(--space-4); }
+.bpmn-guia__bloque h3 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+.bpmn-guia__bloque p { margin: 0; font-size: 0.8rem; line-height: 1.45; }
+.bpmn-guia__datos {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  font-size: 0.78rem;
+}
+.bpmn-guia__datos dt {
+  font-family: var(--font-titulo);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-guia__datos dd { margin: 0; }
+.bpmn-guia__pasos {
+  margin: 0;
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 4px;
+  font-size: 0.79rem;
+  line-height: 1.4;
+}
+.bpmn-guia__aviso {
+  margin: 0 0 var(--space-4);
+  padding: 8px 10px;
+  display: grid;
+  gap: 2px;
+  border: 2px solid var(--rr-mostaza);
+  border-radius: var(--bpmn-radio);
+  background: rgba(222, 209, 22, 0.18);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.bpmn-guia__aviso strong {
+  font-family: var(--font-titulo);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.bpmn-guia__ojo {
+  margin: 0 0 var(--space-4);
+  padding: 6px 10px;
+  border-left: 3px solid var(--rr-mostaza);
+  background: rgba(222, 209, 22, 0.16);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.bpmn-guia__simbolos,
+.bpmn-guia__colores {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.bpmn-guia__simbolos li,
+.bpmn-guia__colores li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+}
+.bpmn-guia__glifo {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+}
+.bpmn-guia__glifo svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--rr-negro);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.bpmn-guia__muestra {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-guia-color);
+}
+.bpmn-guia__leyenda__texto { display: grid; gap: 2px; }
+.bpmn-guia__leyenda__texto strong { font-family: var(--font-titulo); font-size: 0.78rem; }
+.bpmn-guia__leyenda__texto span { font-size: 0.74rem; line-height: 1.35; color: var(--bpmn-texto-suave); }
+.bpmn-guia__fuente {
+  margin: 0;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--bpmn-linea);
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--bpmn-texto-suave);
+}
+
+.bpmn-report {
+  border-top: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.76rem;
+  color: var(--bpmn-texto-suave);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  min-height: 34px;
+}
+.bpmn-report strong { color: var(--bpmn-texto); }
+.bpmn-report__issue { color: var(--bpmn-acento); }
+.bpmn-report__warn { color: #8a6d00; }
+
 @media (max-width: 760px) {
-  .atlas-button--icon { width: 44px; min-width: 44px; min-height: 44px; }
-  .djs-palette .entry,
-  .djs-context-pad .entry { width: 44px; height: 44px; }
-  .atlas-bpmn-canvas .rr-lane-label { display: none; }
+  /* En móvil el acceso a BPMN llega por la tabbar (fase 6); el shell no crece.
+     Item 7 · mientras no exista la tabbar, el ícono ◇ de la barra superior
+     deja el BPMN a un toque (antes no había forma de abrirlo en el celular). */
+  .rail-actions [data-bpmn-link-rail] { display: none; }
+  .top-actions [data-bpmn-link] { display: inline-flex; min-width: 44px; min-height: 44px; justify-content: center; }
+  /* La paleta de bpmn-js venía en vertical y tapaba media pantalla: en móvil
+     es una franja horizontal arriba, deslizable con el dedo. */
+  .bpmn-canvas .djs-palette {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    padding: 4px;
+    overflow-x: auto;
+    background: var(--bpmn-panel);
+    border: 1px solid var(--bpmn-acento-2);
+    border-radius: var(--bpmn-radio);
+  }
+  .bpmn-canvas .djs-palette .separator { display: none; }
+  .bpmn-canvas .djs-palette .entry {
+    float: none;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+  }
+  .bpmn-canvas .djs-context-pad .entry { width: 44px; height: 44px; }
 }
+
+@media (max-width: 900px) {
+  /* En vertical el catálogo va arriba y el diagrama necesita aire: sin esto el
+     lienzo quedaba con 0 px de alto y el diagrama no se montaba. */
+  .bpmn-view { overflow: auto; }
+  /* Bloque 2 · el catálogo deja de empujar el lienzo: con 180 px fijos el
+     diagrama quedaba cortado por abajo en 390 px y 360 px. */
+  .bpmn-view__body { grid-template-columns: 1fr; grid-template-rows: 160px minmax(280px, 1fr); }
+  .bpmn-canvas-wrap { min-height: 240px; }
+  /* La guía baja a una fila propia debajo del diagrama. */
+  .bpmn-view.is-guia .bpmn-view__body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 160px minmax(280px, 1fr) auto;
+  }
+  .bpmn-guia {
+    border-left: 0;
+    border-top: 1px solid var(--bpmn-linea);
+    max-height: 60vh;
+  }
+  .bpmn-catalog { border-right: 0; border-bottom: 1px solid var(--bpmn-linea); }
+  .bpmn-view__head { flex-direction: column; }
+}
+
+/* --------------------------------------------------------------------------
+   Item 7 · Celular compacto
+   En celular la cabecera se reduce a íconos (así el botón «▥ Unir» ya no se
+   monta sobre el título) y los controles menos usados del diagrama se
+   agrupan en el menú «⋯».
+   -------------------------------------------------------------------------- */
+.bpmn-menu--mas { display: none; position: relative; }
+.bpmn-menu--mas[open] { display: inline-block; }
+.bpmn-menu--mas .bpmn-menu__lista { right: 0; left: auto; }
+@media (max-width: 760px) {
+  .bpmn-view__actions { gap: 4px; }
+  .bpmn-view__actions .button { min-width: 44px; min-height: 44px; padding-inline: 8px; }
+  .bpmn-view__actions .bpmn-accion__texto { display: none; }
+  .bpmn-view.is-completo .bpmn-view__head { gap: 8px; }
+  /* Bloque 2 · en el catálogo la línea de ayuda repetía lo que ya dicen las
+     tarjetas: en 360 px empujaba el lienzo fuera de pantalla. */
+  .bpmn-view:not(.is-completo) .bpmn-view__hint { display: none; }
+  /* Bloque 2 · en el catálogo la barra de controles se apilaba en tres filas
+     (165 px) y tapaba el lienzo: ahora es una sola fila que se desliza con
+     el dedo, igual que en pantalla completa. */
+  .bpmn-view:not(.is-completo) .bpmn-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding: 6px 8px;
+  }
+  .bpmn-view:not(.is-completo) .bpmn-toolbar > * { flex: 0 0 auto; }
+  /* Los controles menos usados pasan al menú «⋯», que queda fijo a la
+     izquierda de la barra deslizable. */
+  .bpmn-toolbar .bpmn-secundario { display: none; }
+  .bpmn-toolbar__dividir { display: none; }
+  .bpmn-menu--mas { display: inline-block; position: sticky; left: 0; z-index: 6; }
+  .bpmn-menu--mas > summary { list-style: none; font-size: 16px; line-height: 1; }
+  .bpmn-menu--mas > summary::-webkit-details-marker { display: none; }
+  .bpmn-menu--mas .bpmn-menu__lista { left: 0; right: auto; }
+  .bpmn-menu--mas .bpmn-menu__lista .button { width: 100%; justify-content: flex-start; }
+}
+
+/* --------------------------------------------------------------------------
+   Item 6 · Pantalla dividida opcional
+   El diagrama se queda en un lado; al otro va otro diagrama, el esquema de
+   áreas y procesos o el Inicio con las tarjetas de cliente y servicio.
+   -------------------------------------------------------------------------- */
+.bpmn-split {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  border-left: 1px solid var(--bpmn-linea);
+  background: var(--bpmn-panel);
+}
+.bpmn-split[hidden] { display: none; }
+
+.bpmn-split__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border-bottom: 1px solid var(--bpmn-linea);
+}
+.bpmn-split__tabs { display: flex; gap: 4px; min-width: 0; overflow-x: auto; }
+.bpmn-split__tab {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--bpmn-radio);
+  background: transparent;
+  color: var(--bpmn-texto-suave);
+  font-family: var(--font-titulo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bpmn-split__tab:hover { color: var(--bpmn-texto); }
+.bpmn-split__tab[aria-selected="true"] {
+  color: var(--bpmn-acento);
+  border-color: var(--bpmn-acento);
+  background: rgba(190, 7, 109, 0.08);
+}
+.bpmn-split__tab:focus-visible { outline: 3px solid var(--bpmn-alerta); outline-offset: 2px; }
+
+.bpmn-split__body { min-height: 0; display: grid; }
+.bpmn-split__pane { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.bpmn-split__pane[hidden] { display: none; }
+.bpmn-split__picker { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--bpmn-linea); }
+.bpmn-split__picker select {
+  width: 100%;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.8rem;
+}
+.bpmn-split__lienzo { position: relative; min-height: 0; overflow: hidden; }
+.bpmn-split__lienzo .bpmn-canvas { position: absolute; inset: 0; }
+.bpmn-split__vacio {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  padding: var(--space-4);
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--bpmn-texto-suave);
+  pointer-events: none;
+}
+.bpmn-split__vacio[hidden] { display: none; }
+.bpmn-split__scroll { min-height: 0; overflow: auto; padding: var(--space-3); }
+
+/* Esquema: columnas por área con los procesos como fichas. */
+.bpmn-esquema__intro {
+  margin: 0 0 var(--space-3);
+  font-size: 0.76rem;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-esquema__areas { display: grid; gap: var(--space-3); }
+.bpmn-esquema__area {
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+  padding: var(--space-2);
+}
+.bpmn-esquema__area h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+.bpmn-esquema__chip {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: 4px;
+  padding: 7px 9px;
+  border: 1px solid var(--bpmn-linea);
+  border-left: 3px solid var(--bpmn-acento-2);
+  border-radius: var(--bpmn-radio);
+  background: var(--bpmn-panel);
+  color: var(--bpmn-texto);
+  font-family: var(--font-texto);
+  font-size: 0.78rem;
+  text-align: left;
+  cursor: pointer;
+}
+.bpmn-esquema__chip:hover { border-color: var(--bpmn-acento); }
+.bpmn-esquema__chip.is-active {
+  border-color: var(--bpmn-acento);
+  background: rgba(190, 7, 109, 0.08);
+}
+.bpmn-esquema__chip:focus-visible { outline: 3px solid var(--bpmn-alerta); outline-offset: 2px; }
+.bpmn-esquema__chip-titulo { min-width: 0; }
+
+/* Inicio: tarjetas de cliente y de servicio. */
+.bpmn-inicio__grupo { margin-bottom: var(--space-4); }
+.bpmn-inicio__grupo h3 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+.bpmn-inicio__tarjetas { display: grid; gap: 6px; }
+.bpmn-tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--rr-crema);
+}
+.bpmn-tarjeta__nombre {
+  font-family: var(--font-titulo);
+  font-size: 0.84rem;
+  min-width: 0;
+}
+.bpmn-tarjeta__nota,
+.bpmn-tarjeta__fuente {
+  grid-column: 1 / -1;
+  font-size: 0.72rem;
+  color: var(--bpmn-texto-suave);
+}
+.bpmn-tarjeta__fuente { font-family: var(--font-mono); font-size: 0.66rem; }
+.bpmn-inicio__nota {
+  margin: 0;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--bpmn-linea);
+  font-size: 0.7rem;
+  color: var(--bpmn-texto-suave);
+}
+/* Lo que falta confirmar (mega prompt §10): cada hueco con su fuente. */
+.bpmn-inicio__pendientes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  max-height: 220px;
+  overflow: auto;
+}
+.bpmn-inicio__pendientes li {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  padding: 6px 8px;
+  border-left: 3px solid var(--bpmn-alerta);
+  background: var(--rr-crema);
+  overflow-wrap: anywhere;
+}
+
+/* La vista partida con el panel al lado: el diagrama no se encoge a cero. */
+.bpmn-view.is-dividido .bpmn-view__body {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 34%);
+}
+.bpmn-view.is-completo.is-dividido .bpmn-view__body {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 34%);
+}
+/* Con la guía abierta y la pantalla dividida, la guía se superpone: no
+   divide más el diagrama. */
+.bpmn-view.is-dividido.is-guia .bpmn-guia {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 92vw);
+  z-index: 12;
+  box-shadow: -14px 0 34px rgba(7, 0, 1, 0.22);
+}
+
+@media (max-width: 900px) {
+  /* En vertical el panel va debajo del diagrama: cada uno con su alto. */
+  .bpmn-view.is-dividido .bpmn-view__body,
+  .bpmn-view.is-completo.is-dividido .bpmn-view__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(240px, 55%) minmax(0, 45%);
+  }
+  .bpmn-split { border-left: 0; border-top: 1px solid var(--bpmn-linea); }
+}
+
+/* --------------------------------------------------------------------------
+   Item 5 · Modo diagrama a pantalla completa
+   Al abrir un BPMN toda la página es el diagrama: sin catálogo, sin división
+   y sin scroll en móvil (360 px). El botón ⛶ alterna el modo.
+   -------------------------------------------------------------------------- */
+.bpmn-view.is-completo {
+  /* Cubre cabecera, marquesina y pie del shell: la página es el diagrama.
+     Queda bajo el aviso flotante (z 50) y bajo el marco RR (z 60). */
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  width: 100vw;
+  height: 100dvh;
+}
+.bpmn-view.is-completo .bpmn-catalog { display: none; }
+.bpmn-view.is-completo .bpmn-view__body {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+/* Con la guía abierta el diagrama no se divide: la guía va superpuesta. */
+.bpmn-view.is-completo.is-guia .bpmn-view__body {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+.bpmn-view.is-completo .bpmn-view__head {
+  padding: 8px 14px;
+  align-items: center;
+  gap: var(--space-3);
+}
+.bpmn-view.is-completo .bpmn-view__title {
+  font-size: 1.05rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bpmn-view.is-completo .bpmn-view__identidad { flex: 1 1 auto; min-width: 0; }
+/* El título cede espacio: si no, el botón «▥ Unir» se le monta encima. */
+.bpmn-view.is-completo .bpmn-view__identidad > div { min-width: 0; }
+.bpmn-view.is-completo .bpmn-view__title { max-width: 100%; }
+.bpmn-view.is-completo .bpmn-view__actions { flex-shrink: 0; }
+.bpmn-view.is-completo .bpmn-view__hint { margin-top: 0; font-size: 0.74rem; }
+.bpmn-view.is-completo .bpmn-view__marca {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--rr-negro);
+  color: var(--rr-mostaza);
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.bpmn-view.is-completo .bpmn-report {
+  min-height: 28px;
+  max-height: 92px;
+  overflow: auto;
+  padding-block: 4px;
+  font-size: 0.72rem;
+}
+.bpmn-view.is-completo .bpmn-guia {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: min(360px, 92vw);
+  max-height: none;
+  border-left: 2px solid var(--bpmn-acento-2);
+  box-shadow: -14px 0 34px rgba(7, 0, 1, 0.22);
+}
+
+@media (max-width: 900px) {
+  /* En vertical la cabecera no puede partirse en dos filas: se apila y la
+     guía superpuesta no crea filas extra. */
+  .bpmn-view.is-completo .bpmn-view__head {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 6px 10px;
+  }
+  .bpmn-view.is-completo .bpmn-view__body { grid-template-rows: minmax(0, 1fr); }
+  .bpmn-view.is-completo .bpmn-view__hint { display: none; }
+  /* La barra de controles es una sola fila que se desliza con el dedo. */
+  .bpmn-view.is-completo .bpmn-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding: 6px 8px;
+  }
+  .bpmn-view.is-completo .bpmn-toolbar > * { flex: 0 0 auto; }
+  .bpmn-view.is-completo .bpmn-canvas-wrap { min-height: 0; }
+}
+

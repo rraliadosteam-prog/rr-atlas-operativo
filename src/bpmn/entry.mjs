@@ -82,13 +82,35 @@ function download(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function createBpmnWorkspace({ container, onReport, onElement }) {
+const NOMBRE_POR_TIPO = {
+  'bpmn:Task': 'Tarea nueva',
+  'bpmn:UserTask': 'Tarea de usuario',
+  'bpmn:ServiceTask': 'Tarea de servicio',
+  'bpmn:ExclusiveGateway': '¿Se cumple?',
+  'bpmn:ParallelGateway': '¿En paralelo?',
+  'bpmn:StartEvent': 'Inicio',
+  'bpmn:EndEvent': 'Fin',
+  'bpmn:Lane': 'Carril nuevo',
+};
+
+const TIPOS_NUEVOS = {
+  tarea: 'bpmn:Task',
+  'tarea-usuario': 'bpmn:UserTask',
+  'tarea-servicio': 'bpmn:ServiceTask',
+  compuerta: 'bpmn:ExclusiveGateway',
+  evento: 'bpmn:StartEvent',
+  'evento-fin': 'bpmn:EndEvent',
+  carril: 'bpmn:Lane',
+};
+
+export function createBpmnWorkspace({ container, onReport, onElement, onChange }) {
   let viewer = null;
   let mode = 'view';
   let currentXml = '';
   let debt = null;
   let fileName = '';
   let pinchBound = false;
+  let cambiosPendientes = false;
 
   async function ensure(nextMode) {
     if (viewer && mode === nextMode) return;
@@ -114,6 +136,9 @@ export function createBpmnWorkspace({ container, onReport, onElement }) {
         documentation: (business.documentation || []).map((item) => item.text || '').join(' ').trim(),
         incoming: element.incoming?.length || 0,
         outgoing: element.outgoing?.length || 0,
+        laneId: carrilDe(element)?.id || '',
+        laneName: carrilDe(element)?.businessObject?.name || '',
+        color: colorDe(element),
       });
     });
     if (!pinchBound) {
@@ -122,6 +147,7 @@ export function createBpmnWorkspace({ container, onReport, onElement }) {
     }
     if (nextMode === 'edit') {
       viewer.on('commandStack.changed', async () => {
+        cambiosPendientes = true;
         try {
           const saved = await viewer.saveXML({ format: true });
           currentXml = saved.xml;
@@ -129,6 +155,7 @@ export function createBpmnWorkspace({ container, onReport, onElement }) {
         } catch {
           onReport?.({ ok: false, importError: 'No se pudo guardar el diagrama', moddleWarnings: [], issues: [], errors: [], warnings: [], debt: [] });
         }
+        onChange?.({ cambios: cambiosPendientes, puedeDeshacer: puedeDeshacer(), puedeRehacer: puedeRehacer() });
       });
     }
   }
@@ -220,39 +247,286 @@ export function createBpmnWorkspace({ container, onReport, onElement }) {
     const canvas = viewer.get('canvas');
     if (narrow()) canvas.zoom(Math.max(canvas.zoom() || 1, 1.15));
     canvas.scrollToElement(elements[stepIndex], { top: 72, right: 28, bottom: 88, left: 28 });
+    marcarPaso(elements[stepIndex]);
     nudgeLabels();
     return describeStep(elements);
   }
 
+  // Marca visual del paso actual del recorrido (borrador RR).
+  function marcarPaso(element) {
+    const registry = viewer.get('elementRegistry');
+    for (const item of registry.getAll()) {
+      if (item.labelTarget) continue;
+      const gfx = registry.getGraphics(item);
+      if (!gfx) continue;
+      gfx.classList?.toggle('rr-paso-actual', item === element);
+    }
+  }
+
+  // ---------- Edición (modo Editar) ----------
+  function registro() {
+    return viewer?.get('elementRegistry');
+  }
+
+  function esNodo(element) {
+    if (!element || element.labelTarget || element.waypoints) return false;
+    return /Event$|Task$|Gateway$/.test(element.type || '') || element.type === 'bpmn:Lane' || element.type === 'bpmn:Participant';
+  }
+
+  function documentacionDe(element) {
+    const doc = element?.businessObject?.documentation;
+    if (!doc) return '';
+    const lista = Array.isArray(doc) ? doc : [doc];
+    return lista.map((item) => item?.text || '').join('\n').trim();
+  }
+
+  // Las notas, la fuente y el corte viven en la documentación del elemento:
+  // el XML es la verdad del diagrama y así sobreviven al export.
+  function separarNotas(texto) {
+    const notas = [];
+    let fuente = '';
+    let corte = '';
+    for (const linea of String(texto || '').split('\n')) {
+      const limpio = linea.trim();
+      if (/^fuente\s*:/i.test(limpio)) {
+        fuente = limpio.replace(/^fuente\s*:\s*/i, '');
+        continue;
+      }
+      if (/^corte\s*:/i.test(limpio)) {
+        corte = limpio.replace(/^corte\s*:\s*/i, '');
+        continue;
+      }
+      notas.push(linea);
+    }
+    return { notas: notas.join('\n').trim(), fuente, corte };
+  }
+
+  function componerNotas({ notas, fuente, corte }, actual) {
+    const previo = separarNotas(actual);
+    const textoNotas = notas === undefined ? previo.notas : String(notas || '').trim();
+    const nuevaFuente = fuente === undefined ? previo.fuente : String(fuente || '').trim();
+    const nuevoCorte = corte === undefined ? previo.corte : String(corte || '').trim();
+    const partes = [];
+    if (textoNotas) partes.push(textoNotas);
+    if (nuevaFuente) partes.push(`Fuente: ${nuevaFuente}`);
+    if (nuevoCorte) partes.push(`Corte: ${nuevoCorte}`);
+    return partes.join('\n');
+  }
+
+  // El color elegido por la persona se guarda en el DI con la extension de
+  // color de bpmn.io (bioc:fill): asi viaja en el XML y lo pinta bpmn-js.
+  function colorDe(element) {
+    // En bpmn-js el DI vive en el elemento del diagrama (element.di).
+    const di = element?.di || element?.businessObject?.di;
+    const fill = di?.get?.('bioc:fill') || di?.$attrs?.['bioc:fill'] || '';
+    return fill ? String(fill).trim().toLowerCase() : '';
+  }
+
+  function carrilDe(element) {
+    if (element?.parent?.type === 'bpmn:Lane') return element.parent;
+    const lanes = registro()?.filter((item) => item.type === 'bpmn:Lane') || [];
+    return lanes.find((lane) => element.x >= lane.x && element.x <= lane.x + lane.width && element.y >= lane.y && element.y <= lane.y + lane.height) || null;
+  }
+
+  function elementoDe(id) {
+    return registro()?.get(id) || null;
+  }
+
+  function exigeEdicion() {
+    if (mode !== 'edit') throw new Error('Activa «Editar» para modificar el diagrama.');
+  }
+
+  function actualizar(id, cambios = {}) {
+    exigeEdicion();
+    const element = elementoDe(id);
+    if (!element) throw new Error('El elemento ya no está en el diagrama.');
+    const modeling = viewer.get('modeling');
+    const moddle = viewer.get('moddle');
+    if (cambios.nombre !== undefined) {
+      modeling.updateProperties(element, { name: String(cambios.nombre || '').trim() });
+    }
+    if (cambios.notas !== undefined || cambios.fuente !== undefined || cambios.corte !== undefined) {
+      const texto = componerNotas(cambios, documentacionDe(element));
+      const doc = moddle.create('bpmn:Documentation', { text: texto });
+      modeling.updateProperties(element, { documentation: [doc] });
+    }
+    if (cambios.color !== undefined) {
+      const color = String(cambios.color || '').trim();
+      modeling.updateProperties(element, { di: { 'bioc:fill': color || undefined } });
+    }
+    if (cambios.carrilId !== undefined) {
+      const lane = cambios.carrilId ? elementoDe(cambios.carrilId) : null;
+      if (lane && lane.type === 'bpmn:Lane' && element.parent !== lane) {
+        const delta = { x: 0, y: (lane.y + (lane.height - element.height) / 2) - element.y };
+        modeling.moveElements([element], delta, lane);
+      }
+    }
+    return describeElement(element);
+  }
+
+  function describeElement(element) {
+    const lane = carrilDe(element);
+    return {
+      id: element.id,
+      type: element.type,
+      name: element.businessObject?.name || '',
+      documentation: documentacionDe(element),
+      laneId: lane?.id || '',
+      laneName: lane?.businessObject?.name || '',
+      color: colorDe(element),
+      parentId: element.parent?.id || '',
+      incoming: element.incoming?.length || 0,
+      outgoing: element.outgoing?.length || 0,
+    };
+  }
+
+  function crear(tipo, { carrilId = '', nombre = '' } = {}) {
+    exigeEdicion();
+    const bpmnFactory = viewer.get('bpmnFactory');
+    const elementFactory = viewer.get('elementFactory');
+    const modeling = viewer.get('modeling');
+    const canvas = viewer.get('canvas');
+    const tipoBpmn = TIPOS_NUEVOS[tipo] || tipo;
+    const businessObject = bpmnFactory.create(tipoBpmn);
+    // El nombre va antes de crear la forma: asi la creacion es un solo comando
+    // (deshacer la quita completa, sin dejar el paso a medio hacer).
+    businessObject.name = nombre || NOMBRE_POR_TIPO[tipoBpmn] || 'Paso nuevo';
+    const shape = elementFactory.createShape({ type: tipoBpmn, businessObject });
+    const vista = canvas.viewbox();
+    const centro = { x: vista.x + vista.width / 2, y: vista.y + vista.height / 2 };
+    if (tipoBpmn === 'bpmn:Lane') {
+      const laneSet = registro()?.find((item) => item.type === 'bpmn:LaneSet');
+      if (!laneSet) throw new Error('Este proceso no tiene carriles: no se puede crear uno nuevo.');
+      const posicion = { x: laneSet.x + 20, y: laneSet.y + laneSet.height + 10 };
+      const nuevo = modeling.createLane(shape, posicion, laneSet, null);
+      modeling.updateProperties(nuevo, { name: nombre || 'Carril nuevo' });
+      return describeElement(nuevo);
+    }
+    const lane = carrilId ? elementoDe(carrilId) : null;
+    const padre = lane?.type === 'bpmn:Lane' ? lane : registro()?.find((item) => item.type === 'bpmn:Participant') || null;
+    const nuevo = modeling.createShape(shape, { x: centro.x, y: centro.y }, padre);
+    return describeElement(nuevo);
+  }
+
+  function eliminar(id) {
+    exigeEdicion();
+    const element = elementoDe(id);
+    if (!element) throw new Error('El elemento ya no está en el diagrama.');
+    viewer.get('modeling').removeElements([element]);
+    return true;
+  }
+
+  function conectar(origenId, destinoId) {
+    exigeEdicion();
+    const source = elementoDe(origenId);
+    const target = elementoDe(destinoId);
+    if (!source || !target) throw new Error('Selecciona dos elementos del diagrama.');
+    viewer.get('modeling').connect(source, target);
+    return true;
+  }
+
+  function pila() {
+    return viewer?.get('commandStack') || null;
+  }
+
+  function puedeDeshacer() {
+    return Boolean(pila()?.canUndo?.());
+  }
+
+  function puedeRehacer() {
+    return Boolean(pila()?.canRedo?.());
+  }
+
+  function deshacer() {
+    if (!puedeDeshacer()) return false;
+    pila().undo();
+    return true;
+  }
+
+  function rehacer() {
+    if (!puedeRehacer()) return false;
+    pila().redo();
+    return true;
+  }
+
+  // Bloque 1 (b): el título del pool y el nombre de los carriles van verticales
+  // dentro de su banda. El motor los ancla por la línea base, y con mayúsculas
+  // acentuadas («CÓMO…») la caja de texto se sube y rozaba el borde de la
+  // piscina. Aquí se recentra la tinta dentro de la banda de 30 unidades.
+  function centrarTitulosEnBanda() {
+    if (!viewer) return;
+    const registry = viewer.get('elementRegistry');
+    for (const element of registry.getAll()) {
+      if (element.type !== 'bpmn:Lane' && element.type !== 'bpmn:Participant') continue;
+      const gfx = registry.getGraphics(element);
+      const texto = gfx?.querySelector?.('text.rr-banda-vertical');
+      if (!texto) continue;
+      let caja = null;
+      try {
+        caja = texto.getBBox();
+      } catch {
+        caja = null;
+      }
+      if (!caja?.height) continue;
+      const delta = (30 - caja.height) / 2 - caja.y;
+      if (Math.abs(delta) < 0.5) continue;
+      texto.querySelectorAll('tspan').forEach((span) => {
+        const y = Number(span.getAttribute('y'));
+        if (!Number.isFinite(y)) return;
+        span.setAttribute('y', String(y + delta));
+      });
+    }
+  }
+
   function frameInitial() {
     if (!viewer) return { index: 0, total: 0, name: '', lane: '' };
-    if (!narrow()) {
-      viewer.get('canvas').zoom('fit-viewport', 'auto');
-      stepIndex = 0;
-      nudgeLabels();
-      if (container.clientWidth < 800) viewer.get('canvas').zoom(Math.max(0.2, viewer.get('canvas').zoom() * 0.9));
-      return describeStep();
-    }
-    return showStep(0);
+    return encuadrarContenido();
+  }
+
+  // Bloque 1 (a): el diagrama abre encuadrado al contenido y centrado, en
+  // cualquier pantalla. Antes, en un lienzo angosto (celular), arrancaba
+  // pegado a la izquierda mostrando solo el evento de inicio.
+  function encuadrarContenido() {
+    if (!viewer) return { index: 0, total: 0, name: '', lane: '' };
+    const canvas = viewer.get('canvas');
+    canvas.zoom('fit-viewport', 'auto');
+    // Un poco de aire alrededor: el borde del pool no queda pegado al marco.
+    canvas.zoom(Math.max(0.05, canvas.zoom() * 0.94));
+    stepIndex = 0;
+    nudgeLabels();
+    return describeStep();
   }
 
   return {
     setDebt(value) { debt = value; },
+    get modo() { return mode; },
+    get cambiosPendientes() { return cambiosPendientes; },
+    marcarGuardado() { cambiosPendientes = false; },
     async open(xml, options = {}) {
       fileName = options.fileName || '';
       await ensure(options.editable ? 'edit' : 'view');
       currentXml = xml;
+      cambiosPendientes = Boolean(options.cambiosPendientes);
       const report = await validateXml(xml, { fileName, debt });
       if (report.importError) {
         onReport?.(report);
         return report;
       }
       await viewer.importXML(xml);
+      centrarTitulosEnBanda();
       const step = frameInitial();
       onReport?.({ ...report, step });
       return { ...report, step };
     },
-    fit() { return frameInitial(); },
+    // `completo: true` encuadra el diagrama entero aunque el lienzo sea estrecho:
+    // en pantalla completa el usuario debe ver la forma del proceso de una vez.
+    // Bloque 1 (a): ahora también en celular el diagrama abre encuadrado al
+    // contenido y centrado, no pegado a la izquierda con el evento de inicio.
+    // `forzar: true` (el visor pequeño del panel dividido) sí encuadra todo.
+    fit(opciones = {}) {
+      if (viewer) return encuadrarContenido();
+      return frameInitial();
+    },
     recenter() { return showStep(stepIndex); },
     step(delta) { return showStep(stepIndex + delta); },
     zoom(factor) {
@@ -276,6 +550,41 @@ export function createBpmnWorkspace({ container, onReport, onElement }) {
       try { viewer.get('selection').select(element); } catch { /* el visor no selecciona */ }
     },
     restyle,
+    // ---- API de edición (modo Editar) ----
+    elementos() {
+      if (!viewer) return [];
+      return registro().filter(esNodo).map(describeElement);
+    },
+    carriles() {
+      if (!viewer) return [];
+      return registro().filter((item) => item.type === 'bpmn:Lane').map((lane) => ({
+        id: lane.id,
+        name: lane.businessObject?.name || 'Carril',
+      }));
+    },
+    elemento(id) {
+      const element = elementoDe(id);
+      return element ? describeElement(element) : null;
+    },
+    depurar(id) {
+      const element = elementoDe(id);
+      if (!element) return null;
+      const di = element.di || element.businessObject?.di;
+      return {
+        color: colorDe(element),
+        diFill: di?.get?.('bioc:fill') ?? null,
+        attrs: di?.$attrs ? { ...di.$attrs } : null,
+        tieneDi: Boolean(di),
+      };
+    },
+    actualizar,
+    crear,
+    eliminar,
+    conectar,
+    deshacer,
+    rehacer,
+    puedeDeshacer,
+    puedeRehacer,
     async xml() {
       if (viewer && mode === 'edit') {
         const saved = await viewer.saveXML({ format: true });

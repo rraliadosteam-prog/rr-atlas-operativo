@@ -10,14 +10,15 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Antes de empezar">
+      <bpmn:lane id="lane_1" name="Comercial">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_confirma</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_anticipo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_listo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_listo_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_espera</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Los primeros días">
+      <bpmn:lane id="lane_2" name="Dirección Operativa">
         <bpmn:flowNodeRef>t_reunion</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_calendario</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_entregable</bpmn:flowNodeRef>
@@ -45,27 +46,31 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
       <bpmn:outgoing>sf_3</bpmn:outgoing>
     </bpmn:task>
     <bpmn:exclusiveGateway id="g_listo" name="¿Ya con plata?">
-      <bpmn:incoming>sf_3</bpmn:incoming>
-      <bpmn:incoming>sf_6</bpmn:incoming>
+      <bpmn:incoming>sf_g_listo_join</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_espera" name="Se espera el pago">
+    <bpmn:exclusiveGateway id="g_listo_join">
+      <bpmn:incoming>sf_3</bpmn:incoming>
+      <bpmn:incoming>sf_6</bpmn:incoming>
+      <bpmn:outgoing>sf_g_listo_join</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_espera" name="Esperar el pago">
       <bpmn:documentation>Sin anticipo no se arranca: empezar a producir sin cobrar es la forma más rápida de perder plata.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_reunion" name="3. Reunión de arranque">
+    <bpmn:task id="t_reunion" name="3. Hacer la reunión de arranque">
       <bpmn:documentation>Qué quiere, para qué, cuándo lo necesita. Se escribe. Es la etapa 04 del manual de roles: reunión de inicio.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_calendario" name="4. Calendario de contenido">
+    <bpmn:task id="t_calendario" name="4. Definir el calendario de contenido">
       <bpmn:documentation>Etapa 08 del embudo: qué se publica y cuándo. Con CLIENTE_A ya existe: 4 pagos mensuales, de nov a feb.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_entregable" name="5. Primer entregable">
+    <bpmn:task id="t_entregable" name="5. Entregar el primer entregable">
       <bpmn:documentation>Algo pequeño y rápido para mostrar que arranca. La aprobación del cliente es el paso 4 del esquema de producción.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
@@ -79,13 +84,14 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
     </bpmn:dataObjectReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_confirma"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_confirma" targetRef="t_anticipo"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="t_anticipo" targetRef="g_listo"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="t_anticipo" targetRef="g_listo_join"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_listo" targetRef="t_espera" name="no"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="g_listo" targetRef="t_reunion" name="sí: ya con plata"/>
-    <bpmn:sequenceFlow id="sf_6" sourceRef="t_espera" targetRef="g_listo" name="llegó el pago"/>
+    <bpmn:sequenceFlow id="sf_6" sourceRef="t_espera" targetRef="g_listo_join"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="t_reunion" targetRef="t_calendario"/>
     <bpmn:sequenceFlow id="sf_8" sourceRef="t_calendario" targetRef="t_entregable"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="t_entregable" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_g_listo_join" sourceRef="g_listo_join" targetRef="g_listo"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>El cliente nuevo no tiene guía: de los 11 clientes con ficha, ninguno tiene un documento de qué se le pide al entrar, en qué orden, ni quién lo coordina.</bpmn:text>
     </bpmn:textAnnotation>
@@ -128,6 +134,9 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
           <dc:Bounds x="835" y="174" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_listo_di_join_di" bpmnElement="g_listo_join" isMarkerVisible="true">
+        <dc:Bounds x="790" y="120" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_espera_di" bpmnElement="t_espera" bioc:stroke="#e08b45">
         <dc:Bounds x="1040" y="105" width="150" height="80"/>
       </bpmndi:BPMNShape>
@@ -162,6 +171,10 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_3_di" bpmnElement="sf_3">
         <di:waypoint x="770" y="145"/>
+        <di:waypoint x="840" y="145"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_listo_join_di" bpmnElement="sf_g_listo_join">
+        <di:waypoint x="840" y="145"/>
         <di:waypoint x="880" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_4_di" bpmnElement="sf_4">
@@ -178,7 +191,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
         <di:waypoint x="1115" y="185"/>
         <di:waypoint x="1115" y="268"/>
         <di:waypoint x="905" y="268"/>
-        <di:waypoint x="905" y="170"/>
+        <di:waypoint x="840" y="145"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_7_di" bpmnElement="sf_7">
         <di:waypoint x="1190" y="345"/>

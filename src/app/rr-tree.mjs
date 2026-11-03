@@ -1,6 +1,8 @@
 import { HUB_LABEL, hubUrlFrom } from '../data/hub-link.mjs';
 import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
 import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
+import { createBpmnView } from './bpmn-view.mjs';
+import { createDatosView } from './datos-view.mjs';
 import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
@@ -45,6 +47,10 @@ const PROCESS_TO_FLUJO = {
   'RO-3': 'clientes_que_pasa_despues_de_que_firman',
 };
 const MOBILE_ZOOM_MIN = 0.7;
+// Item 7 · por debajo de este zoom el nodo deja de poder leerse y de poder
+// tocarse: el mapa no debe encogerse más (en tablet el árbol completo
+// quedaba en 9 % y los nodos medían 23×12 px).
+const ZOOM_MIN_LECTURA = 0.45;
 const isMobileViewport = () => window.innerWidth <= 760;
 
 const app = $('#rr-app');
@@ -70,6 +76,20 @@ const notify = (message) => {
   window.clearTimeout(notify.timer);
   notify.timer = window.setTimeout(() => { toastElement.hidden = true; }, 3_200);
 };
+
+const bpmnView = createBpmnView({
+  root: $('[data-bpmn-view]'),
+  shell: $('.shell'),
+  notify,
+});
+
+// Item 8 · la vista Datos conecta el store v5 con la app: exportar, importar
+// con confirmación, restaurar base, validador e historial.
+const datosView = createDatosView({
+  root: $('[data-datos-view]'),
+  shell: $('.shell'),
+  notify,
+});
 
 const safeStorage = (() => {
   try {
@@ -149,6 +169,9 @@ function visibleState() {
 
 function setTransform() {
   canvas.style.transform = `translate(${Math.round(state.panX)}px, ${Math.round(state.panY)}px) scale(${state.zoom})`;
+  // Item A · los controles del nodo se compensan con el zoom del tablero: en
+  // pantalla miden 44 px aunque el mapa esté encuadrado al 45 %.
+  canvas.style.setProperty('--zoom-inv', String(Number((1 / state.zoom).toFixed(3))));
   zoomOutput.textContent = `${Math.round(state.zoom * 100)}%`;
   const lod = state.zoom < 0.65 ? 'low' : state.zoom < 0.9 ? 'mid' : 'high';
   if (canvas.dataset.lod !== lod) {
@@ -399,7 +422,10 @@ function createCard(node) {
 
   card.addEventListener('pointerdown', (event) => {
     if (event.button !== 0 || event.target.closest('.node-control, .inline-title-input')) return;
-    event.stopPropagation();
+    // Item 7 · en pantalla táctil el nodo no se arrastra: el dedo mueve o
+    // pellizca el tablero. Con ratón el arrastre sigue igual.
+    const tactil = event.pointerType === 'touch';
+    if (!tactil) event.stopPropagation();
     if (state.linkMode) {
       if (state.linkSource && state.linkSource !== node.id) connectNodes(state.linkSource, node.id);
       state.linkMode = false;
@@ -410,6 +436,7 @@ function createCard(node) {
     selectNode(node.id, { additive: event.shiftKey });
     state.skipNextClick = { id: node.id, pointerId: event.pointerId };
     if (event.shiftKey) return;
+    if (tactil) return;
     const origin = positionOf(node);
     state.dragging = {
       id: node.id,
@@ -694,14 +721,42 @@ function centerOn(node) {
   setTransform();
 }
 
-function fitBounds(bounds = getGraphBounds(state.visibleGraph)) {
+function fitBounds(bounds = getGraphBounds(state.visibleGraph), ancla = null) {
   const { width, height } = viewportSize();
   const padding = Math.min(44, width / 4, height / 4);
-  const zoomMin = isMobileViewport() ? MOBILE_ZOOM_MIN : 0.001;
-  state.zoom = Math.max(zoomMin, Math.min((width - padding * 2) / bounds.width, (height - padding * 2) / bounds.height, 1.25));
-  state.panX = Math.round((width - bounds.width * state.zoom) / 2 - bounds.left * state.zoom);
-  state.panY = Math.round((height - bounds.height * state.zoom) / 2 - bounds.top * state.zoom);
+  const escala = Math.min(
+    (width - padding * 2) / Math.max(bounds.width, 1),
+    (height - padding * 2) / Math.max(bounds.height, 1),
+    1.25,
+  );
+  // En pantallas anchas se conserva el encuadre completo (es la vista que
+  // conoce Rosas). En tablet y celular el mapa se deja legible: nunca por
+  // debajo del zoom de lectura y anclado en la raíz del Atlas.
+  const pantallaEstrecha = window.innerWidth <= 900;
+  const zoomMin = pantallaEstrecha ? ZOOM_MIN_LECTURA : 0.001;
+  state.zoom = clamp(Number(escala.toFixed(3)), zoomMin, 1.25);
+  const anchoLogico = width / state.zoom;
+  const altoLogico = height / state.zoom;
+  const referencia = ancla ?? nodoAncla();
+  if (referencia && (bounds.width > anchoLogico || bounds.height > altoLogico)) {    // El árbol no cabe en la pantalla: se ancla en el nodo de referencia
+    // (raíz del Atlas o el nodo seleccionado) para que quede a la vista.
+    const punto = positionOf(referencia);
+    const tamano = getCardSize(referencia);
+    state.panX = Math.round(width / 2 - (punto.x + tamano.width / 2) * state.zoom);
+    state.panY = Math.round(height / 2 - (punto.y + tamano.height / 2) * state.zoom);
+  } else {
+    state.panX = Math.round((width - bounds.width * state.zoom) / 2 - bounds.left * state.zoom);
+    state.panY = Math.round((height - bounds.height * state.zoom) / 2 - bounds.top * state.zoom);
+  }
   setTransform();
+}
+
+// Nodo de referencia del encuadre: la selección actual o la raíz del Atlas.
+function nodoAncla() {
+  const seleccion = state.selectedId ? nodeById(state.selectedId, state.visibleGraph) : null;
+  if (seleccion) return seleccion;
+  const raiz = state.visibleGraph.nodes.find((node) => node.type === 'root');
+  return raiz ?? state.visibleGraph.nodes[0] ?? null;
 }
 
 function fit() { fitBounds(getGraphBounds(state.visibleGraph)); }
@@ -743,6 +798,42 @@ function mutateZoom(delta) {
   state.zoom = clamp(Number((state.zoom + delta).toFixed(2)), 0.01, 1.25);
   state.panX = width / 2 - (width / 2 - state.panX) * state.zoom / previous;
   state.panY = height / 2 - (height / 2 - state.panY) * state.zoom / previous;
+  setTransform();
+}
+
+// Item 7 · gestos táctiles del tablero: pan con un dedo y pellizco con dos.
+const punteros = new Map();
+let pellizco = null;
+
+function iniciarPellizco() {
+  const lista = [...punteros.values()];
+  if (lista.length < 2) return;
+  const [a, b] = lista;
+  pellizco = {
+    distancia: Math.hypot(a.x - b.x, a.y - b.y),
+    zoom: state.zoom,
+    panX: state.panX,
+    panY: state.panY,
+    centroX: (a.x + b.x) / 2,
+    centroY: (a.y + b.y) / 2,
+  };
+  state.panning = null;
+}
+
+function actualizarPellizco() {
+  if (!pellizco) return;
+  const lista = [...punteros.values()];
+  if (lista.length < 2) return;
+  const [a, b] = lista;
+  const distancia = Math.hypot(a.x - b.x, a.y - b.y);
+  if (!distancia || !pellizco.distancia) return;
+  const factor = distancia / pellizco.distancia;
+  const zoomNuevo = clamp(Number((pellizco.zoom * factor).toFixed(3)), 0.05, 2);
+  const escala = zoomNuevo / pellizco.zoom;
+  state.zoom = zoomNuevo;
+  state.panX = pellizco.centroX - (pellizco.centroX - pellizco.panX) * escala;
+  state.panY = pellizco.centroY - (pellizco.centroY - pellizco.panY) * escala;
+  state.ignoreClick = true;
   setTransform();
 }
 
@@ -880,6 +971,15 @@ function bindActions() {
     if (inInput) {
       return;
     }
+    // En la vista BPMN los atajos son del diagrama (P, F, Esc, Ctrl/Cmd+Z):
+    // los del mapa no se ejecutan para no mover el lienzo equivocado.
+    if (bpmnView.visible) {
+      return;
+    }
+    // En la vista Datos los atajos del mapa tampoco aplican.
+    if (datosView.visible) {
+      return;
+    }
     if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? store.redo() : store.undo(); return; }
     if (modifier && event.key.toLowerCase() === 'y') { event.preventDefault(); store.redo(); return; }
     if (event.key === 'Delete' || event.key === 'Backspace') { event.preventDefault(); $('.button-danger', inspector)?.click(); return; }
@@ -890,18 +990,34 @@ function bindActions() {
 }
 
 canvasWrap.addEventListener('pointerdown', (event) => {
-  if (event.target.closest('.node-card, .minimap, button, input, a')) return;
+  const sobreNodo = event.target.closest('.node-card');
+  // Con el dedo sí se puede paneo y pellizco aunque el dedo arranque sobre un
+  // nodo; con ratón el nodo manda y el arrastre se queda en la tarjeta.
+  if (sobreNodo && event.pointerType !== 'touch') return;
+  if (event.target.closest('.minimap, button, input, a')) return;
+  punteros.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  if (punteros.size >= 2) { iniciarPellizco(); return; }
   state.panning = { startX: event.clientX, startY: event.clientY, originX: state.panX, originY: state.panY, pointerId: event.pointerId };
-  canvasWrap.setPointerCapture?.(event.pointerId);
+  try { canvasWrap.setPointerCapture?.(event.pointerId); } catch { /* el puntero ya no está activo */ }
 });
 canvasWrap.addEventListener('pointermove', (event) => {
+  if (punteros.has(event.pointerId)) punteros.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  if (pellizco) { actualizarPellizco(); return; }
   if (!state.panning) return;
   state.panX = state.panning.originX + event.clientX - state.panning.startX;
   state.panY = state.panning.originY + event.clientY - state.panning.startY;
   setTransform();
 });
-canvasWrap.addEventListener('pointerup', () => { state.panning = null; });
-canvasWrap.addEventListener('pointercancel', () => { state.panning = null; });
+canvasWrap.addEventListener('pointerup', (event) => {
+  punteros.delete(event.pointerId);
+  if (punteros.size < 2) pellizco = null;
+  if (!punteros.size) state.panning = null;
+});
+canvasWrap.addEventListener('pointercancel', (event) => {
+  punteros.delete(event.pointerId);
+  if (punteros.size < 2) pellizco = null;
+  state.panning = null;
+});
 canvasWrap.addEventListener('wheel', (event) => { event.preventDefault(); mutateZoom(event.deltaY > 0 ? -0.04 : 0.04); }, { passive: false });
 
 store.subscribe((snapshot) => {
@@ -930,6 +1046,18 @@ window.addEventListener('resize', scheduleFit);
 
 function applyHashRoute() {
   const hash = String(location.hash || '');
+  if (/^#\/datos\/?$/.test(hash)) {
+    showFlujoView(false);
+    bpmnView.ocultar();
+    datosView.mostrar();
+    return;
+  }
+  const bpmnMatch = hash.match(/^#\/bpmn(?:\/(.+))?$/);
+  if (bpmnMatch) {
+    showFlujoView(false);
+    bpmnView.mostrar(bpmnMatch[1] ? decodeURIComponent(bpmnMatch[1]) : '');
+    return;
+  }
   const flujoMatch = hash.match(/^#flujo\/(.+)$/);
   if (flujoMatch) {
     navigateToFlujo(decodeURIComponent(flujoMatch[1]));
@@ -944,6 +1072,8 @@ function applyHashRoute() {
     }
     return;
   }
+  bpmnView.ocultar();
+  datosView.ocultar();
   showFlujoView(false);
 }
 window.addEventListener('hashchange', applyHashRoute);

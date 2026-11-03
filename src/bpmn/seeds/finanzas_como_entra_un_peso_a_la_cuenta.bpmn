@@ -10,17 +10,18 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Lo que se emite">
+      <bpmn:lane id="lane_1" name="Finanzas">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_contrato</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_factura</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Lo que pagan los clientes">
+      <bpmn:lane id="lane_2" name="Cliente">
         <bpmn:flowNodeRef>g_paga</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cliente_a</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cliente_c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cand</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_caja</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_caja_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
@@ -28,12 +29,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_contrato" name="1. Hay contrato firmado">
+    <bpmn:task id="t_contrato" name="1. Verificar el contrato firmado">
       <bpmn:documentation>Sin contrato firmado no hay factura: hay promesa. Hoy 2 clientes sin firmar: CLIENTE_A y CLIENTE_C.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_factura" name="2. Se emite la factura">
+    <bpmn:task id="t_factura" name="2. Emitir la factura">
       <bpmn:documentation>Es el documento que prueba que se facturó. La factura al cliente no es la Cuenta de Cobro al colaborador: son dos documentos distintos.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -50,28 +51,32 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       <bpmn:outgoing>sf_5</bpmn:outgoing>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_cliente_a" name="Paga CLIENTE_A">
+    <bpmn:task id="t_cliente_a" name="Registrar el pago de CLIENTE_A">
       <bpmn:documentation>[CIFRA] el 15/10 (2 meses de golpe), luego [CIFRA]/mes hasta febrero. Contrato SIN FIRMAR.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_cliente_c" name="Paga CLIENTE_C">
+    <bpmn:task id="t_cliente_c" name="Registrar el pago de CLIENTE_C">
       <bpmn:documentation>[CIFRA]/mes. Contrato SIN FIRMAR.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_cand" name="Paga CLIENTE_B">
+    <bpmn:task id="t_cand" name="Registrar el pago de CLIENTE_B">
       <bpmn:documentation>[CIFRA]/mes del 15/10/2026 al 15/05/2027. El único de los tres con contrato firmado.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_caja" name="Entra a la cuenta">
+    <bpmn:task id="t_caja" name="Registrar el ingreso a la cuenta">
       <bpmn:documentation>Cartera vencida: [CIFRA] Nadie nos debe hoy.</bpmn:documentation>
+      <bpmn:incoming>sf_t_caja_join</bpmn:incoming>
+      <bpmn:outgoing>sf_10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="t_caja_join">
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:incoming>sf_9</bpmn:incoming>
-      <bpmn:outgoing>sf_10</bpmn:outgoing>
-    </bpmn:task>
+      <bpmn:outgoing>sf_t_caja_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:endEvent id="e_fin" name="En la cuenta">
       <bpmn:incoming>sf_10</bpmn:incoming>
     </bpmn:endEvent>
@@ -80,14 +85,15 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
     </bpmn:dataStoreReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_contrato"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_contrato" targetRef="t_factura"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="t_factura" targetRef="g_paga" name="a fin de mes"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="t_factura" targetRef="g_paga"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="g_paga" targetRef="t_cliente_a"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="g_paga" targetRef="t_cliente_c"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="g_paga" targetRef="t_cand"/>
-    <bpmn:sequenceFlow id="sf_7" sourceRef="t_cliente_a" targetRef="t_caja"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="t_cliente_c" targetRef="t_caja"/>
-    <bpmn:sequenceFlow id="sf_9" sourceRef="t_cand" targetRef="t_caja"/>
+    <bpmn:sequenceFlow id="sf_7" sourceRef="t_cliente_a" targetRef="t_caja_join"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="t_cliente_c" targetRef="t_caja_join"/>
+    <bpmn:sequenceFlow id="sf_9" sourceRef="t_cand" targetRef="t_caja_join"/>
     <bpmn:sequenceFlow id="sf_10" sourceRef="t_caja" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_t_caja_join" sourceRef="t_caja_join" targetRef="t_caja"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>ESTO FRENA LA QUINCENA: sin firma no hay factura que emitir, y el 15/10 entran [CIFRA] que hoy no están respaldados por un documento firmado.</bpmn:text>
     </bpmn:textAnnotation>
@@ -142,6 +148,9 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       <bpmndi:BPMNShape id="t_caja_di" bpmnElement="t_caja">
         <dc:Bounds x="1250" y="435" width="150" height="80"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_caja_di_join_di" bpmnElement="t_caja_join" isMarkerVisible="true">
+        <dc:Bounds x="1160" y="355" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="e_fin_di" bpmnElement="e_fin">
         <dc:Bounds x="1517" y="457" width="36" height="36"/>
         <bpmndi:BPMNLabel>
@@ -186,19 +195,23 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_7_di" bpmnElement="sf_7">
         <di:waypoint x="1190" y="475"/>
+        <di:waypoint x="1210" y="380"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_caja_join_di" bpmnElement="sf_t_caja_join">
+        <di:waypoint x="1210" y="380"/>
         <di:waypoint x="1250" y="475"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_8_di" bpmnElement="sf_8">
         <di:waypoint x="1190" y="605"/>
         <di:waypoint x="1230" y="605"/>
         <di:waypoint x="1230" y="475"/>
-        <di:waypoint x="1250" y="475"/>
+        <di:waypoint x="1210" y="380"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_9_di" bpmnElement="sf_9">
         <di:waypoint x="1190" y="735"/>
         <di:waypoint x="1230" y="735"/>
         <di:waypoint x="1230" y="475"/>
-        <di:waypoint x="1250" y="475"/>
+        <di:waypoint x="1210" y="380"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1400" y="475"/>

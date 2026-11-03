@@ -5,20 +5,15 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 2,
-  "lint_reglas": {
-   "fake-join": [
-    "t_registra",
-    "e_fin"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 11,
-  "secuencias": 11,
+  "nodos": 13,
+  "secuencias": 13,
   "asociaciones": 5,
   "lanes": 3,
   "di_ok": true
@@ -28,24 +23,17 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 1,
-  "lint_W": 1,
-  "lint_reglas": {
-   "fake-join": [
-    "e_fin"
-   ],
-   "no-gateway-join-fork": [
-    "g_vida"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 11,
-  "secuencias": 12,
-  "asociaciones": 4,
+  "nodos": 13,
+  "secuencias": 14,
+  "asociaciones": 3,
   "lanes": 2,
   "di_ok": true
  },
@@ -54,24 +42,17 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 1,
-  "lint_W": 1,
-  "lint_reglas": {
-   "no-gateway-join-fork": [
-    "g_listo"
-   ],
-   "superfluous-label": [
-    "sf_6"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 10,
-  "secuencias": 9,
-  "asociaciones": 4,
+  "nodos": 11,
+  "secuencias": 10,
+  "asociaciones": 3,
   "lanes": 2,
   "di_ok": true
  },
@@ -81,24 +62,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 3,
-  "lint_reglas": {
-   "fake-join": [
-    "t_impl",
-    "t_deploy"
-   ],
-   "superfluous-label": [
-    "sf_2"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 14,
-  "secuencias": 14,
-  "asociaciones": 4,
+  "nodos": 16,
+  "secuencias": 16,
+  "asociaciones": 3,
   "lanes": 3,
   "di_ok": true
  },
@@ -108,23 +81,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 2,
-  "lint_reglas": {
-   "fake-join": [
-    "t_caja"
-   ],
-   "superfluous-label": [
-    "sf_3"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
   "nodos": 10,
-  "secuencias": 10,
-  "asociaciones": 4,
+  "secuencias": 11,
+  "asociaciones": 3,
   "lanes": 2,
   "di_ok": true
  },
@@ -134,26 +100,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 5,
-  "lint_reglas": {
-   "fake-join": [
-    "t_informa"
-   ],
-   "superfluous-label": [
-    "sf_2",
-    "sf_3",
-    "sf_9",
-    "sf_12"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
   "nodos": 14,
-  "secuencias": 12,
-  "asociaciones": 6,
+  "secuencias": 13,
+  "asociaciones": 5,
   "lanes": 3,
   "di_ok": true
  },
@@ -162,25 +118,17 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 1,
-  "lint_W": 2,
-  "lint_reglas": {
-   "no-gateway-join-fork": [
-    "g_firma"
-   ],
-   "superfluous-label": [
-    "sf_2",
-    "sf_3"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 10,
-  "secuencias": 9,
-  "asociaciones": 4,
+  "nodos": 11,
+  "secuencias": 10,
+  "asociaciones": 3,
   "lanes": 2,
   "di_ok": true
  },
@@ -189,24 +137,16 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 1,
-  "lint_W": 2,
-  "lint_reglas": {
-   "no-gateway-join-fork": [
-    "g_abre"
-   ],
-   "superfluous-label": [
-    "sf_8",
-    "sf_13"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
   "nodos": 13,
-  "secuencias": 14,
+  "secuencias": 15,
   "asociaciones": 6,
   "lanes": 4,
   "di_ok": true
@@ -216,32 +156,17 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 1,
-  "lint_W": 7,
-  "lint_reglas": {
-   "fake-join": [
-    "t_dup"
-   ],
-   "no-gateway-join-fork": [
-    "g_dueno"
-   ],
-   "superfluous-label": [
-    "sf_5",
-    "sf_6",
-    "sf_7",
-    "sf_8",
-    "sf_9",
-    "sf_13"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 16,
-  "secuencias": 13,
-  "asociaciones": 10,
+  "nodos": 18,
+  "secuencias": 15,
+  "asociaciones": 7,
   "lanes": 2,
   "di_ok": true
  },
@@ -251,20 +176,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 1,
-  "lint_reglas": {
-   "fake-join": [
-    "t_fuente"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 11,
-  "secuencias": 10,
-  "asociaciones": 4,
+  "nodos": 12,
+  "secuencias": 11,
+  "asociaciones": 3,
   "lanes": 2,
   "di_ok": true
  },
@@ -274,21 +195,15 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 3,
-  "lint_reglas": {
-   "fake-join": [
-    "t_proveedor",
-    "t_skill",
-    "t_docs"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 14,
-  "secuencias": 14,
+  "nodos": 17,
+  "secuencias": 17,
   "asociaciones": 6,
   "lanes": 3,
   "di_ok": true
@@ -299,26 +214,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 5,
-  "lint_reglas": {
-   "fake-join": [
-    "t_busca",
-    "t_fuente",
-    "e_fin"
-   ],
-   "superfluous-label": [
-    "sf_1",
-    "sf_11"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 14,
-  "secuencias": 15,
-  "asociaciones": 5,
+  "nodos": 17,
+  "secuencias": 18,
+  "asociaciones": 4,
   "lanes": 3,
   "di_ok": true
  },
@@ -327,24 +232,17 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 1,
-  "lint_W": 1,
-  "lint_reglas": {
-   "fake-join": [
-    "t_aprueba"
-   ],
-   "no-gateway-join-fork": [
-    "g_firmado"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 14,
-  "secuencias": 13,
-  "asociaciones": 6,
+  "nodos": 16,
+  "secuencias": 15,
+  "asociaciones": 4,
   "lanes": 3,
   "di_ok": true
  },
@@ -354,20 +252,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 1,
-  "lint_reglas": {
-   "fake-join": [
-    "t_ideas"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 15,
-  "secuencias": 14,
-  "asociaciones": 5,
+  "nodos": 16,
+  "secuencias": 15,
+  "asociaciones": 4,
   "lanes": 3,
   "di_ok": true
  },
@@ -376,28 +270,16 @@
   "moddle_ok": true,
   "moddle_warnings": 0,
   "moddle_detalle": [],
-  "lint_E": 2,
-  "lint_W": 3,
-  "lint_reglas": {
-   "fake-join": [
-    "t_arregla"
-   ],
-   "no-gateway-join-fork": [
-    "g_ayuda",
-    "g_ok"
-   ],
-   "superfluous-label": [
-    "sf_2",
-    "sf_15"
-   ]
-  },
+  "lint_E": 0,
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 14,
-  "secuencias": 16,
+  "nodos": 17,
+  "secuencias": 19,
   "asociaciones": 4,
   "lanes": 3,
   "di_ok": true
@@ -408,26 +290,16 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 5,
-  "lint_reglas": {
-   "fake-join": [
-    "t_negocia"
-   ],
-   "superfluous-label": [
-    "sf_2",
-    "sf_3",
-    "sf_4",
-    "sf_9"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
   "solapes": [],
   "fuera_de_lane": [],
-  "nodos": 13,
-  "secuencias": 11,
-  "asociaciones": 6,
+  "nodos": 14,
+  "secuencias": 12,
+  "asociaciones": 4,
   "lanes": 3,
   "di_ok": true
  }
