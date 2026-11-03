@@ -55,6 +55,16 @@ const browser = await chromium.launch({
 const PROCESO = 'ventas_como_una_oportunidad_se_convierte_en_cliente';
 const NOMBRE_EDITADO = '2. Se anota (editada en sitio)';
 
+// Item 7 · en celular los controles menos usados del diagrama viven en el
+// menú «⋯» de la barra: se abre antes de pulsarlos.
+async function abrirMas(page) {
+  await page.evaluate(() => {
+    const menu = document.querySelector('[data-bpmn-menu-mas]');
+    if (menu) menu.open = true;
+  });
+  await page.waitForTimeout(250);
+}
+
 // Clic real sobre una forma del lienzo: se calcula el centro del bounding box
 // y se hace clic con el mouse (el «scrollIntoView» no funciona dentro del SVG).
 async function clicEnElemento(page, idPreferido) {
@@ -184,7 +194,8 @@ async function corrida(nombreViewport, viewport, esMovil) {
   pasos.formasDespues = await page.evaluate(() => document.querySelectorAll('.bpmn-canvas .djs-visual').length);
   await page.screenshot({ path: `${CARPETA}/bpmn-edicion-${nombreViewport}-agregar.png` });
 
-  // Deshacer y rehacer.
+  // Deshacer y rehacer. En celular viven en el menú «⋯» de la barra.
+  await abrirMas(page);
   await page.click('[data-bpmn-accion="deshacer"]');
   await page.waitForTimeout(800);
   pasos.trasDeshacer = await page.evaluate(() => document.querySelectorAll('.bpmn-canvas .djs-visual').length);
@@ -193,6 +204,7 @@ async function corrida(nombreViewport, viewport, esMovil) {
   pasos.trasRehacer = await page.evaluate(() => document.querySelectorAll('.bpmn-canvas .djs-visual').length);
 
   // Guardar la copia local y recargar.
+  await abrirMas(page);
   await page.click('[data-bpmn-accion="guardar"]');
   await page.waitForTimeout(700);
   pasos.insigniaGuardada = await page.textContent('[data-bpmn-insignia]');
@@ -207,6 +219,7 @@ async function corrida(nombreViewport, viewport, esMovil) {
   await page.screenshot({ path: `${CARPETA}/bpmn-edicion-${nombreViewport}-guardado.png` });
 
   // Restaurar la semilla.
+  await abrirMas(page);
   await page.click('[data-bpmn-accion="restaurar"]');
   await page.waitForTimeout(1400);
   pasos.restaurado = await page.evaluate((nuevo) => {

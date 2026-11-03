@@ -537,6 +537,31 @@
 }
 
 /* --------------------------------------------------------------------------
+   Item 7 · Celular compacto
+   En celular la cabecera se reduce a íconos (así el botón «▥ Unir» ya no se
+   monta sobre el título) y los controles menos usados del diagrama se
+   agrupan en el menú «⋯».
+   -------------------------------------------------------------------------- */
+.bpmn-menu--mas { display: none; position: relative; }
+.bpmn-menu--mas[open] { display: inline-block; }
+.bpmn-menu--mas .bpmn-menu__lista { right: 0; left: auto; }
+@media (max-width: 760px) {
+  .bpmn-view__actions { gap: 4px; }
+  .bpmn-view__actions .button { min-width: 44px; min-height: 44px; padding-inline: 8px; }
+  .bpmn-view__actions .bpmn-accion__texto { display: none; }
+  .bpmn-view.is-completo .bpmn-view__head { gap: 8px; }
+  /* Los controles menos usados pasan al menú «⋯», que queda fijo a la
+     izquierda de la barra deslizable. */
+  .bpmn-toolbar .bpmn-secundario { display: none; }
+  .bpmn-toolbar__dividir { display: none; }
+  .bpmn-menu--mas { display: inline-block; position: sticky; left: 0; z-index: 6; }
+  .bpmn-menu--mas > summary { list-style: none; font-size: 16px; line-height: 1; }
+  .bpmn-menu--mas > summary::-webkit-details-marker { display: none; }
+  .bpmn-menu--mas .bpmn-menu__lista { left: 0; right: auto; }
+  .bpmn-menu--mas .bpmn-menu__lista .button { width: 100%; justify-content: flex-start; }
+}
+
+/* --------------------------------------------------------------------------
    Item 6 · Pantalla dividida opcional
    El diagrama se queda en un lado; al otro va otro diagrama, el esquema de
    áreas y procesos o el Inicio con las tarjetas de cliente y servicio.
@@ -775,6 +800,9 @@
   text-overflow: ellipsis;
 }
 .bpmn-view.is-completo .bpmn-view__identidad { flex: 1 1 auto; min-width: 0; }
+/* El título cede espacio: si no, el botón «▥ Unir» se le monta encima. */
+.bpmn-view.is-completo .bpmn-view__identidad > div { min-width: 0; }
+.bpmn-view.is-completo .bpmn-view__title { max-width: 100%; }
 .bpmn-view.is-completo .bpmn-view__actions { flex-shrink: 0; }
 .bpmn-view.is-completo .bpmn-view__hint { margin-top: 0; font-size: 0.74rem; }
 .bpmn-view.is-completo .bpmn-view__marca {

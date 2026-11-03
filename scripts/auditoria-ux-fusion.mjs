@@ -369,6 +369,12 @@ for (const vp of VIEWPORTS) {
       }
     });
     for (const accion of ['bpmn', 'svg', 'png']) {
+      // Item 7 · en celular los controles de exportación viven en el menú «⋯».
+      await page.evaluate(() => {
+        const menu = document.querySelector('[data-bpmn-menu-mas]');
+        if (menu) menu.open = true;
+      });
+      await page.waitForTimeout(200);
       await page.click(`[data-bpmn-accion="${accion}"]`).catch(() => {});
       await page.waitForTimeout(1200);
     }

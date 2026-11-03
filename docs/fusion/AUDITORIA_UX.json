@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-02T23:43:04.162Z",
+  "generadoEn": "2026-11-03T00:23:28.393Z",
   "viewports": [
     {
       "viewport": {
@@ -19,14 +19,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -22,
-                "right": 1310,
+                "left": -23,
+                "right": 1309,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -22,
-                "right": 121,
+                "left": -23,
+                "right": 120,
                 "ancho": 143
               }
             ],
@@ -91,14 +91,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -84,
-                "right": 1248,
+                "left": -85,
+                "right": 1246,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -84,
-                "right": 60,
+                "left": -85,
+                "right": 58,
                 "ancho": 143
               }
             ],
@@ -169,20 +169,20 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -163,
-                "right": 1169,
+                "left": -165,
+                "right": 1167,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -163,
-                "right": -20,
+                "left": -165,
+                "right": -22,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -20,
-                "right": 2,
+                "left": -22,
+                "right": 0,
                 "ancho": 22
               }
             ],
@@ -390,37 +390,37 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -169,
+                "left": -170,
                 "right": 1162,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -169,
-                "right": -26,
+                "left": -170,
+                "right": -27,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -26,
+                "left": -27,
                 "right": -4,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -4,
-                "right": 86,
+                "right": 85,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 752,
-                "right": 774,
+                "left": 751,
+                "right": 773,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 774,
+                "left": 773,
                 "right": 826,
                 "ancho": 52
               },
@@ -445,12 +445,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 925,
-                "right": 1019,
+                "right": 1018,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1019,
+                "left": 1018,
                 "right": 1041,
                 "ancho": 22
               },
@@ -693,7 +693,7 @@
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 360,
+                "left": 361,
                 "right": 383,
                 "ancho": 22
               },
@@ -706,18 +706,18 @@
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 469,
-                "right": 491,
+                "right": 492,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 491,
-                "right": 582,
+                "left": 492,
+                "right": 583,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 582,
+                "left": 583,
                 "right": 605,
                 "ancho": 22
               },
@@ -736,18 +736,18 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 758,
-                "right": 841,
+                "right": 842,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 841,
-                "right": 863,
+                "left": 842,
+                "right": 864,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 863,
+                "left": 864,
                 "right": 913,
                 "ancho": 49
               }
@@ -803,74 +803,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -158,
+                "left": -159,
                 "right": 1093,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -158,
-                "right": -27,
+                "left": -159,
+                "right": -28,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -27,
-                "right": -5,
+                "left": -28,
+                "right": -6,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -5,
-                "right": 78,
+                "left": -6,
+                "right": 77,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 354,
-                "right": 445,
+                "left": 353,
+                "right": 444,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 445,
+                "left": 444,
                 "right": 467,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 467,
-                "right": 599,
+                "right": 598,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 599,
-                "right": 621,
+                "left": 598,
+                "right": 620,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 621,
-                "right": 704,
+                "left": 620,
+                "right": 703,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 704,
-                "right": 726,
+                "left": 703,
+                "right": 725,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 726,
-                "right": 776,
+                "left": 725,
+                "right": 775,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 776,
-                "right": 798,
+                "left": 775,
+                "right": 797,
                 "ancho": 22
               }
             ],
@@ -948,24 +948,24 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -233,
-                "right": -101,
+                "right": -102,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -101,
-                "right": -79,
+                "left": -102,
+                "right": -80,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -79,
+                "left": -80,
                 "right": 4,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 280,
+                "left": 279,
                 "right": 371,
                 "ancho": 91
               },
@@ -978,24 +978,24 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 393,
-                "right": 525,
+                "right": 524,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 525,
-                "right": 547,
+                "left": 524,
+                "right": 546,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 547,
-                "right": 630,
+                "left": 546,
+                "right": 629,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 630,
+                "left": 629,
                 "right": 652,
                 "ancho": 22
               },

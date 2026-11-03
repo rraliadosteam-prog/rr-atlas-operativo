@@ -458,10 +458,14 @@ export function createBpmnView({ root, shell, notify }) {
     if (panelSplit) panelSplit.hidden = !dividido;
     for (const boton of botonesDividir) {
       boton.setAttribute('aria-pressed', String(dividido));
-      boton.textContent = dividido ? '▥ Unir' : '▥ Dividir';
+      const texto = boton.querySelector('.bpmn-accion__texto');
+      // En celular el botón es solo el ícono: el texto vive en su propio span.
+      if (texto) texto.textContent = dividido ? 'Unir' : 'Dividir';
+      else boton.textContent = dividido ? '▥ Unir' : '▥ Dividir';
       boton.title = dividido
         ? 'Volver a un solo diagrama en la pantalla'
         : 'Dividir la pantalla: diagrama y panel al lado';
+      boton.setAttribute('aria-label', dividido ? 'Unir: volver a un solo diagrama' : 'Dividir: diagrama y panel al lado');
     }
     if (dividido) {
       pintarProcesosSecundarios();
