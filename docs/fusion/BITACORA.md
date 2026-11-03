@@ -526,3 +526,67 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
   y validador que rechace campos prohibidos, con pruebas `node --test`. No alcanzado en este bloque.
 - **QA final (item D)**: clics reales de todos los flujos a 390, 768 y 1440 px, capturas por ancho en
   `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` y resultado en `docs/fusion/PRUEBAS.md`.
+
+## Bloque 8 · Item 8 (avance) · Modelo de datos v5 — 2026-11-02
+
+### Qué se hizo
+- **`src/core/model.mjs` (nuevo)**: esquema v5 del Atlas con las once entidades del mega prompt
+  (área, rol, persona, línea de negocio, proyecto, cliente, sistema, proceso, paso, fragmento y
+  tarea de plan). Toda entidad lleva `id`, `nombre`, `descripcion`, `fuente`, `corte`, `estado`,
+  `etiquetas` y `actualizadoEn`. Funciones: `crearModelo`, `fusionar`, `validar`, `exportar`,
+  `importar`, `diff`, `migrarDesdeV4` y `migrarDesdeEstadoA`.
+  - **Migración desde el export v4** (el JSON versionado del mapa vivo de producción): cada nodo del
+    mapa se vuelve entidad del esquema v5 según su tipo (proceso, rol/bot, línea, cliente, área,
+    proyecto) y su `statusKey` se traduce a `estadoBpmn` (válido, borrador, con deuda, solo texto,
+    no existe, en pausa).
+  - **Migración desde el estado de la rama A** (`atlas-state` v1): sus nodos se vuelven procesos en
+    borrador.
+  - **Validador**: rechaza los campos prohibidos (salario, cédula, cuenta, cuenta bancaria, número de
+    cuenta, token, password, clave, secret, contraseña) y exige `id`, `nombre`, `fuente` y `corte`
+    en toda entidad. «cuenta de cobro» sí se admite: es un flujo de RR, no una cuenta bancaria.
+  - **Export/import idempotente**: `exportar(importar(paquete))` devuelve el mismo paquete (se
+    conserva el `exportadoEn`), y `importar` valida antes de tocar nada.
+- **`src/core/store.mjs` (nuevo)**: estado único con **diff sobre la base** (no copia la base),
+  historial con tope de 100 instantáneas, persistencia en `localStorage` (`rr-atlas:v5`),
+  `restaurarBase()`, `exportar()`, `importar()` (devuelve el diff para pedir confirmación) y
+  `validar()`.
+- **`src/data/base/*.json` (nuevo)**: la base versionada de RR con el contenido que hay en el repo y
+  en `~/rr-encargos/2026-11-02_atlas-cierre/inventario.md`:
+  - `empresa.json`: qué es RR, sede, constitución, tagline, posicionamiento, forma de trabajo,
+    capacidades, principios, **8 áreas** y **8 líneas de negocio**.
+  - `equipo.json`: **24 roles** (7 humanos, 14 bots, 2 externos) y **7 personas** (5 activos, 2
+    históricos). PM y Camarógrafo quedan «sin confirmar». Bots: los 11 del Manual (vigentes) más
+    Buen Puente y Becas de Exposición (vigentes, decisión de Rosas) y Media Manager y Gains
+    («sin confirmar»).
+  - `clientes.json`: 11 clientes. **Activos: BOGA, Candilejas + 553 e IMF Weddings**; los demás en
+    pausa (decisión de Rosas del 2-nov). Sin «Sin confirmar» en el estado.
+  - `proyectos.json`: 10 proyectos o productos y 12 sistemas o herramientas. **Notion no aparece.**
+  - `procesos.json`: **45 procesos** del guion §6 con objetivo, disparador, resultado y `estadoBpmn`
+    (los 16 con semilla en «válido»; el resto «borrador» o «no existe»).
+- **Scripts nuevos**: `npm run semillas:contenido` (pase de contenido de las semillas, con
+  `--simular`) y `npm run semillas:estado` (recalcula el estado real de las 16 semillas y lo escribe
+  en el catálogo y en el reporte).
+
+### Estado de los checks
+- `npm run check`: **verde** — 223 tests pass (antes 202), 0 fail, build ok.
+  - 15 pruebas nuevas de `src/core/model.test.mjs` y `src/core/store.test.mjs`: migración desde v4,
+    migración desde el estado de A, **export→import idempotente**, rechazo de los campos
+    prohibidos (salario, cédula, cuenta, token, password), diff, persistencia en `localStorage`,
+    restaurar base y tope del historial.
+  - 6 pruebas nuevas de `src/data/base/base.test.mjs`: la base pasa el validador, trae las once
+    colecciones, **toda entidad tiene fuente y corte**, **no hay cifras financieras** y los 16
+    procesos con semilla están en estado «válido».
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+
+### Hallazgos / riesgos
+- Los carriles de los diagramas quedaron con roles genéricos (Comercial, Dirección, Finanzas…); el
+  mapeo de **carril → rolId del modelo** (para el campo `carriles` y la matriz RACI) queda
+  pendiente: no hay fuente que diga qué cargo del manual de roles está en cada carril.
+- La base se carga en el repo pero **la vista Datos (`#/datos`) todavía no está conectada al store**:
+  el store, el export/import y el restaurador existen y están probados, pero falta la pantalla.
+
+### Pendiente del bloque
+- Conectar el store a la app: vista Datos (`#/datos`) con export/import, diff, confirmar y
+  «Restaurar base», e historial de cambios.
+- **QA final (item D)**: clics reales de todos los flujos a 390, 768 y 1440 px, capturas por ancho en
+  `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` y resultado en `docs/fusion/PRUEBAS.md`.
