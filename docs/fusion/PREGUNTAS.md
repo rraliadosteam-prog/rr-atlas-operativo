@@ -54,6 +54,13 @@ Formato: `TODO(Rosas): ...`
 - RESUELTO: **Bots vigentes** — Buen Puente y Becas de Exposición; Media Manager y Gains quedan «sin confirmar».
 - RESUELTO: **Lo menor** (estados vacíos, catálogo, tamaños) se decide con el criterio más profesional, sin preguntar.
 
+## Abiertas por el bloque 7 (2026-11-02, item 7 y item B)
+- TODO(Rosas): Las semillas BPMN ya no tienen errores ni avisos de las reglas estructurales de bpmnlint (las 8 compuertas que abrían y cerraron se dividieron en join + fork, se pusieron las uniones que faltaban y se quitaron las etiquetas de sobra). Quedan dos avisos de **estilo de contenido** del plugin de RR: 43 carriles se llaman como una etapa («1 · Prioridad») y 109 tareas no están en infinitivo de 2 a 6 palabras («2. Se anota»). ¿Se hace un pase de escritura de los 16 diagramas con el equipo (carriles = roles, tareas en infinitivo) o se relajan esas dos reglas del plugin?
+- TODO(Rosas): En las fuentes de RR el cliente es «IMF Visions»; en la decisión del 2-nov sale «IMF Weddings». ¿Es el mismo cliente y se deja el nombre canónico de la fuente, o se corrige la fuente?
+- TODO(Rosas): Wundeer quedó «En pausa» por la decisión de estados de clientes (solo BOGA, Candilejas e IMF quedan activos), aunque la fuente lo describe como desarrollo mostrado con contrato pendiente. ¿Se deja en pausa o se abre la excepción?
+- TODO(Rosas): En celular el nodo del mapa no se arrastra (el dedo mueve y pellizca el tablero) y el arrastre de nodos quedó solo para ratón. ¿Se quiere un modo «editar mapa» en móvil?
+- TODO(Rosas): El menú «⋯» del diagrama (deshacer, rehacer, guardar, restaurar, exportar) solo existe en celular. ¿Se deja así o se muestra también en escritorio al lado de la barra?
+
 ## Abiertas por el bloque 4 (2026-11-02, item 4)
 - TODO(Rosas): La ficha de cada diagrama (qué busca, disparador, resultado y el camino paso a paso) sale del guion de procesos del mega prompt §6. ¿Se revisa esa redacción o se deja como texto de lectura provisional hasta que el equipo la valide?
 - TODO(Rosas): La leyenda de colores dice qué significa cada color RR (crema = paso normal, fucsia = se traba, mostaza = atención, orquídea = carriles, gris = datos). ¿Es la convención que quiere la marca o se cambia?
