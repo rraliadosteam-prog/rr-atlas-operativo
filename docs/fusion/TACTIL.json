@@ -1,7 +1,7 @@
 {
-  "fecha": "2026-11-03T16:56:52.559Z",
-  "pruebas": 18,
-  "pasar": 18,
+  "fecha": "2026-11-03T19:13:50.656Z",
+  "pruebas": 24,
+  "pasar": 24,
   "fallar": 0,
   "erroresDeConsola": 0,
   "anchos": [
@@ -14,7 +14,7 @@
       "flujo": "objetivos",
       "ancho": 390,
       "ok": true,
-      "detalle": "50 controles medidos; mínimo 44 px de alto",
+      "detalle": "51 controles medidos; mínimo 44 px de alto",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-objetivos-390.png"
     },
@@ -22,7 +22,7 @@
       "flujo": "cabecera",
       "ancho": 390,
       "ok": true,
-      "detalle": "sin solape: título 228 px · acciones desde 240 px",
+      "detalle": "sin solape: título 154 px · acciones desde 166 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-cabecera-390.png"
     },
@@ -54,15 +54,31 @@
       "flujo": "pellizco-diagrama",
       "ancho": 390,
       "ok": true,
-      "detalle": "pellizco en el diagrama: la forma pasó de 365.5 px a 520.7 px",
+      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-390.png"
+    },
+    {
+      "flujo": "banda",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "la banda dice «Paso 1 de 14 · Llega un documento» (55.4 px de alto) y no tiene botones propios que medir",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-banda-390.png"
+    },
+    {
+      "flujo": "zoom-menos",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "el botón «−» reduce el zoom (1.15 → 0.978)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-zoom-menos-390.png"
     },
     {
       "flujo": "objetivos",
       "ancho": 768,
       "ok": true,
-      "detalle": "59 controles medidos; mínimo 44 px de alto",
+      "detalle": "60 controles medidos; mínimo 44 px de alto",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-objetivos-768.png"
     },
@@ -70,7 +86,7 @@
       "flujo": "cabecera",
       "ancho": 768,
       "ok": true,
-      "detalle": "sin solape: título 255 px · acciones desde 369 px",
+      "detalle": "sin solape: título 267 px · acciones desde 279 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-cabecera-768.png"
     },
@@ -102,15 +118,31 @@
       "flujo": "pellizco-diagrama",
       "ancho": 768,
       "ok": true,
-      "detalle": "pellizco en el diagrama: la forma pasó de 721.8 px a 1031 px",
+      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-768.png"
+    },
+    {
+      "flujo": "banda",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "la banda dice «Paso 1 de 14 · Llega un documento» (55.4 px de alto) y no tiene botones propios que medir",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-banda-768.png"
+    },
+    {
+      "flujo": "zoom-menos",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "el botón «−» reduce el zoom (1.15 → 0.978)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-zoom-menos-768.png"
     },
     {
       "flujo": "objetivos",
       "ancho": 360,
       "ok": true,
-      "detalle": "50 controles medidos; mínimo 44 px de alto",
+      "detalle": "51 controles medidos; mínimo 44 px de alto",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-objetivos-360.png"
     },
@@ -118,7 +150,7 @@
       "flujo": "cabecera",
       "ancho": 360,
       "ok": true,
-      "detalle": "sin solape: título 198 px · acciones desde 210 px",
+      "detalle": "sin solape: título 124 px · acciones desde 136 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-cabecera-360.png"
     },
@@ -150,9 +182,25 @@
       "flujo": "pellizco-diagrama",
       "ancho": 360,
       "ok": true,
-      "detalle": "pellizco en el diagrama: la forma pasó de 338.1 px a 486 px",
+      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-360.png"
+    },
+    {
+      "flujo": "banda",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "la banda dice «Paso 1 de 14 · Llega un documento» (55.4 px de alto) y no tiene botones propios que medir",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-banda-360.png"
+    },
+    {
+      "flujo": "zoom-menos",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "el botón «−» reduce el zoom (1.15 → 0.978)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-zoom-menos-360.png"
     }
   ]
 }

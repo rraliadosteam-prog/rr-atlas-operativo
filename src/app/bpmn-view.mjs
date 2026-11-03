@@ -12,6 +12,8 @@
 import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA, AVISO_GUIA } from '../bpmn/leyenda.mjs';
 import { CLIENTES, SERVICIOS, ESTADOS as ESTADOS_INICIO } from '../data/inicio-tarjetas.mjs';
 import { PENDIENTES, lineaPendiente } from '../data/pendientes.mjs';
+import { obtenerPreferenciasVigentes } from '../core/prefs.mjs';
+import { esPantallaEstrecha } from '../core/zoom.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 
@@ -77,7 +79,41 @@ function separarNotas(texto) {
   return { notas: notas.join('\n').trim(), fuente, corte };
 }
 
-export function createBpmnView({ root, shell, notify }) {
+/**
+ * El contenido de la banda de lectura del paso, **en datos puros** (sin
+ * DOM): lo que la vista escribe en la banda sale de aquí y se prueba en
+ * Node (`src/app/bpmn-banda.test.mjs`).
+ *
+ * · La posición es «Paso 3 de 15».
+ * · Si el carril falta, se dice «sin carril» (no se inventa de qué carril).
+ * · Si la nota falta, la nota queda vacía y la banda la oculta.
+ * · Si el nombre falta, el nombre queda vacío: **no se inventa texto**.
+ * · Si el modo paso está apagado o no hay paso abierto, la banda no se
+ *   muestra (es el interruptor para apagar, P1.11).
+ *
+ * @param {{indice?:number,total?:number,nombre?:string,carril?:string,nota?:string}|null} paso
+ * @param {{modoPaso?:boolean}} opciones
+ * @returns {{visible:boolean,posicion:string,nombre:string,carril:string,sinCarril:boolean,nota:string,conNota:boolean}}
+ */
+export function contenidoBanda(paso, { modoPaso = true } = {}) {
+  const vacio = { visible: false, posicion: '', nombre: '', carril: '', sinCarril: true, nota: '', conNota: false };
+  if (!paso || !paso.total || !modoPaso) return vacio;
+  const indice = Number.isFinite(paso.indice) ? paso.indice : 0;
+  const total = Number.isFinite(paso.total) ? paso.total : 0;
+  const carril = paso.carril || '';
+  const nota = paso.nota || '';
+  return {
+    visible: true,
+    posicion: `Paso ${indice + 1} de ${total}`,
+    nombre: paso.nombre || '',
+    carril: carril || 'sin carril',
+    sinCarril: !carril,
+    nota,
+    conNota: Boolean(nota),
+  };
+}
+
+export function createBpmnView({ root, shell, notify, onAjustes }) {
   const lista = $('[data-bpmn-catalog]', root);
   const lienzo = $('[data-bpmn-canvas]', root);
   const vacio = $('[data-bpmn-empty]', root);
@@ -108,6 +144,15 @@ export function createBpmnView({ root, shell, notify }) {
   // El botón de modo vive en index.html como data-bpmn-accion="modo";
   // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
   const botonModo = $('[data-bpmn-accion="modo"]', root);
+  // Bloque 2 · la banda de lectura del paso (P1.4): dice en qué paso se está
+  // (posición, nombre, carril y nota) **fuera** del lienzo.
+  const banda = $('[data-bpmn-banda]', root);
+  const bandaPosicion = $('[data-bpmn-banda-posicion]', root);
+  const bandaNombre = $('[data-bpmn-banda-nombre]', root);
+  const bandaCarril = $('[data-bpmn-banda-carril]', root);
+  const bandaNota = $('[data-bpmn-banda-nota]', root);
+  // El zoom efectivo del diagrama, en la barra de controles.
+  const lecturaZoom = $('[data-bpmn-zoom]', root);
   const buscador = $('[data-bpmn-search]', root);
   const campos = {
     nombre: $('[data-bpmn-campo="nombre"]', root),
@@ -296,16 +341,107 @@ export function createBpmnView({ root, shell, notify }) {
     }
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Bloque 2 · la banda de lectura y el modo de apertura (P1.4 · ítems 4 y 5)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * ¿El modo paso está encendido? Lo dice la preferencia **vigente** (lo
+   * guardado con el override de sesión encima, si lo hay). Si el modo paso
+   * está apagado, la banda no se muestra: es el interruptor para apagar
+   * (P1.11).
+   */
+  function modoPasoVigente() {
+    try {
+      return obtenerPreferenciasVigentes().modoPaso !== false;
+    } catch {
+      return true;
+    }
+  }
+
+  /**
+   * Con qué modo se abre (o reencuadra) el diagrama.
+   * · En la vista partida (catálogo + diagrama) el lienzo es pequeño: se ve
+   *   el diagrama entero, en miniatura.
+   * · En escritorio se abre «ver el todo».
+   * · En pantalla estrecha (≤ 900 px) se abre en **modo paso**, si la
+   *   preferencia lo deja; si no, «ver el todo».
+   */
+  function modoDeApertura() {
+    if (!completo) return 'todo';
+    if (!esPantallaEstrecha(window.innerWidth || 0)) return 'todo';
+    return modoPasoVigente() ? 'paso' : 'todo';
+  }
+
+  /**
+   * Pinta la banda de lectura con lo que dice `contenidoBanda()` (datos
+   * puros, probados en Node). Si el carril falta, dice «sin carril»; si la
+   * nota falta, la oculta. **No inventa texto**: lo que no está en el
+   * diagrama no se escribe.
+   */
+  function pintarBanda(paso) {
+    if (!banda) return;
+    const contenido = contenidoBanda(paso, { modoPaso: modoPasoVigente() });
+    banda.hidden = !contenido.visible;
+    root.classList.toggle('is-banda', contenido.visible);
+    if (!contenido.visible) return;
+    if (bandaPosicion) bandaPosicion.textContent = contenido.posicion;
+    if (bandaNombre) bandaNombre.textContent = contenido.nombre;
+    if (bandaCarril) {
+      bandaCarril.textContent = contenido.carril;
+      bandaCarril.classList.toggle('is-vacio', contenido.sinCarril);
+    }
+    if (bandaNota) {
+      bandaNota.textContent = contenido.nota;
+      bandaNota.hidden = !contenido.conNota;
+    }
+  }
+
+  /** El zoom **efectivo** del lienzo, en porcentaje. */
+  function pintarZoom() {
+    if (!lecturaZoom) return;
+    const zoom = workspace?.estado?.()?.zoom;
+    lecturaZoom.textContent = Number.isFinite(zoom) ? `${Math.round(zoom * 100)} %` : '—';
+  }
+
+  /** Repinta la banda y el zoom: lo que se ve del diagrama en este momento. */
+  function refrescarLectura() {
+    pintarBanda(workspace?.pasoActual?.());
+    pintarZoom();
+  }
+
+  /**
+   * El gancho de depuración: lo leen la puerta de 390 px
+   * (`scripts/piso-390.mjs`) y la consola. **No sobrevive** a la salida de
+   * la vista ni al cambio de diagrama: si sobreviviera, una puerta que
+   * recorra varios diagramas en la misma pestaña certificaría el zoom del
+   * diagrama anterior (P1.9).
+   */
+  function componerGancho() {
+    if (!workspace) return;
+    delete window.__rrAtlasBpmn;
+    window.__rrAtlasBpmn = {
+      workspace,
+      // El motor no sabe de rutas: la ruta la compone la vista (el shell).
+      estado: () => ({ ...(workspace.estado?.() || {}), ruta: location.hash }),
+    };
+  }
+
   // Item 5 del encargo: modo diagrama a pantalla completa.
   // Al abrir un BPMN la página entera es el diagrama: el catálogo desaparece y
   // el lienzo toma el viewport (en móvil de 360 px ya no hay que hacer scroll).
   function encuadrar() {
     if (!workspace || !actual) return;
-    const paso = workspace.fit?.({ completo: completo });
+    // Bloque 1B (P1.2): `fit` obedece su argumento. A pantalla completa
+    // manda el piso de legibilidad (1,15); en la vista partida (catálogo y
+    // diagrama a la vez) el lienzo es pequeño y se **fuerza** el encuadre
+    // para que quepa el proceso entero.
+    const paso = workspace.fit?.({ modo: modoDeApertura(), forzar: !completo });
     if (paso?.total) {
-      estado.textContent = `${actual.area} · paso ${paso.index + 1} de ${paso.total} · ${paso.name}`;
-      if (paso.lane) estado.textContent += ` · ${paso.lane}`;
+      estado.textContent = `${actual.area} · paso ${paso.indice + 1} de ${paso.total} · ${paso.nombre}`;
+      if (paso.carril) estado.textContent += ` · ${paso.carril}`;
     }
+    refrescarLectura();
   }
 
   function aplicarCompleto(valor) {
@@ -594,7 +730,7 @@ export function createBpmnView({ root, shell, notify }) {
       },
     });
     // Gancho de depuración: permite auditar el diagrama desde la consola.
-    window.__rrAtlasBpmn = workspace;
+    componerGancho();
     return workspace;
   }
 
@@ -626,15 +762,19 @@ export function createBpmnView({ root, shell, notify }) {
       const motor = await crearWorkspace();
       const reporte = await motor.open(xmlActual, {
         fileName: proceso.archivo,
+        procesoId: proceso.id,
         editable,
         cambiosPendientes: origen !== 'semilla',
       });
+      // El gancho se vuelve a componer: el diagrama nuevo, no el anterior.
+      componerGancho();
       pintarInforme(reporte);
       pintarInsignia();
       if (completo) encuadrar();
       if (reporte?.step) {
-        estado.textContent = `${proceso.area} · paso ${reporte.step.index + 1} de ${reporte.step.total} · ${reporte.step.name}`;
+        estado.textContent = `${proceso.area} · paso ${reporte.step.indice + 1} de ${reporte.step.total} · ${reporte.step.nombre}`;
       }
+      refrescarLectura();
       if (seleccion) {
         const refreshed = motor.elemento(seleccion.id);
         if (refreshed) mostrarElemento(refreshed);
@@ -654,10 +794,16 @@ export function createBpmnView({ root, shell, notify }) {
       avisar('Elige un proceso del catálogo primero.');
       return;
     }
-    const paso = workspace.step(delta);
+    // La API pública de paso (P1.2): `irAPaso` va a un paso por su índice y
+    // devuelve el descriptor. Si el destino no existe, el diagrama se queda
+    // donde está: no se inventa un paso.
+    const descriptor = workspace.pasoActual?.();
+    const destino = (Number(descriptor?.indice) || 0) + delta;
+    const paso = workspace.irAPaso?.(destino) || workspace.step(delta);
     if (!paso) return;
-    estado.textContent = `${actual.area} · paso ${paso.index + 1} de ${paso.total} · ${paso.name}`;
-    if (paso.lane) estado.textContent += ` · ${paso.lane}`;
+    estado.textContent = `${actual.area} · paso ${paso.indice + 1} de ${paso.total} · ${paso.nombre}`;
+    if (paso.carril) estado.textContent += ` · ${paso.carril}`;
+    refrescarLectura();
   }
 
   async function alternarModo() {
@@ -822,11 +968,17 @@ export function createBpmnView({ root, shell, notify }) {
     if (tipo === 'modo') alternarModo();
     if (tipo === 'anterior') avanzar(-1);
     if (tipo === 'siguiente') avanzar(1);
-    if (tipo === 'acercar') workspace?.zoom(1.2);
-    if (tipo === 'alejar') workspace?.zoom(0.85);
-    if (tipo === 'encuadrar') workspace?.fit();
+    // El «−» aleja de verdad: el piso manual del motor queda **por debajo**
+    // del zoom de encuadre (src/core/zoom.mjs), así que 0,85 siempre reduce.
+    if (tipo === 'acercar') { workspace?.zoom(1.2); pintarZoom(); }
+    if (tipo === 'alejar') { workspace?.zoom(0.85); pintarZoom(); }
+    if (tipo === 'encuadrar') encuadrar();
     if (tipo === 'guia') alternarGuia();
     if (tipo === 'cerrar-guia') alternarGuia(false);
+    // Bloque 3 · el diálogo «Ajustes» (P1.11 · ítem 68): en pantalla
+    // completa la vista tapa la barra superior, así que también se abre
+    // desde aquí.
+    if (tipo === 'ajustes') { onAjustes?.(); return; }
     if (tipo === 'pantalla') {
       aplicarCompleto(!completo);
       avisar(completo ? 'Diagrama a pantalla completa.' : 'Catálogo y diagrama a la vez.');
@@ -890,10 +1042,10 @@ export function createBpmnView({ root, shell, notify }) {
   // tamaño de la ventana hay que volver a encajarlo.
   let temporizadorResize = 0;
   window.addEventListener('resize', () => {
-    if (!dividido) return;
     window.clearTimeout(temporizadorResize);
     temporizadorResize = window.setTimeout(() => {
-      secundario?.fit?.({ completo: true, forzar: true });
+      if (dividido) secundario?.fit?.({ completo: true, forzar: true });
+      pintarZoom();
     }, 250);
   });
 
@@ -977,6 +1129,9 @@ export function createBpmnView({ root, shell, notify }) {
       estado.textContent = 'Elige un proceso para abrirlo en el lienzo.';
       vacio.hidden = false;
       vacio.innerHTML = '<strong>Selecciona un proceso</strong><span>Las semillas viven en src/bpmn/seeds.</span>';
+      // Sin diagrama abierto no hay paso que narrar: la banda se esconde.
+      pintarBanda(null);
+      pintarZoom();
     }
   }
 
@@ -990,13 +1145,32 @@ export function createBpmnView({ root, shell, notify }) {
     document.body.classList.remove('is-bpmn-dividido');
     root.classList.remove('is-completo');
     if (dividido) aplicarDividido(false);
+    // El gancho no sobrevive a la salida de la vista (P1.9): si sobreviviera,
+    // la puerta leería el estado de un diagrama que ya no está en pantalla.
+    delete window.__rrAtlasBpmn;
+    pintarBanda(null);
     // El mapa vuelve a encajar cuando el shell recupera su tamaño.
     window.dispatchEvent(new Event('resize'));
   }
 
+  // Bloque 3 · el diálogo «Ajustes» avisa de los cambios (P1.11 · ítem 68).
+  // Con el modo paso apagado, la banda de lectura desaparece y el diagrama
+  // pasa a «ver el todo» **sin recargar**: el motor obedece a `fit()`.
+  window.addEventListener('rr-atlas:prefs', () => {
+    if (!visible) return;
+    refrescarLectura();
+    if (modoPasoVigente() || !workspace || !actual) return;
+    workspace.fit?.({ modo: 'todo', forzar: !completo });
+    estado.textContent = `${actual.area} · ver el todo`;
+    refrescarLectura();
+  });
+
   return {
     mostrar,
     ocultar,
+    // Repinta lo que depende de las preferencias (la banda se apaga con el
+    // modo paso): lo llama el diálogo «Ajustes» cuando cambia un interruptor.
+    refrescar: refrescarLectura,
     get activo() { return Boolean(actual); },
     get visible() { return visible; },
     get completo() { return completo; },

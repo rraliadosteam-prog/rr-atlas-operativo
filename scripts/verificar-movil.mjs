@@ -13,6 +13,18 @@
 //   4. espaciado → nada queda escondido detrás de la barra inferior ni se
 //                  sale de la pantalla por la derecha.
 //
+// Y, desde el bloque 1B (P1.4 · P1.9 · P1.11), en la ruta del diagrama:
+//
+//   5. legibilidad → el diagrama abre a un zoom legible (≥ 1,15), leído por
+//                     el gancho de depuración.
+//   6. banda       → la banda de lectura del paso se ve y dice en qué paso
+//                     se está (posición y nombre, no vacíos).
+//   7. lienzo      → el lienzo conserva 44 px útiles: la banda no se come el
+//                     diagrama.
+//   8. apagado     → con la preferencia `modoPaso` apagada (escrita en el
+//                     navegador antes de cargar) la banda **no** se ve: el
+//                     interruptor para apagar funciona.
+//
 // Rutas revisadas: mapa, catálogo BPMN, diagrama BPMN y vista de datos.
 //
 // Salidas: docs/fusion/MOVIL.json y docs/fusion/capturas/movil-<ruta>-<ancho>.png.
@@ -21,6 +33,9 @@ import { chromium } from 'playwright-core';
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
+import { PISO_LEGIBILIDAD_DIAGRAMA } from '../src/core/zoom.mjs';
+import { CLAVE_PREFS, VERSION_PREFS } from '../src/core/prefs.mjs';
+import { leerEstadoLienzo } from './piso-390.mjs';
 
 const RAIZ = resolve(import.meta.dirname, '..');
 const DIST = resolve(RAIZ, 'dist');
@@ -60,7 +75,9 @@ const MEDIDAS = [
 ];
 
 const RUTAS = [
-  { nombre: 'mapa', hash: '' },
+  // La raíz del mapa se pide con «#top»: es la ruta que miden las demás
+  // puertas y la que abre la app (P1.9).
+  { nombre: 'mapa', hash: '#top' },
   { nombre: 'catalogo', hash: '#/bpmn' },
   { nombre: 'diagrama', hash: '#/bpmn/gobierno_como_se_gobierna_la_documentacion' },
   { nombre: 'datos', hash: '#/datos' },
@@ -212,9 +229,37 @@ async function medir(page) {
       fuera: fuera.slice(0, 12),
       tapados: tapados.slice(0, 12),
       desbordamiento: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      // Bloque 1B: la banda de lectura del paso y la altura útil del
+      // lienzo (P1.4 · R4). La banda vive **fuera** del lienzo: no puede
+      // tapar el diagrama, pero tampoco puede dejar el lienzo en cero.
+      banda: (() => {
+        const banda = document.querySelector('[data-bpmn-banda]');
+        if (!banda) return { existe: false, visible: false, posicion: '', nombre: '', carril: '', alto: 0 };
+        const caja = banda.getBoundingClientRect();
+        const estilo = getComputedStyle(banda);
+        const visible = !banda.hidden && estilo.display !== 'none' && estilo.visibility !== 'hidden'
+          && caja.width > 0 && caja.height > 0;
+        return {
+          existe: true,
+          visible,
+          posicion: (document.querySelector('[data-bpmn-banda-posicion]')?.textContent ?? '').trim(),
+          nombre: (document.querySelector('[data-bpmn-banda-nombre]')?.textContent ?? '').trim(),
+          carril: (document.querySelector('[data-bpmn-banda-carril]')?.textContent ?? '').trim(),
+          alto: Math.round(caja.height * 10) / 10,
+        };
+      })(),
+      lienzoAlto: (() => {
+        const lienzo = document.querySelector('[data-bpmn-canvas]');
+        if (!lienzo) return 0;
+        const caja = lienzo.getBoundingClientRect();
+        return Math.round(caja.height * 10) / 10;
+      })(),
     };
   });
 }
+
+/** El estado del lienzo BPMN, leído por el gancho de depuración. */
+const leerEstado = (page) => page.evaluate(leerEstadoLienzo);
 
 for (const medida of MEDIDAS) {
   const context = await browser.newContext({
@@ -255,6 +300,53 @@ for (const medida of MEDIDAS) {
     resultados.push({ ruta: ruta.nombre, ancho: medida.ancho, ok, detalle, errores, captura });
     if (!ok) fallos.push(`${ruta.nombre} @ ${medida.ancho}px: ${detalle}${errores.length ? ` | consola: ${errores.join(' | ')}` : ''}`);
 
+    // Bloque 1B · la ruta del diagrama comprueba además que el diagrama
+    // abre legible, que la banda de lectura dice en qué paso se está y que
+    // el lienzo conserva altura útil (P1.4 · P1.9 · R4).
+    if (ruta.nombre === 'diagrama') {
+      const estado = await leerEstado(page);
+      const zoom = estado.zoom;
+      const legible = Number.isFinite(zoom) && zoom >= PISO_LEGIBILIDAD_DIAGRAMA;
+      resultados.push({
+        ruta: 'diagrama-legible',
+        ancho: medida.ancho,
+        ok: legible,
+        detalle: legible
+          ? `abre a zoom ${zoom} (piso de legibilidad ${PISO_LEGIBILIDAD_DIAGRAMA})`
+          : `abre a zoom ${zoom ?? 'ilegible'} y el piso de legibilidad es ${PISO_LEGIBILIDAD_DIAGRAMA}`,
+        errores,
+        captura,
+      });
+      if (!legible) fallos.push(`diagrama-legible @ ${medida.ancho}px: abre a zoom ${zoom ?? 'ilegible'}`);
+
+      const banda = midido.banda;
+      const bandaOk = banda.visible && Boolean(banda.posicion) && Boolean(banda.nombre);
+      resultados.push({
+        ruta: 'diagrama-banda',
+        ancho: medida.ancho,
+        ok: bandaOk,
+        detalle: bandaOk
+          ? `la banda dice «${banda.posicion} · ${banda.nombre}»`
+          : `la banda no dice en qué paso se está (visible: ${banda.visible}, posición: «${banda.posicion}», nombre: «${banda.nombre}»)`,
+        errores,
+        captura,
+      });
+      if (!bandaOk) fallos.push(`diagrama-banda @ ${medida.ancho}px: ${banda.posicion || 'sin posición'} · ${banda.nombre || 'sin nombre'}`);
+
+      const lienzoOk = midido.lienzoAlto >= 44;
+      resultados.push({
+        ruta: 'diagrama-lienzo',
+        ancho: medida.ancho,
+        ok: lienzoOk,
+        detalle: lienzoOk
+          ? `el lienzo conserva ${midido.lienzoAlto} px útiles (la banda, ${banda.alto} px, vive fuera)`
+          : `el lienzo solo conserva ${midido.lienzoAlto} px útiles y necesita 44`,
+        errores,
+        captura,
+      });
+      if (!lienzoOk) fallos.push(`diagrama-lienzo @ ${medida.ancho}px: ${midido.lienzoAlto} px útiles`);
+    }
+
     // La hoja del inspector (mapa) se abre al tocar un nodo: se mide aparte.
     if (ruta.nombre === 'mapa') {
       const tarjeta = page.locator('.node-card').first();
@@ -283,6 +375,62 @@ for (const medida of MEDIDAS) {
     await page.close();
   }
   await context.close();
+}
+
+// ── El interruptor para apagar (P1.11) ─────────────────────────────────────
+//
+// Con la preferencia `modoPaso` apagada (escrita en el navegador **antes**
+// de cargar la página), la banda de lectura no se ve: es el interruptor
+// para apagar, y la puerta lo comprueba de verdad.
+{
+  const medida = MEDIDAS[0];
+  const contexto = await browser.newContext({
+    viewport: { width: medida.ancho, height: medida.alto },
+    deviceScaleFactor: 2,
+    isMobile: true,
+    hasTouch: true,
+  });
+  await contexto.addInitScript(({ clave, valor }) => {
+    try {
+      window.localStorage.setItem(clave, valor);
+    } catch {
+      /* sin almacenamiento no se puede apagar nada: la puerta lo dirá */
+    }
+  }, {
+    clave: CLAVE_PREFS,
+    valor: JSON.stringify({
+      version: VERSION_PREFS,
+      modoPaso: false,
+      legibilidad: true,
+      copiador: true,
+      guiaVista: true,
+      avisosVistos: [],
+    }),
+  });
+  const page = await contexto.newPage();
+  const errores = [];
+  page.on('console', (mensaje) => {
+    if (mensaje.type() === 'error') errores.push(mensaje.text());
+  });
+  page.on('pageerror', (error) => errores.push(String(error.message ?? error)));
+  await page.goto(`${base}/#/bpmn/gobierno_como_se_gobierna_la_documentacion`, { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('[data-bpmn-canvas] .djs-visual', { timeout: 15000 });
+  await page.waitForTimeout(1500);
+  const midido = await medir(page);
+  const estado = await leerEstado(page);
+  const banda = midido.banda;
+  // El diagrama tiene que haberse abierto (si no, la banda no se ve por otra
+  // razón y la comprobación no valdría nada).
+  const abierto = Number.isFinite(estado.zoom) && estado.zoom >= PISO_LEGIBILIDAD_DIAGRAMA;
+  const ok = abierto && !banda.visible && errores.length === 0;
+  const detalle = ok
+    ? `con «modo paso» apagado la banda de lectura no se ve y el diagrama sigue legible (zoom ${estado.zoom}; la preferencia está en ${CLAVE_PREFS})`
+    : !abierto
+      ? `el diagrama no se abrió bien (zoom ${estado.zoom ?? 'ilegible'}): la comprobación no vale`
+      : `con «modo paso» apagado la banda ${banda.visible ? 'se sigue viendo' : 'no se ve pero hay errores'}`;
+  resultados.push({ ruta: 'diagrama-sin-banda', ancho: medida.ancho, ok, detalle, errores, captura: null });
+  if (!ok) fallos.push(`diagrama-sin-banda @ ${medida.ancho}px: ${detalle}`);
+  await contexto.close();
 }
 
 await browser.close();

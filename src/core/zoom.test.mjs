@@ -26,6 +26,8 @@ import {
   pisoLegibilidadDiagrama,
   pisoManualMapa,
   pisoManualMotor,
+  zoomEncuadre,
+  zoomManual,
 } from './zoom.mjs';
 
 const ANCHOS_VENTANA = [360, 390, 768, 900, 1440];
@@ -151,4 +153,39 @@ test('El piso vigente del mapa es el que la app garantiza hoy, no el móvil nuev
   assert.equal(pisoLecturaMapaVigente(900), PISO_LECTURA_ESTRECHA);
   assert.equal(pisoLecturaMapaVigente(1440), PISO_LECTURA_MAPA_FONDO);
   assert.ok(pisoLecturaMapaVigente(390) <= pisoLecturaMapa(390), 'El piso vigente nunca es más alto que el declarado');
+});
+
+test('El encuadre nunca baja del piso de legibilidad (salvo que se fuerze)', () => {
+  // El caso real de 390 px: el encuadre daba 0,12–0,25 y el diagrama abría
+  // a 1:4–1:8, ilegible.
+  assert.equal(zoomEncuadre(0.14), PISO_LEGIBILIDAD_DIAGRAMA);
+  assert.equal(zoomEncuadre(0.94), PISO_LEGIBILIDAD_DIAGRAMA);
+  assert.equal(zoomEncuadre(1.4), 1.4);
+  // Con `forzar` el encuadre es el que se le pide (el visor pequeño del
+  // panel dividido quiere ver el proceso entero, aunque sea diminuto).
+  assert.equal(zoomEncuadre(0.14, { forzar: true }), 0.14);
+  assert.equal(zoomEncuadre(0.94, { forzar: false }), PISO_LEGIBILIDAD_DIAGRAMA);
+  // Un zoom que no es un número se devuelve tal cual.
+  assert.equal(zoomEncuadre(undefined), undefined);
+  assert.equal(zoomEncuadre(null), null);
+  assert.ok(Number.isNaN(zoomEncuadre(Number.NaN)));
+});
+
+test('El botón «−» siempre aleja: el piso manual queda por debajo de 1,15', () => {
+  const factor = 0.85;
+  for (const ancho of ANCHOS_CONTENEDOR) {
+    const nuevo = zoomManual(PISO_LEGIBILIDAD_DIAGRAMA, factor, ancho);
+    assert.ok(nuevo < PISO_LEGIBILIDAD_DIAGRAMA, `A ${ancho} px: ${nuevo} < 1,15`);
+    assert.ok(nuevo >= pisoManualMotor(ancho), `A ${ancho} px: ${nuevo} ≥ el piso manual`);
+  }
+  assert.ok(Math.abs(zoomManual(1.15, 0.85, 380) - 0.9775) < 1e-9);
+  assert.ok(Math.abs(zoomManual(1.15, 1.2, 380) - 1.38) < 1e-9);
+  // El piso manual nunca hace **subir** el zoom: «−» no agranda.
+  assert.equal(zoomManual(0.1, 0.85, 380), 0.1);
+  // El techo corta, pero nunca hace bajar el zoom que ya había.
+  assert.equal(zoomManual(2, 2, 380), ZOOM_MAXIMO);
+  assert.equal(zoomManual(3, 2, 380), 3);
+  // Un factor que no es un número no cambia el zoom.
+  assert.equal(zoomManual(1.15, undefined, 380), 1.15);
+  assert.equal(zoomManual(undefined, 0.85, 380), undefined);
 });

@@ -119,5 +119,44 @@ export const aplicarTecho = (zoom, techo) => (Number.isFinite(zoom) ? Math.min(z
 /** Acota un zoom entre un piso y un techo. */
 export const acotarZoom = (zoom, piso, techo) => aplicarTecho(aplicarPiso(zoom, piso), techo);
 
+/**
+ * El zoom del **encuadre**: el ajuste que da `fit-viewport` con el margen
+ * aplicado y, salvo que se fuerce, el piso de legibilidad por debajo.
+ *
+ * `forzar: true` ignora el piso (es lo que necesita el visor pequeño del
+ * panel dividido, que quiere ver el diagrama entero aunque sea diminuto).
+ * Sin `forzar`, el encuadre **nunca** baja de 1,15: por eso el diagrama
+ * abría a 1:4–1:8.
+ *
+ * Un zoom que no es un número se devuelve tal cual: la función no inventa
+ * un zoom que nadie ha medido.
+ */
+export const zoomEncuadre = (zoomAjuste, { forzar = false } = {}) => {
+  if (!Number.isFinite(zoomAjuste)) return zoomAjuste;
+  return forzar ? zoomAjuste : Math.max(zoomAjuste, PISO_LEGIBILIDAD_DIAGRAMA);
+};
+
+/**
+ * El zoom del botón «+»/«−» (y del pellizco): el factor se aplica al zoom
+ * actual y el resultado se acota entre el **piso manual** y el techo del
+ * diagrama.
+ *
+ * Dos reglas que importan:
+ * · el piso manual queda **por debajo** del piso de legibilidad (0,12/0,20
+ *   contra 1,15), así que «−» **siempre** aleja: nunca agranda;
+ * · ni el piso ni el techo hacen **mover** el zoom que ya hay: si el
+ *   encuadre quedó por encima del techo (un diagrama muy pequeño en un
+ *   lienzo muy grande), «+» no puede reducir la vista.
+ */
+export const zoomManual = (zoomActual, factor, anchoContenedor) => {
+  if (!Number.isFinite(zoomActual) || !Number.isFinite(factor)) return zoomActual;
+  const piso = pisoManualMotor(anchoContenedor);
+  // El techo nunca hace bajar el zoom actual.
+  const techo = Math.max(ZOOM_MAXIMO, zoomActual);
+  // El piso manual nunca hace subir el zoom actual.
+  const limite = factor < 1 ? Math.min(piso, zoomActual) : piso;
+  return acotarZoom(zoomActual * factor, limite, techo);
+};
+
 /** ¿El zoom se puede leer y es legible (≥ 1,15)? */
 export const esZoomLegible = (zoom) => Number.isFinite(zoom) && zoom >= PISO_LEGIBILIDAD_DIAGRAMA;

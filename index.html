@@ -36,9 +36,17 @@
         <a class="button button-ghost" data-bpmn-link href="#/bpmn" aria-label="Ver el catálogo BPMN"><span aria-hidden="true">◇</span><span class="hub-label hub-label--full" aria-hidden="true">BPMN</span></a>
         <a class="button button-ghost" data-datos-link href="#/datos" aria-label="Ver los datos del Atlas" title="Datos del Atlas: exportar, importar y validar"><span aria-hidden="true">⛁</span><span class="hub-label hub-label--full" aria-hidden="true">Datos</span></a>
         <button class="button button-ghost" data-action="help" type="button">Guía</button>
+        <!-- Bloque 3 · el interruptor visible (P1.11 · ítem 68): el diálogo
+             «Ajustes» con un interruptor por bandera booleana. -->
+        <button class="button button-ghost" data-action="ajustes" type="button" title="Ajustes: qué se puede apagar en este navegador">Ajustes</button>
         <button class="button button-primary" data-action="add-node" type="button" aria-label="Añadir nodo" title="Añadir nodo"><span aria-hidden="true">＋</span><span class="topbar__texto">Añadir nodo</span></button>
       </div>
     </header>
+
+    <!-- Bloque 3 · el apagado de emergencia por URL (P1.11 · ítem 67): aviso
+         discreto cuando esta sesión está en modo seguro (`?atlas=seguro`).
+         Lo escribe `src/app/rr-tree.mjs`; aquí solo vive el hueco. -->
+    <p class="aviso-seguro" data-atlas-seguro hidden role="status">Modo seguro (solo este enlace)</p>
 
     <!-- Ticker pixelado del sistema RR: dos copias exactas para el bucle de -50%. -->
     <div class="atlas-ticker rr-marquee" data-ticker aria-hidden="true">
@@ -124,6 +132,9 @@
         </div>
         <div class="bpmn-view__actions">
           <button class="button button-ghost" type="button" data-bpmn-accion="dividir" aria-pressed="false" title="Dividir la pantalla: diagrama y panel al lado"><span aria-hidden="true">▥</span><span class="bpmn-accion__texto">Dividir</span></button>
+          <!-- Bloque 3 · en pantalla completa la vista tapa la barra superior:
+               el diálogo «Ajustes» también se abre desde aquí (P1.11 · ítem 68). -->
+          <button class="button button-ghost" type="button" data-bpmn-accion="ajustes" title="Ajustes: qué se puede apagar en este navegador" aria-label="Ajustes: qué se puede apagar en este navegador">Ajustes</button>
           <a class="button button-ghost" href="#/bpmn" data-bpmn-catalog-link aria-label="Ver el catálogo de procesos" title="Ver el catálogo de procesos"><span aria-hidden="true">☰</span><span class="bpmn-accion__texto">Procesos</span></a>
           <a class="button button-ghost" href="#top" data-bpmn-back aria-label="Volver al mapa vivo" title="Volver al mapa vivo"><span aria-hidden="true">←</span><span class="bpmn-accion__texto">Volver al mapa</span></a>
         </div>
@@ -137,6 +148,15 @@
           <div data-bpmn-catalog></div>
         </aside>
         <section class="bpmn-stage" aria-label="Lienzo BPMN">
+          <!-- Bloque 2 · la banda de lectura del paso (P1.4): dice en qué paso
+               se está (posición, nombre, carril y nota) **fuera** del lienzo,
+               entre la cabecera y la barra. No tapa el diagrama. -->
+          <aside class="bpmn-banda" data-bpmn-banda hidden aria-label="Paso actual del diagrama">
+            <p class="bpmn-banda__posicion" data-bpmn-banda-posicion></p>
+            <p class="bpmn-banda__nombre" data-bpmn-banda-nombre></p>
+            <p class="bpmn-banda__carril" data-bpmn-banda-carril></p>
+            <p class="bpmn-banda__nota" data-bpmn-banda-nota hidden></p>
+          </aside>
           <div class="bpmn-toolbar" role="toolbar" aria-label="Controles del proceso BPMN">
             <!-- Item 7 · en celular los controles menos usados van en un menú «⋯»
                  que queda fijo a la izquierda de la barra deslizable. -->
@@ -157,6 +177,7 @@
             <button class="button button-small" type="button" data-bpmn-accion="modo" aria-pressed="false">Editar</button>
             <button class="button button-small" type="button" data-bpmn-accion="anterior">Anterior</button>
             <button class="button button-small" type="button" data-bpmn-accion="siguiente">Siguiente</button>
+            <span class="bpmn-zoom" data-bpmn-zoom title="Zoom actual del diagrama">—</span>
             <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar">＋</button>
             <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar">−</button>
             <button class="button button-small" type="button" data-bpmn-accion="encuadrar">Encuadrar</button>
@@ -316,6 +337,60 @@
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
     <dialog class="help-dialog" data-help-dialog>
       <form method="dialog"><div class="dialog-head"><div><span class="eyebrow">Cómo usarlo</span><h2>Mapa editable, sin secretos</h2></div><button class="icon-button" value="cancel" type="submit" aria-label="Cerrar guía">×</button></div><ul><li>Arrastra un nodo; el historial toma la instantánea antes del movimiento.</li><li>Usa el manejador ◇ para conectar arrastrando, o <strong>Enlazar</strong> desde el editor.</li><li>Doble clic en el título para editar en línea. Shift permite multiselección.</li><li><strong>Supr</strong> elimina; <strong>Ctrl/Cmd+Z</strong> deshace; <strong>Ctrl/Cmd+Shift+Z</strong> rehace.</li><li><strong>F</strong> encuadra, <strong>/</strong> enfoca búsqueda y las flechas mueven el foco.</li><li>Exporta JSON versionado antes de compartir. Restaurar original descarta cambios locales.</li></ul><button class="button button-primary" value="cancel" type="submit">Entendido</button></form>
+    </dialog>
+
+    <!-- Bloque 3 · el interruptor visible (P1.11 · ítem 68): el diálogo
+         «Ajustes», junto al botón «Guía». Un interruptor por bandera
+         booleana (cuatro); `avisosVistos` es una lista y no lleva
+         interruptor. No es un formulario: se cierra con «Listo». -->
+    <dialog class="ajustes-dialog" data-ajustes aria-labelledby="ajustes-titulo">
+      <div class="ajustes-dialog__cuerpo">
+        <div class="dialog-head">
+          <div>
+            <span class="eyebrow">Ajustes</span>
+            <h2 id="ajustes-titulo">Qué se puede apagar</h2>
+          </div>
+          <button class="icon-button" data-ajustes-cerrar type="button" aria-label="Cerrar ajustes">×</button>
+        </div>
+        <p class="ajustes-intro">Los cambios se guardan <strong>solo en este navegador</strong>. No hay apagado general: lo que apagues aquí no se apaga en el equipo de los demás.</p>
+        <p class="ajustes-seguro" data-ajustes-seguro hidden><strong>Modo seguro.</strong> Este enlace manda durante esta sesión: los interruptores quedan bloqueados y lo que tengas guardado no se toca.</p>
+        <ul class="ajustes-lista">
+          <li class="ajustes-fila">
+            <div class="ajustes-fila__texto">
+              <strong id="ajustes-etiqueta-modo-paso">Modo paso</strong>
+              <p id="ajustes-explica-modo-paso">El diagrama se abre en el paso actual, con la banda de lectura de arriba. Apagado, el diagrama se abre entero («ver el todo»).</p>
+            </div>
+            <button class="interruptor" type="button" role="switch" aria-checked="true" aria-labelledby="ajustes-etiqueta-modo-paso" aria-describedby="ajustes-explica-modo-paso" data-pref="modoPaso"><span class="interruptor__punto" aria-hidden="true"></span></button>
+          </li>
+          <li class="ajustes-fila">
+            <div class="ajustes-fila__texto">
+              <strong id="ajustes-etiqueta-legibilidad">Legibilidad</strong>
+              <p id="ajustes-explica-legibilidad">Guarda cómo prefieres que arranque el diagrama. Apagado, el diagrama vuelve al encuadre pequeño: se ve entero, pero el texto se lee más difícil.</p>
+            </div>
+            <button class="interruptor" type="button" role="switch" aria-checked="true" aria-labelledby="ajustes-etiqueta-legibilidad" aria-describedby="ajustes-explica-legibilidad" data-pref="legibilidad"><span class="interruptor__punto" aria-hidden="true"></span></button>
+          </li>
+          <li class="ajustes-fila">
+            <div class="ajustes-fila__texto">
+              <strong id="ajustes-etiqueta-copiador">Copiar y compartir</strong>
+              <p id="ajustes-explica-copiador">Permite copiar y compartir el diagrama. Apagado, esas acciones no se ofrecen (el botón «Compartir» todavía no existe).</p>
+            </div>
+            <button class="interruptor" type="button" role="switch" aria-checked="true" aria-labelledby="ajustes-etiqueta-copiador" aria-describedby="ajustes-explica-copiador" data-pref="copiador"><span class="interruptor__punto" aria-hidden="true"></span></button>
+          </li>
+          <li class="ajustes-fila">
+            <div class="ajustes-fila__texto">
+              <strong id="ajustes-etiqueta-guiaVista">Ya vi la guía</strong>
+              <p id="ajustes-explica-guiaVista">Encendido, la guía no se abre sola: se abre con el botón «Guía». Apagado, puede abrirse sola la primera vez.</p>
+            </div>
+            <button class="interruptor" type="button" role="switch" aria-checked="false" aria-labelledby="ajustes-etiqueta-guiaVista" aria-describedby="ajustes-explica-guiaVista" data-pref="guiaVista"><span class="interruptor__punto" aria-hidden="true"></span></button>
+          </li>
+        </ul>
+        <p class="ajustes-nota"><strong>El mínimo de lectura no se apaga.</strong> El diagrama nunca se abre por debajo de 1,15 de zoom: el interruptor «Legibilidad» guarda tu preferencia de arranque, pero ese mínimo sigue activo siempre (también en modo seguro).</p>
+        <p class="ajustes-estado" data-ajustes-estado role="status">Guardado en este navegador</p>
+        <div class="ajustes-acciones">
+          <button class="button button-outline" data-ajustes-fabrica type="button">↺ Volver a los valores de fábrica</button>
+          <button class="button button-primary" data-ajustes-listo type="button">Listo</button>
+        </div>
+      </div>
     </dialog>
   </div>
   <script type="module" src="/src/app/rr-tree.mjs"></script>

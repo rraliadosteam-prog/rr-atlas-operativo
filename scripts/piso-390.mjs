@@ -106,10 +106,14 @@ export function evaluarPiso390(lectura = {}) {
  *   · `window.__rrAtlasBpmn.estado().zoom` — el gancho que compone la vista
  *     BPMN en el bloque 1B.
  * Si no hay ninguno, el diagrama todavía no se puede certificar.
+ *
+ * Además del zoom devuelve el **modo de lectura** (`todo`, `paso` o
+ * `paso-ajustado`) y el **paso actual**: la puerta los necesita para saber
+ * qué veredicto de encuadre aplica (P1.9).
  */
 export function leerEstadoLienzo(ventana = globalThis.window ?? globalThis) {
   if (ventana.__rrAtlasZoom !== undefined && ventana.__rrAtlasZoom !== null) {
-    return { existeGancho: true, zoom: ventana.__rrAtlasZoom, proceso: null };
+    return { existeGancho: true, zoom: ventana.__rrAtlasZoom, proceso: null, modo: null, paso: null };
   }
   const gancho = ventana.__rrAtlasBpmn;
   if (gancho && typeof gancho.estado === 'function') {
@@ -119,11 +123,47 @@ export function leerEstadoLienzo(ventana = globalThis.window ?? globalThis) {
     } catch {
       estado = null;
     }
+    const objeto = estado && typeof estado === 'object' ? estado : {};
     return {
       existeGancho: true,
-      zoom: estado && typeof estado === 'object' ? estado.zoom ?? null : null,
-      proceso: estado && typeof estado === 'object' ? estado.proceso ?? null : null,
+      zoom: objeto.zoom ?? null,
+      proceso: objeto.proceso ?? null,
+      modo: objeto.modo ?? null,
+      paso: objeto.paso ?? null,
     };
   }
-  return { existeGancho: false, zoom: null, proceso: null };
+  return { existeGancho: false, zoom: null, proceso: null, modo: null, paso: null };
+}
+
+/**
+ * Veredicto de la puerta de 390 px sobre **todos** los diagramas a la vez.
+ *
+ * El caso «sin gancho» sigue existiendo en el código (el diseño lo
+ * conserva: una puerta no puede fallar por lo que todavía no se ha
+ * escrito), pero en el bloque 1B el gancho **tiene que existir**: si
+ * ninguno de los diagramas lo tiene, la puerta falla. Un diagrama suelto
+ * sin gancho se avisa, pero no hunde la puerta.
+ *
+ * @param {Array<{modo?: string}>} veredictos el veredicto de cada diagrama
+ * @returns {{ok: boolean, diagramas: number, sinGancho: number, mensaje: string}}
+ */
+export function evaluarConjunto390(veredictos = []) {
+  const lista = Array.isArray(veredictos) ? veredictos.filter(Boolean) : [];
+  const sinGancho = lista.filter((veredicto) => veredicto.modo === MODO_SIN_GANCHO).length;
+  if (lista.length && sinGancho === lista.length) {
+    return {
+      ok: false,
+      diagramas: lista.length,
+      sinGancho,
+      mensaje: `ninguno de los ${lista.length} diagramas tiene gancho: en el bloque 1B el gancho tiene que existir`,
+    };
+  }
+  return {
+    ok: true,
+    diagramas: lista.length,
+    sinGancho,
+    mensaje: sinGancho
+      ? `${sinGancho} de ${lista.length} diagramas sin gancho: todavía no se pueden certificar`
+      : `${lista.length} diagramas leídos por el gancho`,
+  };
 }

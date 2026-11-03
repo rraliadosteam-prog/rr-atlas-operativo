@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-03T01:57:17.552Z",
+  "generadoEn": "2026-11-03T18:55:18.370Z",
   "viewports": [
     {
       "viewport": {
@@ -19,14 +19,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -23,
-                "right": 1309,
+                "left": -21,
+                "right": 1310,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -23,
-                "right": 121,
+                "left": -21,
+                "right": 122,
                 "ancho": 143
               }
             ],
@@ -43,7 +43,7 @@
               "visible": true
             },
             "busqueda": {
-              "ancho": 620,
+              "ancho": 614,
               "visible": true
             },
             "botonBpmn": {
@@ -91,14 +91,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -86,
-                "right": 1246,
+                "left": -84,
+                "right": 1248,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -86,
-                "right": 57,
+                "left": -84,
+                "right": 59,
                 "ancho": 143
               }
             ],
@@ -118,8 +118,8 @@
               "ancho": 265
             },
             "tarjeta": {
-              "ancho": 332,
-              "alto": 82
+              "ancho": 265,
+              "alto": 98
             },
             "toolbarVisible": {
               "visible": true,
@@ -149,7 +149,17 @@
             "informe": "0 errores de lint0 avisos",
             "lienzo": {
               "ancho": 1440,
-              "alto": 679
+              "alto": 624
+            },
+            "zoom": 1.15,
+            "modo": "todo",
+            "banda": {
+              "existe": true,
+              "visible": true,
+              "posicion": "Paso 1 de 12",
+              "nombre": "Llega alguien",
+              "carril": "Comercial",
+              "alto": 55
             }
           },
           "inspector": {
@@ -169,21 +179,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -165,
-                "right": 1167,
+                "left": -163,
+                "right": 1169,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -165,
-                "right": -22,
+                "left": -163,
+                "right": -20,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -22,
-                "right": 0,
+                "left": -20,
+                "right": 2,
                 "ancho": 22
+              },
+              {
+                "elemento": "g",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
+              },
+              {
+                "elemento": "g[data-element-id=\"collab_1\"]",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
+              },
+              {
+                "elemento": "g",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
+              },
+              {
+                "elemento": "g[data-element-id=\"part_1\"]",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
+              },
+              {
+                "elemento": "g[data-rr-kind=\"lane\"]",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
+              },
+              {
+                "elemento": "rect",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
+              },
+              {
+                "elemento": "text",
+                "left": -144,
+                "right": -127,
+                "ancho": 17
+              },
+              {
+                "elemento": "tspan",
+                "left": -144,
+                "right": -127,
+                "ancho": 17
+              },
+              {
+                "elemento": "rect",
+                "left": -153,
+                "right": 2400,
+                "ancho": 2553
               }
             ],
             "objetivosChicos": [],
@@ -219,11 +283,11 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38390
+              "bytes": 38721
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 435192
+              "bytes": 429792
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -352,7 +416,7 @@
               "visible": true
             },
             "busqueda": {
-              "ancho": 296,
+              "ancho": 229,
               "visible": true
             },
             "botonBpmn": {
@@ -400,74 +464,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -82,
-                "right": 1250,
+                "left": -81,
+                "right": 1251,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -82,
-                "right": 62,
+                "left": -81,
+                "right": 63,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 750,
-                "right": 839,
+                "left": 751,
+                "right": 840,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 839,
+                "left": 840,
                 "right": 862,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 862,
-                "right": 914,
+                "right": 915,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 914,
-                "right": 936,
+                "left": 915,
+                "right": 937,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 936,
-                "right": 991,
+                "left": 937,
+                "right": 992,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 991,
-                "right": 1013,
+                "left": 992,
+                "right": 1014,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1013,
-                "right": 1107,
+                "left": 1014,
+                "right": 1108,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1107,
-                "right": 1129,
+                "left": 1108,
+                "right": 1130,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1129,
-                "right": 1228,
+                "left": 1130,
+                "right": 1229,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1228,
-                "right": 1250,
+                "left": 1229,
+                "right": 1251,
                 "ancho": 22
               }
             ],
@@ -518,7 +582,17 @@
             "informe": "0 errores de lint0 avisos",
             "lienzo": {
               "ancho": 768,
-              "alto": 880
+              "alto": 808
+            },
+            "zoom": 1.15,
+            "modo": "paso",
+            "banda": {
+              "existe": true,
+              "visible": true,
+              "posicion": "Paso 1 de 12",
+              "nombre": "Llega alguien",
+              "carril": "Comercial",
+              "alto": 55
             }
           },
           "inspector": {
@@ -538,74 +612,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -160,
-                "right": 1171,
+                "left": -159,
+                "right": 1173,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -160,
-                "right": -17,
+                "left": -159,
+                "right": -16,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -17,
-                "right": 5,
+                "left": -16,
+                "right": 6,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 760,
-                "right": 783,
+                "left": 762,
+                "right": 784,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 783,
-                "right": 835,
+                "left": 784,
+                "right": 836,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 835,
-                "right": 857,
+                "left": 836,
+                "right": 859,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 857,
-                "right": 912,
+                "left": 859,
+                "right": 913,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 912,
-                "right": 934,
+                "left": 913,
+                "right": 935,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 934,
-                "right": 1028,
+                "left": 935,
+                "right": 1029,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1028,
-                "right": 1050,
+                "left": 1029,
+                "right": 1051,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1050,
-                "right": 1149,
+                "left": 1051,
+                "right": 1150,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1149,
-                "right": 1171,
+                "left": 1150,
+                "right": 1173,
                 "ancho": 22
               }
             ],
@@ -642,11 +716,11 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38362
+              "bytes": 38736
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 431023
+              "bytes": 429792
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -691,75 +765,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -21,
-                "right": 1231,
+                "left": -20,
+                "right": 1232,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -21,
-                "right": 110,
+                "left": -20,
+                "right": 111,
                 "ancho": 131
               },
               {
+                "elemento": "span.atlas-ticker__item",
+                "left": 310,
+                "right": 362,
+                "ancho": 51
+              },
+              {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 361,
-                "right": 383,
+                "left": 362,
+                "right": 384,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 383,
-                "right": 469,
+                "left": 384,
+                "right": 470,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 469,
+                "left": 470,
                 "right": 492,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 492,
-                "right": 583,
+                "right": 584,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 583,
-                "right": 605,
+                "left": 584,
+                "right": 606,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 605,
-                "right": 736,
+                "left": 606,
+                "right": 737,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 736,
-                "right": 758,
+                "left": 737,
+                "right": 759,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 758,
-                "right": 842,
+                "left": 759,
+                "right": 843,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 842,
-                "right": 864,
+                "left": 843,
+                "right": 865,
                 "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 864,
-                "right": 913,
-                "ancho": 49
               }
             ],
             "objetivosChicos": [],
@@ -823,74 +897,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -75,
-                "right": 1177,
+                "left": -74,
+                "right": 1178,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -75,
-                "right": 56,
+                "left": -74,
+                "right": 57,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 329,
-                "right": 415,
+                "left": 330,
+                "right": 417,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 415,
-                "right": 437,
+                "left": 417,
+                "right": 439,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 437,
-                "right": 529,
+                "left": 439,
+                "right": 530,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 529,
-                "right": 551,
+                "left": 530,
+                "right": 552,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 551,
-                "right": 682,
+                "left": 552,
+                "right": 683,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 682,
-                "right": 704,
+                "left": 683,
+                "right": 706,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 704,
-                "right": 788,
+                "left": 706,
+                "right": 789,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 788,
-                "right": 810,
+                "left": 789,
+                "right": 811,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 810,
-                "right": 859,
+                "left": 811,
+                "right": 860,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 859,
-                "right": 881,
+                "left": 860,
+                "right": 882,
                 "ancho": 22
               }
             ],
@@ -915,7 +989,7 @@
             },
             "toolbarVisible": {
               "visible": true,
-              "alto": 192
+              "alto": 57
             }
           },
           "areas": [
@@ -941,7 +1015,17 @@
             "informe": "0 errores de lint0 avisos",
             "lienzo": {
               "ancho": 360,
-              "alto": 596
+              "alto": 524
+            },
+            "zoom": 1.15,
+            "modo": "paso",
+            "banda": {
+              "existe": true,
+              "visible": true,
+              "posicion": "Paso 1 de 12",
+              "nombre": "Llega alguien",
+              "carril": "Comercial",
+              "alto": 55
             }
           },
           "inspector": {
@@ -961,55 +1045,55 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -149,
-                "right": 1103,
+                "left": -150,
+                "right": 1102,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -149,
-                "right": -18,
+                "left": -150,
+                "right": -19,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -18,
-                "right": 4,
+                "left": -19,
+                "right": 3,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 341,
-                "right": 363,
+                "left": 340,
+                "right": 362,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 363,
+                "left": 362,
                 "right": 454,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
                 "left": 454,
-                "right": 477,
+                "right": 476,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 477,
-                "right": 608,
+                "left": 476,
+                "right": 607,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 608,
-                "right": 630,
+                "left": 607,
+                "right": 629,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 630,
+                "left": 629,
                 "right": 713,
                 "ancho": 83
               },
@@ -1022,13 +1106,13 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 735,
-                "right": 785,
+                "right": 784,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 785,
-                "right": 807,
+                "left": 784,
+                "right": 806,
                 "ancho": 22
               }
             ],
@@ -1062,11 +1146,11 @@
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38274
+              "bytes": 38605
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 429024
+              "bytes": 425528
             }
           ],
           "toast": {

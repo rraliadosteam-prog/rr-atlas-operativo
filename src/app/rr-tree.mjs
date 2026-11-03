@@ -4,6 +4,17 @@ import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
 import { createBpmnView } from './bpmn-view.mjs';
 import { createDatosView } from './datos-view.mjs';
 import {
+  BANDERAS_PREFS,
+  PREFERENCIAS_POR_DEFECTO,
+  escribirPreferencias,
+  fijarOverrideSesion,
+  marcarGuiaVista,
+  obtenerPreferenciasVigentes,
+  overrideDesdeQuery,
+  puedeAbrirGuiaAuto,
+  restablecerPreferencias,
+} from '../core/prefs.mjs';
+import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
   createRRTreeStore,
@@ -69,6 +80,25 @@ const toastElement = $('[data-toast]');
 const zoomOutput = $('[data-zoom]');
 const saveStatus = $('[data-save-status]');
 const breadcrumbs = $('[data-breadcrumbs]');
+const avisoSeguro = $('[data-atlas-seguro]');
+
+// ─────────────────────────────────────────────────────────────────────────
+// Bloque 3 · el apagado de emergencia por URL (P1.11 · ítem 67)
+// ─────────────────────────────────────────────────────────────────────────
+//
+// `?atlas=seguro` es la **válvula de escape**: apaga el modo paso (y con él
+// la banda de lectura), el copiador y la guía automática **en memoria**, sin
+// escribir nada en `localStorage` y **sin tocar `legibilidad`**: el piso de
+// 1,15 que el dueño aprobó queda siempre activo, también en modo seguro.
+//
+// Dura lo que dura la sesión y solo afecta a quien abre ese enlace, en ese
+// navegador: no hay apagado general sin redesplegar.
+const overrideSeguro = overrideDesdeQuery(location.search);
+if (overrideSeguro) {
+  fijarOverrideSesion(overrideSeguro);
+  document.body.classList.add('is-modo-seguro');
+  if (avisoSeguro) avisoSeguro.hidden = false;
+}
 
 const notify = (message) => {
   toastElement.textContent = message;
@@ -81,6 +111,9 @@ const bpmnView = createBpmnView({
   root: $('[data-bpmn-view]'),
   shell: $('.shell'),
   notify,
+  // Bloque 3 · el diálogo «Ajustes» también se abre desde la cabecera del
+  // diagrama (en pantalla completa la vista tapa la barra superior).
+  onAjustes: () => abrirAjustes(),
 });
 
 // Item 8 · la vista Datos conecta el store v5 con la app: exportar, importar
@@ -899,6 +932,115 @@ function restoreOriginal() {
   notify('Mapa original restaurado.');
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// Bloque 3 · el diálogo «Ajustes» (P1.11 · ítem 68)
+// ─────────────────────────────────────────────────────────────────────────
+//
+// El interruptor visible: un interruptor por bandera booleana (`modoPaso`,
+// `legibilidad`, `copiador`, `guiaVista`; `avisosVistos` es una lista y no
+// lleva interruptor). Apaga en **este navegador**, no en el de los demás:
+// no hay backend y no se puede forzar un apagado general sin redesplegar.
+//
+// El interruptor **no** apaga el piso de legibilidad: ese lo aprobó el
+// dueño y la válvula no puede devolverle el bug. Por eso el diálogo lo dice
+// con todas las letras.
+
+const dialogoAjustes = $('[data-ajustes]');
+
+/** El estado que muestran los interruptores: lo vigente (lo guardado con el override encima). */
+function preferenciasVigentes() {
+  try {
+    return obtenerPreferenciasVigentes();
+  } catch {
+    return { ...PREFERENCIAS_POR_DEFECTO, avisosVistos: [] };
+  }
+}
+
+/** Avisa a la app de que cambiaron las preferencias (la vista BPMN lo escucha). */
+function avisarPreferencias(detalle = {}) {
+  window.dispatchEvent(new CustomEvent('rr-atlas:prefs', { detail: detalle }));
+}
+
+/** Pinta los cuatro interruptores con el estado vigente. */
+function pintarAjustes() {
+  if (!dialogoAjustes) return;
+  const vigentes = preferenciasVigentes();
+  for (const bandera of BANDERAS_PREFS) {
+    const boton = dialogoAjustes.querySelector(`[data-pref="${bandera}"]`);
+    if (!boton) continue;
+    boton.setAttribute('aria-checked', String(vigentes[bandera] === true));
+    // En modo seguro manda el enlace: los interruptores no se tocan.
+    boton.disabled = Boolean(overrideSeguro);
+  }
+  const seguro = $('[data-ajustes-seguro]', dialogoAjustes);
+  if (seguro) seguro.hidden = !overrideSeguro;
+}
+
+/** El estado de guardado del diálogo. */
+function estadoAjustes(texto = 'Guardado en este navegador') {
+  const destino = $('[data-ajustes-estado]', dialogoAjustes);
+  if (destino) destino.textContent = texto;
+}
+
+/** Abre el diálogo «Ajustes». */
+function abrirAjustes() {
+  if (!dialogoAjustes) return;
+  pintarAjustes();
+  estadoAjustes();
+  dialogoAjustes.showModal();
+}
+
+/**
+ * Abre la guía del mapa.
+ *
+ * `automatica` distingue la apertura **a mano** (el botón «Guía», que
+ * siempre abre) de la **automática** (la que se abriría sola la primera
+ * vez): la automática respeta la preferencia `guiaVista`. En modo seguro el
+ * override la deja en `true`, así que la guía automática **no** se abre.
+ */
+function abrirGuia(automatica = false) {
+  if (automatica && !puedeAbrirGuiaAuto()) return false;
+  const dialogo = $('[data-help-dialog]');
+  if (!dialogo) return false;
+  dialogo.showModal();
+  return true;
+}
+
+function bindAjustes() {
+  if (!dialogoAjustes) return;
+  $('[data-action="ajustes"]')?.addEventListener('click', abrirAjustes);
+  $('[data-ajustes-cerrar]', dialogoAjustes)?.addEventListener('click', () => dialogoAjustes.close());
+  $('[data-ajustes-listo]', dialogoAjustes)?.addEventListener('click', () => dialogoAjustes.close());
+  $('[data-ajustes-fabrica]', dialogoAjustes)?.addEventListener('click', () => {
+    const ok = restablecerPreferencias();
+    pintarAjustes();
+    estadoAjustes(ok ? 'Volver a los valores de fábrica' : 'No se pudo guardar en este navegador');
+    avisarPreferencias({ ...preferenciasVigentes(), motivo: 'fabrica' });
+  });
+  dialogoAjustes.addEventListener('click', (event) => {
+    const boton = event.target.closest('[data-pref]');
+    if (!boton || boton.disabled) return;
+    const bandera = boton.dataset.pref;
+    if (!BANDERAS_PREFS.includes(bandera)) return;
+    const siguiente = !(preferenciasVigentes()[bandera] === true);
+    boton.setAttribute('aria-checked', String(siguiente));
+    const guardado = escribirPreferencias({ [bandera]: siguiente });
+    if (!guardado) {
+      // El navegador no dejó guardar: el interruptor vuelve a su estado real
+      // (no se inventa un cambio que no está guardado).
+      boton.setAttribute('aria-checked', String(preferenciasVigentes()[bandera] === true));
+    }
+    estadoAjustes(guardado ? 'Guardado en este navegador' : 'Este navegador no dejó guardar el cambio');
+    avisarPreferencias({ ...preferenciasVigentes(), [bandera]: siguiente, motivo: 'interruptor' });
+  });
+  // Al cerrar la guía queda marcada como vista: la guía automática no vuelve
+  // a abrirse sola (P1.11). En modo seguro no se escribe nada.
+  $('[data-help-dialog]')?.addEventListener('close', () => {
+    if (overrideSeguro) return;
+    if (marcarGuiaVista()) avisarPreferencias({ ...preferenciasVigentes(), guiaVista: true });
+  });
+}
+
 function bindActions() {
   const hubLink = $('[data-hub-link]');
   if (hubLink) {
@@ -951,7 +1093,8 @@ function bindActions() {
   inspector.querySelector('.inspector-head').addEventListener('pointerup', () => { inspectorDrag = null; });
   inspector.querySelector('.inspector-head').addEventListener('pointercancel', () => { inspectorDrag = null; });
   inspector.querySelector('.inspector-head').addEventListener('lostpointercapture', () => { inspectorDrag = null; });
-  $('[data-action="help"]').addEventListener('click', () => $('[data-help-dialog]').showModal());
+  $('[data-action="help"]').addEventListener('click', () => abrirGuia(false));
+  bindAjustes();
   $$('[data-filter]').forEach((select) => select.addEventListener('change', () => { state.filters[select.dataset.filter] = select.value; render(); }));
   const lineSelect = $('[data-filter="line"]');
   state.graph.nodes.filter((node) => node.type === 'line').forEach((node) => {

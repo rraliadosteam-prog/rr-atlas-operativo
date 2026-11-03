@@ -176,8 +176,11 @@
   position: relative;
   min-width: 0;
   min-height: 0;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  /* Bloque 2 · la banda de lectura se cuelga aquí arriba (antes de la
+     barra) y puede aparecer o desaparecer. Con flex, esconderla no deja
+     el lienzo sin sitio: el lienzo se lleva lo que sobra. */
+  display: flex;
+  flex-direction: column;
 }
 
 .bpmn-toolbar {
@@ -187,9 +190,100 @@
   padding: var(--space-2) var(--space-3);
   border-bottom: 1px solid var(--bpmn-linea);
   background: var(--bpmn-panel);
+  flex: 0 0 auto;
 }
 
-.bpmn-canvas-wrap { position: relative; min-height: 320px; overflow: hidden; }
+/* Bloque 2 · el zoom efectivo del diagrama, en la barra (P1.4 · ítem 4d). */
+.bpmn-zoom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--bpmn-linea);
+  border-radius: var(--bpmn-radio);
+  background: var(--bpmn-panel);
+  color: var(--bpmn-texto-suave);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Bloque 2 · La banda de lectura del paso (P1.4)
+   Dice en qué paso se está (posición, nombre, carril y nota) sin tapar el
+   diagrama: vive **fuera** del lienzo, entre la cabecera y la barra. En
+   móvil ocupa como máximo una tercera de la altura y hace scroll interno.
+   -------------------------------------------------------------------------- */
+.bpmn-banda {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px var(--space-3);
+  align-content: start;
+  align-items: baseline;
+  /* El lienzo no puede quedar en cero: la banda se acota a un tercio. */
+  max-height: 33vh;
+  overflow: auto;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--bpmn-linea);
+  border-left: 4px solid var(--bpmn-acento);
+  background: var(--bpmn-panel);
+  color: var(--bpmn-texto);
+  flex: 0 0 auto;
+}
+.bpmn-banda[hidden] { display: none; }
+
+.bpmn-banda__posicion {
+  grid-column: 1;
+  margin: 0;
+  font-family: var(--font-titulo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento);
+  white-space: nowrap;
+}
+.bpmn-banda__nombre {
+  grid-column: 2;
+  margin: 0;
+  font-family: var(--font-titulo);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.bpmn-banda__carril {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--font-titulo);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bpmn-acento-2);
+}
+/* Sin carril: se dice, pero no se inventa de qué carril se trata. */
+.bpmn-banda__carril.is-vacio {
+  color: var(--bpmn-texto-suave);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.bpmn-banda__nota {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--bpmn-texto-suave);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.bpmn-banda__nota[hidden] { display: none; }
+
+.bpmn-canvas-wrap { position: relative; min-height: 320px; overflow: hidden; flex: 1 1 auto; }
 
 .bpmn-canvas {
   position: absolute;
@@ -576,9 +670,9 @@
   .bpmn-view__actions .button { min-width: 44px; min-height: 44px; padding-inline: 8px; }
   .bpmn-view__actions .bpmn-accion__texto { display: none; }
   .bpmn-view.is-completo .bpmn-view__head { gap: 8px; }
-  /* Bloque 2 · en el catálogo la línea de ayuda repetía lo que ya dicen las
-     tarjetas: en 360 px empujaba el lienzo fuera de pantalla. */
-  .bpmn-view:not(.is-completo) .bpmn-view__hint { display: none; }
+  /* Bloque 2 · la banda de lectura ya no deja a la cabecera sin texto: el
+     hint (la línea de estado) se vuelve el texto alternativo de la banda
+     cuando el modo paso está apagado, así que ya no se oculta aquí. */
   /* Bloque 2 · en el catálogo la barra de controles se apilaba en tres filas
      (165 px) y tapaba el lienzo: ahora es una sola fila que se desliza con
      el dedo, igual que en pantalla completa. */
@@ -903,7 +997,13 @@
     padding: 6px 10px;
   }
   .bpmn-view.is-completo .bpmn-view__body { grid-template-rows: minmax(0, 1fr); }
-  .bpmn-view.is-completo .bpmn-view__hint { display: none; }
+  /* Bloque 2 · el hint ya no se oculta a ≤ 900 px: es el texto alternativo
+     de la banda cuando el modo paso está apagado. */
+  .bpmn-view.is-completo .bpmn-view__hint {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   /* La barra de controles es una sola fila que se desliza con el dedo. */
   .bpmn-view.is-completo .bpmn-toolbar {
     flex-wrap: nowrap;
@@ -912,6 +1012,7 @@
     padding: 6px 8px;
   }
   .bpmn-view.is-completo .bpmn-toolbar > * { flex: 0 0 auto; }
-  .bpmn-view.is-completo .bpmn-canvas-wrap { min-height: 0; }
+  /* Bloque 2 · el lienzo nunca por debajo de 44 px útiles (R4). */
+  .bpmn-view.is-completo .bpmn-canvas-wrap { min-height: 44px; }
 }
 

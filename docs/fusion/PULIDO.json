@@ -5,21 +5,58 @@
   "conOk": 16,
   "pisoLegibilidad": 1.15,
   "modos": [
-    "sin-gancho"
+    "paso"
   ],
+  "gancho": {
+    "ok": true,
+    "diagramas": 16,
+    "sinGancho": 0,
+    "mensaje": "16 diagramas leídos por el gancho"
+  },
   "fallos": [],
   "resultados": [
     {
       "proceso": "gobierno_como_se_gobierna_la_documentacion",
       "titulo": "Gobierno documental",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.15,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 14",
+        "nombre": "Llega un documento",
+        "carril": "Equipo RR",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:7 · contenido 365×150 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2795×1144 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png"
     },
@@ -27,13 +64,44 @@
       "proceso": "informacion_de_donde_sale_la_respuesta",
       "titulo": "De dónde sale una respuesta",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.139,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 16",
+        "nombre": "Alguien pregunta",
+        "carril": "Solicitante",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:7 · contenido 367×153 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 3036×1263 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -41,13 +109,44 @@
       "proceso": "ventas_como_una_oportunidad_se_convierte_en_cliente",
       "titulo": "Oportunidad a cliente",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.165,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 12",
+        "nombre": "Llega alguien",
+        "carril": "Comercial",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:6 · contenido 367×152 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2553×1057 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png"
     },
@@ -55,13 +154,44 @@
       "proceso": "alianzas_como_nace_una_alianza",
       "titulo": "Alianzas y referidos",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.165,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 12",
+        "nombre": "Alguien con audiencia",
+        "carril": "Dirección",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:6 · contenido 367×134 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2553×929 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -69,13 +199,44 @@
       "proceso": "clientes_que_pasa_despues_de_que_firman",
       "titulo": "Después de que firman",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.204,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 10",
+        "nombre": "Contrato firmado",
+        "carril": "Comercial",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:5 · contenido 367×108 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2070×608 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -83,13 +244,44 @@
       "proceso": "clientes_que_pasa_despues_de_entregar",
       "titulo": "Después de entregar",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.182,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 12",
+        "nombre": "Se entregó la pieza",
+        "carril": "Comercial",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:5 · contenido 367×123 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2312×775 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -97,13 +289,44 @@
       "proceso": "desarrollo_como_llega_un_producto_de_software_a_produccion",
       "titulo": "Desarrollo de software a producción",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.129,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 15",
+        "nombre": "Idea o encargo",
+        "carril": "Desarrollo",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:8 · contenido 367×100 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 3277×890 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -111,13 +334,44 @@
       "proceso": "produccion_como_se_hace_una_pieza",
       "titulo": "Producción de una pieza de contenido",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.129,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 15",
+        "nombre": "Llega el encargo",
+        "carril": "Contenido",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:8 · contenido 367×109 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 3277×971 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -125,13 +379,44 @@
       "proceso": "finanzas_como_entra_y_se_sale_la_plata",
       "titulo": "Cómo entra y sale la plata",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.15,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 13",
+        "nombre": "El cliente pide",
+        "carril": "Comercial",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:7 · contenido 365×139 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2795×1058 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-finanzas_como_entra_y_se_sale_la_plata-390.png"
     },
@@ -139,13 +424,44 @@
       "proceso": "finanzas_como_entra_un_peso_a_la_cuenta",
       "titulo": "Facturación y cuenta de cobro",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.23,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 10",
+        "nombre": "Cliente sin firmar",
+        "carril": "Finanzas",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:4 · contenido 366×219 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 1829×1094 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -153,13 +469,44 @@
       "proceso": "finanzas_como_se_le_paga_a_alguien",
       "titulo": "Pagos a colaboradores y proveedores",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.204,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 10",
+        "nombre": "Un cliente pide algo",
+        "carril": "Dirección",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:5 · contenido 367×180 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2070×1015 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -167,13 +514,44 @@
       "proceso": "finanzas_la_quincena",
       "titulo": "La quincena",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.182,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 13",
+        "nombre": "Día 15",
+        "carril": "Finanzas · Ingresos",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:5 · contenido 367×260 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2312×1642 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -181,13 +559,44 @@
       "proceso": "ia_como_se_usa_la_ia_en_rr_aliados",
       "titulo": "Uso de IA en RR",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.165,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 15",
+        "nombre": "Alguien hace algo pesado",
+        "carril": "Solicitante",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:6 · contenido 367×147 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2553×1022 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -195,13 +604,44 @@
       "proceso": "ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente",
       "titulo": "Trabajo repetitivo a agente",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.182,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 11",
+        "nombre": "Necesidad repetitiva",
+        "carril": "Bot",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:5 · contenido 367×149 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2312×942 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -209,13 +649,44 @@
       "proceso": "soporte_como_se_resuelve_un_problema_de_un_cliente",
       "titulo": "Resolución de un problema de cliente",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.165,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 16",
+        "nombre": "Un cliente escribe",
+        "carril": "Soporte",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:6 · contenido 367×188 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2553×1304 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     },
@@ -223,13 +694,44 @@
       "proceso": "legal_como_se_firma_un_contrato",
       "titulo": "Firma de contrato",
       "ok": true,
-      "encuadre": true,
-      "centrado": true,
+      "modo": "paso",
+      "zoom": 1.15,
+      "legibilidad": {
+        "modo": "legible",
+        "ok": true,
+        "zoom": 1.15,
+        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+      },
+      "encuadre": {
+        "ok": true,
+        "veredicto": "el paso actual está dentro del lienzo",
+        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+      },
+      "verTodo": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 0.15,
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
+      },
+      "seguro": {
+        "ok": true,
+        "modo": "todo",
+        "zoom": 1.15,
+        "bandaVisible": false,
+        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+      },
+      "banda": {
+        "existe": true,
+        "visible": true,
+        "posicion": "Paso 1 de 14",
+        "nombre": "Alguien lo pide",
+        "carril": "Legal",
+        "alto": 55.4
+      },
       "poolOk": true,
       "entraOk": true,
-      "modo": "sin-gancho",
-      "zoom": null,
-      "detalle": "escala 1:7 · contenido 365×127 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
+      "detalle": "escala 1:1 · contenido 2795×971 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
       "errores": [],
       "captura": null
     }
