@@ -179,3 +179,39 @@ sumó el de la vista Datos). Cada flujo se prueba con clics reales en Chrome a 3
   registros, el store arranca en la base sin cambios y validando, y **exportar → importar es
   idempotente**.
 - `npm run check`: **228 tests pass, 0 fail** (antes 223).
+
+## Bloque 10 · Item A (cierre) · Verificación táctil
+
+Script: `scripts/verificar-tactil.mjs` (`npm run verificar:tactil`), con Chrome real y eventos de
+puntero de verdad (pellizco y pan con el dedo). **6 flujos × 3 anchos (390, 768 y 360 px) = 18
+pruebas**.
+
+### Conteo de pruebas
+| Dato | Resultado |
+|---|---|
+| Pruebas ejecutadas | **18** (6 flujos × 3 anchos) |
+| En verde | **18** |
+| Con fallo | **0** |
+| Errores de consola | **0** |
+| Capturas | **18** — `docs/fusion/capturas/tactil-<flujo>-<ancho>.png` |
+| Datos crudos | `docs/fusion/TACTIL.json` |
+
+### Los seis flujos, por ancho
+| Flujo | 390 px | 768 px | 360 px |
+|---|---|---|---|
+| Objetivos táctiles | ✔ 50 controles, mínimo 44 px | ✔ 59 controles, mínimo 44 px | ✔ 50 controles, mínimo 44 px |
+| Cabecera sin solape | ✔ título 228 px, acciones desde 240 px | ✔ título 255 px, acciones desde 369 px | ✔ título 198 px, acciones desde 210 px |
+| Menú «⋯» | ✔ 7 acciones de 44 px | ✔ no aplica (barra completa) | ✔ 7 acciones de 44 px |
+| Pellizco en el tablero | ✔ 45 % → 101 % | ✔ 45 % → 101 % | ✔ 45 % → 101 % |
+| Pan con un dedo | ✔ el tablero se mueve | ✔ | ✔ |
+| Pellizco en el diagrama | ✔ la forma pasó de 2794 px a 3992 px | ✔ de 768 px a 1097 px | ✔ de 2794 px a 3992 px |
+
+### Defecto que estas pruebas encontraron y que ya quedó corregido
+- Los botones del nodo del mapa (colapsar/expandir) medían **19,8 px en pantalla** con el tablero
+  encuadrado al 45 %: el zoom del lienzo también reduce los controles. Ahora el tablero publica su
+  zoom invertido (`--zoom-inv`) y los controles se compensan, de modo que **miden 44 px en
+  pantalla** en celular y tablet. En escritorio (>900 px) no se toca nada.
+
+### Conteo de avisos de lint (sin cambios)
+- `npm run lint:bpmn`: **0 errores y 0 avisos** en las 16 semillas.
+- `npm run check`: **232 tests pass, 0 fail**.

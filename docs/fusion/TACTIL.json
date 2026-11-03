@@ -1,0 +1,158 @@
+{
+  "fecha": "2026-11-03T01:35:59.956Z",
+  "pruebas": 18,
+  "pasar": 18,
+  "fallar": 0,
+  "erroresDeConsola": 0,
+  "anchos": [
+    390,
+    768,
+    360
+  ],
+  "resultados": [
+    {
+      "flujo": "objetivos",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "50 controles medidos; mínimo 44 px de alto",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-objetivos-390.png"
+    },
+    {
+      "flujo": "cabecera",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "sin solape: título 228 px · acciones desde 240 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-cabecera-390.png"
+    },
+    {
+      "flujo": "menu",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "7 acciones en el menú «⋯», todas de 44 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-menu-390.png"
+    },
+    {
+      "flujo": "pellizco-mapa",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "«pellizco» con el dedo: translate(-1044px, 216px) scale(0.45) → translate(-2591px, -189px) scale(1.012) (zoom 101%)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pellizco-mapa-390.png"
+    },
+    {
+      "flujo": "pan-mapa",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "«pan» con el dedo: translate(-1044px, 216px) scale(0.45) → translate(-924px, 276px) scale(0.45) (zoom 45%)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pan-mapa-390.png"
+    },
+    {
+      "flujo": "pellizco-diagrama",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-390.png"
+    },
+    {
+      "flujo": "objetivos",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "59 controles medidos; mínimo 44 px de alto",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-objetivos-768.png"
+    },
+    {
+      "flujo": "cabecera",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "sin solape: título 255 px · acciones desde 369 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-cabecera-768.png"
+    },
+    {
+      "flujo": "menu",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "el menú «⋯» no aplica en este ancho (barra completa)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-menu-768.png"
+    },
+    {
+      "flujo": "pellizco-mapa",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "«pellizco» con el dedo: translate(-960px, 358px) scale(0.45) → translate(-2770px, 82px) scale(1.012) (zoom 101%)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pellizco-mapa-768.png"
+    },
+    {
+      "flujo": "pan-mapa",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "«pan» con el dedo: translate(-960px, 358px) scale(0.45) → translate(-840px, 418px) scale(0.45) (zoom 45%)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pan-mapa-768.png"
+    },
+    {
+      "flujo": "pellizco-diagrama",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "pellizco en el diagrama: la forma pasó de 768 px a 1097 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-768.png"
+    },
+    {
+      "flujo": "objetivos",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "50 controles medidos; mínimo 44 px de alto",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-objetivos-360.png"
+    },
+    {
+      "flujo": "cabecera",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "sin solape: título 198 px · acciones desde 210 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-cabecera-360.png"
+    },
+    {
+      "flujo": "menu",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "7 acciones en el menú «⋯», todas de 44 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-menu-360.png"
+    },
+    {
+      "flujo": "pellizco-mapa",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "«pellizco» con el dedo: translate(-1059px, 164px) scale(0.45) → translate(-2606px, -241px) scale(1.012) (zoom 101%)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pellizco-mapa-360.png"
+    },
+    {
+      "flujo": "pan-mapa",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "«pan» con el dedo: translate(-1059px, 164px) scale(0.45) → translate(-939px, 224px) scale(0.45) (zoom 45%)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pan-mapa-360.png"
+    },
+    {
+      "flujo": "pellizco-diagrama",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
+      "errores": [],
+      "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-360.png"
+    }
+  ]
+}

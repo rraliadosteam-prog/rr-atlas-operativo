@@ -21,7 +21,8 @@
     "verificar:guia": "node scripts/verificar-guia-bpmn.mjs",
     "verificar:pantalla": "node scripts/verificar-pantalla-completa.mjs",
     "verificar:dividido": "node scripts/verificar-dividido.mjs",
-    "verificar:cierre": "node scripts/verificar-cierre.mjs"
+    "verificar:cierre": "node scripts/verificar-cierre.mjs",
+    "verificar:tactil": "node scripts/verificar-tactil.mjs"
   },
   "dependencies": {
     "bpmn-js": "18.31.1",

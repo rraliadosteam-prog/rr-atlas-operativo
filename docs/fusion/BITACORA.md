@@ -700,3 +700,47 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 
 ### Pendiente del bloque
 - Respuesta de Rosas sobre los nombres de los carriles y el mapa de los que quedaron pendientes.
+
+## Bloque 10 · Item A (cierre) · Verificación táctil automática y objetivos de 44 px — 2026-11-02
+
+### Qué se hizo
+- **Los ítems A, B, C y D ya estaban cerrados** en los bloques 7, 8 y 9 (responsive y táctil,
+  decisiones de Rosas, modelo de datos v5 y QA final). Este bloque los **verificó con pruebas
+  automáticas repetibles** y encontró un defecto real que en el bloque 7 se había medido a mano.
+- **`scripts/verificar-tactil.mjs` (nuevo, `npm run verificar:tactil`)**: 18 pruebas con Chrome real
+  (6 flujos × 3 anchos: 390, 768 y 360 px), con eventos de puntero de verdad:
+  1. **objetivos** → todos los controles visibles miden 44 px de alto (y de ancho cuando el control
+     es solo un ícono);
+  2. **cabecera** → el título de la vista BPMN no se monta sobre las acciones (el «Unir» sobre el
+     título a 390 px);
+  3. **menu** → en celular los controles menos usados están en el botón «⋯» (deshacer, rehacer,
+     guardar, restaurar, exportar) y caben en la pantalla;
+  4. **pellizco-mapa** y **pan-mapa** → gestos de dos dedos y de un dedo en el tablero;
+  5. **pellizco-diagrama** → pellizco con dos dedos en el lienzo de bpmn-js.
+  Salidas: `docs/fusion/capturas/tactil-<flujo>-<ancho>.png` y `docs/fusion/TACTIL.json`.
+- **Defecto real encontrado y corregido**: los botones del nodo del mapa (colapsar/expandir) medían
+  **19,8 px en pantalla** cuando el tablero está encuadrado al 45 %: el zoom del lienzo también
+  reduce los controles, así que el tamaño de 44 px del CSS se quedaba en el papel. Ahora el tablero
+  publica su zoom invertido (`--zoom-inv`) y los controles se compensan con él
+  (`src/app/rr-tree.mjs` + `src/styles/rr-tree.css`), de modo que **miden 44 px en pantalla** en
+  celular y tablet. La marca RR de la barra superior también quedó con 44 px de alto.
+  **En escritorio (>900 px) no se toca nada**: el look que le gusta a Rosas queda igual.
+- El script también confirmó, con las mismas cifras, lo que el bloque 7 midió a mano: la cabecera
+  sin solape (título 228 px, acciones desde 240 px a 390 px), el menú «⋯» con 7 acciones de 44 px,
+  el pellizco del tablero (45 % → 101 %) y el pan con un dedo.
+
+### Estado de los checks
+- `npm run check`: **verde** — 232 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:tactil`: **verde** — 18 de 18, **0 errores de consola**.
+- `npm run verificar:cierre`: **verde** — 27 de 27 (9 flujos × 3 anchos), 0 errores de consola.
+
+### Hallazgos / riesgos
+- La compensación del zoom hace que los botones del nodo se vean más grandes que la tarjeta cuando
+  el mapa está muy alejado: es el precio de que el dedo los alcance, y solo aplica en ≤900 px.
+- El tamaño del nodo (la tarjeta completa) sigue siendo el que marca el encuadre; los controles
+  pequeños son los que se compensaron.
+
+### Pendiente del bloque
+- El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas sobre los
+  nombres de los carriles (queda en `docs/fusion/PREGUNTAS.md`).

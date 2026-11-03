@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-03T01:22:19.471Z",
+  "fecha": "2026-11-03T01:37:10.485Z",
   "pruebas": 27,
   "flujos": [
     "mapa",
@@ -19,7 +19,7 @@
   ],
   "pasar": 27,
   "fallar": 0,
-  "erroresDeConsola": 0,
+  "erroresDeConsola": 1,
   "resultados": [
     {
       "flujo": "mapa",
@@ -42,7 +42,11 @@
       "ancho": 390,
       "ok": true,
       "detalle": "16 procesos en 14 áreas",
-      "errores": [],
+      "errores": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
       "captura": "docs/fusion/capturas/cierre-catalogo-390.png"
     },
     {

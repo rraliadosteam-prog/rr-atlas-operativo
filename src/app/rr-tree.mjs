@@ -169,6 +169,9 @@ function visibleState() {
 
 function setTransform() {
   canvas.style.transform = `translate(${Math.round(state.panX)}px, ${Math.round(state.panY)}px) scale(${state.zoom})`;
+  // Item A · los controles del nodo se compensan con el zoom del tablero: en
+  // pantalla miden 44 px aunque el mapa esté encuadrado al 45 %.
+  canvas.style.setProperty('--zoom-inv', String(Number((1 / state.zoom).toFixed(3))));
   zoomOutput.textContent = `${Math.round(state.zoom * 100)}%`;
   const lod = state.zoom < 0.65 ? 'low' : state.zoom < 0.9 ? 'mid' : 'high';
   if (canvas.dataset.lod !== lod) {

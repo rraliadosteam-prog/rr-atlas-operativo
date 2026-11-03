@@ -160,6 +160,11 @@ h1, h2, h3, strong { font-family: var(--font-display); }
   .brand small { margin-top: 1px; font-size: 9px; }
   .searchbar { max-width: none; }
   .searchbar input { min-height: 44px; font-size: 13px; }
+  .brand { min-height: 44px; }
+  /* Item A · con el tablero encuadrado al 45 % los botones del nodo quedaban
+     en 19,8 px en pantalla: se compensan con el zoom para que el dedo los
+     alcance sin problema. */
+  .node-controls { transform: scale(var(--zoom-inv, 1)); transform-origin: top right; }
   .top-actions { gap: 4px; }
   .top-actions .button { min-height: 44px; min-width: 44px; padding-inline: 10px; }
   .topbar__texto { display: none; }
