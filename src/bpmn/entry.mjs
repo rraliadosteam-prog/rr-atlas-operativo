@@ -5,6 +5,76 @@ import { rrRendererModule } from './rr-renderer.mjs';
 import { readRrTheme } from './rr-theme.mjs';
 import { validateXml } from './lint/run.mjs';
 import { findSensitive } from '../core/process-model.mjs';
+import {
+  MARGEN_ENCUADRE,
+  PISO_LEGIBILIDAD_DIAGRAMA,
+  PISO_ZOOM_MANUAL_MOTOR,
+  ZOOM_MAXIMO,
+  acotarZoom,
+  esLienzoAngosto,
+  pisoManualMotor,
+  zoomEncuadre,
+  zoomManual,
+} from '../core/zoom.mjs';
+
+// Bloque 1B · ítem 3 del diseño v3.1: en este archivo **no hay ninguna
+// constante de zoom escrita a mano**. Los pisos, el margen y el techo
+// salen de `src/core/zoom.mjs`, que es la única fuente (bloque 1A).
+//
+// · El margen del encuadre del paso (P1.2): 24 px a cada lado.
+const MARGEN_PASO = Object.freeze({ top: 24, right: 24, bottom: 24, left: 24 });
+// · El margen con el que se centra un paso en el lienzo: el elemento **y su
+//   etiqueta** tienen que verse enteros, con aire alrededor.
+const MARGEN_PASO_VISTA = Object.freeze({ top: 24, right: 24, bottom: 24, left: 24 });
+// · El margen mínimo (en píxeles) entre el elemento —y su etiqueta— y el
+//   borde del lienzo: por debajo de esto el nombre queda pegado al borde.
+const MARGEN_MINIMO_PX = 16;
+// · El encuadre nunca baja de este zoom (el mínimo de siempre).
+const ZOOM_ENCUADRE_MINIMO = 0.05;
+
+/**
+ * Normaliza las opciones de `fit()`.
+ *
+ * El contrato es **cerrado** (P1.2): `modo` es `'paso'` o `'todo'`; cualquier
+ * otro valor es un error (`Error('modo inválido')`). `forzar: true` ignora
+ * el piso de legibilidad: encuadra exactamente como se le pide.
+ *
+ * La llamada vieja `{ completo: true }` (el visor pequeño del panel
+ * dividido) sigue valiendo y equivale a `{ modo: 'todo' }`.
+ */
+export function opcionesDeFit(opciones = {}) {
+  const MODOS = ['paso', 'todo'];
+  const op = opciones && typeof opciones === 'object' ? opciones : {};
+  const forzar = op.forzar === true;
+  const modo = op.modo === undefined || op.modo === null ? 'todo' : op.modo;
+  if (!MODOS.includes(modo)) throw new Error('modo inválido');
+  return { modo, forzar };
+}
+
+/**
+ * El id del proceso abierto. Lo dice quien abre (la vista) y, si no, se
+ * deduce del nombre del archivo: las semillas se llaman como su proceso
+ * (`ventas_como_….bpmn` → `ventas_como_…`).
+ */
+export function idProcesoDe(options = {}) {
+  const op = options && typeof options === 'object' ? options : {};
+  const dado = typeof op.procesoId === 'string' ? op.procesoId.trim() : '';
+  if (dado) return dado;
+  const nombre = String(op.fileName || '').trim();
+  if (!nombre) return '';
+  return nombre.replace(/\.bpmn$/i, '');
+}
+
+/**
+ * De dónde sale el diagrama abierto: 'semilla' (la semilla del repo),
+ * 'local' (la copia guardada en este navegador) o 'sesion' (el XML que
+ * venía en memoria). Si quien abre no lo dice, se supone 'semilla'.
+ */
+export function origenDe(options = {}) {
+  const op = options && typeof options === 'object' ? options : {};
+  const dado = typeof op.origen === 'string' ? op.origen.trim() : '';
+  return dado || 'semilla';
+}
 
 function bindPinch(container, getCanvas) {
   const points = new Map();
@@ -27,8 +97,15 @@ function bindPinch(container, getCanvas) {
     const canvas = getCanvas();
     if (!canvas) return;
     if (!start) start = { distance, zoom: canvas.zoom() };
-    const next = Math.max(0.2, Math.min(4, start.zoom * (distance / start.distance)));
-    canvas.zoom(next, { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
+    // El pellizco usa las constantes del módulo de pisos: el piso manual
+    // (que queda por debajo del de legibilidad) y el techo del diagrama.
+    // El techo nunca hace bajar el zoom que ya había.
+    const siguiente = acotarZoom(
+      start.zoom * (distance / start.distance),
+      PISO_ZOOM_MANUAL_MOTOR,
+      Math.max(ZOOM_MAXIMO, start.zoom),
+    );
+    canvas.zoom(siguiente, { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
   }, { passive: false });
   const end = (event) => {
     points.delete(event.pointerId);
@@ -111,6 +188,10 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
   let fileName = '';
   let pinchBound = false;
   let cambiosPendientes = false;
+  // Bloque 1B: el motor **reporta** su estado, no lo inventa.
+  let procesoId = '';
+  let origen = '';
+  let modoLectura = 'todo';
 
   async function ensure(nextMode) {
     if (viewer && mode === nextMode) return;
@@ -172,7 +253,10 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
   }
 
   let stepIndex = 0;
-  const narrow = () => container.clientWidth < 540;
+  // El motor **reporta** el ancho de su lienzo; el piso lo decide el módulo
+  // de pisos (`esLienzoAngosto`), no este archivo (ítem 3.5).
+  const anchoContenedor = () => container.clientWidth || 0;
+  const narrow = () => esLienzoAngosto(anchoContenedor());
 
   function flowElements() {
     if (!viewer) return [];
@@ -214,42 +298,161 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
   }
 
+  /**
+   * La etiqueta externa de un elemento (la que lleva su nombre). bpmn-js la
+   * crea con el id `<id del elemento>_label` y la deja colgada de la forma.
+   */
+  function etiquetaDe(elemento) {
+    if (!elemento) return null;
+    if (elemento.label) return elemento.label;
+    const registro = viewer?.get('elementRegistry');
+    return registro?.get(`${elemento.id}_label`) || null;
+  }
+
+  /**
+   * La caja del elemento **y de su etiqueta**, en unidades del diagrama.
+   * El nombre del evento de inicio («Llega un documento») vive en una
+   * etiqueta aparte: si solo se encuadra la forma, la etiqueta se sale del
+   * lienzo por un lado (a 390 px salía cortada: «…ga un documento»).
+   */
+  function cajaConEtiqueta(elemento) {
+    if (!elemento) return null;
+    const partes = [elemento, etiquetaDe(elemento)]
+      .filter(Boolean)
+      .map((parte) => ({
+        x: Number(parte.x) || 0,
+        y: Number(parte.y) || 0,
+        width: Number(parte.width) || 0,
+        height: Number(parte.height) || 0,
+      }));
+    if (!partes.length) return null;
+    const izquierda = Math.min(...partes.map((parte) => parte.x));
+    const arriba = Math.min(...partes.map((parte) => parte.y));
+    const derecha = Math.max(...partes.map((parte) => parte.x + parte.width));
+    const abajo = Math.max(...partes.map((parte) => parte.y + parte.height));
+    return { x: izquierda, y: arriba, width: derecha - izquierda, height: abajo - arriba };
+  }
+
+  /**
+   * Desplaza la vista para que el elemento **y su etiqueta** se vean
+   * enteros dentro del lienzo, con un margen (en píxeles) por cada lado.
+   *
+   * `scrollToElement` de bpmn-js solo mira la forma: la etiqueta externa
+   * queda colgando fuera del lienzo. Aquí se calcula la caja de las dos y
+   * se centra (o se alinea al borde, si no caben).
+   */
+  function centrarEnLienzo(elemento, margenPx = MARGEN_MINIMO_PX) {
+    const canvas = viewer?.get('canvas');
+    if (!canvas || !elemento) return;
+    const caja = cajaConEtiqueta(elemento);
+    const tamano = canvas.getSize?.();
+    if (!caja || !tamano?.width || !tamano?.height) {
+      canvas.scrollToElement(elemento, MARGEN_PASO_VISTA);
+      return;
+    }
+    const zoom = canvas.zoom() || 1;
+    const vista = canvas.viewbox();
+    const margen = margenPx / zoom;
+    const ancho = vista.width - 2 * margen;
+    const alto = vista.height - 2 * margen;
+    const x = caja.width <= ancho ? caja.x - (ancho - caja.width) / 2 : caja.x - margen;
+    const y = caja.height <= alto ? caja.y - (alto - caja.height) / 2 : caja.y - margen;
+    canvas.scroll({ dx: (vista.x - x) * zoom, dy: (vista.y - y) * zoom });
+  }
+
+  // Bloque 1B (P1.3): las etiquetas que se montan sobre otra forma se
+  // separan **en el gfx**, no en el modelo. Escribir en `label.y` movía el
+  // DI y bpmn-js guardaba esa posición: la copia exportada se iba alejando
+  // de la semilla en cada paso. Aquí el modelo no se toca.
   function nudgeLabels() {
     if (!viewer) return;
     const registry = viewer.get('elementRegistry');
     const shapes = registry.filter((element) => !element.labelTarget && !element.waypoints && element.width && element.type !== 'bpmn:Lane' && element.type !== 'bpmn:Participant');
     const labels = registry.filter((element) => element.labelTarget && element.width && !['bpmn:Lane', 'bpmn:Participant'].includes(element.labelTarget?.type));
     for (const label of labels) {
+      let y = label.y;
       for (let guard = 0; guard < 6; guard += 1) {
-        const shape = shapes.find((item) => item.id !== label.labelTarget?.id && intersects(label, item));
+        const caja = { x: label.x, y, width: label.width, height: label.height };
+        const shape = shapes.find((item) => item.id !== label.labelTarget?.id && intersects(caja, item));
         if (!shape) break;
-        label.y = shape.y + shape.height + 8;
-        const gfx = registry.getGraphics(label);
-        gfx?.setAttribute('transform', `matrix(1 0 0 1 ${label.x} ${label.y})`);
+        y = shape.y + shape.height + 8;
       }
+      if (y === label.y) continue;
+      const gfx = registry.getGraphics(label);
+      gfx?.setAttribute('transform', `matrix(1 0 0 1 ${label.x} ${y})`);
     }
   }
 
-  function describeStep(elements = flowElements()) {
+  // La nota del paso sale de la documentación del elemento (el XML es la
+  // verdad del diagrama): se separan las líneas «Fuente:» y «Corte:» y lo
+  // que queda es la nota. Si no hay nota, la nota es una cadena vacía:
+  // no se inventa texto.
+  function notaDe(element) {
+    if (!element) return '';
+    const { notas } = separarNotas(documentacionDe(element));
+    return notas || '';
+  }
+
+  // El paso, con el contrato público de P1.2:
+  // { indice, total, idElemento, nombre, carril, nota }.
+  function describirPaso(elements = flowElements()) {
     const element = elements[stepIndex];
     return {
-      index: elements.length ? stepIndex : 0,
+      indice: elements.length ? stepIndex : 0,
       total: elements.length,
-      name: element?.businessObject?.name || 'Inicio',
-      lane: element ? laneOf(element) : '',
+      idElemento: element?.id || '',
+      nombre: element?.businessObject?.name || '',
+      carril: element ? laneOf(element) : '',
+      nota: notaDe(element),
     };
+  }
+
+  // Un diagrama sin pasos (o sin visor) no inventa un paso: devuelve el
+  // descriptor vacío.
+  function pasoVacio() {
+    return { indice: 0, total: 0, idElemento: '', nombre: '', carril: '', nota: '' };
+  }
+
+  /**
+   * El paso en el que está el diagrama ahora mismo.
+   * @returns {{indice: number, total: number, idElemento: string, nombre: string, carril: string, nota: string}}
+   */
+  function pasoActual() {
+    if (!viewer) return pasoVacio();
+    return describirPaso();
+  }
+
+  /**
+   * Va a un paso: por su **id** de elemento o por su **índice**.
+   * Si el destino no existe, el diagrama se queda donde está y se devuelve
+   * el paso actual (no se inventa un paso).
+   * @param {string|number} idOIndice
+   * @returns {{indice: number, total: number, idElemento: string, nombre: string, carril: string, nota: string}}
+   */
+  function irAPaso(idOIndice) {
+    const elements = flowElements();
+    if (!viewer || !elements.length) return pasoVacio();
+    let indice = -1;
+    if (typeof idOIndice === 'number' && Number.isFinite(idOIndice)) {
+      indice = Math.trunc(idOIndice);
+    } else if (typeof idOIndice === 'string' && idOIndice.trim()) {
+      indice = elements.findIndex((element) => element.id === idOIndice.trim());
+    }
+    if (indice < 0 || indice >= elements.length) return pasoActual();
+    return showStep(indice);
   }
 
   function showStep(index) {
     const elements = flowElements();
-    if (!viewer || !elements.length) return { index: 0, total: 0, name: 'Sin pasos', lane: '' };
+    if (!viewer || !elements.length) return pasoVacio();
     stepIndex = Math.max(0, Math.min(elements.length - 1, index));
     const canvas = viewer.get('canvas');
-    if (narrow()) canvas.zoom(Math.max(canvas.zoom() || 1, 1.15));
-    canvas.scrollToElement(elements[stepIndex], { top: 72, right: 28, bottom: 88, left: 28 });
+    if (narrow()) canvas.zoom(Math.max(canvas.zoom() || 1, PISO_LEGIBILIDAD_DIAGRAMA));
+    centrarEnLienzo(elements[stepIndex], MARGEN_PASO_VISTA.top);
     marcarPaso(elements[stepIndex]);
     nudgeLabels();
-    return describeStep(elements);
+    modoLectura = 'paso';
+    return describirPaso(elements);
   }
 
   // Marca visual del paso actual del recorrido (borrador RR).
@@ -479,22 +682,97 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
   }
 
   function frameInitial() {
-    if (!viewer) return { index: 0, total: 0, name: '', lane: '' };
+    if (!viewer) return pasoVacio();
     return encuadrarContenido();
+  }
+
+  // El zoom más grande con el que el paso todavía cabe en el lienzo (con el
+  // margen de 24 px). Si el paso es más grande que el lienzo, este valor
+  // queda por debajo del piso de legibilidad: ese es el caso «paso-ajustado».
+  function zoomQueQuepa(elemento, canvas) {
+    const size = canvas.getSize?.();
+    if (!size?.width || !size?.height) return ZOOM_MAXIMO;
+    const ancho = Number(elemento.width) || 0;
+    const alto = Number(elemento.height) || 0;
+    if (!ancho || !alto) return ZOOM_MAXIMO;
+    const porAncho = (size.width - 2 * MARGEN_PASO.left) / ancho;
+    const porAlto = (size.height - 2 * MARGEN_PASO.top) / alto;
+    return Math.max(ZOOM_ENCUADRE_MINIMO, Math.min(porAncho, porAlto));
   }
 
   // Bloque 1 (a): el diagrama abre encuadrado al contenido y centrado, en
   // cualquier pantalla. Antes, en un lienzo angosto (celular), arrancaba
   // pegado a la izquierda mostrando solo el evento de inicio.
-  function encuadrarContenido() {
-    if (!viewer) return { index: 0, total: 0, name: '', lane: '' };
+  //
+  // Bloque 1B (ítem 3): el encuadre tiene además un **piso de
+  // legibilidad** (1,15). Por eso abría a 1:4–1:8 y nadie leía nada. Con el
+  // piso puesto, el diagrama puede no caber entero: entonces la vista se
+  // desplaza al primer paso (o al evento de inicio), que es por donde se
+  // empieza a leer.
+  function encuadrarContenido({ forzar = false } = {}) {
+    if (!viewer) return pasoVacio();
     const canvas = viewer.get('canvas');
+    // El lienzo puede haber cambiado de tamaño desde el último encuadre
+    // (la banda de lectura aparece o desaparece) y el motor guarda en
+    // memoria la caja interior de lo que se ve. Sin refrescarla, el
+    // encuadre centra una caja vieja y el diagrama queda torcido: se
+    // recalcula antes de encuadrar.
+    canvas.resized?.();
     canvas.zoom('fit-viewport', 'auto');
     // Un poco de aire alrededor: el borde del pool no queda pegado al marco.
-    canvas.zoom(Math.max(0.05, canvas.zoom() * 0.94));
+    const conMargen = Math.max(ZOOM_ENCUADRE_MINIMO, (canvas.zoom() || 0) * MARGEN_ENCUADRE);
+    // El piso de legibilidad (1,15) solo aplica en lienzo angosto: en un
+    // lienzo amplio el diagrama entero cabe con margen y el escritorio
+    // abre en «ver el todo» (a 1,15 solo se veía una esquina).
+    const zoom = zoomEncuadre(conMargen, { forzar, anchoContenedor: anchoContenedor() });
+    canvas.zoom(zoom);
     stepIndex = 0;
+    // Si el piso subió el zoom, el diagrama ya no cabe entero: se deja a la
+    // vista el primer paso (o el evento de inicio).
+    if (zoom > conMargen) desplazarAlPrimerPaso();
     nudgeLabels();
-    return describeStep();
+    modoLectura = 'todo';
+    return describirPaso();
+  }
+
+  // La vista se deja en el primer paso (o en el evento de inicio), que es
+  // el punto por el que se empieza a leer el diagrama. La etiqueta del
+  // evento («Llega un documento») también tiene que verse entera.
+  function desplazarAlPrimerPaso() {
+    const elements = flowElements();
+    const inicio = elements.find((element) => element.type === 'bpmn:StartEvent');
+    const destino = inicio || elements[0];
+    if (!destino) return;
+    centrarEnLienzo(destino, MARGEN_MINIMO_PX);
+  }
+
+  // Modo «paso» (P1.2): se encuadra el **paso actual**, no el diagrama
+  // entero. El piso de legibilidad (1,15) manda, salvo que se fuerce. Si
+  // el paso es más grande que el lienzo, se encuadra al zoom que sí cabe y
+  // el modo queda «paso-ajustado».
+  function encuadrarPaso({ forzar = false } = {}) {
+    if (!viewer) return pasoVacio();
+    const elements = flowElements();
+    if (!elements.length) return pasoVacio();
+    const canvas = viewer.get('canvas');
+    const elemento = elements[Math.min(stepIndex, elements.length - 1)];
+    stepIndex = elements.indexOf(elemento);
+    let zoom = canvas.zoom() || 1;
+    let ajustado = false;
+    if (!forzar) {
+      zoom = Math.max(zoom, PISO_LEGIBILIDAD_DIAGRAMA);
+      const cabe = zoomQueQuepa(elemento, canvas);
+      if (cabe < zoom) {
+        zoom = cabe;
+        ajustado = true;
+      }
+    }
+    canvas.zoom(zoom);
+    centrarEnLienzo(elemento, MARGEN_PASO.left);
+    marcarPaso(elemento);
+    nudgeLabels();
+    modoLectura = ajustado ? 'paso-ajustado' : 'paso';
+    return describirPaso(elements);
   }
 
   return {
@@ -504,6 +782,8 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     marcarGuardado() { cambiosPendientes = false; },
     async open(xml, options = {}) {
       fileName = options.fileName || '';
+      procesoId = idProcesoDe(options);
+      origen = origenDe(options);
       await ensure(options.editable ? 'edit' : 'view');
       currentXml = xml;
       cambiosPendientes = Boolean(options.cambiosPendientes);
@@ -518,22 +798,48 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
       onReport?.({ ...report, step });
       return { ...report, step };
     },
-    // `completo: true` encuadra el diagrama entero aunque el lienzo sea estrecho:
-    // en pantalla completa el usuario debe ver la forma del proceso de una vez.
-    // Bloque 1 (a): ahora también en celular el diagrama abre encuadrado al
-    // contenido y centrado, no pegado a la izquierda con el evento de inicio.
-    // `forzar: true` (el visor pequeño del panel dividido) sí encuadra todo.
+    // `fit` **obedece** su argumento (P1.2): `{ modo: 'paso' | 'todo',
+    // forzar }`. Un `modo` distinto de los dos lanza `Error('modo inválido')`
+    // (el contrato es cerrado). `forzar: true` ignora el piso de
+    // legibilidad: encuadra exactamente como se le pide (es lo que necesita
+    // el visor pequeño del panel dividido).
+    // La llamada vieja `{ completo: true }` sigue valiendo: equivale a
+    // `{ modo: 'todo' }`.
     fit(opciones = {}) {
-      if (viewer) return encuadrarContenido();
-      return frameInitial();
+      const { modo, forzar } = opcionesDeFit(opciones);
+      if (!viewer) return pasoVacio();
+      return modo === 'paso' ? encuadrarPaso({ forzar }) : encuadrarContenido({ forzar });
     },
     recenter() { return showStep(stepIndex); },
     step(delta) { return showStep(stepIndex + delta); },
+    // El zoom manual: el factor se aplica al zoom actual y el resultado se
+    // acota con el piso manual (que queda **por debajo** del piso de
+    // legibilidad: por eso «−» siempre aleja) y con el techo del diagrama.
     zoom(factor) {
       const canvas = viewer?.get('canvas');
       if (!canvas) return;
-      const floor = narrow() ? 0.55 : 0.2;
-      canvas.zoom(Math.max(floor, Math.min(2.6, canvas.zoom() * factor)));
+      const actual = canvas.zoom();
+      if (!Number.isFinite(actual)) return;
+      canvas.zoom(zoomManual(actual, factor, anchoContenedor()));
+    },
+    // ---- API de paso (P1.2) ----
+    pasoActual,
+    irAPaso,
+    // El estado del lienzo, para el gancho de depuración y para la puerta
+    // de 390 px (`scripts/piso-390.mjs` lee `estado().zoom`).
+    // · `modo` es el modo de **lectura** del diagrama: 'todo', 'paso' o
+    //   'paso-ajustado'. El modo de edición es `workspace.modo`.
+    estado() {
+      const canvas = viewer?.get('canvas');
+      const zoom = canvas?.zoom?.();
+      return {
+        zoom: Number.isFinite(zoom) ? zoom : null,
+        anchoContenedor: anchoContenedor(),
+        proceso: procesoId,
+        paso: pasoActual(),
+        modo: modoLectura,
+        origen,
+      };
     },
     focus(id) {
       if (!viewer || !id) return;
@@ -545,8 +851,8 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
       }
       const element = viewer.get('elementRegistry').get(id);
       if (!element) return;
-      if (narrow()) viewer.get('canvas').zoom(Math.max(viewer.get('canvas').zoom() || 1, 1.15));
-      viewer.get('canvas').scrollToElement(element, { top: 72, right: 28, bottom: 88, left: 28 });
+      if (narrow()) viewer.get('canvas').zoom(Math.max(viewer.get('canvas').zoom() || 1, PISO_LEGIBILIDAD_DIAGRAMA));
+      centrarEnLienzo(element, MARGEN_PASO_VISTA.top);
       try { viewer.get('selection').select(element); } catch { /* el visor no selecciona */ }
     },
     restyle,

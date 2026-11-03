@@ -140,6 +140,63 @@ export function marcarAvisoVisto(version, almacen = almacenSeguro()) {
   return escribirPreferencias({ avisosVistos: lista }, almacen);
 }
 
+// ── El override de sesión (bloque 1B) ─────────────────────────────────────
+//
+// El override es un objeto **en memoria** que manda sobre lo guardado. No
+// se escribe nunca en el almacén: dura lo que dura la sesión. Es lo que
+// necesita el apagado de emergencia por URL (`?atlas=seguro`, ítem 67) y
+// cualquier ajuste que no deba tocar el `localStorage`.
+//
+// Solo se aceptan las claves del contrato —las cuatro banderas booleanas y
+// la lista `avisosVistos`— y **solo con el tipo correcto**: el override no
+// puede inventar preferencias ni romper la forma de las que ya existen.
+
+/** El override de sesión vigente (o `null` si no hay). */
+let overrideSesion = null;
+
+/** Solo las claves del contrato, y con el tipo correcto. */
+function sanearOverride(override) {
+  const limpio = {};
+  if (!override || typeof override !== 'object' || Array.isArray(override)) return limpio;
+  for (const bandera of BANDERAS_PREFS) {
+    if (typeof override[bandera] === 'boolean') limpio[bandera] = override[bandera];
+  }
+  if (Array.isArray(override.avisosVistos)) {
+    limpio.avisosVistos = override.avisosVistos.filter((version) => typeof version === 'string');
+  }
+  return limpio;
+}
+
+/**
+ * Fija el override de sesión (se **fusiona** con el que hubiera: no borra
+ * las banderas que no se mencionan). `null` (o `sin argumentos`) lo quita.
+ *
+ * No escribe nada en el almacén: es memoria de la sesión.
+ *
+ * @param {object|null} override
+ * @returns {object|null} el override vigente (o `null` si se quitó)
+ */
+export function fijarOverrideSesion(override = null) {
+  if (override === null || override === undefined) {
+    overrideSesion = null;
+    return null;
+  }
+  const limpio = sanearOverride(override);
+  overrideSesion = { ...(overrideSesion || {}), ...limpio };
+  return { ...overrideSesion };
+}
+
+/**
+ * Las preferencias **vigentes**: lo guardado con el override de sesión
+ * encima. Es lo que lee la interfaz (la banda de lectura, entre otros),
+ * porque el override manda mientras dure la sesión.
+ */
+export function obtenerPreferenciasVigentes(almacen = almacenSeguro()) {
+  const guardadas = leerPreferencias(almacen);
+  if (!overrideSesion) return guardadas;
+  return { ...guardadas, ...overrideSesion };
+}
+
 /** Vuelve a los valores de fábrica: borra la clave versionada. */
 export function restablecerPreferencias(almacen = almacenSeguro()) {
   if (!almacen) return false;
@@ -149,4 +206,74 @@ export function restablecerPreferencias(almacen = almacenSeguro()) {
   } catch {
     return false;
   }
+}
+
+// ── El apagado de emergencia por URL (bloque 1B · ítem 67) ───────────────
+//
+// `?atlas=seguro` es la **válvula de escape** (R8, D15): apaga el modo
+// paso (y con él la banda de lectura), el copiador y la guía automática
+// **en memoria**, sin escribir nada en `localStorage` y sin tocar
+// `legibilidad`: el piso de 1,15 que el dueño aprobó queda siempre
+// activo, también en modo seguro.
+//
+// Dura **lo que dura la sesión** y solo afecta a quien abre ese enlace,
+// en ese navegador: no hay apagado general sin redesplegar.
+
+/** Parámetro de la URL que pide el modo seguro. */
+export const PARAMETRO_ATLAS = 'atlas';
+
+/** Valor de ese parámetro que activa el modo seguro. */
+export const VALOR_SEGURO = 'seguro';
+
+/**
+ * El override que impone `?atlas=seguro`.
+ *
+ * · `modoPaso: false` apaga el modo paso **y** la banda de lectura.
+ * · `copiador: false` apaga la acción «Compartir».
+ * · `guiaVista: true` marca la guía como vista: **no se abre sola**.
+ *
+ * **No menciona `legibilidad`**: el piso de 1,15 queda siempre activo.
+ */
+export const OVERRIDE_SEGURO = Object.freeze({
+  modoPaso: false,
+  copiador: false,
+  guiaVista: true,
+});
+
+/** Lo que llega en `location.search`, como parámetros (o `null`). */
+function parametrosDe(search) {
+  if (search instanceof URLSearchParams) return search;
+  if (typeof search !== 'string') return null;
+  try {
+    return new URLSearchParams(search);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * El override de sesión que pide la URL, o `null` si la URL no pide nada.
+ *
+ * **Función pura**: no lee ni escribe el almacén y devuelve siempre un
+ * objeto **nuevo** (cambiarlo no cambia nada de lo que sigue).
+ *
+ * @param {string|URLSearchParams} search `location.search` o sus parámetros
+ * @returns {object|null} `{ modoPaso: false, copiador: false, guiaVista: true }`
+ *   para `?atlas=seguro`; `null` en cualquier otro caso
+ */
+export function overrideDesdeQuery(search) {
+  const parametros = parametrosDe(search);
+  if (!parametros) return null;
+  if (parametros.get(PARAMETRO_ATLAS) !== VALOR_SEGURO) return null;
+  return { ...OVERRIDE_SEGURO };
+}
+
+/**
+ * ¿Se puede abrir la guía **automáticamente** (sin que nadie la pida)? La
+ * preferencia `guiaVista` dice que la guía ya se vio: entonces no se
+ * abre sola. En modo seguro el override la deja en `true`, así que la
+ * guía automática **no** se abre.
+ */
+export function puedeAbrirGuiaAuto(almacen = almacenSeguro()) {
+  return obtenerPreferenciasVigentes(almacen).guiaVista !== true;
 }

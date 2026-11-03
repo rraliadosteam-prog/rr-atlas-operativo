@@ -16,6 +16,12 @@
 //     `zoom: null` y avisa de que el diagrama todavía no se puede certificar.
 //     Una puerta no puede fallar por lo que todavía no se ha escrito.
 //   · El gancho existe pero **apunta a otro diagrama**: falla.
+//
+// Y el caso del **escritorio** (lienzo ancho): allí el diagrama entero cabe
+// con margen, así que el piso de 1,15 **no** aplica (el escritorio abre en
+// «ver el todo», no en una esquina a 1:1). En un lienzo ancho la puerta
+// afirma el **modo** («todo») y que el diagrama entero se ve dentro del
+// lienzo; el zoom legible solo se exige en lienzo angosto (≤ 900 px).
 
 import { PISO_LEGIBILIDAD_DIAGRAMA } from '../src/core/zoom.mjs';
 
@@ -33,6 +39,12 @@ export const MODO_SIN_ZOOM = 'sin-zoom';
 
 /** El gancho existe, pero apunta a otro diagrama. */
 export const MODO_OTRO_DIAGRAMA = 'otro-diagrama';
+
+/** El diagrama abre en «ver el todo» (lo que se exige en lienzo ancho). */
+export const MODO_TODO_ANCHO = 'todo-ancho';
+
+/** El diagrama abre en un modo que no es «ver el todo». */
+export const MODO_NO_TODO = 'no-todo';
 
 /**
  * Veredicto de la puerta de 390 px a partir de lo que se leyó en el lienzo.
@@ -97,6 +109,63 @@ export function evaluarPiso390(lectura = {}) {
 }
 
 /**
+ * Veredicto de la puerta en un **lienzo ancho** (escritorio): el diagrama
+ * entero cabe con margen, así que el piso de 1,15 no aplica y el diagrama
+ * tiene que abrir en modo «todo» (ver el todo).
+ *
+ * @param {object} lectura
+ * @param {boolean} lectura.existeGancho
+ * @param {number|null} lectura.zoom
+ * @param {string|null} lectura.proceso
+ * @param {string|null} lectura.procesoEsperado
+ * @param {string|null} lectura.modo El modo de lectura que declara el motor.
+ * @returns {{modo: string, ok: boolean, zoom: number|null, mensaje: string}}
+ */
+export function evaluarAncho(lectura = {}) {
+  const {
+    existeGancho = false,
+    zoom = null,
+    proceso = null,
+    procesoEsperado = null,
+    modo = null,
+  } = lectura;
+
+  if (!existeGancho) {
+    return {
+      modo: MODO_SIN_GANCHO,
+      ok: false,
+      zoom: null,
+      mensaje: 'no hay gancho con el estado del lienzo: el diagrama no se puede certificar',
+    };
+  }
+
+  if (proceso && procesoEsperado && proceso !== procesoEsperado) {
+    return {
+      modo: MODO_OTRO_DIAGRAMA,
+      ok: false,
+      zoom: Number.isFinite(zoom) ? zoom : null,
+      mensaje: `el gancho apunta a «${proceso}» y no a «${procesoEsperado}»`,
+    };
+  }
+
+  if (modo !== 'todo') {
+    return {
+      modo: MODO_NO_TODO,
+      ok: false,
+      zoom: Number.isFinite(zoom) ? zoom : null,
+      mensaje: `el diagrama abre en modo «${modo ?? 'desconocido'}» y en lienzo ancho tiene que abrir en «todo»`,
+    };
+  }
+
+  return {
+    modo: MODO_TODO_ANCHO,
+    ok: true,
+    zoom: Number.isFinite(zoom) ? zoom : null,
+    mensaje: `abre en modo «todo» a zoom ${zoom} (en lienzo ancho el piso de ${PISO_LEGIBILIDAD_DIAGRAMA} no aplica)`,
+  };
+}
+
+/**
  * Lee el estado del lienzo **dentro de la página** (Playwright serializa la
  * función y la ejecuta en el navegador). Solo usa `window`: no depende de
  * nada de este módulo.
@@ -106,10 +175,14 @@ export function evaluarPiso390(lectura = {}) {
  *   · `window.__rrAtlasBpmn.estado().zoom` — el gancho que compone la vista
  *     BPMN en el bloque 1B.
  * Si no hay ninguno, el diagrama todavía no se puede certificar.
+ *
+ * Además del zoom devuelve el **modo de lectura** (`todo`, `paso` o
+ * `paso-ajustado`) y el **paso actual**: la puerta los necesita para saber
+ * qué veredicto de encuadre aplica (P1.9).
  */
 export function leerEstadoLienzo(ventana = globalThis.window ?? globalThis) {
   if (ventana.__rrAtlasZoom !== undefined && ventana.__rrAtlasZoom !== null) {
-    return { existeGancho: true, zoom: ventana.__rrAtlasZoom, proceso: null };
+    return { existeGancho: true, zoom: ventana.__rrAtlasZoom, proceso: null, modo: null, paso: null };
   }
   const gancho = ventana.__rrAtlasBpmn;
   if (gancho && typeof gancho.estado === 'function') {
@@ -119,11 +192,47 @@ export function leerEstadoLienzo(ventana = globalThis.window ?? globalThis) {
     } catch {
       estado = null;
     }
+    const objeto = estado && typeof estado === 'object' ? estado : {};
     return {
       existeGancho: true,
-      zoom: estado && typeof estado === 'object' ? estado.zoom ?? null : null,
-      proceso: estado && typeof estado === 'object' ? estado.proceso ?? null : null,
+      zoom: objeto.zoom ?? null,
+      proceso: objeto.proceso ?? null,
+      modo: objeto.modo ?? null,
+      paso: objeto.paso ?? null,
     };
   }
-  return { existeGancho: false, zoom: null, proceso: null };
+  return { existeGancho: false, zoom: null, proceso: null, modo: null, paso: null };
+}
+
+/**
+ * Veredicto de la puerta de 390 px sobre **todos** los diagramas a la vez.
+ *
+ * El caso «sin gancho» sigue existiendo en el código (el diseño lo
+ * conserva: una puerta no puede fallar por lo que todavía no se ha
+ * escrito), pero en el bloque 1B el gancho **tiene que existir**: si
+ * ninguno de los diagramas lo tiene, la puerta falla. Un diagrama suelto
+ * sin gancho se avisa, pero no hunde la puerta.
+ *
+ * @param {Array<{modo?: string}>} veredictos el veredicto de cada diagrama
+ * @returns {{ok: boolean, diagramas: number, sinGancho: number, mensaje: string}}
+ */
+export function evaluarConjunto390(veredictos = []) {
+  const lista = Array.isArray(veredictos) ? veredictos.filter(Boolean) : [];
+  const sinGancho = lista.filter((veredicto) => veredicto.modo === MODO_SIN_GANCHO).length;
+  if (lista.length && sinGancho === lista.length) {
+    return {
+      ok: false,
+      diagramas: lista.length,
+      sinGancho,
+      mensaje: `ninguno de los ${lista.length} diagramas tiene gancho: en el bloque 1B el gancho tiene que existir`,
+    };
+  }
+  return {
+    ok: true,
+    diagramas: lista.length,
+    sinGancho,
+    mensaje: sinGancho
+      ? `${sinGancho} de ${lista.length} diagramas sin gancho: todavía no se pueden certificar`
+      : `${lista.length} diagramas leídos por el gancho`,
+  };
 }

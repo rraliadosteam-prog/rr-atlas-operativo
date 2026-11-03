@@ -68,8 +68,8 @@ export function createProcessView({ app, onToast }) {
       stepLabel.textContent = 'Inicio';
       return;
     }
-    stepLabel.textContent = `${step.index + 1} de ${step.total}`;
-    stepLabel.title = [step.name, step.lane].filter(Boolean).join(' · ');
+    stepLabel.textContent = `${step.indice + 1} de ${step.total}`;
+    stepLabel.title = [step.nombre, step.carril].filter(Boolean).join(' · ');
   };
 
   const renderLanes = (xml) => {

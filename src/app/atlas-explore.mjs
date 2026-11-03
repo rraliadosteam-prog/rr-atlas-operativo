@@ -1,4 +1,5 @@
 import { ECOSYSTEM_ENTRIES } from '../data/ecosystem-catalog.mjs';
+import { confirmar } from './confirmar.mjs';
 
 (function bindAtlasExplore() {
   const app = document.getElementById('atlas-app');
@@ -168,8 +169,15 @@ import { ECOSYSTEM_ENTRIES } from '../data/ecosystem-catalog.mjs';
       renderExploreControls();
       renderCatalog();
     }));
-    controls.querySelector('[data-catalog-clear]')?.addEventListener('click', () => {
-      if (!window.confirm('¿Limpiar los cambios locales del catalogo?')) return;
+    controls.querySelector('[data-catalog-clear]')?.addEventListener('click', async () => {
+      // P1.6 · un solo <dialog> de confirmación en toda la app (ítem 8a).
+      const limpio = await confirmar({
+        titulo: 'Limpiar los cambios locales',
+        cuerpo: '¿Limpiar los cambios locales del catalogo?',
+        aceptar: 'Limpiar',
+        cancelar: 'Cancelar',
+      });
+      if (!limpio) return;
       catalogOverrides = {};
       persistOverrides();
       renderExploreControls();
