@@ -10,7 +10,7 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Con el cliente vivo">
+      <bpmn:lane id="lane_1" name="Comercial">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_informe</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_post</bpmn:flowNodeRef>
@@ -20,7 +20,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin_join</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Cuando algo falla">
+      <bpmn:lane id="lane_2" name="Soporte">
         <bpmn:flowNodeRef>g_falla</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_escala</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_garantia</bpmn:flowNodeRef>
@@ -30,12 +30,12 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
     <bpmn:startEvent id="e_ini" name="Se entregó la pieza">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:task id="t_informe" name="6. Informe mensual">
+    <bpmn:task id="t_informe" name="6. Entregar el informe mensual">
       <bpmn:documentation>Etapa 09: qué se reporta al cliente. Con CLIENTE_A son 4 informes de nov a feb, uno cada mes.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_post" name="7. Post mortem">
+    <bpmn:task id="t_post" name="7. Hacer el post mortem">
       <bpmn:documentation>Etapa 10: qué se aprende de cada trabajo, para el siguiente. HOY NO HAY NINGUNO. El aprendizaje se queda en la cabeza de quien hizo el trabajo.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -45,7 +45,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       <bpmn:outgoing>sf_4</bpmn:outgoing>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_escala" name="Se escala">
+    <bpmn:task id="t_escala" name="Escalar el caso">
       <bpmn:documentation>Etapa 12. No hay SLA de soporte: decir 'alta' no significa nada porque no hay tiempos definidos.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
@@ -55,7 +55,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       <bpmn:outgoing>sf_7</bpmn:outgoing>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_garantia" name="Se define la garantía">
+    <bpmn:task id="t_garantia" name="Definir la garantía">
       <bpmn:documentation>No hay política escrita: qué se corrige, qué no, y quién lo decide.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
@@ -70,7 +70,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_g_vida_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_seva" name="11. Se registra por qué se fue">
+    <bpmn:task id="t_seva" name="11. Registrar el motivo de salida">
       <bpmn:documentation>Por qué se fue, qué faltó. HOY NO SE REGISTRA. La carpeta ex_clientes existe, el motivo no.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>

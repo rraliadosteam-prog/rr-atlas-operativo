@@ -474,3 +474,55 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
   infinitivo). Cambiarlos es reescribir el texto que la gente lee en el diagrama, así que queda como
   **TODO(Rosas)** en `docs/fusion/PREGUNTAS.md` (pase de contenido con el equipo), no como un cambio
   automático.
+
+## Bloque 8 · Item B (cierre) · Semillas BPMN con 0 avisos de lint — 2026-11-02
+
+### Qué se hizo
+- **Las 16 semillas quedaron en 0 avisos de lint** (decisión de Rosas: «reparar las 16 semillas hasta
+  0 avisos», incluido `no-gateway-join-fork`). Antes de este bloque quedaban **152 avisos** de las
+  dos reglas de contenido del plugin de RR: `rr/lane-es-rol` (43 carriles escritos como etapa:
+  «1 · Alianzas», «2 · Los primeros días») y `rr/tarea-infinitivo` (109 tareas en forma de frase:
+  «2. Se anota», «3. Prototipo»).
+- **`scripts/pase-contenido-semillas.mjs` (nuevo)**: pase de contenido **idempotente** que reescribe
+  solo el atributo `name` de carriles y tareas (no toca documentación, flujos, formas ni colores).
+  Trae las tablas de nombres y las aplica semilla por semilla; `--simular` muestra el plan sin
+  escribir. Resultado: **153 nombres corregidos** (43 carriles + 110 tareas).
+  - **Carriles → roles de RR** (regla «un carril es un rol»): los 43 carriles que se llamaban como
+    una etapa ahora se llaman con el rol que hace ese trabajo: Comercial, Dirección, Dirección
+    Operativa, Dirección · Caja, Finanzas, Finanzas · Ingresos, Finanzas · Egresos, Legal, Soporte,
+    Soporte · Prioridad, Equipo RR, Equipo RR · Resolución, Cliente, Bot, Solicitante, Contenido,
+    Desarrollo. Los carriles vacíos que son anotaciones («Lo que no está escrito», «Las reglas que no
+    se rompen», «Donde se traba», «A quién se le pregunta») conservan su texto con el rol adelante.
+  - **Tareas → infinitivo de 2 a 6 palabras**: «2. Se anota» → «2. Registrar el prospecto» (el verbo
+    depende del proceso: prospecto, caso o movimiento), «3. Prototipo» → «3. Construir el prototipo»,
+    «8. Deploy» → «8. Hacer el deploy», «Alta · se resuelve ya» → «Resolver de inmediato (prioridad
+    alta)». Se conserva el número de paso y el texto de la tarea en lo que ya estaba bien escrito.
+- **`scripts/actualizar-estado-semillas.mjs` (nuevo)**: recalcula el estado real de las 16 semillas y
+  lo deja escrito en `src/bpmn/seeds/index.json` (lint y estado por proceso) y en
+  `src/bpmn/seeds/validacion-semillas.json` (errores, avisos y regla por regla). Corrección: el
+  catálogo mostraba conteos viejos (p. ej. 1 error y 7 avisos) que ya no correspondían.
+- **Insignias del Mapa vivo**: los 8 nodos que estaban en «BPMN con deuda» (CP-5, PL-1, IN-2, IN-3,
+  IN-4, IN-5, IN-6, IN-12) son los que corresponde a las 8 semillas que tenían la deuda documentada.
+  Como las 16 semillas ya pasan el lint, esos 8 nodos quedan en **«BPMN válido»**
+  (`src/data/rr-tree.mjs`).
+- **`fixtures/flujo-demo.json`** se regeneró (`npm run fixture:flujos`) porque se arma desde las
+  semillas y el test de rutas exige que el fixture coincida con ellas.
+
+### Estado de los checks
+- `npm run check`: **verde** — 202 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — «16 semillas, moddle sin avisos, **0 errores**, 0 avisos».
+
+### Hallazgos / riesgos
+- Los nombres de los carriles son **roles genéricos de RR** (Comercial, Dirección, Finanzas, Soporte,
+  Legal, Cliente, Bot, Equipo RR…), no el nombre del cargo del manual de roles: no hay fuente que
+  diga qué persona o cargo está en cada carril. Queda como **TODO(Rosas)** en `docs/fusion/PREGUNTAS.md`.
+- El texto de las tareas se reescribió sin cambiar el proceso: solo la forma verbal y el número de
+  palabra. No se cambió ningún dato de RR (ni cifras, ni fuentes, ni cortes).
+- Los avisos del plugin de RR son de estilo, no de estructura: el diagrama ya no tiene compuertas
+  que abran y cierren a la vez, ni pasos con varias entradas, ni etiquetas de sobra.
+
+### Pendiente del bloque
+- **Item 8 (modelo de datos v5)**: esquema v5, migración desde v4, store, export/import idempotente
+  y validador que rechace campos prohibidos, con pruebas `node --test`. No alcanzado en este bloque.
+- **QA final (item D)**: clics reales de todos los flujos a 390, 768 y 1440 px, capturas por ancho en
+  `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` y resultado en `docs/fusion/PRUEBAS.md`.

@@ -10,7 +10,7 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Antes de automatizar">
+      <bpmn:lane id="lane_1" name="Bot">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_tarea</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_agente</bpmn:flowNodeRef>
@@ -19,7 +19,7 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
         <bpmn:flowNodeRef>t_fuente</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_fuente_join</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · La revisión humana">
+      <bpmn:lane id="lane_2" name="Equipo RR">
         <bpmn:flowNodeRef>g_revision</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_revisar</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_auto</bpmn:flowNodeRef>
@@ -70,7 +70,7 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
       <bpmn:outgoing>sf_7</bpmn:outgoing>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_revisar" name="Se salta la revisión">
+    <bpmn:task id="t_revisar" name="Omitir la revisión">
       <bpmn:documentation>Ningún agente publica solo. Si se salta este paso, el error se repite solo.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>

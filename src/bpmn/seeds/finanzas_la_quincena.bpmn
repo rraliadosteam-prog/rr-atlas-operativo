@@ -10,7 +10,7 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Lo que entra (clientes)">
+      <bpmn:lane id="lane_1" name="Finanzas · Ingresos">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_abre</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_abre_join</bpmn:flowNodeRef>
@@ -19,17 +19,17 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
         <bpmn:flowNodeRef>t_cliente_c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_cierra</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Lo que sale (RR Aliados)">
+      <bpmn:lane id="lane_2" name="Finanzas · Egresos">
         <bpmn:flowNodeRef>t_burn</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_fijos</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · La decisión de caja">
+      <bpmn:lane id="lane_3" name="Dirección · Caja">
         <bpmn:flowNodeRef>g_alcanza</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_ok</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_no</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_4" name="4 · La fuente"/>
+      <bpmn:lane id="lane_4" name="Equipo RR · La fuente"/>
     </bpmn:laneSet>
     <bpmn:startEvent id="e_ini" name="Día 15">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
@@ -46,17 +46,17 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
       <bpmn:incoming>sf_13</bpmn:incoming>
       <bpmn:outgoing>sf_g_abre_join</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_cliente_a" name="Entra CLIENTE_A">
+    <bpmn:task id="t_cliente_a" name="Registrar el ingreso de CLIENTE_A">
       <bpmn:documentation>[CIFRA] el 15/10 (2 meses). Luego [CIFRA]/mes hasta febrero. Contrato sin firmar.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_cand" name="Entra CLIENTE_B">
+    <bpmn:task id="t_cand" name="Registrar el ingreso de CLIENTE_B">
       <bpmn:documentation>[CIFRA]/mes, del 15/10/2026 al 15/05/2027.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_cliente_c" name="Entra CLIENTE_C">
+    <bpmn:task id="t_cliente_c" name="Registrar el ingreso de CLIENTE_C">
       <bpmn:documentation>[CIFRA]/mes. Contrato sin firmar.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
@@ -67,12 +67,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_burn" name="Sale el burn operativo">
+    <bpmn:task id="t_burn" name="Registrar la salida del burn operativo">
       <bpmn:documentation>[CIFRA] cada 15 días. Es lo que sostiene la quincena completa.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_fijos" name="Se pagan los fijos">
+    <bpmn:task id="t_fijos" name="Pagar los gastos fijos">
       <bpmn:documentation>ARL [CIFRA] · IA [CIFRA] · Tarjeta [CIFRA] (día 14) · Nómina [CIFRA] (atrasada del 31/08).</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
@@ -82,7 +82,7 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_la_quincena.json</bpmn:documentatio
       <bpmn:outgoing>sf_11</bpmn:outgoing>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_ok" name="Se repite en 15 días">
+    <bpmn:task id="t_ok" name="Repetir el ciclo cada 15 días">
       <bpmn:documentation>El ciclo da positivo mientras entre CLIENTE_A.</bpmn:documentation>
       <bpmn:incoming>sf_11</bpmn:incoming>
       <bpmn:outgoing>sf_13</bpmn:outgoing>

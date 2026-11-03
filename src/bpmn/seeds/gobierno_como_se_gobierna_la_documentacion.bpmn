@@ -10,13 +10,13 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · El documento entra">
+      <bpmn:lane id="lane_1" name="Equipo RR">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_dueno</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_dueno_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_decide</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Gobierno documental">
+      <bpmn:lane id="lane_2" name="Dirección">
         <bpmn:flowNodeRef>t_contexto</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_dup</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_dup_join</bpmn:flowNodeRef>
@@ -43,7 +43,7 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       <bpmn:incoming>sf_13</bpmn:incoming>
       <bpmn:outgoing>sf_g_dueno_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_decide" name="Se decide el área canónica">
+    <bpmn:task id="t_decide" name="Decidir el área canónica">
       <bpmn:documentation>¿Qué área es dueña de este contenido? La puerta es 00_LEEME_PRIMERO. Si el área está mal, todo lo de abajo queda mal: aparecen dos versiones del mismo dato y nadie sabe cuál manda.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
@@ -54,12 +54,12 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
         <bpmn:targetRef>prop_t_decide</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_contexto" name="3. Se crea o actualiza el _CONTEXTO">
+    <bpmn:task id="t_contexto" name="3. Crear o actualizar el _CONTEXTO">
       <bpmn:documentation>El área tiene un _CONTEXTO.md que explica qué hay ahí y cuál es la fuente. Se escribe solo si cambió el inventario o el propósito.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_dup" name="4. Se evitan duplicados">
+    <bpmn:task id="t_dup" name="4. Evitar duplicados">
       <bpmn:documentation>Se busca si ya existe copia, espejo o versión vieja, en el mapa de fuentes y en el índice del área. No se edita un histórico: se cita como evidencia. Un espejo sin dueño se vuelve una contradicción.</bpmn:documentation>
       <bpmn:incoming>sf_t_dup_join</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
@@ -69,12 +69,12 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_t_dup_join</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_hist" name="5. Se registra el historial">
+    <bpmn:task id="t_hist" name="5. Registrar el historial">
       <bpmn:documentation>Si algo cambió de verdad, se anota cuándo y por qué en el _HISTORIAL.md del nivel más cercano. Un typo no genera historial; un alta, una baja o una regla nueva, sí.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_indices" name="6. Se actualizan los índices">
+    <bpmn:task id="t_indices" name="6. Actualizar los índices">
       <bpmn:documentation>El índice del área y el índice maestro apuntan a lo nuevo. Una nota que nadie enlaza es una nota que nadie encuentra.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
@@ -85,7 +85,7 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
         <bpmn:targetRef>prop_t_indices</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_espejos" name="7. Se archivan los espejos">
+    <bpmn:task id="t_espejos" name="7. Archivar los espejos">
       <bpmn:documentation>Copias, espejos y transcripciones se archivan, no se editan ni se dejan sueltos. Un dashboard refleja: no edita. Borrar también es mantener, pero borrar exige instrucción humana específica.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
@@ -95,12 +95,12 @@ Fuente: _herramientas/esquemas_bpmn/gobierno_como_se_gobierna_la_documentacion.j
       <bpmn:outgoing>sf_10</bpmn:outgoing>
       <bpmn:outgoing>sf_11</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_canonico" name="Se promueve a canónico">
+    <bpmn:task id="t_canonico" name="Promover a canónico">
       <bpmn:documentation>Solo una persona lo promueve. El agente deja el borrador en la bandeja y dice qué falta: jamás escribe en el canónico por su cuenta.</bpmn:documentation>
       <bpmn:incoming>sf_10</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_bandeja" name="Vuelve a la bandeja">
+    <bpmn:task id="t_bandeja" name="Devolver a la bandeja">
       <bpmn:documentation>Sin aprobación no se promueve. Vuelve a la bandeja con responsable y destino propuesto, y a los 14 días sin decidir caduca al archivo. Mientras esté allá, no se cita como estado. Las tres salidas de la regla 4 del INBOX son promover a nota, mover a la carpeta correcta o descartar.</bpmn:documentation>
       <bpmn:incoming>sf_11</bpmn:incoming>
       <bpmn:outgoing>sf_13</bpmn:outgoing>

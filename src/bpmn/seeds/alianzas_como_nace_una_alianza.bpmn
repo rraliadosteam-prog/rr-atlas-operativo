@@ -10,7 +10,7 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Alianzas">
+      <bpmn:lane id="lane_1" name="Dirección">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_valida</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_relacion</bpmn:flowNodeRef>
@@ -18,7 +18,7 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
         <bpmn:flowNodeRef>t_registra</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_registra_join</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Comercial">
+      <bpmn:lane id="lane_2" name="Comercial">
         <bpmn:flowNodeRef>t_llega</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_embudo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_cierra</bpmn:flowNodeRef>
@@ -26,13 +26,13 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin_join</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · Lo que no está escrito"/>
+      <bpmn:lane id="lane_3" name="Equipo RR · Lo que no está escrito"/>
     </bpmn:laneSet>
     <bpmn:startEvent id="e_ini" name="Alguien con audiencia">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_valida" name="2. Se valida el encaje">
+    <bpmn:task id="t_valida" name="2. Validar el encaje">
       <bpmn:documentation>Qué clientes tiene, si encaja con lo que hacemos, si no somos competencia.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
@@ -42,12 +42,12 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       <bpmn:outgoing>sf_3</bpmn:outgoing>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_acuerdo" name="Se acuerda la comisión por escrito">
+    <bpmn:task id="t_acuerdo" name="Acordar la comisión por escrito">
       <bpmn:documentation>Si hay comisión, de cuánto y cuándo se paga. Va por escrito, no de palabra.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_registra" name="4. Se registra el origen">
+    <bpmn:task id="t_registra" name="4. Registrar el origen">
       <bpmn:documentation>Cada cliente nuevo anota de dónde vino. Sin esto no se sabe qué aliado funciona.</bpmn:documentation>
       <bpmn:incoming>sf_t_registra_join</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
@@ -57,12 +57,12 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_t_registra_join</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_llega" name="6. Llega el prospecto">
+    <bpmn:task id="t_llega" name="6. Recibir el prospecto">
       <bpmn:documentation>El aliado manda el contacto. Se trata como cliente normal.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_embudo" name="7. Seguimiento comercial">
+    <bpmn:task id="t_embudo" name="7. Hacer el seguimiento comercial">
       <bpmn:documentation>Entra al embudo normal. Se cotiza, se negocia. Se cierra o se pierde.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
@@ -72,7 +72,7 @@ Fuente: _herramientas/esquemas_bpmn/alianzas_como_nace_una_alianza.json</bpmn:do
       <bpmn:outgoing>sf_9</bpmn:outgoing>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_reporta" name="8. Se reporta al aliado">
+    <bpmn:task id="t_reporta" name="8. Reportar al aliado">
       <bpmn:documentation>Si hay comisión, se reporta y se paga lo acordado. Cierra el ciclo.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>

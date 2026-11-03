@@ -10,7 +10,7 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Antes de empezar">
+      <bpmn:lane id="lane_1" name="Comercial">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_confirma</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_anticipo</bpmn:flowNodeRef>
@@ -18,7 +18,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
         <bpmn:flowNodeRef>g_listo_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_espera</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Los primeros días">
+      <bpmn:lane id="lane_2" name="Dirección Operativa">
         <bpmn:flowNodeRef>t_reunion</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_calendario</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_entregable</bpmn:flowNodeRef>
@@ -55,22 +55,22 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_que_firman.json
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_g_listo_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_espera" name="Se espera el pago">
+    <bpmn:task id="t_espera" name="Esperar el pago">
       <bpmn:documentation>Sin anticipo no se arranca: empezar a producir sin cobrar es la forma más rápida de perder plata.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_reunion" name="3. Reunión de arranque">
+    <bpmn:task id="t_reunion" name="3. Hacer la reunión de arranque">
       <bpmn:documentation>Qué quiere, para qué, cuándo lo necesita. Se escribe. Es la etapa 04 del manual de roles: reunión de inicio.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_calendario" name="4. Calendario de contenido">
+    <bpmn:task id="t_calendario" name="4. Definir el calendario de contenido">
       <bpmn:documentation>Etapa 08 del embudo: qué se publica y cuándo. Con CLIENTE_A ya existe: 4 pagos mensuales, de nov a feb.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_entregable" name="5. Primer entregable">
+    <bpmn:task id="t_entregable" name="5. Entregar el primer entregable">
       <bpmn:documentation>Algo pequeño y rápido para mostrar que arranca. La aprobación del cliente es el paso 4 del esquema de producción.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>

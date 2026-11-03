@@ -10,7 +10,7 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Lo que hace EQUIPO_2">
+      <bpmn:lane id="lane_1" name="Contenido">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_ideas</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_ideas_join</bpmn:flowNodeRef>
@@ -21,11 +21,11 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
         <bpmn:flowNodeRef>t_edita</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_revisa</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · La decisión del cliente">
+      <bpmn:lane id="lane_2" name="Cliente">
         <bpmn:flowNodeRef>g_aprueba</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_brief</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · Entrega y medición">
+      <bpmn:lane id="lane_3" name="Dirección">
         <bpmn:flowNodeRef>t_entrega</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_mide</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_que</bpmn:flowNodeRef>
@@ -36,7 +36,7 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_ideas" name="2. Se buscan ideas">
+    <bpmn:task id="t_ideas" name="2. Buscar ideas">
       <bpmn:documentation>Se llenan ideas distintas. No una sola idea.</bpmn:documentation>
       <bpmn:incoming>sf_t_ideas_join</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
@@ -46,7 +46,7 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_t_ideas_join</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_guiones" name="3. Se escribe">
+    <bpmn:task id="t_guiones" name="3. Escribir el guion">
       <bpmn:documentation>Los guiones o conceptos de cada idea.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -56,12 +56,12 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
       <bpmn:outgoing>sf_4</bpmn:outgoing>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_brief" name="1. Brief: qué es y para qué">
+    <bpmn:task id="t_brief" name="1. Redactar el brief inicial">
       <bpmn:documentation>El cliente dice qué quiere. Sin brief escrito no hay nada que hacer.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_prepara" name="5. Se prepara">
+    <bpmn:task id="t_prepara" name="5. Preparar la sesión">
       <bpmn:documentation>Se cuadra cómo se va a grabar: dónde, con quién, qué se necesita.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
@@ -72,37 +72,37 @@ Fuente: _herramientas/esquemas_bpmn/produccion_como_se_hace_una_pieza.json</bpmn
         <bpmn:targetRef>prop_t_prepara</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_consigue" name="6. Se consigue">
+    <bpmn:task id="t_consigue" name="6. Conseguir los recursos">
       <bpmn:documentation>Modelos, cámaras, luz, locación. EQUIPO_2 lleva esta parte hoy.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_graba" name="7. Se graba">
+    <bpmn:task id="t_graba" name="7. Grabar la sesión">
       <bpmn:documentation>El día de grabación.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_edita" name="8. Se edita">
+    <bpmn:task id="t_edita" name="8. Editar la pieza">
       <bpmn:documentation>Se une, se corta, se colorea, se le pone música o texto.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_revisa" name="9. Se revisa">
+    <bpmn:task id="t_revisa" name="9. Revisar la pieza">
       <bpmn:documentation>Se mira con calma antes de salir.</bpmn:documentation>
       <bpmn:incoming>sf_10</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_entrega" name="10. Se entrega">
+    <bpmn:task id="t_entrega" name="10. Entregar la pieza">
       <bpmn:documentation>Se publica o se le entrega al cliente.</bpmn:documentation>
       <bpmn:incoming>sf_11</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_mide" name="11. Se mira qué pasó">
+    <bpmn:task id="t_mide" name="11. Medir los resultados">
       <bpmn:documentation>Cuántas personas lo vieron, cuántos les gustó.</bpmn:documentation>
       <bpmn:incoming>sf_12</bpmn:incoming>
       <bpmn:outgoing>sf_13</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_que" name="12. ¿Y después qué?">
+    <bpmn:task id="t_que" name="12. Definir el siguiente paso">
       <bpmn:documentation>No hay un número que diga si una publicación estuvo bien o mal. Sin eso el último paso no se puede evaluar.</bpmn:documentation>
       <bpmn:incoming>sf_13</bpmn:incoming>
       <bpmn:outgoing>sf_14</bpmn:outgoing>

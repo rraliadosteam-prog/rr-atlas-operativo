@@ -10,14 +10,14 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_cliente.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Comercial (lleva)">
+      <bpmn:lane id="lane_1" name="Comercial">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_anota</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_mira</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_propone</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_pre</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Dirección (aprueba)">
+      <bpmn:lane id="lane_2" name="Dirección">
         <bpmn:flowNodeRef>t_negocia</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_negocia_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_firma</bpmn:flowNodeRef>
@@ -26,23 +26,23 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
         <bpmn:flowNodeRef>t_arranca</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · A quién se le pregunta"/>
+      <bpmn:lane id="lane_3" name="Equipo RR · A quién se le pregunta"/>
     </bpmn:laneSet>
     <bpmn:startEvent id="e_ini" name="Llega alguien">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_anota" name="2. Se anota">
+    <bpmn:task id="t_anota" name="2. Registrar el prospecto">
       <bpmn:documentation>Entra al listado de posibles clientes con su nombre y cómo llegó. Hoy: CLIENTE_A, CLIENTE_C, CLIENTE_E.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_mira" name="3. Se mira qué es">
+    <bpmn:task id="t_mira" name="3. Revisar la necesidad">
       <bpmn:documentation>Qué necesita, cuánto vale, si es posible hacerlo y cuánto cuesta.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_propone" name="4. Se propone">
+    <bpmn:task id="t_propone" name="4. Proponer la solución">
       <bpmn:documentation>Un prototipo o una propuesta con precio.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
@@ -53,12 +53,12 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
         <bpmn:targetRef>prop_t_propone</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_pre" name="5. Precontrato">
+    <bpmn:task id="t_pre" name="5. Preparar el precontrato">
       <bpmn:documentation>Un acuerdo de que van a firmar. Todavía no es el contrato final.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_negocia" name="6. Se negocia">
+    <bpmn:task id="t_negocia" name="6. Negociar el contrato">
       <bpmn:documentation>Se ajusta precio, alcance o fechas. Ejemplo: CLIENTE_A, [CIFRA] por 2 meses por delante.</bpmn:documentation>
       <bpmn:incoming>sf_t_negocia_join</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
@@ -79,17 +79,17 @@ Fuente: _herramientas/esquemas_bpmn/ventas_como_una_oportunidad_se_convierte_en_
       <bpmn:outgoing>sf_7</bpmn:outgoing>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_firmar" name="7. Se firma o se aprueba">
+    <bpmn:task id="t_firmar" name="7. Firmar o aprobar el acuerdo">
       <bpmn:documentation>Sin firma no hay factura. Acá se traba hoy: CLIENTE_A y CLIENTE_C no tienen contrato firmado.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_onboard" name="8. Onboarding">
+    <bpmn:task id="t_onboard" name="8. Hacer el onboarding">
       <bpmn:documentation>Carpeta del cliente, su _CONTEXTO.md y los entregables escritos. Ver 03_10_flujo_onboarding_cliente.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_arranca" name="9. Arranca el trabajo">
+    <bpmn:task id="t_arranca" name="9. Arrancar el trabajo">
       <bpmn:documentation>Recibe Producción o Desarrollo.</bpmn:documentation>
       <bpmn:incoming>sf_10</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>

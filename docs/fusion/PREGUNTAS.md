@@ -49,13 +49,14 @@ Formato: `TODO(Rosas): ...`
 - RESUELTO: **Clientes** — BOGA, Candilejas e IMF Weddings **activos**; los demás **en pausa**. Se quita «Sin confirmar» del estado de clientes.
 - RESUELTO: **Guías de diagrama provisionales**, con aviso visible «Guía provisional».
 - RESUELTO: **Leyenda** separada: tareas de bot y tareas de persona, con ícono distinto.
-- RESUELTO: **Reparar las 16 semillas BPMN** hasta 0 avisos de lint (incluido `no-gateway-join-fork`).
+- RESUELTO: **Reparar las 16 semillas BPMN** hasta 0 avisos de lint (incluido `no-gateway-join-fork`). Cerrado en el bloque 8: `npm run lint:bpmn` da 0 errores y 0 avisos.
 - RESUELTO: **Abrir un diagrama = siempre pantalla completa.**
 - RESUELTO: **Bots vigentes** — Buen Puente y Becas de Exposición; Media Manager y Gains quedan «sin confirmar».
 - RESUELTO: **Lo menor** (estados vacíos, catálogo, tamaños) se decide con el criterio más profesional, sin preguntar.
 
 ## Abiertas por el bloque 7 (2026-11-02, item 7 y item B)
-- TODO(Rosas): Las semillas BPMN ya no tienen errores ni avisos de las reglas estructurales de bpmnlint (las 8 compuertas que abrían y cerraron se dividieron en join + fork, se pusieron las uniones que faltaban y se quitaron las etiquetas de sobra). Quedan dos avisos de **estilo de contenido** del plugin de RR: 43 carriles se llaman como una etapa («1 · Prioridad») y 109 tareas no están en infinitivo de 2 a 6 palabras («2. Se anota»). ¿Se hace un pase de escritura de los 16 diagramas con el equipo (carriles = roles, tareas en infinitivo) o se relajan esas dos reglas del plugin?
+- ~~Las semillas BPMN ya no tienen errores ni avisos de las reglas estructurales de bpmnlint… Quedan dos avisos de estilo de contenido~~ → **RESUELTO (bloque 8, 2026-11-02)**: se hizo el pase de escritura de los 16 diagramas. Los 43 carriles que se llamaban como una etapa ahora se llaman con el rol que hace ese trabajo y las 109 tareas quedaron en infinitivo de 2 a 6 palabras. **`npm run lint:bpmn` queda en 0 errores y 0 avisos.**
+- TODO(Rosas): Los carriles quedaron con **roles genéricos** (Comercial, Dirección, Dirección Operativa, Dirección · Caja, Finanzas, Finanzas · Ingresos, Finanzas · Egresos, Legal, Soporte, Soporte · Prioridad, Equipo RR, Equipo RR · Resolución, Cliente, Bot, Solicitante, Contenido, Desarrollo) porque no hay fuente que diga qué cargo del manual de roles está en cada carril. ¿Se ajustan los nombres de los carriles a los roles reales (CEO, Director Operativo, Director Creativo, Consultora de Contenido y Redes, Editor, PM por definir, Camarógrafo por definir) o se deja así?
 - TODO(Rosas): En las fuentes de RR el cliente es «IMF Visions»; en la decisión del 2-nov sale «IMF Weddings». ¿Es el mismo cliente y se deja el nombre canónico de la fuente, o se corrige la fuente?
 - TODO(Rosas): Wundeer quedó «En pausa» por la decisión de estados de clientes (solo BOGA, Candilejas e IMF quedan activos), aunque la fuente lo describe como desarrollo mostrado con contrato pendiente. ¿Se deja en pausa o se abre la excepción?
 - TODO(Rosas): En celular el nodo del mapa no se arrastra (el dedo mueve y pellizca el tablero) y el arrastre de nodos quedó solo para ratón. ¿Se quiere un modo «editar mapa» en móvil?

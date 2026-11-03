@@ -10,17 +10,17 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_cliente.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Quién recibe">
+      <bpmn:lane id="lane_1" name="Soporte">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_anota</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Prioridad">
+      <bpmn:lane id="lane_2" name="Soporte · Prioridad">
         <bpmn:flowNodeRef>g_prio</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_alta</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_media</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_baja</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · Quien lo resuelve">
+      <bpmn:lane id="lane_3" name="Equipo RR · Resolución">
         <bpmn:flowNodeRef>g_ayuda</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_ayuda_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_responde</bpmn:flowNodeRef>
@@ -37,7 +37,7 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_anota" name="2. Se anota">
+    <bpmn:task id="t_anota" name="2. Registrar el caso">
       <bpmn:documentation>Queja, error o pedido. Con fecha.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
@@ -48,17 +48,17 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       <bpmn:outgoing>sf_4</bpmn:outgoing>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_alta" name="Alta · se resuelve ya">
+    <bpmn:task id="t_alta" name="Resolver de inmediato (prioridad alta)">
       <bpmn:documentation>El cliente está bloqueado, un cobro, un contrato o una entrega clave.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_media" name="Media · pronto">
+    <bpmn:task id="t_media" name="Atender pronto (prioridad media)">
       <bpmn:documentation>Cambios con fecha cercana.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_baja" name="Baja · cuando se pueda">
+    <bpmn:task id="t_baja" name="Atender cuando se pueda (prioridad baja)">
       <bpmn:documentation>Mejoras o cosas sin fecha.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
@@ -74,12 +74,12 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_g_ayuda_join</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_responde" name="5. Se responde">
+    <bpmn:task id="t_responde" name="5. Responder al cliente">
       <bpmn:documentation>Se le contesta al cliente.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_arregla" name="6. Se arregla">
+    <bpmn:task id="t_arregla" name="6. Resolver la falla">
       <bpmn:documentation>Se resuelve de verdad, no solo se contesta.</bpmn:documentation>
       <bpmn:incoming>sf_t_arregla_join</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
@@ -99,12 +99,12 @@ Fuente: _herramientas/esquemas_bpmn/soporte_como_se_resuelve_un_problema_de_un_c
       <bpmn:incoming>sf_12</bpmn:incoming>
       <bpmn:outgoing>sf_g_ok_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_cierra" name="8. Se cierra">
+    <bpmn:task id="t_cierra" name="8. Cerrar el caso">
       <bpmn:documentation>Queda resuelto y archivado.</bpmn:documentation>
       <bpmn:incoming>sf_14</bpmn:incoming>
       <bpmn:outgoing>sf_15</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_aprende" name="9. Se aprende">
+    <bpmn:task id="t_aprende" name="9. Aprender del caso">
       <bpmn:documentation>Para que no vuelva a pasar.</bpmn:documentation>
       <bpmn:incoming>sf_15</bpmn:incoming>
       <bpmn:outgoing>sf_16</bpmn:outgoing>

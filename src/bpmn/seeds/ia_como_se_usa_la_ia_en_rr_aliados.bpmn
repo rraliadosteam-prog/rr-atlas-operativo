@@ -10,12 +10,12 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/ia_como_se_usa_la_ia_en_rr_aliados.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Quién lo pide">
+      <bpmn:lane id="lane_1" name="Solicitante">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_existe</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_reusar</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Construcción">
+      <bpmn:lane id="lane_2" name="Bot">
         <bpmn:flowNodeRef>t_proveedor</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_proveedor_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_permiso</bpmn:flowNodeRef>
@@ -29,7 +29,7 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_usa_la_ia_en_rr_aliados.json</bpm
         <bpmn:flowNodeRef>t_docs_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · Las reglas que no se rompen"/>
+      <bpmn:lane id="lane_3" name="Equipo RR · Las reglas que no se rompen"/>
     </bpmn:laneSet>
     <bpmn:startEvent id="e_ini" name="Alguien hace algo pesado">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
@@ -39,12 +39,12 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_usa_la_ia_en_rr_aliados.json</bpm
       <bpmn:outgoing>sf_2</bpmn:outgoing>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_reusar" name="Se reusa la que ya está">
+    <bpmn:task id="t_reusar" name="Reusar la que ya está">
       <bpmn:documentation>No se reinventa lo que ya existe. Se documenta y listo.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_proveedor" name="3. Se decide el proveedor">
+    <bpmn:task id="t_proveedor" name="3. Decidir el proveedor">
       <bpmn:documentation>Se elige proveedor y modelo según lo aprobado. No se prueba nada nuevo sin permiso.</bpmn:documentation>
       <bpmn:incoming>sf_t_proveedor_join</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
@@ -59,12 +59,12 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_usa_la_ia_en_rr_aliados.json</bpm
       <bpmn:outgoing>sf_6</bpmn:outgoing>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_descarta" name="Se descarta">
+    <bpmn:task id="t_descarta" name="Descartar la opción">
       <bpmn:documentation>Un proveedor no aprobado no entra, por bueno que parezca. Se busca otro que sí lo esté.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_skill" name="4. Se construye la skill">
+    <bpmn:task id="t_skill" name="4. Construir la skill">
       <bpmn:documentation>Una skill con nombre claro y description útil.</bpmn:documentation>
       <bpmn:incoming>sf_t_skill_join</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
@@ -74,7 +74,7 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_usa_la_ia_en_rr_aliados.json</bpm
       <bpmn:incoming>sf_11</bpmn:incoming>
       <bpmn:outgoing>sf_t_skill_join</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_prueba" name="5. Se prueba con error real">
+    <bpmn:task id="t_prueba" name="5. Probar con un error real">
       <bpmn:documentation>Se le planta un error y se ve si lo detecta. Si no detecta nada, no sirve.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
@@ -84,12 +84,12 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_usa_la_ia_en_rr_aliados.json</bpm
       <bpmn:outgoing>sf_11</bpmn:outgoing>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_instala" name="6. Se instala donde corresponde">
+    <bpmn:task id="t_instala" name="6. Instalar donde corresponda">
       <bpmn:documentation>En la carpeta del proyecto, no global. Global solo lo que sirve para todos.</bpmn:documentation>
       <bpmn:incoming>sf_12</bpmn:incoming>
       <bpmn:outgoing>sf_13</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_docs" name="7. Se documenta">
+    <bpmn:task id="t_docs" name="7. Documentar el uso">
       <bpmn:documentation>Qué hace, cuándo se usa y cómo se quita. Sin esto, nadie la va a usar.</bpmn:documentation>
       <bpmn:incoming>sf_t_docs_join</bpmn:incoming>
       <bpmn:outgoing>sf_14</bpmn:outgoing>

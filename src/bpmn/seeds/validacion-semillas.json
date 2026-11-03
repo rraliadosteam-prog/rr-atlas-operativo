@@ -5,22 +5,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 9,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_valida",
-    "t_acuerdo",
-    "t_registra",
-    "t_llega",
-    "t_embudo",
-    "t_reporta"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -38,20 +24,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 7,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_informe",
-    "t_post",
-    "t_escala",
-    "t_garantia",
-    "t_seva"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -69,18 +43,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 5,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_espera",
-    "t_reunion",
-    "t_calendario"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -98,25 +62,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 12,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_brief",
-    "t_arq",
-    "t_proto",
-    "t_impl",
-    "t_qa",
-    "t_ajustes",
-    "t_deploy",
-    "t_docs",
-    "t_manten"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -134,21 +81,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 8,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_contrato",
-    "t_factura",
-    "t_cliente_a",
-    "t_cliente_c",
-    "t_cand",
-    "t_caja"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -166,25 +100,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 12,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_cotiza",
-    "t_escrito",
-    "t_emite",
-    "t_entra",
-    "t_revisa",
-    "t_anota",
-    "t_espejo",
-    "t_persigue",
-    "t_informa"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -202,21 +119,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 8,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_trabajo",
-    "t_valor",
-    "t_entrega",
-    "t_emite",
-    "t_firma",
-    "t_paga"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -234,23 +138,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 10,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3",
-    "lane_4"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_cliente_a",
-    "t_cand",
-    "t_cliente_c",
-    "t_burn",
-    "t_fijos",
-    "t_ok"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -268,23 +157,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 10,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_decide",
-    "t_contexto",
-    "t_dup",
-    "t_hist",
-    "t_indices",
-    "t_espejos",
-    "t_canonico",
-    "t_bandeja"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -302,16 +176,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 3,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_revisar"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -329,23 +195,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 10,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_reusar",
-    "t_proveedor",
-    "t_descarta",
-    "t_skill",
-    "t_prueba",
-    "t_instala",
-    "t_docs"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -363,24 +214,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 11,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_ruta",
-    "t_busca",
-    "t_fuente",
-    "t_responde",
-    "t_limite",
-    "t_notion",
-    "t_persona",
-    "t_hueco"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -398,24 +233,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 11,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_pide",
-    "t_plantilla",
-    "t_rev_int",
-    "t_acliente_cda",
-    "t_aprueba",
-    "t_firma",
-    "t_archiva",
-    "t_renueva"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -433,27 +252,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 14,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_ideas",
-    "t_guiones",
-    "t_brief",
-    "t_prepara",
-    "t_consigue",
-    "t_graba",
-    "t_edita",
-    "t_revisa",
-    "t_entrega",
-    "t_mide",
-    "t_que"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -471,24 +271,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 11,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_anota",
-    "t_alta",
-    "t_media",
-    "t_baja",
-    "t_responde",
-    "t_arregla",
-    "t_cierra",
-    "t_aprende"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],
@@ -506,24 +290,8 @@
   "moddle_warnings": 0,
   "moddle_detalle": [],
   "lint_E": 0,
-  "lint_W": 11,
-  "lint_reglas": {
-   "rr/lane-es-rol": [
-    "lane_1",
-    "lane_2",
-    "lane_3"
-   ],
-   "rr/tarea-infinitivo": [
-    "t_anota",
-    "t_mira",
-    "t_propone",
-    "t_pre",
-    "t_negocia",
-    "t_firmar",
-    "t_onboard",
-    "t_arranca"
-   ]
-  },
+  "lint_W": 0,
+  "lint_reglas": {},
   "tiene_DI": true,
   "sin_shape": [],
   "sin_edge": [],

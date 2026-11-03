@@ -10,12 +10,12 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Lo que se emite">
+      <bpmn:lane id="lane_1" name="Finanzas">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_contrato</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_factura</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Lo que pagan los clientes">
+      <bpmn:lane id="lane_2" name="Cliente">
         <bpmn:flowNodeRef>g_paga</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cliente_a</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cliente_c</bpmn:flowNodeRef>
@@ -29,12 +29,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_contrato" name="1. Hay contrato firmado">
+    <bpmn:task id="t_contrato" name="1. Verificar el contrato firmado">
       <bpmn:documentation>Sin contrato firmado no hay factura: hay promesa. Hoy 2 clientes sin firmar: CLIENTE_A y CLIENTE_C.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_factura" name="2. Se emite la factura">
+    <bpmn:task id="t_factura" name="2. Emitir la factura">
       <bpmn:documentation>Es el documento que prueba que se facturó. La factura al cliente no es la Cuenta de Cobro al colaborador: son dos documentos distintos.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -51,22 +51,22 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_un_peso_a_la_cuenta.json
       <bpmn:outgoing>sf_5</bpmn:outgoing>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="t_cliente_a" name="Paga CLIENTE_A">
+    <bpmn:task id="t_cliente_a" name="Registrar el pago de CLIENTE_A">
       <bpmn:documentation>[CIFRA] el 15/10 (2 meses de golpe), luego [CIFRA]/mes hasta febrero. Contrato SIN FIRMAR.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_cliente_c" name="Paga CLIENTE_C">
+    <bpmn:task id="t_cliente_c" name="Registrar el pago de CLIENTE_C">
       <bpmn:documentation>[CIFRA]/mes. Contrato SIN FIRMAR.</bpmn:documentation>
       <bpmn:incoming>sf_5</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_cand" name="Paga CLIENTE_B">
+    <bpmn:task id="t_cand" name="Registrar el pago de CLIENTE_B">
       <bpmn:documentation>[CIFRA]/mes del 15/10/2026 al 15/05/2027. El único de los tres con contrato firmado.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_caja" name="Entra a la cuenta">
+    <bpmn:task id="t_caja" name="Registrar el ingreso a la cuenta">
       <bpmn:documentation>Cartera vencida: [CIFRA] Nadie nos debe hoy.</bpmn:documentation>
       <bpmn:incoming>sf_t_caja_join</bpmn:incoming>
       <bpmn:outgoing>sf_10</bpmn:outgoing>

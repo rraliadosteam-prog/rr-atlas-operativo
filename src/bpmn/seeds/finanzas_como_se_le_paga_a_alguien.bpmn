@@ -10,12 +10,12 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · El acuerdo">
+      <bpmn:lane id="lane_1" name="Dirección">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_trabajo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_valor</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · El pago">
+      <bpmn:lane id="lane_2" name="Finanzas">
         <bpmn:flowNodeRef>t_entrega</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_emite</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_firma</bpmn:flowNodeRef>
@@ -29,12 +29,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_trabajo" name="1. Hay un trabajo que hacer">
+    <bpmn:task id="t_trabajo" name="1. Detectar el trabajo pendiente">
       <bpmn:documentation>Alguien lo hace. 5 personas con rol fijo y 2 cargos sin llenar.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_valor" name="2. Se acuerda el valor">
+    <bpmn:task id="t_valor" name="2. Acordar el valor">
       <bpmn:documentation>Cuánto se paga. NO hay política escrita: cada acuerdo es distinto. Nadie sabe si es por hora, por entrega o por mes.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -45,12 +45,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
         <bpmn:targetRef>prop_t_valor</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_entrega" name="3. Se entrega el trabajo">
+    <bpmn:task id="t_entrega" name="3. Entregar el trabajo">
       <bpmn:documentation>Y el cliente lo aprueba. Sin aprobación no hay pago.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_emite" name="4. Se emite la Cuenta de Cobro">
+    <bpmn:task id="t_emite" name="4. Emitir la cuenta de cobro">
       <bpmn:documentation>Es RR Aliados documentando lo que le debe a su propio colaborador. 20 documentos en total.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
@@ -65,12 +65,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_g_firma_join</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_firma" name="Se persigue la firma">
+    <bpmn:task id="t_firma" name="Persistir la firma">
       <bpmn:documentation>3 sin firmar: PERSONA_4 [CIFRA], PERSONA_3 [CIFRA], PERSONA_2 [CIFRA]. Sin seguimiento.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_paga" name="Se paga">
+    <bpmn:task id="t_paga" name="Pagar el valor acordado">
       <bpmn:documentation>17 de 20 firmadas: [CIFRA]. 3 sin firmar: [CIFRA]. Fuente: captura.json.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>

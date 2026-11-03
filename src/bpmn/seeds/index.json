@@ -27,8 +27,11 @@
       "titulo": "Gobierno documental",
       "area": "Dirección",
       "areaId": "direccion",
-      "estado": "con-deuda",
-      "lint": { "errores": 1, "avisos": 7 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "informacion_de_donde_sale_la_respuesta",
@@ -36,8 +39,11 @@
       "titulo": "De dónde sale una respuesta",
       "area": "Dirección",
       "areaId": "direccion",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 5 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "ventas_como_una_oportunidad_se_convierte_en_cliente",
@@ -45,8 +51,11 @@
       "titulo": "Oportunidad a cliente",
       "area": "Comercial y captación",
       "areaId": "comercial",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 5 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "alianzas_como_nace_una_alianza",
@@ -54,8 +63,11 @@
       "titulo": "Alianzas y referidos",
       "area": "Comercial y captación",
       "areaId": "comercial",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 2 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "clientes_que_pasa_despues_de_que_firman",
@@ -63,8 +75,11 @@
       "titulo": "Después de que firman",
       "area": "Entrega de servicios",
       "areaId": "entrega",
-      "estado": "con-deuda",
-      "lint": { "errores": 1, "avisos": 1 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "clientes_que_pasa_despues_de_entregar",
@@ -72,8 +87,11 @@
       "titulo": "Después de entregar",
       "area": "Entrega de servicios",
       "areaId": "entrega",
-      "estado": "con-deuda",
-      "lint": { "errores": 1, "avisos": 1 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "desarrollo_como_llega_un_producto_de_software_a_produccion",
@@ -81,8 +99,11 @@
       "titulo": "Desarrollo de software a producción",
       "area": "Entrega de servicios",
       "areaId": "entrega",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 3 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "produccion_como_se_hace_una_pieza",
@@ -90,8 +111,11 @@
       "titulo": "Producción de una pieza de contenido",
       "area": "Entrega de servicios",
       "areaId": "entrega",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 1 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "finanzas_como_entra_y_se_sale_la_plata",
@@ -99,8 +123,11 @@
       "titulo": "Cómo entra y sale la plata",
       "area": "Finanzas (flujos)",
       "areaId": "finanzas",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 5 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "finanzas_como_entra_un_peso_a_la_cuenta",
@@ -108,8 +135,11 @@
       "titulo": "Facturación y cuenta de cobro",
       "area": "Finanzas (flujos)",
       "areaId": "finanzas",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 2 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "finanzas_como_se_le_paga_a_alguien",
@@ -117,8 +147,11 @@
       "titulo": "Pagos a colaboradores y proveedores",
       "area": "Finanzas (flujos)",
       "areaId": "finanzas",
-      "estado": "con-deuda",
-      "lint": { "errores": 1, "avisos": 2 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "finanzas_la_quincena",
@@ -126,8 +159,11 @@
       "titulo": "La quincena",
       "area": "Finanzas (flujos)",
       "areaId": "finanzas",
-      "estado": "con-deuda",
-      "lint": { "errores": 1, "avisos": 2 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "ia_como_se_usa_la_ia_en_rr_aliados",
@@ -135,8 +171,11 @@
       "titulo": "Uso de IA en RR",
       "area": "Operación de bots e IA",
       "areaId": "bots",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 3 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente",
@@ -144,8 +183,11 @@
       "titulo": "Trabajo repetitivo a agente",
       "area": "Operación de bots e IA",
       "areaId": "bots",
-      "estado": "borrador",
-      "lint": { "errores": 0, "avisos": 1 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "soporte_como_se_resuelve_un_problema_de_un_cliente",
@@ -153,8 +195,11 @@
       "titulo": "Resolución de un problema de cliente",
       "area": "Soporte",
       "areaId": "soporte",
-      "estado": "con-deuda",
-      "lint": { "errores": 2, "avisos": 3 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     },
     {
       "id": "legal_como_se_firma_un_contrato",
@@ -162,8 +207,11 @@
       "titulo": "Firma de contrato",
       "area": "Legal y administrativo",
       "areaId": "legal",
-      "estado": "con-deuda",
-      "lint": { "errores": 1, "avisos": 1 }
+      "estado": "valido",
+      "lint": {
+        "errores": 0,
+        "avisos": 0
+      }
     }
   ]
 }
