@@ -143,7 +143,9 @@ export function createBpmnView({ root, shell, notify, onAjustes }) {
   const pestanasSplit = [...root.querySelectorAll('[data-bpmn-panel]')];
   // El botón de modo vive en index.html como data-bpmn-accion="modo";
   // el atributo data-bpmn-mode no existe y dejaba el botón sin referencia.
-  const botonModo = $('[data-bpmn-accion="modo"]', root);
+  // Se listan todos los que haya (la barra y, si volviera a haberlo, el
+  // menú «⋯»): así el rótulo no se queda en uno solo.
+  const botonesModo = [...root.querySelectorAll('[data-bpmn-accion="modo"]')];
   // Bloque 2 · la banda de lectura del paso (P1.4): dice en qué paso se está
   // (posición, nombre, carril y nota) **fuera** del lienzo.
   const banda = $('[data-bpmn-banda]', root);
@@ -450,10 +452,16 @@ export function createBpmnView({ root, shell, notify, onAjustes }) {
     document.body.classList.toggle('is-bpmn-completo', completo);
     if (botonPantalla) {
       botonPantalla.setAttribute('aria-pressed', String(completo));
-      botonPantalla.textContent = completo ? '⛶ Dividir' : '⛶ Pantalla completa';
-      botonPantalla.title = completo
+      // El rótulo **nunca** dice «Dividir»: ese botón vive en la cabecera
+      // (uno solo, no dos) y dos «Dividir» confundían.
+      const texto = botonPantalla.querySelector('.bpmn-accion__texto');
+      if (texto) texto.textContent = completo ? 'Ver el catálogo' : 'Pantalla completa';
+      else botonPantalla.textContent = completo ? '⛶ Ver el catálogo' : '⛶ Pantalla completa';
+      const ayuda = completo
         ? 'Ver el catálogo junto al diagrama'
         : 'Abrir el diagrama a pantalla completa';
+      botonPantalla.title = ayuda;
+      botonPantalla.setAttribute('aria-label', ayuda);
     }
     // El lienzo cambia de tamaño: se vuelve a encuadrar el diagrama entero.
     requestAnimationFrame(() => requestAnimationFrame(() => encuadrar()));
@@ -770,11 +778,15 @@ export function createBpmnView({ root, shell, notify, onAjustes }) {
       componerGancho();
       pintarInforme(reporte);
       pintarInsignia();
-      if (completo) encuadrar();
       if (reporte?.step) {
         estado.textContent = `${proceso.area} · paso ${reporte.step.indice + 1} de ${reporte.step.total} · ${reporte.step.nombre}`;
       }
+      // La banda de lectura aparece aquí (o se apaga): cuando aparece, el
+      // lienzo se queda más corto. El encuadre va **después**, para que el
+      // diagrama quepa en el lienzo que hay de verdad y no en el que había
+      // antes de la banda.
       refrescarLectura();
+      if (completo) encuadrar();
       if (seleccion) {
         const refreshed = motor.elemento(seleccion.id);
         if (refreshed) mostrarElemento(refreshed);
@@ -819,8 +831,10 @@ export function createBpmnView({ root, shell, notify, onAjustes }) {
       xml = xmlActual;
     }
     editando = !editando;
-    botonModo.textContent = editando ? 'Ver' : 'Editar';
-    botonModo.setAttribute('aria-pressed', String(editando));
+    for (const boton of botonesModo) {
+      boton.textContent = editando ? 'Ver' : 'Editar';
+      boton.setAttribute('aria-pressed', String(editando));
+    }
     if (editando) avisar('Modo edición: cambia lo que quieras y guarda la copia en este navegador.');
     await abrir(actual.id, { editable: editando, xml });
     if (seleccion) {
@@ -964,6 +978,10 @@ export function createBpmnView({ root, shell, notify, onAjustes }) {
     }
     const accion = event.target.closest('[data-bpmn-accion]');
     if (!accion) return;
+    // Si la acción vino de un menú («⋯» o «＋ Añadir»), el menú se cierra:
+    // si no, se queda abierto encima del diagrama.
+    const menu = accion.closest('details');
+    if (menu?.open) menu.open = false;
     const tipo = accion.dataset.bpmnAccion;
     if (tipo === 'modo') alternarModo();
     if (tipo === 'anterior') avanzar(-1);

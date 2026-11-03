@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  ANCHO_CONTENEDOR_AMPLIO,
   ANCHO_CONTENEDOR_ESTRECHO,
   ANCHO_ESTRECHO_PX,
   ANCHO_MOVIL_PX,
@@ -17,6 +18,7 @@ import {
   acotarZoom,
   aplicarPiso,
   aplicarTecho,
+  esLienzoAmplio,
   esLienzoAngosto,
   esMovil,
   esPantallaEstrecha,
@@ -169,6 +171,27 @@ test('El encuadre nunca baja del piso de legibilidad (salvo que se fuerze)', () 
   assert.equal(zoomEncuadre(undefined), undefined);
   assert.equal(zoomEncuadre(null), null);
   assert.ok(Number.isNaN(zoomEncuadre(Number.NaN)));
+});
+
+test('En un lienzo amplio el encuadre no lleva el piso: el escritorio abre en «ver el todo»', () => {
+  // A 1440 px el diagrama entero cabe con margen: subirlo a 1,15 dejaba
+  // fuera casi todo y el escritorio abría en una esquina del diagrama.
+  assert.equal(ANCHO_CONTENEDOR_AMPLIO, 900);
+  assert.equal(esLienzoAmplio(1440), true);
+  assert.equal(esLienzoAmplio(901), true);
+  assert.equal(esLienzoAmplio(900), false);
+  assert.equal(esLienzoAmplio(390), false);
+  assert.equal(zoomEncuadre(0.35, { anchoContenedor: 1440 }), 0.35);
+  assert.equal(zoomEncuadre(0.12, { anchoContenedor: 1000 }), 0.12);
+  // En lienzo angosto (móvil) el piso sigue mandando.
+  assert.equal(zoomEncuadre(0.12, { anchoContenedor: 390 }), PISO_LEGIBILIDAD_DIAGRAMA);
+  assert.equal(zoomEncuadre(0.12, { anchoContenedor: 768 }), PISO_LEGIBILIDAD_DIAGRAMA);
+  // `forzar` manda en los dos casos.
+  assert.equal(zoomEncuadre(0.12, { forzar: true, anchoContenedor: 1440 }), 0.12);
+  assert.equal(zoomEncuadre(0.12, { forzar: true, anchoContenedor: 390 }), 0.12);
+  // Un ancho que no es un número no inventa un lienzo: el piso manda.
+  assert.equal(zoomEncuadre(0.12, { anchoContenedor: null }), PISO_LEGIBILIDAD_DIAGRAMA);
+  assert.equal(zoomEncuadre(0.12, { anchoContenedor: undefined }), PISO_LEGIBILIDAD_DIAGRAMA);
 });
 
 test('El botón «−» siempre aleja: el piso manual queda por debajo de 1,15', () => {

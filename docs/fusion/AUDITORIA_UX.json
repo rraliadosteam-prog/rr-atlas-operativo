@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-03T18:55:18.370Z",
+  "generadoEn": "2026-11-03T20:46:18.874Z",
   "viewports": [
     {
       "viewport": {
@@ -19,14 +19,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -21,
-                "right": 1310,
+                "left": -24,
+                "right": 1308,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -21,
-                "right": 122,
+                "left": -24,
+                "right": 119,
                 "ancho": 143
               }
             ],
@@ -91,14 +91,14 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -84,
-                "right": 1248,
+                "left": -90,
+                "right": 1242,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -84,
-                "right": 59,
+                "left": -90,
+                "right": 53,
                 "ancho": 143
               }
             ],
@@ -151,7 +151,7 @@
               "ancho": 1440,
               "alto": 624
             },
-            "zoom": 1.15,
+            "zoom": 0.61,
             "modo": "todo",
             "banda": {
               "existe": true,
@@ -168,7 +168,7 @@
             "meta": "Evento de inicio · 0 entradas · 1 salidas"
           },
           "recorrido": {
-            "antes": "Comercial y captación · paso 1 de 12 · Llega alguien",
+            "antes": "Comercial y captación · paso 1 de 12 · Llega alguien · Comercial",
             "despues": "Comercial y captación · paso 2 de 12 · 2. Registrar el prospecto · Comercial",
             "avanza": true
           },
@@ -179,75 +179,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -163,
-                "right": 1169,
+                "left": -172,
+                "right": 1160,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -163,
-                "right": -20,
+                "left": -172,
+                "right": -28,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -20,
-                "right": 2,
+                "left": -28,
+                "right": -6,
                 "ancho": 22
               },
               {
+                "elemento": "span.atlas-ticker__item",
+                "left": -6,
+                "right": 83,
+                "ancho": 90
+              },
+              {
                 "elemento": "g",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
               },
               {
                 "elemento": "g[data-element-id=\"collab_1\"]",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
               },
               {
                 "elemento": "g",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
               },
               {
                 "elemento": "g[data-element-id=\"part_1\"]",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
               },
               {
                 "elemento": "g[data-rr-kind=\"lane\"]",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
               },
               {
                 "elemento": "rect",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
-              },
-              {
-                "elemento": "text",
-                "left": -144,
-                "right": -127,
-                "ancho": 17
-              },
-              {
-                "elemento": "tspan",
-                "left": -144,
-                "right": -127,
-                "ancho": 17
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
               },
               {
                 "elemento": "rect",
-                "left": -153,
-                "right": 2400,
-                "ancho": 2553
+                "left": 461,
+                "right": 1815,
+                "ancho": 1354
+              },
+              {
+                "elemento": "g",
+                "left": 479,
+                "right": 1815,
+                "ancho": 1336
               }
             ],
             "objetivosChicos": [],
@@ -258,20 +258,8 @@
         },
         {
           "nombre": "bpmn-editar",
-          "ok": true,
-          "modo": {
-            "etiqueta": "Ver",
-            "paleta": true,
-            "contextPad": false,
-            "editable": false
-          },
-          "edicionDirecta": {
-            "disponible": true,
-            "textoOriginal": "2. Registrar el prospecto",
-            "textoFinal": "2. Registrar el prospecto (editada)",
-            "cambioAplicado": true
-          },
-          "captura": "docs/fusion/capturas/auditoria/escritorio-1440-05-bpmn-editar.png"
+          "ok": false,
+          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[data-bpmn-accion=\"modo\"]')\n    - locator resolved to 2 elements. Proceeding with the first one: <button type=\"button\" aria-pressed=\"false\" data-bpmn-accion=\"modo\" class=\"button button-small\">Editar</button>\n  - attempting clic"
         },
         {
           "nombre": "exportar",
@@ -279,15 +267,15 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 16262
+              "bytes": 16129
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38721
+              "bytes": 37394
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 429792
+              "bytes": 425528
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -332,74 +320,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -22,
-                "right": 1310,
+                "left": -23,
+                "right": 1308,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -22,
-                "right": 121,
+                "left": -23,
+                "right": 120,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 644,
-                "right": 787,
+                "left": 642,
+                "right": 786,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 787,
-                "right": 809,
+                "left": 786,
+                "right": 808,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 809,
-                "right": 899,
+                "left": 808,
+                "right": 898,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 899,
-                "right": 921,
+                "left": 898,
+                "right": 920,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 921,
-                "right": 973,
+                "left": 920,
+                "right": 972,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 973,
-                "right": 996,
+                "left": 972,
+                "right": 994,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 996,
-                "right": 1050,
+                "left": 994,
+                "right": 1049,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1050,
-                "right": 1072,
+                "left": 1049,
+                "right": 1071,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1072,
-                "right": 1166,
+                "left": 1071,
+                "right": 1165,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1166,
-                "right": 1188,
+                "left": 1165,
+                "right": 1187,
                 "ancho": 22
               }
             ],
@@ -464,74 +452,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -81,
-                "right": 1251,
+                "left": -86,
+                "right": 1246,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -81,
-                "right": 63,
+                "left": -86,
+                "right": 57,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 751,
-                "right": 840,
+                "left": 745,
+                "right": 835,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 840,
-                "right": 862,
+                "left": 835,
+                "right": 857,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 862,
-                "right": 915,
+                "left": 857,
+                "right": 909,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 915,
-                "right": 937,
+                "left": 909,
+                "right": 932,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 937,
-                "right": 992,
+                "left": 932,
+                "right": 986,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 992,
-                "right": 1014,
+                "left": 986,
+                "right": 1008,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1014,
-                "right": 1108,
+                "left": 1008,
+                "right": 1102,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1108,
-                "right": 1130,
+                "left": 1102,
+                "right": 1124,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1130,
-                "right": 1229,
+                "left": 1124,
+                "right": 1223,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1229,
-                "right": 1251,
+                "left": 1223,
+                "right": 1246,
                 "ancho": 22
               }
             ],
@@ -601,7 +589,7 @@
             "meta": "Evento de inicio · 0 entradas · 1 salidas"
           },
           "recorrido": {
-            "antes": "Comercial y captación · paso 1 de 12 · Llega alguien",
+            "antes": "Comercial y captación · paso 1 de 12 · Llega alguien · Comercial",
             "despues": "Comercial y captación · paso 2 de 12 · 2. Registrar el prospecto · Comercial",
             "avanza": true
           },
@@ -612,75 +600,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -159,
-                "right": 1173,
+                "left": -167,
+                "right": 1164,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -159,
-                "right": -16,
+                "left": -167,
+                "right": -24,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -16,
-                "right": 6,
-                "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__glyph",
-                "left": 762,
-                "right": 784,
+                "left": -24,
+                "right": -2,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 784,
-                "right": 836,
+                "left": -2,
+                "right": 88,
+                "ancho": 90
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 754,
+                "right": 776,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 776,
+                "right": 828,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 836,
-                "right": 859,
+                "left": 828,
+                "right": 850,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 859,
-                "right": 913,
+                "left": 850,
+                "right": 905,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 913,
-                "right": 935,
+                "left": 905,
+                "right": 927,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 935,
-                "right": 1029,
+                "left": 927,
+                "right": 1021,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1029,
-                "right": 1051,
+                "left": 1021,
+                "right": 1043,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1051,
-                "right": 1150,
+                "left": 1043,
+                "right": 1142,
                 "ancho": 99
-              },
-              {
-                "elemento": "span.atlas-ticker__glyph",
-                "left": 1150,
-                "right": 1173,
-                "ancho": 22
               }
             ],
             "objetivosChicos": [],
@@ -691,20 +679,8 @@
         },
         {
           "nombre": "bpmn-editar",
-          "ok": true,
-          "modo": {
-            "etiqueta": "Ver",
-            "paleta": true,
-            "contextPad": false,
-            "editable": false
-          },
-          "edicionDirecta": {
-            "disponible": true,
-            "textoOriginal": "2. Registrar el prospecto",
-            "textoFinal": "2. Registrar el prospecto (editada)",
-            "cambioAplicado": true
-          },
-          "captura": "docs/fusion/capturas/auditoria/tableta-768-05-bpmn-editar.png"
+          "ok": false,
+          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[data-bpmn-accion=\"modo\"]')\n    - locator resolved to 2 elements. Proceeding with the first one: <button type=\"button\" aria-pressed=\"false\" data-bpmn-accion=\"modo\" class=\"button button-small\">Editar</button>\n  - attempting clic"
         },
         {
           "nombre": "exportar",
@@ -712,15 +688,15 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 16262
+              "bytes": 16129
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38736
+              "bytes": 37394
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",
-              "bytes": 429792
+              "bytes": 425528
             },
             {
               "archivo": "rr-atlas-arbol.json",
@@ -765,75 +741,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -20,
-                "right": 1232,
+                "left": -21,
+                "right": 1231,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -20,
-                "right": 111,
+                "left": -21,
+                "right": 110,
                 "ancho": 131
               },
               {
-                "elemento": "span.atlas-ticker__item",
-                "left": 310,
-                "right": 362,
-                "ancho": 51
-              },
-              {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 362,
-                "right": 384,
+                "left": 360,
+                "right": 383,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 384,
-                "right": 470,
+                "left": 383,
+                "right": 469,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 470,
-                "right": 492,
+                "left": 469,
+                "right": 491,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 492,
-                "right": 584,
+                "left": 491,
+                "right": 582,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 584,
-                "right": 606,
+                "left": 582,
+                "right": 605,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 606,
-                "right": 737,
+                "left": 605,
+                "right": 736,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 737,
-                "right": 759,
+                "left": 736,
+                "right": 758,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 759,
-                "right": 843,
+                "left": 758,
+                "right": 841,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 843,
-                "right": 865,
+                "left": 841,
+                "right": 863,
                 "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 863,
+                "right": 913,
+                "ancho": 49
               }
             ],
             "objetivosChicos": [],
@@ -897,74 +873,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -74,
-                "right": 1178,
+                "left": -77,
+                "right": 1175,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -74,
-                "right": 57,
+                "left": -77,
+                "right": 54,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 330,
-                "right": 417,
+                "left": 327,
+                "right": 413,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 417,
-                "right": 439,
+                "left": 413,
+                "right": 435,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 439,
-                "right": 530,
+                "left": 435,
+                "right": 527,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 530,
-                "right": 552,
+                "left": 527,
+                "right": 549,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 552,
-                "right": 683,
+                "left": 549,
+                "right": 680,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 683,
-                "right": 706,
+                "left": 680,
+                "right": 702,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 706,
-                "right": 789,
+                "left": 702,
+                "right": 786,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 789,
-                "right": 811,
+                "left": 786,
+                "right": 808,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 811,
-                "right": 860,
+                "left": 808,
+                "right": 857,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 860,
-                "right": 882,
+                "left": 857,
+                "right": 879,
                 "ancho": 22
               }
             ],
@@ -1034,7 +1010,7 @@
             "meta": "Evento de inicio · 0 entradas · 1 salidas"
           },
           "recorrido": {
-            "antes": "Comercial y captación · paso 1 de 12 · Llega alguien",
+            "antes": "Comercial y captación · paso 1 de 12 · Llega alguien · Comercial",
             "despues": "Comercial y captación · paso 2 de 12 · 2. Registrar el prospecto · Comercial",
             "avanza": true
           },
@@ -1045,75 +1021,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -150,
-                "right": 1102,
+                "left": -152,
+                "right": 1099,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -150,
-                "right": -19,
+                "left": -152,
+                "right": -21,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -19,
-                "right": 3,
-                "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__glyph",
-                "left": 340,
-                "right": 362,
+                "left": -21,
+                "right": 1,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 362,
-                "right": 454,
+                "left": 360,
+                "right": 451,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 454,
-                "right": 476,
+                "left": 451,
+                "right": 473,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 476,
-                "right": 607,
+                "left": 473,
+                "right": 605,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 607,
-                "right": 629,
+                "left": 605,
+                "right": 627,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 629,
-                "right": 713,
+                "left": 627,
+                "right": 710,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 713,
-                "right": 735,
+                "left": 710,
+                "right": 732,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 735,
-                "right": 784,
+                "left": 732,
+                "right": 781,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 784,
-                "right": 806,
+                "left": 781,
+                "right": 804,
                 "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 804,
+                "right": 855,
+                "ancho": 51
               }
             ],
             "objetivosChicos": [],
@@ -1124,17 +1100,8 @@
         },
         {
           "nombre": "bpmn-editar",
-          "ok": true,
-          "modo": {
-            "etiqueta": "Ver",
-            "paleta": true,
-            "contextPad": false,
-            "editable": false
-          },
-          "edicionDirecta": {
-            "disponible": false
-          },
-          "captura": "docs/fusion/capturas/auditoria/movil-360-05-bpmn-editar.png"
+          "ok": false,
+          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[data-bpmn-accion=\"modo\"]')\n    - locator resolved to 2 elements. Proceeding with the first one: <button type=\"button\" aria-pressed=\"false\" data-bpmn-accion=\"modo\" class=\"button button-small\">Editar</button>\n  - attempting clic"
         },
         {
           "nombre": "exportar",
@@ -1142,11 +1109,11 @@
           "descargas": [
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.bpmn",
-              "bytes": 16223
+              "bytes": 16129
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.svg",
-              "bytes": 38605
+              "bytes": 37394
             },
             {
               "archivo": "ventas_como_una_oportunidad_se_convierte_en_cliente.png",

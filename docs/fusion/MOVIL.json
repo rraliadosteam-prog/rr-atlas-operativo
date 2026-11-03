@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-03T19:13:07.291Z",
+  "fecha": "2026-11-03T21:57:27.215Z",
   "anchos": [
     390,
     360
@@ -10,8 +10,8 @@
     "diagrama",
     "datos"
   ],
-  "pruebas": 17,
-  "pasar": 17,
+  "pruebas": 23,
+  "pasar": 23,
   "fallar": 0,
   "resultados": [
     {
@@ -67,6 +67,30 @@
       "ancho": 390,
       "ok": true,
       "detalle": "el lienzo conserva 627.8 px útiles (la banda, 55.4 px, vive fuera)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-zoom-menos",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "el botón «−» se ve en la primera fila de la barra (x 219–263 de 390 px, en la misma fila que «Anterior»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-inicio",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "el evento de inicio y su etiqueta caben en el lienzo (161 px de ancho; márgenes 90/139/237/306 px)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-entra",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "la palabra «entra» aparece una sola vez (1) y sin sombra encima",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-diagrama-390.png"
     },
@@ -131,6 +155,30 @@
       "ancho": 360,
       "ok": true,
       "detalle": "el lienzo conserva 523.8 px útiles (la banda, 55.4 px, vive fuera)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-zoom-menos",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "el botón «−» se ve en la primera fila de la barra (x 219–263 de 360 px, en la misma fila que «Anterior»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-inicio",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "el evento de inicio y su etiqueta caben en el lienzo (161 px de ancho; márgenes 75/124/185/254 px)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-entra",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "la palabra «entra» aparece una sola vez (1) y sin sombra encima",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-diagrama-360.png"
     },

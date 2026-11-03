@@ -172,14 +172,17 @@
                 <button class="button button-small" type="button" data-bpmn-accion="png">Exportar PNG</button>
               </div>
             </details>
-            <button class="button button-small" type="button" data-bpmn-accion="pantalla" aria-pressed="false" title="Abrir el diagrama a pantalla completa">⛶ Pantalla completa</button>
-            <button class="button button-small bpmn-toolbar__dividir" type="button" data-bpmn-accion="dividir" aria-pressed="false" title="Dividir la pantalla: diagrama y panel al lado">▥ Dividir</button>
+            <!-- Los controles que se quedan en ícono en celular llevan su
+                 texto en un span: el nombre accesible no cambia. -->
             <button class="button button-small" type="button" data-bpmn-accion="modo" aria-pressed="false">Editar</button>
-            <button class="button button-small" type="button" data-bpmn-accion="anterior">Anterior</button>
-            <button class="button button-small" type="button" data-bpmn-accion="siguiente">Siguiente</button>
+            <button class="button button-small bpmn-toolbar__compacto" type="button" data-bpmn-accion="anterior" aria-label="Anterior" title="Anterior"><span aria-hidden="true">‹</span><span class="bpmn-accion__texto">Anterior</span></button>
+            <button class="button button-small bpmn-toolbar__compacto" type="button" data-bpmn-accion="siguiente" aria-label="Siguiente" title="Siguiente"><span aria-hidden="true">›</span><span class="bpmn-accion__texto">Siguiente</span></button>
+            <!-- El zoom va junto al recorrido: el botón «−» (alejar) tiene que
+                 verse en la primera fila de la barra, sin deslizar. -->
+            <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar" title="Alejar">−</button>
+            <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar" title="Acercar">＋</button>
             <span class="bpmn-zoom" data-bpmn-zoom title="Zoom actual del diagrama">—</span>
-            <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar">＋</button>
-            <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar">−</button>
+            <button class="button button-small bpmn-toolbar__compacto" type="button" data-bpmn-accion="pantalla" aria-pressed="false" aria-label="Pantalla completa" title="Abrir el diagrama a pantalla completa"><span aria-hidden="true">⛶</span><span class="bpmn-accion__texto">Pantalla completa</span></button>
             <button class="button button-small" type="button" data-bpmn-accion="encuadrar">Encuadrar</button>
             <button class="button button-small" type="button" data-bpmn-accion="guia" aria-pressed="false" aria-controls="bpmn-guia">Guía del diagrama</button>
             <details class="bpmn-menu">
@@ -337,6 +340,26 @@
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
     <dialog class="help-dialog" data-help-dialog>
       <form method="dialog"><div class="dialog-head"><div><span class="eyebrow">Cómo usarlo</span><h2>Mapa editable, sin secretos</h2></div><button class="icon-button" value="cancel" type="submit" aria-label="Cerrar guía">×</button></div><ul><li>Arrastra un nodo; el historial toma la instantánea antes del movimiento.</li><li>Usa el manejador ◇ para conectar arrastrando, o <strong>Enlazar</strong> desde el editor.</li><li>Doble clic en el título para editar en línea. Shift permite multiselección.</li><li><strong>Supr</strong> elimina; <strong>Ctrl/Cmd+Z</strong> deshace; <strong>Ctrl/Cmd+Shift+Z</strong> rehace.</li><li><strong>F</strong> encuadra, <strong>/</strong> enfoca búsqueda y las flechas mueven el foco.</li><li>Exporta JSON versionado antes de compartir. Restaurar original descarta cambios locales.</li></ul><button class="button button-primary" value="cancel" type="submit">Entendido</button></form>
+    </dialog>
+
+    <!-- P1.6 · un solo <dialog> de confirmación (ítem 8a): el patrón que
+         usan las tres acciones que antes pedían `window.confirm` (borrar un
+         nodo, restaurar el mapa original y restaurar la base del repo). El
+         texto lo pone `src/app/confirmar.mjs`; aquí solo vive la forma. -->
+    <dialog class="confirmar-dialog" data-confirmar aria-labelledby="confirmar-titulo" aria-describedby="confirmar-cuerpo">
+      <div class="confirmar-dialog__cuerpo">
+        <div class="dialog-head">
+          <div>
+            <span class="eyebrow">Confirmar</span>
+            <h2 id="confirmar-titulo" data-confirmar-titulo>¿Seguro?</h2>
+          </div>
+        </div>
+        <p class="confirmar-dialog__texto" id="confirmar-cuerpo" data-confirmar-cuerpo>Esta acción no se puede deshacer.</p>
+        <div class="confirmar-dialog__acciones">
+          <button class="button button-outline" data-confirmar-cancelar type="button">Cancelar</button>
+          <button class="button button-primary" data-confirmar-aceptar type="button">Aceptar</button>
+        </div>
+      </div>
     </dialog>
 
     <!-- Bloque 3 · el interruptor visible (P1.11 · ítem 68): el diálogo

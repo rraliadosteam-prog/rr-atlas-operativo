@@ -3,6 +3,7 @@ import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '.
 import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
 import { createBpmnView } from './bpmn-view.mjs';
 import { createDatosView } from './datos-view.mjs';
+import { confirmar } from './confirmar.mjs';
 import {
   BANDERAS_PREFS,
   PREFERENCIAS_POR_DEFECTO,
@@ -698,10 +699,17 @@ function renderInspector() {
   collapseButton.addEventListener('click', () => { if (state.collapsed.has(node.id)) state.collapsed.delete(node.id); else state.collapsed.add(node.id); render(); fit(); });
   actions.appendChild(collapseButton);
   const deleteButton = document.createElement('button'); deleteButton.type = 'button'; deleteButton.className = 'button button-danger'; deleteButton.textContent = `Eliminar seleccionado${state.selectedIds.size > 1 ? ` (${state.selectedIds.size})` : ''}`;
-  deleteButton.addEventListener('click', () => {
+  deleteButton.addEventListener('click', async () => {
     const ids = new Set(state.selectedIds.size ? state.selectedIds : [node.id]);
     if (ids.has('rr-labs')) { notify('La raíz del mapa no se puede eliminar.'); return; }
-    if (!window.confirm('¿Eliminar el nodo seleccionado y sus enlaces?')) return;
+    // P1.6 · un solo <dialog> de confirmación en toda la app (ítem 8a).
+    const eliminado = await confirmar({
+      titulo: 'Eliminar el nodo',
+      cuerpo: '¿Eliminar el nodo seleccionado y sus enlaces?',
+      aceptar: 'Eliminar',
+      cancelar: 'Cancelar',
+    });
+    if (!eliminado) return;
     store.commit((graph) => {
       graph.nodes = graph.nodes.filter((item) => !ids.has(item.id));
       graph.edges = graph.edges.filter((edge) => !ids.has(edge.source) && !ids.has(edge.target));
@@ -918,8 +926,15 @@ async function importGraph(file) {
   }
 }
 
-function restoreOriginal() {
-  if (!window.confirm('¿Restaurar el mapa original y descartar cambios locales?')) return;
+async function restoreOriginal() {
+  // P1.6 · un solo <dialog> de confirmación en toda la app (ítem 8a).
+  const restaurado = await confirmar({
+    titulo: 'Restaurar el mapa original',
+    cuerpo: '¿Restaurar el mapa original y descartar cambios locales?',
+    aceptar: 'Restaurar',
+    cancelar: 'Cancelar',
+  });
+  if (!restaurado) return;
   store.reset();
   state.viewPositions.clear();
   state.formDirty = false;

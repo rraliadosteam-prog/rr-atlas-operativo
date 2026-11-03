@@ -4,8 +4,12 @@
   "diagramas": 16,
   "conOk": 16,
   "pisoLegibilidad": 1.15,
+  "lecturaEstrecha": false,
   "modos": [
     "todo"
+  ],
+  "botonesDividir": [
+    "▥ Dividir"
   ],
   "gancho": {
     "ok": true,
@@ -20,17 +24,18 @@
       "titulo": "Gobierno documental",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.557,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.557,
+        "mensaje": "abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -42,9 +47,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.557,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -56,7 +61,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2795×1144 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1355×555 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-1440.png"
     },
@@ -65,17 +76,18 @@
       "titulo": "De dónde sale una respuesta",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.512,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.512,
+        "mensaje": "abre en modo «todo» a zoom 0.512 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -87,9 +99,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.512,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.512 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -101,7 +113,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 3036×1263 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1352×563 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.512 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.512 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -110,17 +128,18 @@
       "titulo": "Oportunidad a cliente",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.61,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.61,
+        "mensaje": "abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -132,9 +151,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.61,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -146,7 +165,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2553×1057 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1354×561 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-1440.png"
     },
@@ -155,17 +180,18 @@
       "titulo": "Alianzas y referidos",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.61,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.61,
+        "mensaje": "abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -177,9 +203,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.61,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -191,7 +217,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2553×929 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1354×493 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -200,17 +232,18 @@
       "titulo": "Después de que firman",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.752,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.752,
+        "mensaje": "abre en modo «todo» a zoom 0.752 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -222,9 +255,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.752,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.752 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -236,7 +269,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2070×608 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:1 · contenido 1354×398 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.752 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.752 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -245,17 +284,18 @@
       "titulo": "Después de entregar",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.673,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.673,
+        "mensaje": "abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -267,9 +307,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.673,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -281,7 +321,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2312×775 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:1 · contenido 1353×454 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -290,17 +336,18 @@
       "titulo": "Desarrollo de software a producción",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.475,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.475,
+        "mensaje": "abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -312,9 +359,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.475,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -326,7 +373,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 3278×890 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1353×367 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -335,17 +388,18 @@
       "titulo": "Producción de una pieza de contenido",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.475,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.475,
+        "mensaje": "abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -357,9 +411,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.475,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -371,7 +425,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 3278×971 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1353×401 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.475 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -380,17 +440,18 @@
       "titulo": "Cómo entra y sale la plata",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.557,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.557,
+        "mensaje": "abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -402,9 +463,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.557,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -416,7 +477,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2795×1058 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1355×513 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-finanzas_como_entra_y_se_sale_la_plata-1440.png"
     },
@@ -425,17 +492,18 @@
       "titulo": "Facturación y cuenta de cobro",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.618,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.618,
+        "mensaje": "abre en modo «todo» a zoom 0.618 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -447,9 +515,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.671,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.671 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -461,7 +529,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 1829×1094 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 982×588 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.618 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.671 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -470,17 +544,18 @@
       "titulo": "Pagos a colaboradores y proveedores",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.666,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.666,
+        "mensaje": "abre en modo «todo» a zoom 0.666 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -492,9 +567,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.723,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.723 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -506,7 +581,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2070×1015 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1198×588 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.666 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.723 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -515,17 +596,18 @@
       "titulo": "La quincena",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.412,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.412,
+        "mensaje": "abre en modo «todo» a zoom 0.412 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -537,9 +619,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.447,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.447 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -551,7 +633,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2312×1642 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 828×588 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.412 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.447 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -560,17 +648,18 @@
       "titulo": "Uso de IA en RR",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.61,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.61,
+        "mensaje": "abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -582,9 +671,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.61,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -596,7 +685,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2553×1022 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1354×542 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.61 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -605,17 +700,18 @@
       "titulo": "Trabajo repetitivo a agente",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.673,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.673,
+        "mensaje": "abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -627,9 +723,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.673,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -641,7 +737,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2312×942 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:1 · contenido 1353×551 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.673 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -650,17 +752,18 @@
       "titulo": "Resolución de un problema de cliente",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.518,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.518,
+        "mensaje": "abre en modo «todo» a zoom 0.518 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -672,9 +775,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.563,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.563 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -686,7 +789,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2553×1304 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1150×587 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.518 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.563 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     },
@@ -695,17 +804,18 @@
       "titulo": "Firma de contrato",
       "ok": true,
       "modo": "todo",
-      "zoom": 1.15,
-      "legibilidad": {
-        "modo": "legible",
+      "zoom": 0.557,
+      "legibilidad": null,
+      "apertura": {
+        "modo": "todo-ancho",
         "ok": true,
-        "zoom": 1.15,
-        "mensaje": "abre a zoom 1.15 (piso de legibilidad 1.15)"
+        "zoom": 0.557,
+        "mensaje": "abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica)"
       },
       "encuadre": {
         "ok": true,
-        "veredicto": "el paso actual está dentro del lienzo",
-        "detalle": "el paso actual (41×63 px) está dentro del lienzo"
+        "veredicto": "encuadre y centrado",
+        "detalle": "el diagrama entero se ve dentro del lienzo y centrado"
       },
       "verTodo": {
         "ok": true,
@@ -717,9 +827,9 @@
       "seguro": {
         "ok": true,
         "modo": "todo",
-        "zoom": 1.15,
+        "zoom": 0.557,
         "bandaVisible": false,
-        "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada"
+        "detalle": "abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada"
       },
       "banda": {
         "existe": true,
@@ -731,7 +841,13 @@
       },
       "poolOk": true,
       "entraOk": true,
-      "detalle": "escala 1:1 · contenido 2795×971 px · el paso actual (41×63 px) está dentro del lienzo · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: abre a zoom 1.15 (piso de legibilidad 1.15) · seguro: abre a zoom 1.15 (piso de legibilidad 1.15) · la banda de lectura está apagada",
+      "dividir": {
+        "ok": true,
+        "botones": [
+          "▥ Dividir"
+        ]
+      },
+      "detalle": "escala 1:2 · contenido 1355×470 px · el diagrama entero se ve dentro del lienzo y centrado · el diagrama entero se ve dentro del lienzo y centrado · título del pool sin tachón · «entra» libre del ícono · apertura: abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · seguro: abre en modo «todo» a zoom 0.557 (en lienzo ancho el piso de 1.15 no aplica) · el diagrama entero se ve dentro del lienzo y centrado · la banda de lectura está apagada · un solo botón «Dividir»",
       "errores": [],
       "captura": null
     }

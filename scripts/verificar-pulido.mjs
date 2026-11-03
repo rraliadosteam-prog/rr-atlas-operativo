@@ -13,6 +13,10 @@
 //                    se ha escrito) se dice (`modo: 'sin-gancho'`) y la
 //                    puerta no falla por eso… salvo que **ningún** diagrama
 //                    lo tenga: en el bloque 1B el gancho tiene que existir.
+//   a2) escritorio → en un lienzo **ancho** (> 900 px) el diagrama entero
+//                    cabe con margen: el piso de 1,15 **no** aplica y el
+//                    diagrama tiene que abrir en modo «todo» («ver el
+//                    todo»), con el diagrama entero dentro del lienzo.
 //   b) encuadre    → a escala legible el diagrama entero **no cabe** (el
 //                    motor no oculta lo que no es el paso actual), así que
 //                    la aserción «encuadre y centrado» sería falsa por
@@ -25,9 +29,11 @@
 //   d) inicio      → la etiqueta «entra» no se monta sobre el ícono del
 //                    evento de inicio.
 //   e) seguro      → con `?atlas=seguro` (el apagado de emergencia) el
-//                    diagrama **sigue legible** (zoom ≥ 1,15, porque la
-//                    válvula no toca la bandera `legibilidad`) y la banda de
-//                    lectura no aparece (el modo paso está apagado).
+//                    diagrama **sigue legible** (zoom ≥ 1,15 en lienzo
+//                    angosto, porque la válvula no toca la bandera
+//                    `legibilidad`) y la banda de lectura no aparece.
+//   f) dividir     → solo hay **un** botón «Dividir» visible (el de la
+//                    cabecera): dos veces el mismo control confundía.
 //
 // Salidas: docs/fusion/PULIDO.json (o PULIDO-<ancho>.json) y
 // docs/fusion/capturas/pulido-<flujo>-<ancho>.png.
@@ -36,8 +42,8 @@ import { chromium } from 'playwright-core';
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
-import { PISO_LEGIBILIDAD_DIAGRAMA } from '../src/core/zoom.mjs';
-import { evaluarConjunto390, evaluarPiso390, leerEstadoLienzo } from './piso-390.mjs';
+import { ANCHO_ESTRECHO_PX, PISO_LEGIBILIDAD_DIAGRAMA } from '../src/core/zoom.mjs';
+import { evaluarAncho, evaluarConjunto390, evaluarPiso390, leerEstadoLienzo } from './piso-390.mjs';
 
 const RAIZ = resolve(import.meta.dirname, '..');
 const DIST = resolve(RAIZ, 'dist');
@@ -73,6 +79,9 @@ const browser = await chromium.launch({
 
 const ANCHO = Number(process.argv[2] || 390);
 const ALTO = ANCHO === 1440 ? 900 : ANCHO === 768 ? 1024 : 844;
+// El piso de legibilidad (1,15) solo aplica en lienzo angosto: en un lienzo
+// ancho el diagrama entero cabe y el escritorio abre en «ver el todo».
+const LECTURA_ESTRECHA = ANCHO <= ANCHO_ESTRECHO_PX;
 const base = `http://127.0.0.1:${PUERTO}`;
 
 // Los flujos con captura: tres diagramas, uno de ellos «Gobierno documental».
@@ -127,6 +136,17 @@ const MEDIR = () => {
   // La banda de lectura del paso (P1.4): vive fuera del lienzo.
   const banda = document.querySelector('[data-bpmn-banda]');
   const bandaCaja = banda ? banda.getBoundingClientRect() : null;
+  // Los botones «Dividir» que se ven: solo puede haber uno (el de la
+  // cabecera). El de la barra se quitó por duplicado.
+  const dividir = [...document.querySelectorAll('button, a[href]')]
+    .filter((elemento) => {
+      const caja = elemento.getBoundingClientRect();
+      if (caja.width < 1 || caja.height < 1) return false;
+      const estilo = getComputedStyle(elemento);
+      if (estilo.display === 'none' || estilo.visibility === 'hidden') return false;
+      return (elemento.innerText ?? '').trim().toLowerCase().includes('dividir');
+    })
+    .map((elemento) => (elemento.innerText ?? '').trim().replace(/\s+/g, ' '));
   return {
     lienzo: cajaLienzo,
     contenido,
@@ -140,6 +160,7 @@ const MEDIR = () => {
     inicio: a(inicio),
     circulo: a(circulo),
     entra: a(entra),
+    dividir,
     banda: {
       existe: Boolean(banda),
       visible: Boolean(banda) && !banda.hidden && Boolean(bandaCaja && bandaCaja.width > 0 && bandaCaja.height > 0),
@@ -289,7 +310,11 @@ for (const proceso of catalogo.procesos) {
 
   const medido = await page.evaluate(MEDIR);
   const estado = await page.evaluate(leerEstadoLienzo);
-  const legibilidad = evaluarPiso390({ ...estado, procesoEsperado: proceso.id });
+  // En lienzo angosto se exige el zoom legible (1,15); en lienzo ancho el
+  // diagrama entero cabe y lo que se exige es el modo «todo».
+  const apertura = LECTURA_ESTRECHA
+    ? evaluarPiso390({ ...estado, procesoEsperado: proceso.id })
+    : evaluarAncho({ ...estado, procesoEsperado: proceso.id });
   const cajaPaso = await page.evaluate(MEDIR_PASO, estado.paso?.idElemento || '');
 
   // El veredicto de encuadre del diagrama **con el que abre**: a escala
@@ -299,7 +324,11 @@ for (const proceso of catalogo.procesos) {
   // «ver el todo», el primero (el motor se deja ahí para empezar a leer).
   // El veredicto clásico («encuadre y centrado») vive en la forma «ver el
   // todo» de más abajo.
-  const encuadre = veredictoPaso(medido, cajaPaso);
+  // En lienzo ancho el diagrama abre en «ver el todo»: entonces sí se
+  // comprueba el encuadre completo (el diagrama entero dentro del lienzo).
+  const encuadre = LECTURA_ESTRECHA
+    ? veredictoPaso(medido, cajaPaso)
+    : veredictoEncuadre(medido);
 
   let captura = null;
   if (CON_CAPTURA.has(proceso.id)) {
@@ -350,16 +379,23 @@ for (const proceso of catalogo.procesos) {
   await pageSeguro.waitForTimeout(900);
   const medidoSeguro = await pageSeguro.evaluate(MEDIR);
   const estadoSeguro = await pageSeguro.evaluate(leerEstadoLienzo);
-  const legibilidadSeguro = evaluarPiso390({ ...estadoSeguro, procesoEsperado: proceso.id });
+  // En lienzo angosto el diagrama tiene que seguir legible; en lienzo
+  // ancho tiene que seguir en «ver el todo» (con el diagrama entero).
+  const aperturaSegura = LECTURA_ESTRECHA
+    ? evaluarPiso390({ ...estadoSeguro, procesoEsperado: proceso.id })
+    : evaluarAncho({ ...estadoSeguro, procesoEsperado: proceso.id });
+  const encuadreSeguro = LECTURA_ESTRECHA
+    ? { ok: true, detalle: 'en lienzo angosto no se comprueba el encuadre completo' }
+    : veredictoEncuadre(medidoSeguro);
   // El apagado de emergencia apaga el modo paso: la banda no se ve. Y no
   // toca `legibilidad`: el diagrama sigue legible.
   const bandaSegura = !medidoSeguro.banda.visible;
   const seguro = {
-    ok: legibilidadSeguro.ok && bandaSegura,
+    ok: aperturaSegura.ok && bandaSegura && encuadreSeguro.ok,
     modo: estadoSeguro.modo,
-    zoom: legibilidadSeguro.zoom,
+    zoom: aperturaSegura.zoom,
     bandaVisible: medidoSeguro.banda.visible,
-    detalle: `${legibilidadSeguro.mensaje} · ${bandaSegura ? 'la banda de lectura está apagada' : 'la banda de lectura sigue visible'}`,
+    detalle: `${aperturaSegura.mensaje} · ${encuadreSeguro.detalle} · ${bandaSegura ? 'la banda de lectura está apagada' : 'la banda de lectura sigue visible'}`,
   };
   await contextoSeguro.close();
 
@@ -370,6 +406,13 @@ for (const proceso of catalogo.procesos) {
     ? (medido.borde.right - medido.borde.x) / medido.bordeAncho
     : 1;
 
+  // Un solo botón «Dividir» visible: el de la cabecera. En la barra estaba
+  // duplicado y no se sabía cuál era el bueno. En celular el de la cabecera
+  // es solo un ícono (el texto no cabe): entonces el que se ve con la
+  // palabra «Dividir» es ninguno, pero nunca puede haber dos.
+  const dividir = medido.dividir ?? [];
+  const dividirOk = LECTURA_ESTRECHA ? dividir.length <= 1 : dividir.length === 1;
+
   const detalle = [
     `escala 1:${escala ? Math.round(1 / escala) : '—'}`,
     `contenido ${Math.round(medido.contenido.w)}×${Math.round(medido.contenido.h)} px`,
@@ -377,12 +420,15 @@ for (const proceso of catalogo.procesos) {
     encuadreTodo.detalle,
     pool.detalle,
     entra.detalle,
-    `legibilidad: ${legibilidad.mensaje}`,
+    `apertura: ${apertura.mensaje}`,
     `seguro: ${seguro.detalle}`,
+    dividirOk
+      ? 'un solo botón «Dividir»'
+      : `botones «Dividir» visibles: ${dividir.length} (${dividir.join(' · ') || 'ninguno'})`,
   ].join(' · ');
 
-  const ok = legibilidad.ok && encuadre.ok && encuadreTodo.ok && pool.ok && entra.ok
-    && seguro.ok && !errores.length;
+  const ok = apertura.ok && encuadre.ok && encuadreTodo.ok && pool.ok && entra.ok
+    && seguro.ok && dividirOk && !errores.length;
 
   resultados.push({
     proceso: proceso.id,
@@ -391,8 +437,11 @@ for (const proceso of catalogo.procesos) {
     // El modo y el zoom con los que abre el diagrama (P1.9: se escriben
     // por diagrama en el JSON de la puerta).
     modo: estado.modo,
-    zoom: legibilidad.zoom,
-    legibilidad,
+    zoom: apertura.zoom,
+    // En lienzo angosto el veredicto es el del piso (1,15); en lienzo
+    // ancho, el del modo «todo».
+    legibilidad: LECTURA_ESTRECHA ? apertura : null,
+    apertura,
     encuadre,
     verTodo: {
       ok: encuadreTodo.ok,
@@ -405,6 +454,7 @@ for (const proceso of catalogo.procesos) {
     banda,
     poolOk: pool.ok,
     entraOk: entra.ok,
+    dividir: { ok: dividirOk, botones: dividir },
     detalle,
     errores,
     captura,
@@ -415,7 +465,7 @@ for (const proceso of catalogo.procesos) {
 
 // El gancho tiene que existir: si ningún diagrama lo tiene, la puerta falla
 // (aunque el veredicto de cada diagrama no falle por él).
-const conjunto = evaluarConjunto390(resultados.map((item) => item.legibilidad));
+const conjunto = evaluarConjunto390(resultados.map((item) => item.apertura));
 if (!conjunto.ok) fallos.push(conjunto.mensaje);
 
 await browser.close();
@@ -427,7 +477,10 @@ const resumen = {
   diagramas: resultados.length,
   conOk: resultados.filter((r) => r.ok).length,
   pisoLegibilidad: PISO_LEGIBILIDAD_DIAGRAMA,
+  // En lienzo angosto el piso de 1,15 manda; en lienzo ancho, no.
+  lecturaEstrecha: LECTURA_ESTRECHA,
   modos: [...new Set(resultados.map((r) => r.modo))],
+  botonesDividir: [...new Set(resultados.flatMap((r) => r.dividir?.botones ?? []))],
   gancho: conjunto,
   fallos,
   resultados,

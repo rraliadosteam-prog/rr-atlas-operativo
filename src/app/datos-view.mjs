@@ -17,6 +17,7 @@ import { componerBase, ARCHIVOS_BASE } from '../data/base/componer.mjs';
 import { crearStore } from '../core/store.mjs';
 import { COLECCIONES, SCHEMA_VERSION, diff, importar } from '../core/model.mjs';
 import { PENDIENTES, agruparPendientes, lineaPendiente } from '../data/pendientes.mjs';
+import { confirmar } from './confirmar.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -345,8 +346,14 @@ export function createDatosView({ root, shell, notify } = {}) {
 
   async function restaurarBase() {
     const actual = await asegurarStore();
-    const respuesta = window.confirm('¿Restaurar la base del repo? Se pierden los cambios locales de este equipo.');
-    if (!respuesta) return;
+    // P1.6 · un solo <dialog> de confirmación en toda la app (ítem 8a).
+    const restaurada = await confirmar({
+      titulo: 'Restaurar la base del repo',
+      cuerpo: '¿Restaurar la base del repo? Se pierden los cambios locales de este equipo.',
+      aceptar: 'Restaurar la base',
+      cancelar: 'Cancelar',
+    });
+    if (!restaurada) return;
     actual.restaurarBase();
     avisar('Se restauró la base del repo.');
   }

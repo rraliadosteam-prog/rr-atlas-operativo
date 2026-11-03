@@ -22,6 +22,15 @@ export const ANCHO_MOVIL_PX = 760;
 /** «Lienzo angosto»: el ancho del **contenedor** del diagrama, no el de la ventana. */
 export const ANCHO_CONTENEDOR_ESTRECHO = 540;
 
+/**
+ * «Lienzo amplio»: a partir de este ancho el diagrama **entero** cabe en
+ * la pantalla. Es el mismo número que `ANCHO_ESTRECHO_PX` (900), pero
+ * medido sobre el **contenedor** del diagrama: en un lienzo amplio el
+ * piso de legibilidad (1,15) no se aplica al encuadre, porque el
+ * diagrama abriría a 1:1 y no se vería entero (solo una esquina).
+ */
+export const ANCHO_CONTENEDOR_AMPLIO = 900;
+
 /** Piso de lectura del mapa en móvil (≤ 760 px): `MOBILE_ZOOM_MIN`. */
 export const PISO_LECTURA_MOVIL = 0.7;
 
@@ -65,6 +74,13 @@ export const esMovil = (anchoVentana) => anchoVentana <= ANCHO_MOVIL_PX;
 
 /** ¿El contenedor del lienzo es angosto (< 540 px)? */
 export const esLienzoAngosto = (anchoContenedor) => anchoContenedor < ANCHO_CONTENEDOR_ESTRECHO;
+
+/**
+ * ¿El contenedor del lienzo es amplio (> 900 px)? En un lienzo amplio el
+ * diagrama entero se ve con margen: el piso de legibilidad (1,15) no
+ * aplica al encuadre (solo al modo paso).
+ */
+export const esLienzoAmplio = (anchoContenedor) => anchoContenedor > ANCHO_CONTENEDOR_AMPLIO;
 
 /**
  * Piso de lectura del mapa vivo, según el ancho de la ventana.
@@ -128,12 +144,20 @@ export const acotarZoom = (zoom, piso, techo) => aplicarTecho(aplicarPiso(zoom, 
  * Sin `forzar`, el encuadre **nunca** baja de 1,15: por eso el diagrama
  * abría a 1:4–1:8.
  *
+ * `anchoContenedor`: el ancho del lienzo donde se aplica. En un lienzo
+ * **amplio** (> 900 px) el diagrama entero cabe con margen, así que el
+ * piso de legibilidad **no** se aplica: el escritorio abre en «ver el
+ * todo» y no en una esquina del diagrama a 1:1. Sin ancho conocido se
+ * aplica el piso (comportamiento de siempre).
+ *
  * Un zoom que no es un número se devuelve tal cual: la función no inventa
  * un zoom que nadie ha medido.
  */
-export const zoomEncuadre = (zoomAjuste, { forzar = false } = {}) => {
+export const zoomEncuadre = (zoomAjuste, { forzar = false, anchoContenedor = null } = {}) => {
   if (!Number.isFinite(zoomAjuste)) return zoomAjuste;
-  return forzar ? zoomAjuste : Math.max(zoomAjuste, PISO_LEGIBILIDAD_DIAGRAMA);
+  if (forzar) return zoomAjuste;
+  if (Number.isFinite(anchoContenedor) && esLienzoAmplio(anchoContenedor)) return zoomAjuste;
+  return Math.max(zoomAjuste, PISO_LEGIBILIDAD_DIAGRAMA);
 };
 
 /**

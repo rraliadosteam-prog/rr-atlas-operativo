@@ -16,6 +16,12 @@
 //     `zoom: null` y avisa de que el diagrama todavía no se puede certificar.
 //     Una puerta no puede fallar por lo que todavía no se ha escrito.
 //   · El gancho existe pero **apunta a otro diagrama**: falla.
+//
+// Y el caso del **escritorio** (lienzo ancho): allí el diagrama entero cabe
+// con margen, así que el piso de 1,15 **no** aplica (el escritorio abre en
+// «ver el todo», no en una esquina a 1:1). En un lienzo ancho la puerta
+// afirma el **modo** («todo») y que el diagrama entero se ve dentro del
+// lienzo; el zoom legible solo se exige en lienzo angosto (≤ 900 px).
 
 import { PISO_LEGIBILIDAD_DIAGRAMA } from '../src/core/zoom.mjs';
 
@@ -33,6 +39,12 @@ export const MODO_SIN_ZOOM = 'sin-zoom';
 
 /** El gancho existe, pero apunta a otro diagrama. */
 export const MODO_OTRO_DIAGRAMA = 'otro-diagrama';
+
+/** El diagrama abre en «ver el todo» (lo que se exige en lienzo ancho). */
+export const MODO_TODO_ANCHO = 'todo-ancho';
+
+/** El diagrama abre en un modo que no es «ver el todo». */
+export const MODO_NO_TODO = 'no-todo';
 
 /**
  * Veredicto de la puerta de 390 px a partir de lo que se leyó en el lienzo.
@@ -93,6 +105,63 @@ export function evaluarPiso390(lectura = {}) {
     ok: true,
     zoom,
     mensaje: `abre a zoom ${zoom} (piso de legibilidad ${PISO_LEGIBILIDAD_DIAGRAMA})`,
+  };
+}
+
+/**
+ * Veredicto de la puerta en un **lienzo ancho** (escritorio): el diagrama
+ * entero cabe con margen, así que el piso de 1,15 no aplica y el diagrama
+ * tiene que abrir en modo «todo» (ver el todo).
+ *
+ * @param {object} lectura
+ * @param {boolean} lectura.existeGancho
+ * @param {number|null} lectura.zoom
+ * @param {string|null} lectura.proceso
+ * @param {string|null} lectura.procesoEsperado
+ * @param {string|null} lectura.modo El modo de lectura que declara el motor.
+ * @returns {{modo: string, ok: boolean, zoom: number|null, mensaje: string}}
+ */
+export function evaluarAncho(lectura = {}) {
+  const {
+    existeGancho = false,
+    zoom = null,
+    proceso = null,
+    procesoEsperado = null,
+    modo = null,
+  } = lectura;
+
+  if (!existeGancho) {
+    return {
+      modo: MODO_SIN_GANCHO,
+      ok: false,
+      zoom: null,
+      mensaje: 'no hay gancho con el estado del lienzo: el diagrama no se puede certificar',
+    };
+  }
+
+  if (proceso && procesoEsperado && proceso !== procesoEsperado) {
+    return {
+      modo: MODO_OTRO_DIAGRAMA,
+      ok: false,
+      zoom: Number.isFinite(zoom) ? zoom : null,
+      mensaje: `el gancho apunta a «${proceso}» y no a «${procesoEsperado}»`,
+    };
+  }
+
+  if (modo !== 'todo') {
+    return {
+      modo: MODO_NO_TODO,
+      ok: false,
+      zoom: Number.isFinite(zoom) ? zoom : null,
+      mensaje: `el diagrama abre en modo «${modo ?? 'desconocido'}» y en lienzo ancho tiene que abrir en «todo»`,
+    };
+  }
+
+  return {
+    modo: MODO_TODO_ANCHO,
+    ok: true,
+    zoom: Number.isFinite(zoom) ? zoom : null,
+    mensaje: `abre en modo «todo» a zoom ${zoom} (en lienzo ancho el piso de ${PISO_LEGIBILIDAD_DIAGRAMA} no aplica)`,
   };
 }
 

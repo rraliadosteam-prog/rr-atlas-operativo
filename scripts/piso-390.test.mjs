@@ -3,9 +3,12 @@ import assert from 'node:assert/strict';
 import {
   MODO_ILEGIBLE,
   MODO_LEGIBLE,
+  MODO_NO_TODO,
   MODO_OTRO_DIAGRAMA,
   MODO_SIN_GANCHO,
   MODO_SIN_ZOOM,
+  MODO_TODO_ANCHO,
+  evaluarAncho,
   evaluarConjunto390,
   evaluarPiso390,
   leerEstadoLienzo,
@@ -134,4 +137,36 @@ test('El conjunto vacío no falla (no hay diagramas que certificar)', () => {
   const conjunto = evaluarConjunto390([]);
   assert.equal(conjunto.ok, true);
   assert.equal(conjunto.diagramas, 0);
+});
+
+test('En lienzo ancho el diagrama tiene que abrir en «ver el todo»', () => {
+  const veredicto = evaluarAncho({ existeGancho: true, zoom: 0.557, modo: 'todo' });
+  assert.equal(veredicto.modo, MODO_TODO_ANCHO);
+  assert.equal(veredicto.ok, true);
+  assert.equal(veredicto.zoom, 0.557);
+  assert.match(veredicto.mensaje, /modo «todo»/);
+});
+
+test('En lienzo ancho, abrir en modo paso (o en cualquier otro) falla', () => {
+  for (const modo of ['paso', 'paso-ajustado', null, undefined, '']) {
+    const veredicto = evaluarAncho({ existeGancho: true, zoom: 1.15, modo });
+    assert.equal(veredicto.modo, MODO_NO_TODO, `modo ${String(modo)}`);
+    assert.equal(veredicto.ok, false, `modo ${String(modo)}`);
+    assert.match(veredicto.mensaje, /«todo»/);
+  }
+});
+
+test('En lienzo ancho, sin gancho o con otro diagrama, la puerta falla', () => {
+  const sinGancho = evaluarAncho({ existeGancho: false, zoom: null, modo: 'todo' });
+  assert.equal(sinGancho.modo, MODO_SIN_GANCHO);
+  assert.equal(sinGancho.ok, false);
+  const otro = evaluarAncho({
+    existeGancho: true,
+    zoom: 0.5,
+    modo: 'todo',
+    proceso: 'otro_proceso',
+    procesoEsperado: 'proceso_pedido',
+  });
+  assert.equal(otro.modo, MODO_OTRO_DIAGRAMA);
+  assert.equal(otro.ok, false);
 });

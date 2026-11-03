@@ -24,6 +24,13 @@
 //   8. apagado     → con la preferencia `modoPaso` apagada (escrita en el
 //                     navegador antes de cargar) la banda **no** se ve: el
 //                     interruptor para apagar funciona.
+//   9. zoom-menos  → el botón «−» (alejar) se ve en la **primera fila** de
+//                     la barra, sin deslizar ni abrir el menú «⋯».
+//  10. inicio      → el evento de inicio **y su etiqueta** se ven enteros
+//                     dentro del lienzo, con 16 px de margen por cada lado.
+//  11. entra       → la palabra «entra» se ve **una sola vez** (el marcador
+//                     del paso actual no puede proyectar sombra sobre el
+//                     texto: dibujaba una segunda «entra» fucsia encima).
 //
 // Rutas revisadas: mapa, catálogo BPMN, diagrama BPMN y vista de datos.
 //
@@ -254,6 +261,80 @@ async function medir(page) {
         const caja = lienzo.getBoundingClientRect();
         return Math.round(caja.height * 10) / 10;
       })(),
+      // El botón «−» (alejar) tiene que verse en la **primera fila** de la
+      // barra: dentro de la pantalla y en la misma fila que «Anterior».
+      zoomMenos: (() => {
+        const menos = document.querySelector('[data-bpmn-accion="alejar"]');
+        const anterior = document.querySelector('[data-bpmn-accion="anterior"]');
+        if (!menos || !anterior) return { existe: false };
+        const a = menos.getBoundingClientRect();
+        const b = anterior.getBoundingClientRect();
+        const ancho = document.documentElement.clientWidth;
+        return {
+          existe: true,
+          dentro: a.left >= -0.5 && a.right <= ancho + 0.5,
+          mismaFila: Math.abs(a.top - b.top) <= 2,
+          x: Math.round(a.left),
+          derecha: Math.round(a.right),
+          y: Math.round(a.top),
+          anchoVentana: ancho,
+        };
+      })(),
+      // El evento de inicio y su etiqueta tienen que verse enteros dentro
+      // del lienzo, con 16 px de margen por cada lado.
+      inicioEnLienzo: (() => {
+        const lienzo = document.querySelector('[data-bpmn-canvas]');
+        const evento = lienzo?.querySelector('[data-element-id="e_ini"]');
+        const etiqueta = lienzo?.querySelector('[data-element-id="e_ini_label"]');
+        if (!lienzo || !evento || !etiqueta) return { existe: false };
+        const c = lienzo.getBoundingClientRect();
+        const a = evento.getBoundingClientRect();
+        const b = etiqueta.getBoundingClientRect();
+        const caja = {
+          left: Math.min(a.left, b.left),
+          right: Math.max(a.right, b.right),
+          top: Math.min(a.top, b.top),
+          bottom: Math.max(a.bottom, b.bottom),
+        };
+        const margen = 16;
+        return {
+          existe: true,
+          dentro: caja.left >= c.left + margen - 0.5
+            && caja.right <= c.right - margen + 0.5
+            && caja.top >= c.top + margen - 0.5
+            && caja.bottom <= c.bottom - margen + 0.5,
+          margenes: {
+            izquierda: Math.round(caja.left - c.left),
+            derecha: Math.round(c.right - caja.right),
+            arriba: Math.round(caja.top - c.top),
+            abajo: Math.round(c.bottom - caja.bottom),
+          },
+          ancho: Math.round(caja.right - caja.left),
+        };
+      })(),
+      // La palabra «entra» se ve **una sola vez**: el marcador del paso
+      // actual no puede proyectar sombra sobre el texto (la sombra dibujaba
+      // una segunda «entra» fucsia encima de la negra).
+      entra: (() => {
+        const lienzo = document.querySelector('[data-bpmn-canvas]');
+        if (!lienzo) return { existe: false };
+        const textos = [...lienzo.querySelectorAll('text')]
+          .filter((nodo) => (nodo.textContent || '').trim() === 'entra');
+        const visibles = textos.filter((nodo) => {
+          const caja = nodo.getBoundingClientRect();
+          return caja.width > 0 && caja.height > 0;
+        });
+        const conSombra = visibles.filter((nodo) => {
+          let padre = nodo.parentElement;
+          while (padre && padre !== lienzo) {
+            const filtro = getComputedStyle(padre).filter;
+            if (filtro && filtro !== 'none') return true;
+            padre = padre.parentElement;
+          }
+          return false;
+        });
+        return { existe: true, total: textos.length, visibles: visibles.length, conSombra: conSombra.length };
+      })(),
     };
   });
 }
@@ -345,6 +426,58 @@ for (const medida of MEDIDAS) {
         captura,
       });
       if (!lienzoOk) fallos.push(`diagrama-lienzo @ ${medida.ancho}px: ${midido.lienzoAlto} px útiles`);
+
+      // El botón «−» (alejar) en la primera fila de la barra: sin deslizar
+      // y sin abrir el menú «⋯».
+      const menos = midido.zoomMenos ?? {};
+      const menosOk = Boolean(menos.existe) && menos.dentro && menos.mismaFila;
+      resultados.push({
+        ruta: 'diagrama-zoom-menos',
+        ancho: medida.ancho,
+        ok: menosOk,
+        detalle: menosOk
+          ? `el botón «−» se ve en la primera fila de la barra (x ${menos.x}–${menos.derecha} de ${menos.anchoVentana} px, en la misma fila que «Anterior»)`
+          : !menos.existe
+            ? 'no se encontró el botón «−» ni el «Anterior» en la barra'
+            : `el botón «−» no se ve sin deslizar (x ${menos.x}–${menos.derecha} de ${menos.anchoVentana} px${menos.mismaFila ? '' : ' y no está en la misma fila que «Anterior»'})`,
+        errores,
+        captura,
+      });
+      if (!menosOk) fallos.push(`diagrama-zoom-menos @ ${medida.ancho}px: el botón «−» no está en la primera fila`);
+
+      // El evento de inicio y su etiqueta, enteros dentro del lienzo.
+      const inicio = midido.inicioEnLienzo ?? {};
+      const inicioOk = Boolean(inicio.existe) && inicio.dentro;
+      resultados.push({
+        ruta: 'diagrama-inicio',
+        ancho: medida.ancho,
+        ok: inicioOk,
+        detalle: inicioOk
+          ? `el evento de inicio y su etiqueta caben en el lienzo (${inicio.ancho} px de ancho; márgenes ${inicio.margenes.izquierda}/${inicio.margenes.derecha}/${inicio.margenes.arriba}/${inicio.margenes.abajo} px)`
+          : !inicio.existe
+            ? 'no se encontró el evento de inicio con su etiqueta en el lienzo'
+            : `el evento de inicio o su etiqueta se salen del lienzo (márgenes ${inicio.margenes.izquierda}/${inicio.margenes.derecha}/${inicio.margenes.arriba}/${inicio.margenes.abajo} px; se piden 16)`,
+        errores,
+        captura,
+      });
+      if (!inicioOk) fallos.push(`diagrama-inicio @ ${medida.ancho}px: el evento de inicio con su etiqueta no cabe en el lienzo`);
+
+      // La palabra «entra», una sola vez y sin sombra encima.
+      const entra = midido.entra ?? {};
+      const entraOk = Boolean(entra.existe) && entra.visibles === 1 && entra.conSombra === 0;
+      resultados.push({
+        ruta: 'diagrama-entra',
+        ancho: medida.ancho,
+        ok: entraOk,
+        detalle: entraOk
+          ? `la palabra «entra» aparece una sola vez (${entra.visibles}) y sin sombra encima`
+          : !entra.existe
+            ? 'no se encontró la palabra «entra» en el lienzo'
+            : `la palabra «entra» sale ${entra.visibles} veces${entra.conSombra ? ' y con una sombra encima' : ''}`,
+        errores,
+        captura,
+      });
+      if (!entraOk) fallos.push(`diagrama-entra @ ${medida.ancho}px: la palabra «entra» sale ${entra.visibles} veces`);
     }
 
     // La hoja del inspector (mapa) se abre al tocar un nodo: se mide aparte.

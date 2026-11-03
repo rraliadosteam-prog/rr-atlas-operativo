@@ -313,8 +313,11 @@
 }
 .bpmn-canvas .djs-element.selected .djs-visual { filter: drop-shadow(3px 3px 0 var(--rr-negro)); }
 
-/* Paso actual del recorrido: se marca en fucsia para saber dónde estás. */
-.bpmn-canvas .rr-paso-actual .djs-visual {
+/* Paso actual del recorrido: se marca en fucsia para saber dónde estás.
+   La sombra se aplica **solo a la geometría** (el círculo, el rectángulo),
+   nunca al texto: si se aplicara al grupo entero, la palabra «entra» salía
+   duplicada —la negra y su sombra fucsia encima una de otra—. */
+.bpmn-canvas .rr-paso-actual .djs-visual > *:not(text) {
   filter: drop-shadow(0 0 0 var(--rr-fucsia)) drop-shadow(3px 3px 0 var(--rr-fucsia));
 }
 .bpmn-canvas .rr-paso-actual .djs-outline {
@@ -686,7 +689,14 @@
   /* Los controles menos usados pasan al menú «⋯», que queda fijo a la
      izquierda de la barra deslizable. */
   .bpmn-toolbar .bpmn-secundario { display: none; }
-  .bpmn-toolbar__dividir { display: none; }
+  /* Los controles que se quedan en ícono («Pantalla completa», «Anterior»
+     y «Siguiente») conservan su texto para los lectores de pantalla y lo
+     esconden en pantalla: así el botón «−» (alejar) queda en la primera
+     fila de la barra, sin deslizar ni abrir el menú «⋯». */
+  .bpmn-toolbar .bpmn-toolbar__compacto .bpmn-accion__texto { display: none; }
+  /* La fila se aprieta: menos separación entre controles. */
+  .bpmn-toolbar { gap: 4px; }
+  .bpmn-zoom { min-width: 44px; padding: 0 4px; font-size: 0.7rem; }
   .bpmn-menu--mas { display: inline-block; position: sticky; left: 0; z-index: 6; }
   .bpmn-menu--mas > summary { list-style: none; font-size: 16px; line-height: 1; }
   .bpmn-menu--mas > summary::-webkit-details-marker { display: none; }

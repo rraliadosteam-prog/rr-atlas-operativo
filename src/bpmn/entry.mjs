@@ -23,9 +23,12 @@ import {
 //
 // · El margen del encuadre del paso (P1.2): 24 px a cada lado.
 const MARGEN_PASO = Object.freeze({ top: 24, right: 24, bottom: 24, left: 24 });
-// · El margen con el que se centra un paso en el recorrido (el que ya se
-//   usaba): deja aire para la barra y para la banda de lectura.
-const MARGEN_PASO_VISTA = Object.freeze({ top: 72, right: 28, bottom: 88, left: 28 });
+// · El margen con el que se centra un paso en el lienzo: el elemento **y su
+//   etiqueta** tienen que verse enteros, con aire alrededor.
+const MARGEN_PASO_VISTA = Object.freeze({ top: 24, right: 24, bottom: 24, left: 24 });
+// · El margen mínimo (en píxeles) entre el elemento —y su etiqueta— y el
+//   borde del lienzo: por debajo de esto el nombre queda pegado al borde.
+const MARGEN_MINIMO_PX = 16;
 // · El encuadre nunca baja de este zoom (el mínimo de siempre).
 const ZOOM_ENCUADRE_MINIMO = 0.05;
 
@@ -295,6 +298,68 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
   }
 
+  /**
+   * La etiqueta externa de un elemento (la que lleva su nombre). bpmn-js la
+   * crea con el id `<id del elemento>_label` y la deja colgada de la forma.
+   */
+  function etiquetaDe(elemento) {
+    if (!elemento) return null;
+    if (elemento.label) return elemento.label;
+    const registro = viewer?.get('elementRegistry');
+    return registro?.get(`${elemento.id}_label`) || null;
+  }
+
+  /**
+   * La caja del elemento **y de su etiqueta**, en unidades del diagrama.
+   * El nombre del evento de inicio («Llega un documento») vive en una
+   * etiqueta aparte: si solo se encuadra la forma, la etiqueta se sale del
+   * lienzo por un lado (a 390 px salía cortada: «…ga un documento»).
+   */
+  function cajaConEtiqueta(elemento) {
+    if (!elemento) return null;
+    const partes = [elemento, etiquetaDe(elemento)]
+      .filter(Boolean)
+      .map((parte) => ({
+        x: Number(parte.x) || 0,
+        y: Number(parte.y) || 0,
+        width: Number(parte.width) || 0,
+        height: Number(parte.height) || 0,
+      }));
+    if (!partes.length) return null;
+    const izquierda = Math.min(...partes.map((parte) => parte.x));
+    const arriba = Math.min(...partes.map((parte) => parte.y));
+    const derecha = Math.max(...partes.map((parte) => parte.x + parte.width));
+    const abajo = Math.max(...partes.map((parte) => parte.y + parte.height));
+    return { x: izquierda, y: arriba, width: derecha - izquierda, height: abajo - arriba };
+  }
+
+  /**
+   * Desplaza la vista para que el elemento **y su etiqueta** se vean
+   * enteros dentro del lienzo, con un margen (en píxeles) por cada lado.
+   *
+   * `scrollToElement` de bpmn-js solo mira la forma: la etiqueta externa
+   * queda colgando fuera del lienzo. Aquí se calcula la caja de las dos y
+   * se centra (o se alinea al borde, si no caben).
+   */
+  function centrarEnLienzo(elemento, margenPx = MARGEN_MINIMO_PX) {
+    const canvas = viewer?.get('canvas');
+    if (!canvas || !elemento) return;
+    const caja = cajaConEtiqueta(elemento);
+    const tamano = canvas.getSize?.();
+    if (!caja || !tamano?.width || !tamano?.height) {
+      canvas.scrollToElement(elemento, MARGEN_PASO_VISTA);
+      return;
+    }
+    const zoom = canvas.zoom() || 1;
+    const vista = canvas.viewbox();
+    const margen = margenPx / zoom;
+    const ancho = vista.width - 2 * margen;
+    const alto = vista.height - 2 * margen;
+    const x = caja.width <= ancho ? caja.x - (ancho - caja.width) / 2 : caja.x - margen;
+    const y = caja.height <= alto ? caja.y - (alto - caja.height) / 2 : caja.y - margen;
+    canvas.scroll({ dx: (vista.x - x) * zoom, dy: (vista.y - y) * zoom });
+  }
+
   // Bloque 1B (P1.3): las etiquetas que se montan sobre otra forma se
   // separan **en el gfx**, no en el modelo. Escribir en `label.y` movía el
   // DI y bpmn-js guardaba esa posición: la copia exportada se iba alejando
@@ -383,7 +448,7 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     stepIndex = Math.max(0, Math.min(elements.length - 1, index));
     const canvas = viewer.get('canvas');
     if (narrow()) canvas.zoom(Math.max(canvas.zoom() || 1, PISO_LEGIBILIDAD_DIAGRAMA));
-    canvas.scrollToElement(elements[stepIndex], MARGEN_PASO_VISTA);
+    centrarEnLienzo(elements[stepIndex], MARGEN_PASO_VISTA.top);
     marcarPaso(elements[stepIndex]);
     nudgeLabels();
     modoLectura = 'paso';
@@ -656,7 +721,10 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
     canvas.zoom('fit-viewport', 'auto');
     // Un poco de aire alrededor: el borde del pool no queda pegado al marco.
     const conMargen = Math.max(ZOOM_ENCUADRE_MINIMO, (canvas.zoom() || 0) * MARGEN_ENCUADRE);
-    const zoom = zoomEncuadre(conMargen, { forzar });
+    // El piso de legibilidad (1,15) solo aplica en lienzo angosto: en un
+    // lienzo amplio el diagrama entero cabe con margen y el escritorio
+    // abre en «ver el todo» (a 1,15 solo se veía una esquina).
+    const zoom = zoomEncuadre(conMargen, { forzar, anchoContenedor: anchoContenedor() });
     canvas.zoom(zoom);
     stepIndex = 0;
     // Si el piso subió el zoom, el diagrama ya no cabe entero: se deja a la
@@ -668,15 +736,14 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
   }
 
   // La vista se deja en el primer paso (o en el evento de inicio), que es
-  // el punto por el que se empieza a leer el diagrama.
+  // el punto por el que se empieza a leer el diagrama. La etiqueta del
+  // evento («Llega un documento») también tiene que verse entera.
   function desplazarAlPrimerPaso() {
-    const canvas = viewer?.get('canvas');
-    if (!canvas) return;
     const elements = flowElements();
     const inicio = elements.find((element) => element.type === 'bpmn:StartEvent');
     const destino = inicio || elements[0];
     if (!destino) return;
-    canvas.scrollToElement(destino, MARGEN_PASO_VISTA);
+    centrarEnLienzo(destino, MARGEN_MINIMO_PX);
   }
 
   // Modo «paso» (P1.2): se encuadra el **paso actual**, no el diagrama
@@ -701,7 +768,7 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
       }
     }
     canvas.zoom(zoom);
-    canvas.scrollToElement(elemento, MARGEN_PASO);
+    centrarEnLienzo(elemento, MARGEN_PASO.left);
     marcarPaso(elemento);
     nudgeLabels();
     modoLectura = ajustado ? 'paso-ajustado' : 'paso';
@@ -785,7 +852,7 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
       const element = viewer.get('elementRegistry').get(id);
       if (!element) return;
       if (narrow()) viewer.get('canvas').zoom(Math.max(viewer.get('canvas').zoom() || 1, PISO_LEGIBILIDAD_DIAGRAMA));
-      viewer.get('canvas').scrollToElement(element, MARGEN_PASO_VISTA);
+      centrarEnLienzo(element, MARGEN_PASO_VISTA.top);
       try { viewer.get('selection').select(element); } catch { /* el visor no selecciona */ }
     },
     restyle,
