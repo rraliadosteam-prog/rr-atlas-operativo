@@ -488,9 +488,11 @@
 .bpmn-report__warn { color: #8a6d00; }
 
 @media (max-width: 760px) {
-  /* En móvil el acceso a BPMN llega por la tabbar (fase 6); el shell no crece. */
-  .top-actions [data-bpmn-link],
+  /* En móvil el acceso a BPMN llega por la tabbar (fase 6); el shell no crece.
+     Item 7 · mientras no exista la tabbar, el ícono ◇ de la barra superior
+     deja el BPMN a un toque (antes no había forma de abrirlo en el celular). */
   .rail-actions [data-bpmn-link-rail] { display: none; }
+  .top-actions [data-bpmn-link] { display: inline-flex; min-width: 44px; min-height: 44px; justify-content: center; }
   /* La paleta de bpmn-js venía en vertical y tapaba media pantalla: en móvil
      es una franja horizontal arriba, deslizable con el dedo. */
   .bpmn-canvas .djs-palette {

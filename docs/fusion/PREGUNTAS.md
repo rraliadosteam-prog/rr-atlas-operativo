@@ -30,6 +30,30 @@ Formato: `TODO(Rosas): ...`
 - RESUELTO: «Volver al hub» oculto hasta que exista la URL real.
 - Nota: a Rosas le gusta el look actual del preview; conservarlo.
 
+## Preguntas que estas decisiones ya contestan
+- ~~Confirmar tipografía oficial~~ → RESUELTO (Inter Tight + Lexend).
+- ~~¿Mapa vivo o Inicio como entrada?~~ → RESUELTO: Mapa vivo.
+- ~~¿Cuál es el hub RR al que apunta «Volver al hub RR»?~~ → RESUELTO: el enlace queda oculto.
+- ~~Estado de los bots extra del árbol de B~~ → RESUELTO: Buen Puente y Becas de Exposición vigentes; Media Manager y Gains «sin confirmar».
+- ~~Confirmar lista canónica de clientes y estados~~ → RESUELTO: BOGA, Candilejas e IMF Weddings activos; los demás en pausa.
+- ~~¿Se reparan las 16 semillas BPMN hasta 0 avisos?~~ → RESUELTO: sí, se reparan.
+- ~~¿Se recuerda la preferencia de pantalla completa/partida?~~ → RESUELTO: abrir un diagrama es siempre pantalla completa.
+- ~~En móvil, ¿botón «⋯» con las acciones menos usadas?~~ → RESUELTO: sí, así quedó en el item 7.
+
+## Resueltas por Rosas (2026-11-02 19:22) — decisiones del bloque de cierre
+- RESUELTO: **Título y subtítulo** «RR Aliados · Atlas operativo» en todas partes (se quita «RR Labs» del Mapa vivo).
+- RESUELTO: **Fuentes** Inter Tight (títulos) + Lexend (cuerpo).
+- RESUELTO: **Entrada = Mapa vivo** (no la vista Inicio).
+- RESUELTO: **«Volver al hub» oculto** (hasta que exista la URL real del hub).
+- RESUELTO: **Se conserva el look actual** (el preview le gusta a Rosas).
+- RESUELTO: **Clientes** — BOGA, Candilejas e IMF Weddings **activos**; los demás **en pausa**. Se quita «Sin confirmar» del estado de clientes.
+- RESUELTO: **Guías de diagrama provisionales**, con aviso visible «Guía provisional».
+- RESUELTO: **Leyenda** separada: tareas de bot y tareas de persona, con ícono distinto.
+- RESUELTO: **Reparar las 16 semillas BPMN** hasta 0 avisos de lint (incluido `no-gateway-join-fork`).
+- RESUELTO: **Abrir un diagrama = siempre pantalla completa.**
+- RESUELTO: **Bots vigentes** — Buen Puente y Becas de Exposición; Media Manager y Gains quedan «sin confirmar».
+- RESUELTO: **Lo menor** (estados vacíos, catálogo, tamaños) se decide con el criterio más profesional, sin preguntar.
+
 ## Abiertas por el bloque 4 (2026-11-02, item 4)
 - TODO(Rosas): La ficha de cada diagrama (qué busca, disparador, resultado y el camino paso a paso) sale del guion de procesos del mega prompt §6. ¿Se revisa esa redacción o se deja como texto de lectura provisional hasta que el equipo la valide?
 - TODO(Rosas): La leyenda de colores dice qué significa cada color RR (crema = paso normal, fucsia = se traba, mostaza = atención, orquídea = carriles, gris = datos). ¿Es la convención que quiere la marca o se cambia?

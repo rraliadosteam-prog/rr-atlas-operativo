@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-11-03T00:23:28.393Z",
+  "generadoEn": "2026-11-03T00:33:48.312Z",
   "viewports": [
     {
       "viewport": {
@@ -26,7 +26,7 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": -23,
-                "right": 120,
+                "right": 121,
                 "ancho": 143
               }
             ],
@@ -92,7 +92,7 @@
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
                 "left": -85,
-                "right": 1246,
+                "right": 1247,
                 "ancho": 1332
               },
               {
@@ -169,21 +169,27 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -165,
-                "right": 1167,
+                "left": -166,
+                "right": 1165,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -165,
-                "right": -22,
+                "left": -166,
+                "right": -23,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -22,
-                "right": 0,
+                "left": -23,
+                "right": -1,
                 "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": -1,
+                "right": 89,
+                "ancho": 90
               }
             ],
             "objetivosChicos": [],
@@ -345,26 +351,26 @@
           },
           "cajas": {
             "topbar": {
-              "alto": 96
+              "alto": 67
             },
             "rail": {
               "ancho": 210,
               "visible": true
             },
             "busqueda": {
-              "ancho": 246,
+              "ancho": 383,
               "visible": true
             },
             "botonBpmn": {
               "visible": true,
-              "ancho": 92
+              "ancho": 84
             },
             "botonHub": {
               "visible": false
             },
             "nodo": {
-              "ancho": 23,
-              "alto": 12
+              "ancho": 122,
+              "alto": 61
             },
             "minimapa": {
               "visible": false
@@ -377,8 +383,18 @@
         },
         {
           "nombre": "navegar",
-          "ok": false,
-          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.node-card')\n    - locator resolved to 71 elements. Proceeding with the first one: <article tabindex=\"0\" role=\"button\" data-id=\"rr-labs\" class=\"node-card node-root tone-ink lod-low\" aria-label=\"RR Labs, root, Sistema completo\">"
+          "ok": true,
+          "busqueda": {
+            "antes": 71,
+            "despues": 0,
+            "filtra": true
+          },
+          "inspector": {
+            "visible": true,
+            "titulo": "RR Labs"
+          },
+          "migas": "RR Labs",
+          "captura": "docs/fusion/capturas/auditoria/tableta-768-02-navegar-inspector.png"
         },
         {
           "nombre": "bpmn-catalogo",
@@ -390,75 +406,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -170,
-                "right": 1162,
+                "left": -82,
+                "right": 1249,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -170,
-                "right": -27,
+                "left": -82,
+                "right": 61,
                 "ancho": 143
               },
               {
-                "elemento": "span.atlas-ticker__glyph",
-                "left": -27,
-                "right": -4,
-                "ancho": 22
-              },
-              {
                 "elemento": "span.atlas-ticker__item",
-                "left": -4,
-                "right": 85,
+                "left": 749,
+                "right": 839,
                 "ancho": 90
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 751,
-                "right": 773,
+                "left": 839,
+                "right": 861,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 773,
-                "right": 826,
+                "left": 861,
+                "right": 913,
                 "ancho": 52
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 826,
-                "right": 848,
+                "left": 913,
+                "right": 935,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 848,
-                "right": 903,
+                "left": 935,
+                "right": 990,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 903,
-                "right": 925,
+                "left": 990,
+                "right": 1012,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 925,
-                "right": 1018,
+                "left": 1012,
+                "right": 1106,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1018,
-                "right": 1041,
+                "left": 1106,
+                "right": 1128,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 1041,
-                "right": 1140,
+                "left": 1128,
+                "right": 1227,
                 "ancho": 99
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 1227,
+                "right": 1249,
+                "ancho": 22
               }
             ],
             "objetivosChicos": [],
@@ -468,7 +484,7 @@
           "cajas": {
             "vista": {
               "ancho": 768,
-              "alto": 861
+              "alto": 890
             },
             "catalogo": {
               "ancho": 768
@@ -528,75 +544,75 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -249,
-                "right": 1083,
+                "left": -163,
+                "right": 1169,
                 "ancho": 1332
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -249,
-                "right": -106,
+                "left": -163,
+                "right": -19,
                 "ancho": 143
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -106,
-                "right": -84,
+                "left": -19,
+                "right": 3,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 758,
+                "right": 781,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -84,
-                "right": 6,
-                "ancho": 90
+                "left": 781,
+                "right": 833,
+                "ancho": 52
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 833,
+                "right": 855,
+                "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 768,
-                "right": 823,
+                "left": 855,
+                "right": 910,
                 "ancho": 55
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 823,
-                "right": 845,
+                "left": 910,
+                "right": 932,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 845,
-                "right": 939,
+                "left": 932,
+                "right": 1026,
                 "ancho": 94
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 939,
-                "right": 961,
+                "left": 1026,
+                "right": 1048,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 961,
-                "right": 1060,
+                "left": 1048,
+                "right": 1147,
                 "ancho": 99
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 1060,
-                "right": 1083,
+                "left": 1147,
+                "right": 1169,
                 "ancho": 22
-              },
-              {
-                "elemento": "details.bpmn-menu",
-                "left": 776,
-                "right": 858,
-                "ancho": 82
-              },
-              {
-                "elemento": "summary.button.button-small",
-                "left": 776,
-                "right": 858,
-                "ancho": 82
               }
             ],
             "objetivosChicos": [],
@@ -681,15 +697,21 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -21,
+                "left": -20,
                 "right": 1231,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -21,
-                "right": 110,
+                "left": -20,
+                "right": 111,
                 "ancho": 131
+              },
+              {
+                "elemento": "span.atlas-ticker__item",
+                "left": 310,
+                "right": 361,
+                "ancho": 51
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
@@ -700,12 +722,12 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 383,
-                "right": 469,
+                "right": 470,
                 "ancho": 86
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 469,
+                "left": 470,
                 "right": 492,
                 "ancho": 22
               },
@@ -724,18 +746,18 @@
               {
                 "elemento": "span.atlas-ticker__item",
                 "left": 605,
-                "right": 736,
+                "right": 737,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 736,
-                "right": 758,
+                "left": 737,
+                "right": 759,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 758,
+                "left": 759,
                 "right": 842,
                 "ancho": 83
               },
@@ -744,12 +766,6 @@
                 "left": 842,
                 "right": 864,
                 "ancho": 22
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 864,
-                "right": 913,
-                "ancho": 49
               }
             ],
             "objetivosChicos": [],
@@ -776,8 +792,8 @@
               "visible": false
             },
             "nodo": {
-              "ancho": 189,
-              "alto": 95
+              "ancho": 122,
+              "alto": 61
             },
             "minimapa": {
               "visible": false
@@ -790,8 +806,18 @@
         },
         {
           "nombre": "navegar",
-          "ok": false,
-          "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.node-card')\n    - locator resolved to 71 elements. Proceeding with the first one: <article tabindex=\"0\" role=\"button\" data-id=\"rr-labs\" class=\"node-card node-root tone-ink lod-mid\" aria-label=\"RR Labs, root, Sistema completo\">"
+          "ok": true,
+          "busqueda": {
+            "antes": 71,
+            "despues": 0,
+            "filtra": true
+          },
+          "inspector": {
+            "visible": true,
+            "titulo": "RR Labs"
+          },
+          "migas": "RR Labs",
+          "captura": "docs/fusion/capturas/auditoria/movil-360-02-navegar-inspector.png"
         },
         {
           "nombre": "bpmn-catalogo",
@@ -803,74 +829,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -159,
-                "right": 1093,
+                "left": -75,
+                "right": 1177,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -159,
-                "right": -28,
+                "left": -75,
+                "right": 57,
                 "ancho": 131
               },
               {
+                "elemento": "span.atlas-ticker__item",
+                "left": 329,
+                "right": 416,
+                "ancho": 86
+              },
+              {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -28,
-                "right": -6,
+                "left": 416,
+                "right": 438,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -6,
-                "right": 77,
-                "ancho": 83
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 353,
-                "right": 444,
+                "left": 438,
+                "right": 529,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 444,
-                "right": 467,
+                "left": 529,
+                "right": 551,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 467,
-                "right": 598,
+                "left": 551,
+                "right": 683,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 598,
-                "right": 620,
+                "left": 683,
+                "right": 705,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 620,
-                "right": 703,
+                "left": 705,
+                "right": 788,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 703,
-                "right": 725,
+                "left": 788,
+                "right": 810,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 725,
-                "right": 775,
+                "left": 810,
+                "right": 859,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 775,
-                "right": 797,
+                "left": 859,
+                "right": 881,
                 "ancho": 22
               }
             ],
@@ -895,7 +921,7 @@
             },
             "toolbarVisible": {
               "visible": true,
-              "alto": 321
+              "alto": 192
             }
           },
           "areas": [
@@ -941,74 +967,74 @@
             "desborde": [
               {
                 "elemento": "div.rr-marquee__track.atlas-ticker__track",
-                "left": -233,
-                "right": 1019,
+                "left": -148,
+                "right": 1103,
                 "ancho": 1252
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -233,
-                "right": -102,
+                "left": -148,
+                "right": -17,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": -102,
-                "right": -80,
+                "left": -17,
+                "right": 5,
+                "ancho": 22
+              },
+              {
+                "elemento": "span.atlas-ticker__glyph",
+                "left": 342,
+                "right": 364,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": -80,
-                "right": 4,
-                "ancho": 83
-              },
-              {
-                "elemento": "span.atlas-ticker__item",
-                "left": 279,
-                "right": 371,
+                "left": 364,
+                "right": 455,
                 "ancho": 91
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 371,
-                "right": 393,
+                "left": 455,
+                "right": 477,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 393,
-                "right": 524,
+                "left": 477,
+                "right": 609,
                 "ancho": 131
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 524,
-                "right": 546,
+                "left": 609,
+                "right": 631,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 546,
-                "right": 629,
+                "left": 631,
+                "right": 714,
                 "ancho": 83
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 629,
-                "right": 652,
+                "left": 714,
+                "right": 736,
                 "ancho": 22
               },
               {
                 "elemento": "span.atlas-ticker__item",
-                "left": 652,
-                "right": 701,
+                "left": 736,
+                "right": 786,
                 "ancho": 49
               },
               {
                 "elemento": "span.atlas-ticker__glyph",
-                "left": 701,
-                "right": 723,
+                "left": 786,
+                "right": 808,
                 "ancho": 22
               }
             ],

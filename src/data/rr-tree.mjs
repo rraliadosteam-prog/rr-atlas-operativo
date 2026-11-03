@@ -214,7 +214,7 @@ export function createRRGraph(localData = localOverrides) {
   const rootX = 7 * laneWidth / 2 - 135;
   addNode({
     id: 'rr-labs',
-    title: 'RR Labs',
+    title: 'RR Aliados',
     type: 'root',
     level: 0,
     x: rootX,
