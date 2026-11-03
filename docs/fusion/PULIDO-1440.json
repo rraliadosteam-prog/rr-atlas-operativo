@@ -3,6 +3,10 @@
   "ancho": 1440,
   "diagramas": 16,
   "conOk": 16,
+  "pisoLegibilidad": 1.15,
+  "modos": [
+    "sin-gancho"
+  ],
   "fallos": [],
   "resultados": [
     {
@@ -13,8 +17,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1355×555 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1355×555 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-1440.png"
     },
@@ -26,8 +31,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1352×563 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1352×563 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -39,8 +45,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1354×561 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1354×561 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-1440.png"
     },
@@ -52,8 +59,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1354×493 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1354×493 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -65,8 +73,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:1 · contenido 1354×398 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:1 · contenido 1354×398 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -78,8 +87,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:1 · contenido 1353×454 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:1 · contenido 1353×454 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -91,8 +101,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1353×367 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1353×367 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -104,8 +115,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1353×401 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1353×401 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -117,8 +129,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1355×513 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1355×513 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": "docs/fusion/capturas/pulido-finanzas_como_entra_y_se_sale_la_plata-1440.png"
     },
@@ -130,8 +143,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:1 · contenido 1067×639 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:1 · contenido 1067×639 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -143,8 +157,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:1 · contenido 1301×638 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:1 · contenido 1301×638 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -156,8 +171,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 897×638 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 897×638 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -169,8 +185,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1354×542 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1354×542 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -182,8 +199,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:1 · contenido 1353×551 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:1 · contenido 1353×551 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -195,8 +213,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1250×639 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1250×639 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     },
@@ -208,8 +227,9 @@
       "centrado": true,
       "poolOk": true,
       "entraOk": true,
+      "modo": "sin-gancho",
       "zoom": null,
-      "detalle": "escala 1:2 · contenido 1355×470 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono",
+      "detalle": "escala 1:2 · contenido 1355×470 px · encuadrado y centrado · título del pool sin tachón · «entra» libre del ícono · legibilidad: todavía no se puede certificar: no hay gancho con el estado del lienzo",
       "errores": [],
       "captura": null
     }
