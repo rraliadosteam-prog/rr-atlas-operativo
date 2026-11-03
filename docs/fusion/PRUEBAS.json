@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-03T01:54:09.531Z",
+  "fecha": "2026-11-03T03:01:18.938Z",
   "pruebas": 30,
   "flujos": [
     "mapa",
@@ -58,7 +58,7 @@
       "flujo": "edicion",
       "ancho": 390,
       "ok": true,
-      "detalle": "nombre editado («Llega un documento» → «Llega un documento QA»)",
+      "detalle": "nombre editado («5. Registrar el historial» → «5. Registrar el historial QA»)",
       "errores": [],
       "captura": "docs/fusion/capturas/cierre-edicion-390.png"
     },
@@ -138,7 +138,7 @@
       "flujo": "edicion",
       "ancho": 768,
       "ok": true,
-      "detalle": "nombre editado («3. Crear o actualizar el _CONTEXTO» → «3. Crear o actualizar el _CONTEXTO QA»)",
+      "detalle": "nombre editado («5. Registrar el historial» → «5. Registrar el historial QA»)",
       "errores": [],
       "captura": "docs/fusion/capturas/cierre-edicion-768.png"
     },

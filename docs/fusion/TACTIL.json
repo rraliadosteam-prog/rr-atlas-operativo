@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-03T02:01:45.831Z",
+  "fecha": "2026-11-03T03:15:07.952Z",
   "pruebas": 18,
   "pasar": 18,
   "fallar": 0,
@@ -54,7 +54,7 @@
       "flujo": "pellizco-diagrama",
       "ancho": 390,
       "ok": true,
-      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
+      "detalle": "pellizco en el diagrama: la forma pasó de 365.5 px a 520.7 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-390.png"
     },
@@ -102,7 +102,7 @@
       "flujo": "pellizco-diagrama",
       "ancho": 768,
       "ok": true,
-      "detalle": "pellizco en el diagrama: la forma pasó de 768 px a 1097 px",
+      "detalle": "pellizco en el diagrama: la forma pasó de 721.8 px a 1031 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-768.png"
     },
@@ -150,7 +150,7 @@
       "flujo": "pellizco-diagrama",
       "ancho": 360,
       "ok": true,
-      "detalle": "pellizco en el diagrama: la forma pasó de 2794.5 px a 3992.1 px",
+      "detalle": "pellizco en el diagrama: la forma pasó de 338.1 px a 486 px",
       "errores": [],
       "captura": "docs/fusion/capturas/tactil-pellizco-diagrama-360.png"
     }

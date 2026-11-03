@@ -149,8 +149,12 @@
   background: rgba(190, 7, 109, 0.08);
 }
 .bpmn-card__title { font-family: var(--font-titulo); font-weight: 600; }
-.bpmn-card__meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.bpmn-card__meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
 .bpmn-card__file { font-size: 0.68rem; color: var(--bpmn-texto-suave); font-family: var(--font-mono); }
+/* Bloque 2 · el nombre del archivo es una palabra larga: sin esto la tarjeta
+   estiraba el catálogo y lo hacía deslizar de lado en el celular. */
+.bpmn-card__file { min-width: 0; overflow-wrap: anywhere; }
+.bpmn-card { min-width: 0; }
 
 .bpmn-badge {
   display: inline-flex;
@@ -540,11 +544,14 @@
   /* En vertical el catálogo va arriba y el diagrama necesita aire: sin esto el
      lienzo quedaba con 0 px de alto y el diagrama no se montaba. */
   .bpmn-view { overflow: auto; }
-  .bpmn-view__body { grid-template-columns: 1fr; grid-template-rows: 180px minmax(320px, 1fr); }
+  /* Bloque 2 · el catálogo deja de empujar el lienzo: con 180 px fijos el
+     diagrama quedaba cortado por abajo en 390 px y 360 px. */
+  .bpmn-view__body { grid-template-columns: 1fr; grid-template-rows: 160px minmax(280px, 1fr); }
+  .bpmn-canvas-wrap { min-height: 240px; }
   /* La guía baja a una fila propia debajo del diagrama. */
   .bpmn-view.is-guia .bpmn-view__body {
     grid-template-columns: 1fr;
-    grid-template-rows: 180px minmax(320px, 1fr) auto;
+    grid-template-rows: 160px minmax(280px, 1fr) auto;
   }
   .bpmn-guia {
     border-left: 0;
@@ -569,6 +576,19 @@
   .bpmn-view__actions .button { min-width: 44px; min-height: 44px; padding-inline: 8px; }
   .bpmn-view__actions .bpmn-accion__texto { display: none; }
   .bpmn-view.is-completo .bpmn-view__head { gap: 8px; }
+  /* Bloque 2 · en el catálogo la línea de ayuda repetía lo que ya dicen las
+     tarjetas: en 360 px empujaba el lienzo fuera de pantalla. */
+  .bpmn-view:not(.is-completo) .bpmn-view__hint { display: none; }
+  /* Bloque 2 · en el catálogo la barra de controles se apilaba en tres filas
+     (165 px) y tapaba el lienzo: ahora es una sola fila que se desliza con
+     el dedo, igual que en pantalla completa. */
+  .bpmn-view:not(.is-completo) .bpmn-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding: 6px 8px;
+  }
+  .bpmn-view:not(.is-completo) .bpmn-toolbar > * { flex: 0 0 auto; }
   /* Los controles menos usados pasan al menú «⋯», que queda fijo a la
      izquierda de la barra deslizable. */
   .bpmn-toolbar .bpmn-secundario { display: none; }

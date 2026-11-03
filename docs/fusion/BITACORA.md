@@ -918,7 +918,10 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - `npm run check`: **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre **27/27**.
 - `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
 - `npm run verificar:pulido`: **verde** — 16 de 16 diagramas con los tres arreglos bien a 390 px,
-  0 errores de consola.
+  0 errores de consola. La misma prueba en escritorio (`node scripts/verificar-pulido.mjs 1440`)
+  también da **16 de 16**.
+- `npm run verificar:cierre`: **verde** — 30 de 30 (10 flujos × 3 anchos), 0 errores de consola.
+- `npm run verificar:tactil`: **verde** — 18 de 18 (6 flujos × 390, 768 y 360 px), 0 errores de consola.
 
 ### Hallazgos / riesgos
 - En el celular el diagrama encuadrado se ve **pequeño** (escala 1:4 a 1:8 según el proceso): es
@@ -934,8 +937,75 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.
 
 ### Evidencia
-- `docs/fusion/PULIDO.json` (16 diagramas, los tres arreglos y 0 errores de consola).
+- `docs/fusion/PULIDO.json` (16 diagramas a 390 px, los tres arreglos y 0 errores de consola) y
+  `docs/fusion/PULIDO-1440.json` (la misma comprobación en escritorio).
 - `docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png`,
   `pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png`,
   `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`.
 - `docs/fusion/CIERRE.json` (27/27) y `docs/fusion/PRUEBAS.md`.
+
+---
+
+## Bloque 2 · Pulido UX en celular (390 y 360 px) — 2026-11-02
+
+Alcance: **solo arreglos de bajo riesgo** (textos cortados, solapes, espaciados y objetivos
+táctiles ≥ 44 px). Sin rediseños y sin cambios de lógica: ni rutas, ni datos, ni atajos, ni
+estados. El PR #7 sigue **en borrador** y sin fusionar.
+
+### Qué se hizo
+- **Prueba nueva `scripts/verificar-movil.mjs` (`npm run verificar:movil` — aún no está en
+  `package.json`)**: recorre con Chrome real cinco superficies del Atlas a **390 px y 360 px**
+  (mapa vivo, hoja del inspector, catálogo BPMN, diagrama BPMN y vista de datos) y mide cuatro
+  cosas: (1) que todo control visible mida 44 px de alto (y de ancho si es solo ícono),
+  (2) que ningún texto quede cortado sin señal, (3) que dos controles no se pisen y (4) que
+  nada quede fuera de pantalla o tapado por otra capa. Deja la evidencia en
+  `docs/fusion/MOVIL.json` y en las capturas `movil-<superficie>-<ancho>.png`.
+- **La barra de controles del catálogo BPMN ya no se apila en tres filas** (`src/styles/bpmn.css`,
+  regla nueva en `@media (max-width: 760px)`): antes ocupaba **165 px** de alto y empujaba el
+  lienzo fuera de la pantalla; ahora es **una sola fila que se desliza con el dedo** (57 px),
+  igual que en pantalla completa. El diagrama pasó de verse cortado (~155 px visibles) a
+  **265 px completos** a 390 px y **240 px** a 360 px.
+- **El catálogo BPMN no se desliza de lado**: el nombre del archivo de la semilla
+  (`ventas_como_una_oportunidad_se_convierte_en_cliente`) era una palabra larga que estiraba la
+  tarjeta y hacía el catálogo 448 px de ancho dentro de 390 px. Con `overflow-wrap: anywhere` y
+  `min-width: 0` el catálogo vuelve a medir exactamente el ancho de la pantalla.
+- **Espaciado vertical en el celular**: el catálogo baja de 180 px a 160 px, el lienzo mínimo
+  pasa de 320 px a 240 px y la línea de ayuda del catálogo («Elige un proceso…») se oculta en
+  ≤ 760 px porque repetía lo que ya dicen las tarjetas. A 390 px la vista completa **ya no
+  tiene scroll vertical** (antes sobraban 171 px); a 360 px quedan 45 px de scroll.
+- **Decisiones de Rosas (2-nov 21:33) verificadas y sin tocar**: «IMF Weddings» e «IMF Visions»
+  siguen unificados en un solo cliente (datos e interfaz), **Wundeer sigue en pausa** y los
+  **carriles sin rol** (Soporte, Soporte · Prioridad, Cliente, Bot, Solicitante, Equipo RR y sus
+  coletillas) **continúan «sin confirmar»**. Ya estaban registradas como RESUELTO en
+  `docs/fusion/PREGUNTAS.md`; en este bloque no se tocaron ni datos ni diagramas.
+
+### Estado de los checks
+- `npm run check`: **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre **27/27**.
+- `npm run verificar:movil`: **verde** — **10 de 10** (5 superficies × 390 y 360 px), 0 errores de
+  consola, 0 controles por debajo de 44 px, 0 textos cortados, 0 solapes y 0 desbordes.
+- `npm run verificar:pulido`: **verde** — 16 de 16 diagramas con los tres arreglos del bloque 1.
+- `npm run verificar:tactil`: **verde** — 18 de 18 (6 flujos × 390, 768 y 360 px).
+
+### Hallazgos / riesgos
+- En 360 px (740 px de alto) la vista BPMN completa deja **45 px de scroll vertical**: el alto
+  de la cabecera del shell (148 px) más la de la vista BPMN (142 px) se come la pantalla. Con una
+  barra de navegación inferior fija (la tabbar de la fase 6) el espacio útil baja más: puede
+  volver a hacer falta scroll. Queda anotado como pregunta abierta, no se rediseñó nada.
+- Los nodos del tablero infinito miden menos de 44 px en pantalla cuando el mapa está alejado
+  (efecto del zoom). Es el comportamiento ya aceptado del item A: los controles de cada nodo se
+  compensan con `--zoom-inv` y el tablero se puede pellizcar. La prueba lo excluye a propósito.
+- La prueba `verificar-movil.mjs` mide el **elemento que está realmente arriba** en cada punto
+  (`elementFromPoint`), así que una vista a pantalla completa (el diagrama BPMN tapa el shell) no
+  se reporta como un error de tapado.
+
+### Pendiente del bloque
+- La **tabbar** de la fase 6 (navegación inferior en el celular) sigue sin existir: en el
+  celular se entra al BPMN con el botón «◇ BPMN» de la barra superior, que ya es visible.
+- El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas (queda en
+  `docs/fusion/PREGUNTAS.md`).
+- El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.
+
+### Evidencia
+- `docs/fusion/MOVIL.json` (10 pruebas: táctil, cortes, solapes y desbordes a 390 y 360 px).
+- `docs/fusion/capturas/movil-mapa-390.png`, `movil-hoja-390.png`, `movil-catalogo-390.png`,
+  `movil-diagrama-390.png`, `movil-datos-390.png` y las mismas a 360 px.

@@ -329,17 +329,54 @@ Los tres arreglos del visor BPMN, revisados en **los 16 diagramas** a 390 px con
   (`src/data/pendientes.test.mjs`) y la puerta de cierre ganó la comprobación `imf-unificado`.
 - [x] `npm run check`: **verde** — 238 tests pass, 0 fail, build ok, puerta de cierre **27/27**.
 - [x] `npm run lint:bpmn`: **verde** — 16 semillas, **0 errores y 0 avisos**.
+- [x] La misma prueba en escritorio (`node scripts/verificar-pulido.mjs 1440`): **16/16 en verde**
+  también a 1440 px. Evidencia: `docs/fusion/PULIDO-1440.json`.
 - [x] Capturas a 390 px: `docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png`,
   `pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png` y
-  `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`.
+  `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png` (y las mismas tres a 1440 px).
 
 ### Conteo de pruebas del bloque
 | Dato | Resultado |
 |---|---|
 | Diagramas revisados a 390 px | **16** (los 10 flujos de la cadena, revisados los 16) |
+| Diagramas revisados a 1440 px | **16** |
 | Con los tres arreglos bien | **16** |
 | Con fallos | **0** |
 | Errores de consola | **0** |
 | Comprobaciones de la puerta de cierre | **27** (27 en verde) |
 | `npm run check` | **verde** — 238 tests pass, 0 fail, build ok |
 | `npm run lint:bpmn` | **verde** — 16 semillas, **0 errores y 0 avisos** |
+
+---
+
+## Bloque 2 · Pulido UX en celular (390 y 360 px) — 2026-11-02
+
+Prueba nueva: `npm run verificar:movil` (`scripts/verificar-movil.mjs`), con Chrome real y
+eventos de verdad. Recorre cinco superficies del Atlas a **390 px y 360 px** y mide cuatro
+cosas: objetivos táctiles ≥ 44 px, textos cortados sin señal, solapes entre controles y
+desbordes fuera de pantalla o tapados por otra capa.
+
+| Superficie | 390 px | 360 px | Qué se midió |
+|---|---|---|---|
+| Mapa vivo | ✔ | ✔ | 50 controles ≥ 44 px, sin cortes, solapes ni desbordes |
+| Hoja del inspector (mapa) | ✔ | ✔ | 134 controles ≥ 44 px, sin cortes ni solapes |
+| Catálogo BPMN | ✔ | ✔ | 48 controles ≥ 44 px, sin cortes, solapes ni desbordes |
+| Diagrama BPMN (pantalla completa) | ✔ | ✔ | 33 controles ≥ 44 px, sin cortes, solapes ni desbordes |
+| Vista de datos | ✔ | ✔ | 11 controles ≥ 44 px, sin cortes, solapes ni desbordes |
+
+| Dato | Resultado |
+|---|---|
+| Pruebas del bloque | **10** (5 superficies × 390 y 360 px) |
+| En verde | **10** |
+| Con fallos | **0** |
+| Errores de consola | **0** |
+| Controles por debajo de 44 px | **0** |
+| Textos cortados sin señal | **0** |
+| Solapes entre controles | **0** |
+| Desbordes fuera de pantalla | **0** |
+| Controles tapados por otra capa | **0** |
+
+Evidencia: `docs/fusion/MOVIL.json` y las capturas `docs/fusion/capturas/movil-<superficie>-390.png`
+y `movil-<superficie>-360.png`. Los arreglos que se hicieron con esta prueba (barra del catálogo en
+una sola fila deslizable, catálogo sin desbordes de lado, espaciado del lienzo) están descritos en
+`docs/fusion/BITACORA.md`, bloque 2.

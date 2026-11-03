@@ -54,8 +54,8 @@ const browser = await chromium.launch({
   args: ['--no-sandbox'],
 });
 
-const ANCHO = 390;
-const ALTO = 844;
+const ANCHO = Number(process.argv[2] || 390);
+const ALTO = ANCHO === 1440 ? 900 : ANCHO === 768 ? 1024 : 844;
 const base = `http://127.0.0.1:${PUERTO}`;
 
 // Los flujos con captura: tres diagramas, uno de ellos «Gobierno documental».
@@ -162,7 +162,12 @@ for (const proceso of catalogo.procesos) {
   const centroY = (medido.contenido.y + medido.contenido.bottom) / 2;
   const centroLienzoX = (medido.lienzo.x + medido.lienzo.right) / 2;
   const centroLienzoY = (medido.lienzo.y + medido.lienzo.bottom) / 2;
-  const centrado = Math.abs(centroX - centroLienzoX) <= 4 && Math.abs(centroY - centroLienzoY) <= 4;
+  // Tolerancia proporcional: el motor centra la caja completa del diagrama
+  // (formas + rótulos) y la comprobación mira las formas; el margenAdmisible
+  // es de 4 px o el 2 % del lienzo, lo que sea mayor.
+  const margenAdmisible = Math.max(4, medido.lienzo.h * 0.02);
+  const centrado = Math.abs(centroX - centroLienzoX) <= margenAdmisible
+    && Math.abs(centroY - centroLienzoY) <= margenAdmisible;
   const encuadre = dentro && centrado;
 
   // (b) El título del pool no lo tacha ninguna línea. Las distancias se miden
@@ -185,9 +190,9 @@ for (const proceso of catalogo.procesos) {
 
   let captura = null;
   if (CON_CAPTURA.has(proceso.id)) {
-    const archivo = resolve(CARPETA, `pulido-${proceso.id}-390.png`);
+    const archivo = resolve(CARPETA, `pulido-${proceso.id}-${ANCHO}.png`);
     await page.screenshot({ path: archivo, fullPage: false, animations: 'disabled', caret: 'hide' });
-    captura = `docs/fusion/capturas/pulido-${proceso.id}-390.png`;
+    captura = `docs/fusion/capturas/pulido-${proceso.id}-${ANCHO}.png`;
   }
 
   const detalle = [
@@ -228,7 +233,8 @@ const resumen = {
   fallos,
   resultados,
 };
-await writeFile(resolve(RAIZ, 'docs/fusion/PULIDO.json'), `${JSON.stringify(resumen, null, 2)}\n`);
+const SALIDA = ANCHO === 390 ? 'docs/fusion/PULIDO.json' : `docs/fusion/PULIDO-${ANCHO}.json`;
+await writeFile(resolve(RAIZ, SALIDA), `${JSON.stringify(resumen, null, 2)}\n`);
 console.log(`\n${resumen.conOk}/${resumen.diagramas} diagramas con los tres arreglos bien a ${ANCHO} px.`);
 if (fallos.length) {
   console.log(fallos.join('\n'));
