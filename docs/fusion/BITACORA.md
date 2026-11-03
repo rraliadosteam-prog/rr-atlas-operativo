@@ -744,3 +744,55 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 ### Pendiente del bloque
 - El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas sobre los
   nombres de los carriles (queda en `docs/fusion/PREGUNTAS.md`).
+
+## Bloque 11 · Cierre final · Puerta de salida del PR (ítems A, B, C y D verificados) — 2026-11-02
+
+### Qué se hizo
+- Los cuatro ítems del bloque (A · responsive y táctil, B · decisiones de Rosas, C · modelo de datos
+  v5, D · QA final) **ya estaban cerrados** en los bloques 7 a 10. Este bloque los **verificó de
+  punta a punta** con una comprobación automática nueva y repetible.
+- **`scripts/verificar-cierre-final.mjs` (nuevo, `npm run verificar:cierre:final`)**: 24
+  comprobaciones estáticas (Node, sin navegador, 0,36 s) que miran el código y los datos, no la
+  pantalla:
+  - **Decisiones de Rosas (item B)**: el título y el subtítulo son «RR Aliados · Atlas operativo» y
+    no queda «RR Labs» en `src/`, `index.html` ni `dist/`; las fuentes son Inter Tight y Lexend; la
+    entrada es el Mapa vivo; «Volver al hub» está oculto; BOGA, Candilejas e IMF Weddings están
+    activos y los demás clientes en pausa (ninguno «sin confirmar»); la guía de cada diagrama
+    muestra «Guía provisional»; la leyenda tiene íconos distintos para tarea de bot y de persona;
+    las **16 semillas pasan el lint con 0 errores y 0 avisos**; abrir un diagrama siempre lo deja a
+    pantalla completa; Buen Puente y Becas de Exposición están vigentes y Media Manager y Gains
+    «sin confirmar».
+  - **Modelo v5 (item C)**: esquema 5 con la clave `rr-atlas:v5`; migración desde el JSON v4 de B y
+    desde el estado de la rama A; `exportar(importar(paquete))` es idéntico al paquete; el validador
+    rechaza `salario`, `cedula`, `cuenta`, `token` y `password`; los **124 registros** de la base
+    traen fuente y corte; y no hay ninguna cifra financiera en los datos ni en el bundle.
+  - **Entregables (items A y D)**: las 27 capturas `cierre-<flujo>-<ancho>.png` (9 flujos × 3
+    anchos) existen; `PRUEBAS.md` trae el conteo de pruebas y «0 errores y 0 avisos»;
+    `PREGUNTAS.md` registra las decisiones como RESUELTO; `BITACORA.md` tiene los bloques.
+- **La puerta quedó dentro de `npm run check`**: `check` ahora es «sintaxis → pruebas → build →
+  verificar:cierre:final», así que CI corre la comprobación en cada push y el PR no puede quedar
+  en verde si alguien rompe una de las decisiones de Rosas o mete un campo prohibido.
+- **Evidencia cruda**: `docs/fusion/CIERRE.json`.
+
+### Estado de los checks
+- `npm run check`: **verde** — 232 tests pass, 0 fail, build ok y **24/24** comprobaciones de
+  cierre.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:cierre`: **verde** — 27 de 27 (9 flujos × 3 anchos), 0 errores de consola.
+- `npm run verificar:tactil`: **verde** — 18 de 18 (6 flujos × 390, 768 y 360 px), 0 errores de
+  consola.
+
+### Hallazgos / riesgos
+- La puerta comprueba **el código y los datos**, no el pixel: los clics reales siguen siendo los de
+  `npm run verificar:cierre` (27) y `npm run verificar:tactil` (18), que se corrieron de nuevo en
+  este bloque y volvieron a dar 0 errores de consola.
+- La puerta lee `dist/` cuando existe: si el build no se ha hecho, dos comprobaciones (la de
+  «RR Labs» en el bundle y la de cifras) miran solo `src/` y `index.html`; por eso va **al final**
+  de `npm run check`, después del build.
+- `npm run check` tarda un poco más que antes (el build es lo que pesa): la puerta en sí son
+  0,36 s.
+
+### Pendiente del bloque
+- El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas sobre los
+  nombres de los carriles (queda en `docs/fusion/PREGUNTAS.md`).
+- El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.

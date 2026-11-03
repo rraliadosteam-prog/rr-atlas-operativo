@@ -215,3 +215,33 @@ pruebas**.
 ### Conteo de avisos de lint (sin cambios)
 - `npm run lint:bpmn`: **0 errores y 0 avisos** en las 16 semillas.
 - `npm run check`: **232 tests pass, 0 fail**.
+
+## Bloque 11 · Cierre final · Puerta de salida del PR
+
+Script nuevo: `scripts/verificar-cierre-final.mjs` (`npm run verificar:cierre:final`). Es la puerta
+de salida del PR #7: comprueba, sin inventar nada, que todo lo que pidieron los ítems A, B, C y D
+está de verdad en el código y en los datos. Corre en Node (sin navegador), tarda menos de un segundo
+y quedó **dentro de `npm run check`**, así que CI lo corre en cada push.
+
+Datos crudos: `docs/fusion/CIERRE.json`.
+
+### Conteo de pruebas
+| Dato | Resultado |
+|---|---|
+| Comprobaciones ejecutadas | **24** |
+| En verde | **24** |
+| Con fallo | **0** |
+| Duración | 0,36 s |
+
+### Qué comprueba (24 comprobaciones)
+| Bloque | Comprobaciones |
+|---|---|
+| Item B · decisiones de Rosas | título «RR Aliados · Atlas operativo»; sin «RR Labs» en `src/`, `index.html` ni `dist/`; subtítulo del Mapa vivo; fuentes Inter Tight + Lexend; la entrada es el Mapa vivo; «Volver al hub» oculto; BOGA, Candilejas e IMF Weddings activos y los demás en pausa; sin «Sin confirmar» en el estado de clientes; aviso «Guía provisional»; íconos distintos para tarea de bot y de persona; **16 semillas con 0 errores y 0 avisos de lint**; abrir un diagrama siempre a pantalla completa; Buen Puente y Becas de Exposición vigentes, Media Manager y Gains «sin confirmar» |
+| Item C · modelo v5 | esquema 5 y clave `rr-atlas:v5`; migración desde el JSON v4 de B y desde el estado de A; exportar(importar(paquete)) === paquete; el validador rechaza `salario`, `cedula`, `cuenta`, `token` y `password`; los 124 registros de la base con fuente y corte; ninguna cifra financiera en los datos ni en el bundle |
+| Items A y D · entregables | 27 capturas `cierre-<flujo>-<ancho>.png` (9 flujos × 3 anchos); `PRUEBAS.md` con el conteo de pruebas y «0 errores y 0 avisos»; `PREGUNTAS.md` con las decisiones como RESUELTO; `BITACORA.md` con los bloques registrados |
+
+### Estado de los checks al cierre de este bloque
+- `npm run check`: **verde** — 232 tests pass, 0 fail, build ok y la puerta de cierre en 24/24.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:cierre`: **verde** — 27 de 27 (9 flujos × 3 anchos), 0 errores de consola.
+- `npm run verificar:tactil`: **verde** — 18 de 18 (6 flujos × 390, 768 y 360 px), 0 errores de consola.

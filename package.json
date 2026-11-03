@@ -16,13 +16,14 @@
     "semillas:estado": "node scripts/actualizar-estado-semillas.mjs",
     "fixture:flujos": "node scripts/generar-fixture-flujos.mjs",
     "carriles:extraer": "node scripts/extraer-carriles.mjs",
-    "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build",
+    "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build && npm run verificar:cierre:final",
     "verificar:bpmn-edicion": "node scripts/verificar-bpmn-edicion.mjs",
     "verificar:guia": "node scripts/verificar-guia-bpmn.mjs",
     "verificar:pantalla": "node scripts/verificar-pantalla-completa.mjs",
     "verificar:dividido": "node scripts/verificar-dividido.mjs",
     "verificar:cierre": "node scripts/verificar-cierre.mjs",
-    "verificar:tactil": "node scripts/verificar-tactil.mjs"
+    "verificar:tactil": "node scripts/verificar-tactil.mjs",
+    "verificar:cierre:final": "node scripts/verificar-cierre-final.mjs"
   },
   "dependencies": {
     "bpmn-js": "18.31.1",

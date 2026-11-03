@@ -53,6 +53,9 @@ Formato: `TODO(Rosas): ...`
 - RESUELTO: **Abrir un diagrama = siempre pantalla completa.**
 - RESUELTO: **Bots vigentes** — Buen Puente y Becas de Exposición; Media Manager y Gains quedan «sin confirmar».
 - RESUELTO: **Lo menor** (estados vacíos, catálogo, tamaños) se decide con el criterio más profesional, sin preguntar.
+- Verificación automática: las once decisiones de esta lista están comprobadas por
+  `scripts/verificar-cierre-final.mjs` (`npm run verificar:cierre:final`, 24/24 en verde el
+  2026-11-02), que quedó dentro de `npm run check`. Si alguien rompe una de ellas, CI avisa.
 
 ## Abiertas por el bloque 7 (2026-11-02, item 7 y item B)
 - ~~Las semillas BPMN ya no tienen errores ni avisos de las reglas estructurales de bpmnlint… Quedan dos avisos de estilo de contenido~~ → **RESUELTO (bloque 8, 2026-11-02)**: se hizo el pase de escritura de los 16 diagramas. Los 43 carriles que se llamaban como una etapa ahora se llaman con el rol que hace ese trabajo y las 109 tareas quedaron en infinitivo de 2 a 6 palabras. **`npm run lint:bpmn` queda en 0 errores y 0 avisos.**
