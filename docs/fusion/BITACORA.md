@@ -796,3 +796,11 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas sobre los
   nombres de los carriles (queda en `docs/fusion/PREGUNTAS.md`).
 - El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.
+
+### Cierre del bloque (2-nov, tarde)
+- El PR #7 quedó **actualizado y en borrador**: el título ahora es «Fusión del Atlas RR (A → B): BPMN
+  en el shell de RR, modelo v5 y QA de cierre» y el cuerpo cuenta las fases, las decisiones de Rosas
+  aplicadas, las pruebas (232 tests, 27 de 27 de clics reales, 18 de 18 táctiles, 24 de 24 de la
+  puerta de cierre) y lo que necesita Rosas. Sigue **sin fusionar y sin desplegar**.
+- `gh pr edit` no funciona en este repo (error de la API de proyectos clásicos); el cuerpo se
+  actualizó por la API REST (`gh api -X PATCH repos/.../pulls/7 -F body=@archivo`).
