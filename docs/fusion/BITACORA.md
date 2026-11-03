@@ -429,3 +429,48 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - Aplicar las DECISIONES DE ROSAS (item B): quitar «RR Labs» del Mapa vivo, estados de clientes,
   «Guía provisional», leyenda con íconos, reparar las 16 semillas a 0 avisos de lint, bots vigentes.
 - QA final (item D): clics reales de todos los flujos a 390, 768 y 1440 px + capturas por ancho.
+
+### Segunda parte del bloque 7 · Decisiones de Rosas aplicadas (item B, parte 1)
+
+- **Clientes**: BOGA, Candilejas e IMF quedan **activos**; los demás, **en pausa**. Se quitó «Sin
+  confirmar» del estado de clientes (`src/data/inicio-tarjetas.mjs`). Nota: en las fuentes de RR el
+  nombre canónico es «IMF Visions» (Rosas escribió «IMF Weddings»); se dejó el nombre de la fuente y
+  queda la pregunta en `docs/fusion/PREGUNTAS.md`.
+- **Bots vigentes**: Buen Puente y Becas de Exposición quedan **Vigentes**; Media Manager y Gains
+  quedan **Sin confirmar** (`src/data/rr-tree.mjs`, `botDefinitions`).
+- **Título**: el Mapa vivo ya no dice «RR Labs»: la raíz se llama «RR Aliados» y la barra de la vista
+  editorial dice «RR Aliados → Atlas operativo».
+- **Guía provisional**: la guía de cada diagrama arranca con el aviso visible **«Guía provisional»**
+  (`src/bpmn/leyenda.mjs` + `src/app/bpmn-view.mjs` + estilos).
+- **Leyenda**: la guía separa **«Tarea de persona»** (ícono de persona) y **«Tarea de bot»** (ícono de
+  bot, con antena y dos puntos), con glifos distintos.
+
+### Segunda parte del bloque 7 · Semillas BPMN reparadas (item B, parte 2)
+
+- **Qué se reparó** (script nuevo `scripts/reparar-compuertas.mjs`, con `--simular` para ver el plan):
+  1. **8 compuertas que abrían y cerraban a la vez** (`no-gateway-join-fork`): cada una se dividió en
+     dos — una compuerta que **une** (sin nombre, como manda el estándar) y la que **reparte**, que
+     conserva su nombre, sus salidas nombradas y su lugar en el diagrama.
+  2. **24 tareas y eventos con varias entradas** (`fake-join`): se les puso delante una compuerta
+     paralela que las une, como pide el estándar.
+  3. **25 etiquetas de sobra** (`superfluous-label`): se quitó la etiqueta de los flujos que no salen de
+     una compuerta de decisión (el «sí/no» de las compuertas exclusivas se conserva).
+- **Cómo se colocaron las compuertas nuevas**: el script busca un sitio libre alrededor del nodo, sin
+  tocar ninguna otra forma y siempre dentro del participante; si no cabe, la dibuja debajo del
+  diagrama. El script deja el plan en pantalla antes de escribir (`--simular`).
+- **Resultado del lint**: antes **196 avisos** (19 `fake-join`, 25 `superfluous-label`, 43
+  `rr/lane-es-rol`, 109 `rr/tarea-infinitivo`); ahora **0 errores** y **152 avisos**, todos de estilo
+  de contenido del plugin de RR. Las **reglas estructurales de bpmnlint quedan en 0 avisos**.
+  `src/bpmn/seeds/deuda-modelado.json` queda con `casos: []` (la deuda G2 está reparada) y deja
+  anotados los dos avisos de contenido que faltan.
+- **Comprobaciones**: `npm run check` verde (202 tests), `npm run lint:bpmn` verde,
+  `npm run verificar:bpmn-edicion` verde (escritorio y móvil), `npm run verificar:pantalla` verde,
+  `npm run verificar:guia` verde, `npm run verificar:dividido` verde.
+- `src/bpmn/seeds/validacion-semillas.json` se regeneró con el estado real de las 16 semillas.
+
+### Lo que queda del item B
+- **0 avisos de lint en el sentido estricto**: faltan los dos avisos de contenido (`rr/lane-es-rol`,
+  43 carriles que se llaman como una etapa; `rr/tarea-infinitivo`, 109 tareas que no están en
+  infinitivo). Cambiarlos es reescribir el texto que la gente lee en el diagrama, así que queda como
+  **TODO(Rosas)** en `docs/fusion/PREGUNTAS.md` (pase de contenido con el equipo), no como un cambio
+  automático.
