@@ -1,7 +1,7 @@
 {
-  "generadoEn": "2026-11-03T03:15:34.618Z",
-  "total": 27,
-  "ok": 27,
+  "generadoEn": "2026-11-03T03:20:39.524Z",
+  "total": 28,
+  "ok": 28,
   "fallos": 0,
   "resultados": [
     {
@@ -149,6 +149,12 @@
       "detalle": "10 flujos × 3 anchos = 30 capturas"
     },
     {
+      "id": "qa-final",
+      "nombre": "El QA final está en verde y hay capturas a 390 px de los tres flujos (uno es «Gobierno documental»)",
+      "ok": true,
+      "detalle": "7/7 comprobaciones en verde · 3 capturas a 390 px"
+    },
+    {
       "id": "pruebas-doc",
       "nombre": "PRUEBAS.md tiene el conteo de pruebas y los avisos de lint",
       "ok": true,
@@ -164,7 +170,7 @@
       "id": "bitacora",
       "nombre": "BITACORA.md cuenta lo hecho, lo que falta y la evidencia de cada bloque",
       "ok": true,
-      "detalle": "18 bloques registrados"
+      "detalle": "19 bloques registrados"
     }
   ]
 }

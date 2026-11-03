@@ -1009,3 +1009,72 @@ estados. El PR #7 sigue **en borrador** y sin fusionar.
 - `docs/fusion/MOVIL.json` (10 pruebas: táctil, cortes, solapes y desbordes a 390 y 360 px).
 - `docs/fusion/capturas/movil-mapa-390.png`, `movil-hoja-390.png`, `movil-catalogo-390.png`,
   `movil-diagrama-390.png`, `movil-datos-390.png` y las mismas a 360 px.
+
+---
+
+## Bloque 3 · QA final — 2026-11-02
+
+Alcance: **solo QA**. No se cambió ni una línea de la interfaz, de los datos ni de los 16
+diagramas: este bloque comprueba que lo que quedó en los bloques 1 y 2 aguanta, lo deja por
+escrito y deja un comando para repetirlo. El PR #7 sigue **en borrador** y sin fusionar.
+
+### Qué se hizo
+- **Prueba nueva `scripts/verificar-qa-final.mjs` (`npm run verificar:qa-final`)**: reúne en un
+  solo archivo (`docs/fusion/QA-FINAL.json`) todo el QA de la cadena de pulido, para que el PR
+  se pueda revisar sin correr nada a mano. Sin argumentos **agrega** la evidencia que dejaron
+  las pruebas del repo (rápido); con `--ejecutar` corre antes `verificar:cierre`,
+  `verificar:tactil`, `verificar:pulido` y `verificar:movil` y después agrega. Si algo no está
+  en verde o falta, el proceso sale con 1. **7/7 comprobaciones en verde.**
+  - `lint-semillas` (16 semillas, 0 errores, 0 avisos) · `verificar-cierre` (30/30) ·
+    `verificar-tactil` (18/18) · `verificar-pulido` (16/16) · `verificar-movil` (10/10) ·
+    `capturas-390` (3 capturas, una de «Gobierno documental») · `puerta-cierre`.
+- **Puerta de cierre del PR**: `scripts/verificar-cierre-final.mjs` gana la comprobación
+  `qa-final` (la evidencia del QA final en verde + las tres capturas a 390 px). 27 → **28**.
+- **`package.json`**: se agrega `verificar:qa-final` y se conecta `verificar:movil`, que ya
+  existía desde el bloque 2 pero no estaba en los scripts.
+- **`docs/fusion/PRUEBAS.md`**: sección «Bloque 3 · QA final» con el resultado de las cuatro
+  comprobaciones pedidas (`npm run check`, lint de las 16 semillas, `verificar:cierre` y
+  `verificar:tactil`), el conteo de pruebas y la lista de capturas a 390 px.
+- **Decisiones de Rosas (2-nov 21:33) verificadas, sin tocar nada**: «IMF Weddings» e
+  «IMF Visions» siguen como **un solo cliente** (un solo nombre en datos e interfaz, sin
+  duplicados), **Wundeer sigue EN PAUSA** y los **carriles sin rol** (Soporte, Soporte ·
+  Prioridad, Cliente, Bot, Solicitante, Equipo RR y sus coletillas) **NO se tocaron**: siguen
+  «sin confirmar». Ya estaban registradas como RESUELTO en `docs/fusion/PREGUNTAS.md`.
+- **Capturas a 390 px regeneradas** (las tres del bloque 1, para que sean de esta corrida):
+  `pulido-gobierno_como_se_gobierna_la_documentacion-390.png`,
+  `pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png` y
+  `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`.
+
+### Estado de los checks
+- `npm run check`: **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre **28/28**.
+- `npm run lint:bpmn`: **verde** — 16 semillas, moddle sin avisos, **0 errores y 0 avisos**.
+- `npm run verificar:cierre`: **verde** — 30 de 30 (10 flujos × 390, 768 y 1440 px), 0 errores
+  de consola.
+- `npm run verificar:tactil`: **verde** — 18 de 18 (390, 768 y 360 px), 0 errores de consola.
+- `npm run verificar:pulido`: **verde** — 16 de 16 diagramas a 390 px con los tres arreglos.
+- `npm run verificar:movil`: **verde** — 10 de 10 (390 y 360 px).
+- `npm run verificar:qa-final`: **verde** — 7 de 7.
+
+### Hallazgos / riesgos
+- El lint de las 16 semillas está **limpio de verdad**: 0 errores y 0 avisos, también con el
+  validador que usa la puerta de cierre (no solo con `npm run lint:bpmn`).
+- Los cuatro guiones de navegador usan puertos distintos (4231–4233), así que se pueden correr
+  en paralelo; de todos modos `verificar:qa-final --ejecutar` los corre en serie.
+- La evidencia del QA final es un archivo del repo (`docs/fusion/QA-FINAL.json`): se versiona
+  junto con las capturas para que el PR se pueda revisar sin reproducir las pruebas.
+- No se encontró ningún problema nuevo en este bloque: no hubo arreglos de código, solo
+  medición y registro.
+
+### Pendiente del bloque
+- El **mapeo carril → rol** de los 16 diagramas sigue esperando la respuesta de Rosas (queda
+  en `docs/fusion/PREGUNTAS.md`); en este bloque no se tocó ningún carril.
+- La **tabbar** de la fase 6 (navegación inferior en el celular) sigue sin existir.
+- El PR #7 sigue **en borrador** y sin fusionar: la decisión final es de Rosas.
+
+### Evidencia
+- `docs/fusion/QA-FINAL.json` (7/7), `docs/fusion/PRUEBAS.json` (30/30),
+  `docs/fusion/TACTIL.json` (18/18), `docs/fusion/PULIDO.json` (16/16),
+  `docs/fusion/MOVIL.json` (10/10) y `docs/fusion/CIERRE.json` (28/28).
+- `docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png`,
+  `pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png` y
+  `pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`.

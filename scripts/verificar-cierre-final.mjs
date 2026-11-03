@@ -445,6 +445,35 @@ check(
     : `${FLUJOS.length} flujos × ${ANCHOS.length} anchos = ${FLUJOS.length * ANCHOS.length} capturas`,
 );
 
+// Bloque 3 · QA final: la evidencia reunida por `npm run verificar:qa-final`
+// tiene que estar en verde y las capturas a 390 px de los tres flujos
+// (uno de ellos «Gobierno documental») tienen que existir.
+const qaFinal = (await existe('docs/fusion/QA-FINAL.json'))
+  ? JSON.parse(await leer('docs/fusion/QA-FINAL.json'))
+  : null;
+const flujosPulido = [
+  'gobierno_como_se_gobierna_la_documentacion',
+  'ventas_como_una_oportunidad_se_convierte_en_cliente',
+  'finanzas_como_entra_y_se_sale_la_plata',
+];
+const faltanPulido = [];
+for (const flujo of flujosPulido) {
+  const ruta = `docs/fusion/capturas/pulido-${flujo}-390.png`;
+  if (!(await existe(ruta))) faltanPulido.push(ruta);
+}
+check(
+  'qa-final',
+  'El QA final está en verde y hay capturas a 390 px de los tres flujos (uno es «Gobierno documental»)',
+  Boolean(qaFinal)
+    && qaFinal.totales?.fallos === 0
+    && qaFinal.totales?.enVerde === qaFinal.totales?.checks
+    && qaFinal.totales?.checks > 0
+    && faltanPulido.length === 0,
+  qaFinal
+    ? `${qaFinal.totales?.enVerde}/${qaFinal.totales?.checks} comprobaciones en verde · ${flujosPulido.length} capturas a 390 px${faltanPulido.length ? ` · faltan: ${faltanPulido.join(', ')}` : ''}`
+    : 'falta docs/fusion/QA-FINAL.json (corre npm run verificar:qa-final)',
+);
+
 const pruebasMd = (await existe('docs/fusion/PRUEBAS.md')) ? await leer('docs/fusion/PRUEBAS.md') : '';
 const normalizar = (texto) => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const pruebasNormalizadas = normalizar(pruebasMd);

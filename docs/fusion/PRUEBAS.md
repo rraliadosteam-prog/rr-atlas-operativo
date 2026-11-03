@@ -380,3 +380,75 @@ Evidencia: `docs/fusion/MOVIL.json` y las capturas `docs/fusion/capturas/movil-<
 y `movil-<superficie>-360.png`. Los arreglos que se hicieron con esta prueba (barra del catálogo en
 una sola fila deslizable, catálogo sin desbordes de lado, espaciado del lienzo) están descritos en
 `docs/fusion/BITACORA.md`, bloque 2.
+
+---
+
+## Bloque 3 · QA final — 2026-11-02
+
+Prueba de cierre de la cadena de pulido: corre **todas** las comprobaciones pedidas y las
+reúne en un solo archivo (`docs/fusion/QA-FINAL.json`) para que el PR se pueda revisar sin
+correr nada a mano.
+
+Comando nuevo: `npm run verificar:qa-final` (`scripts/verificar-qa-final.mjs`).
+- Sin argumentos: agrega la evidencia que dejaron las pruebas del repo (rápido).
+- Con `--ejecutar`: corre antes `verificar:cierre`, `verificar:tactil`, `verificar:pulido` y
+  `verificar:movil`, y después agrega.
+- La puerta de cierre del PR (`npm run verificar:cierre:final`) ganó la comprobación
+  `qa-final`: **27 → 28** comprobaciones.
+
+### Comprobaciones pedidas
+
+| Comprobación | Resultado | Evidencia |
+|---|---|---|
+| `npm run check` | **verde** — 238 tests pass, 0 fail, build ok y puerta de cierre **28/28** | salida de consola de `node --test` + `docs/fusion/CIERRE.json` |
+| `npm run lint:bpmn` | **verde** — 16 semillas, moddle sin avisos, **0 errores y 0 avisos** | `docs/fusion/QA-FINAL.json` (comprobación `lint-semillas`) |
+| `npm run verificar:cierre` | **verde** — **30/30** (10 flujos × 390, 768 y 1440 px), 0 errores de consola | `docs/fusion/PRUEBAS.json` |
+| `npm run verificar:tactil` | **verde** — **18/18** (6 pruebas × 390, 768 y 360 px), 0 errores de consola | `docs/fusion/TACTIL.json` |
+| `npm run verificar:pulido` | **verde** — **16/16** diagramas con los tres arreglos del bloque 1 a 390 px | `docs/fusion/PULIDO.json` |
+| `npm run verificar:movil` | **verde** — **10/10** (5 superficies × 390 y 360 px) | `docs/fusion/MOVIL.json` |
+| `npm run verificar:qa-final` | **verde** — **7/7** comprobaciones reunidas | `docs/fusion/QA-FINAL.json` |
+
+### Los 7 chequeos que reúne `npm run verificar:qa-final`
+
+| # | Chequeo | Detalle |
+|---|---|---|
+| 1 | `lint-semillas` | 16 semillas · 0 errores · 0 avisos · 0 avisos de moddle |
+| 2 | `verificar-cierre` | 30/30 en verde (10 flujos × 390, 768, 1440 px) · 0 errores de consola |
+| 3 | `verificar-tactil` | 18/18 en verde (390, 768, 360 px) · 0 errores de consola |
+| 4 | `verificar-pulido` | 16/16 diagramas con los tres arreglos a 390 px |
+| 5 | `verificar-movil` | 10/10 en verde (390, 360 px) |
+| 6 | `capturas-390` | 3 capturas `pulido-<flujo>-390.png` (incluida «Gobierno documental») |
+| 7 | `puerta-cierre` | 28/28 comprobaciones en verde |
+
+### Capturas a 390 px (mínimo 3 flujos, incluido «Gobierno documental»)
+
+- [x] `docs/fusion/capturas/pulido-gobierno_como_se_gobierna_la_documentacion-390.png`
+- [x] `docs/fusion/capturas/pulido-ventas_como_una_oportunidad_se_convierte_en_cliente-390.png`
+- [x] `docs/fusion/capturas/pulido-finanzas_como_entra_y_se_sale_la_plata-390.png`
+- (las mismas tres a 1440 px: `pulido-<flujo>-1440.png`)
+
+En las tres se ve el diagrama **encuadrado y centrado** (zoom fit al contenido, con aire
+alrededor), el **título vertical del pool sin tachón** y la **etiqueta «entra» libre del
+ícono** del evento de inicio.
+
+### Decisiones de Rosas (2-nov 21:33) verificadas en el QA final
+
+- [x] **IMF Weddings e IMF Visions son EL MISMO cliente**: en los datos y en la interfaz hay
+  **un solo nombre**, «IMF Weddings», sin duplicados. Comprobado por la puerta de cierre
+  (`imf-unificado`) y por la prueba de datos que dependía del nombre anterior.
+- [x] **Wundeer sigue EN PAUSA**: no se cambió su estado en este bloque.
+- [x] **Los carriles sin rol se quedan «sin confirmar»** (Soporte, Soporte · Prioridad,
+  Cliente, Bot, Solicitante, Equipo RR y sus coletillas): **NO se tocaron** ni los datos ni
+  los 16 diagramas en este bloque.
+
+### Conteo de pruebas del bloque
+
+| Dato | Resultado |
+|---|---|
+| Comprobaciones del QA final | **7** (7 en verde) |
+| Pruebas de navegador del bloque | 30 (cierre) + 18 (táctil) + 16 (pulido) + 10 (móvil) = **74** |
+| Pruebas de navegador en verde | **74** |
+| Pruebas de navegador con fallos | **0** |
+| Errores de consola | **0** |
+| `npm run check` | **verde** — 238 tests pass, 0 fail, build ok, puerta **28/28** |
+| `npm run lint:bpmn` | **verde** — 16 semillas, **0 errores y 0 avisos** |
