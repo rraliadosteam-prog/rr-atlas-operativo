@@ -9,7 +9,7 @@
 // Item 5 del encargo: modo diagrama a pantalla completa: al abrir un BPMN toda
 // la página es el diagrama, sin división (y sin scroll en móvil de 360 px).
 
-import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA } from '../bpmn/leyenda.mjs';
+import { SIMBOLOS, COLORES, COMO_LEER, fichaDeProceso, FUENTE_GUIA, CORTE_GUIA, AVISO_GUIA } from '../bpmn/leyenda.mjs';
 import { CLIENTES, SERVICIOS, ESTADOS as ESTADOS_INICIO } from '../data/inicio-tarjetas.mjs';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
@@ -226,6 +226,8 @@ export function createBpmnView({ root, shell, notify }) {
     if (!guiaCuerpo) return;
     const ficha = actual ? fichaDeProceso(actual.id) : null;
     const partes = [];
+    // Decisión de Rosas (2026-11-02): la guía es provisional y se avisa.
+    partes.push(`<p class="bpmn-guia__aviso"><strong>${esc(AVISO_GUIA)}</strong><span>El equipo todavía valida esta guía: sirve para leer el diagrama, no como instructivo aprobado.</span></p>`);
     if (ficha) {
       partes.push(
         '<section class="bpmn-guia__bloque"><h3>Qué busca este diagrama</h3>'

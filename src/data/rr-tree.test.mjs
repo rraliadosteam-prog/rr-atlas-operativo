@@ -5,6 +5,8 @@ import { DEFAULT_GRAPH } from './default-graph.mjs';
 import { DIRECTUS_GRAPH } from './directus-graph.mjs';
 import {
   FALLBACK_STATUS,
+  SIN_CONFIRMAR,
+  VIGENTE,
   applyLocalData,
   botDefinitions,
   createRRGraph,
@@ -92,17 +94,28 @@ test('cada enlace cruzado tiene fuente y evidencia por arista', () => {
   }
 });
 
-test('los bots sin evidencia quedan sin cross y con estado exacto de confirmación', () => {
+test('los bots sin evidencia quedan sin cross y con el estado que dicta la decisión de Rosas', () => {
   const crossSources = new Set(graph.edges.filter((edge) => edge.kind === 'cross').map((edge) => edge.source));
   for (const bot of graph.nodes.filter((node) => node.type === 'bot')) {
     if (!crossSources.has(bot.id)) {
-      assert.equal(bot.status, FALLBACK_STATUS);
+      assert.ok([VIGENTE, SIN_CONFIRMAR].includes(bot.status), `Estado de bot con fuente de manual: ${bot.status}`);
       assert.equal(graph.edges.filter((edge) => edge.source === bot.id || edge.target === bot.id).length, 0, 'Un bot sin fuente no debe tener enlaces inventados');
     }
   }
-  assert.equal(nodeById.get('bot-bot-creadores').status, FALLBACK_STATUS);
-  assert.equal(nodeById.get('bot-media-manager').status, FALLBACK_STATUS);
-  assert.equal(nodeById.get('bot-atlas').status, FALLBACK_STATUS);
+  // Decisión de Rosas (2026-11-02): Buen Puente y Becas de Exposición vigentes;
+  // Media Manager y Gains «sin confirmar».
+  const estadoDeclarado = new Map(botDefinitions.map((bot) => [bot.id, bot.estado]));
+  assert.equal(estadoDeclarado.get('bot-bot-buen-puente'), VIGENTE);
+  assert.equal(estadoDeclarado.get('bot-becas-y-exposicion'), VIGENTE);
+  assert.equal(estadoDeclarado.get('bot-media-manager'), SIN_CONFIRMAR);
+  assert.equal(estadoDeclarado.get('bot-gains'), SIN_CONFIRMAR);
+  // Los bots con evidencia de proceso muestran esa evidencia; los demás,
+  // el estado del manual de bots.
+  assert.equal(nodeById.get('bot-bot-buen-puente').status, 'Responsable con fuente');
+  assert.equal(nodeById.get('bot-bot-creadores').status, VIGENTE);
+  assert.equal(nodeById.get('bot-atlas').status, VIGENTE);
+  assert.equal(nodeById.get('bot-media-manager').status, SIN_CONFIRMAR);
+  assert.equal(nodeById.get('bot-gains').status, SIN_CONFIRMAR);
 });
 
 test('mantiene clientes y proyectos genéricos en los datos públicos', () => {

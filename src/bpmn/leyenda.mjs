@@ -6,6 +6,9 @@
 
 export const FUENTE_GUIA = 'Guion de procesos del mega prompt Atlas RR (A→B) §6 · semillas en src/bpmn/seeds/';
 export const CORTE_GUIA = '2026-11-02';
+// Decisión de Rosas (2026-11-02 19:22): la guía de cada diagrama es
+// provisional hasta que el equipo la valide, y se dice con todas las letras.
+export const AVISO_GUIA = 'Guía provisional';
 
 // Símbolos BPMN que usa el motor, con la lectura que les da el tema de RR.
 export const SIMBOLOS = [
@@ -28,6 +31,18 @@ export const SIMBOLOS = [
     descripcion: 'Una acción que alguien hace dentro del carril.',
   },
   {
+    id: 'tarea-persona',
+    nombre: 'Tarea de persona',
+    glifo: '<rect x="2" y="4" width="16" height="12" rx="2"/><circle cx="10" cy="9" r="2"/><path d="M6.6 14.4a3.4 3.4 0 0 1 6.8 0"/>',
+    descripcion: 'La hace una persona del equipo. Ícono de persona.',
+  },
+  {
+    id: 'tarea-bot',
+    nombre: 'Tarea de bot',
+    glifo: '<rect x="2" y="4" width="16" height="12" rx="2"/><path d="M10 4V2.2"/><circle cx="10" cy="1.6" r="0.9"/><circle cx="7.4" cy="9.6" r="1.1"/><circle cx="12.6" cy="9.6" r="1.1"/><path d="M7.4 12.2h5.2"/>',
+    descripcion: 'La hace un bot de RR. Ícono de bot: distinto al de las personas.',
+  },
+  {
     id: 'tarea-usuario',
     nombre: 'Tarea de usuario',
     glifo: '<rect x="2" y="4" width="16" height="12" rx="2"/><circle cx="10" cy="9" r="2"/><path d="M6.6 14.4a3.4 3.4 0 0 1 6.8 0"/>',
@@ -37,7 +52,7 @@ export const SIMBOLOS = [
     id: 'tarea-servicio',
     nombre: 'Tarea de servicio',
     glifo: '<rect x="2" y="4" width="16" height="12" rx="2"/><circle cx="10" cy="10" r="2.6"/>',
-    descripcion: 'La hace un sistema, un bot o una herramienta.',
+    descripcion: 'La hace un sistema o una herramienta.',
   },
   {
     id: 'compuerta',

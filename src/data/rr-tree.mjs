@@ -88,21 +88,26 @@ const safeId = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 
 // Se conservan los IDs de los dos bots que ya eran públicos. Los demás son
 // estables y no dependen de nombres de personas, clientes o proyectos reales.
+// Decisión de Rosas (2026-11-02 19:22): Buen Puente y Becas de Exposición son
+// bots vigentes; Media Manager y Gains quedan «sin confirmar». El resto de la
+// flota sale del «Manual de los bots de RR (oct 2026)», corte 2026-10-24.
+const VIGENTE = 'Vigente';
+const SIN_CONFIRMAR = 'Sin confirmar';
 const botDefinitions = [
-  { id: 'bot-captacion', title: 'Bot Captación' },
-  { id: 'bot-bot-ropa-saas', title: 'Bot Ropa SaaS' },
-  { id: 'bot-bot-resto-saas', title: 'Bot Resto SaaS' },
-  { id: 'bot-bot-buen-puente', title: 'Bot Buen Puente' },
-  { id: 'bot-bot-creadores', title: 'Bot Creadores' },
-  { id: 'bot-marca-rr', title: 'Bot Marca RR' },
-  { id: 'bot-media-manager', title: 'Bot Media Manager' },
-  { id: 'bot-fin', title: 'Bot Fin' },
-  { id: 'bot-gains', title: 'Bot Gains' },
-  { id: 'bot-becas-y-exposicion', title: 'Bot Becas y Exposicion' },
-  { id: 'bot-pingui', title: 'Bot Pingui' },
-  { id: 'bot-secre', title: 'Bot secre' },
-  { id: 'bot-botardo-bot-fin', title: 'Botardo' },
-  { id: 'bot-atlas', title: 'Bot Atlas' },
+  { id: 'bot-captacion', title: 'Bot Captación', estado: VIGENTE },
+  { id: 'bot-bot-ropa-saas', title: 'Bot Ropa SaaS', estado: VIGENTE },
+  { id: 'bot-bot-resto-saas', title: 'Bot Resto SaaS', estado: VIGENTE },
+  { id: 'bot-bot-buen-puente', title: 'Bot Buen Puente', estado: VIGENTE },
+  { id: 'bot-bot-creadores', title: 'Bot Creadores', estado: VIGENTE },
+  { id: 'bot-marca-rr', title: 'Bot Marca RR', estado: VIGENTE },
+  { id: 'bot-media-manager', title: 'Bot Media Manager', estado: SIN_CONFIRMAR },
+  { id: 'bot-fin', title: 'Bot Fin', estado: VIGENTE },
+  { id: 'bot-gains', title: 'Bot Gains', estado: SIN_CONFIRMAR },
+  { id: 'bot-becas-y-exposicion', title: 'Bot Becas y Exposicion', estado: VIGENTE },
+  { id: 'bot-pingui', title: 'Bot Pingui', estado: VIGENTE },
+  { id: 'bot-secre', title: 'Bot secre', estado: VIGENTE },
+  { id: 'bot-botardo-bot-fin', title: 'Botardo', estado: VIGENTE },
+  { id: 'bot-atlas', title: 'Bot Atlas', estado: VIGENTE },
 ];
 
 const crossEvidence = [
@@ -236,8 +241,10 @@ export function createRRGraph(localData = localOverrides) {
       x: 150 + index * 220,
       y: 2320,
       color: 'orchid',
-      status: FALLBACK_STATUS,
-      desc: 'Bot interno representado por un rol genérico; solo se enlaza con evidencia de las fuentes.',
+      status: bot.estado ?? FALLBACK_STATUS,
+      desc: bot.estado === SIN_CONFIRMAR
+        ? 'Bot interno representado por un rol genérico. Su estado quedó «sin confirmar» (decisión de Rosas, 2026-11-02).'
+        : 'Bot interno representado por un rol genérico; solo se enlaza con evidencia de las fuentes.',
       owner: 'Rol genérico',
       lineId: 'transversal',
       stage: '',
@@ -380,4 +387,4 @@ export function getInternalTreeCopy(text) {
     .replace(/alcance público/g, 'alcance interno');
 }
 
-export { FALLBACK_STATUS, botDefinitions, lineDefinitions, processRows, stages, statusLabels };
+export { FALLBACK_STATUS, VIGENTE, SIN_CONFIRMAR, botDefinitions, lineDefinitions, processRows, stages, statusLabels };

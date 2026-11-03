@@ -5,6 +5,12 @@
 // Regla: si el estado no está escrito en la fuente, va «sin confirmar».
 // El modelo de datos v5 (fase 2) will replace este archivo por los JSON de
 // src/data/base/*.json; aquí queda la versión mínima que ya se puede usar.
+//
+// Decisión de Rosas (2026-11-02 19:22): en clientes solo hay dos estados.
+// Activos: BOGA, Candilejas e IMF (Weddings en su mensaje; en las fuentes de
+// RR el nombre canónico es «IMF Visions»). Los demás quedan en pausa y se
+// quita «Sin confirmar» del estado de clientes. Las notas de cada tarjeta
+// siguen citando la fuente y su corte.
 
 export const FUENTE_CLIENTES = 'RR · 00_RUTAS.md y 20_Empresa/proyectos.md';
 export const CORTE_CLIENTES = '2026-10-14';
@@ -33,7 +39,7 @@ export const CLIENTES = [
   {
     id: 'wundeer',
     nombre: 'Wundeer',
-    estado: 'activo',
+    estado: 'pausado',
     nota: 'Desarrollo, contenido y pauta. Contrato pendiente de confirmar.',
     fuente: '20_Empresa/proyectos.md',
     corte: '2026-10-14',
@@ -41,16 +47,16 @@ export const CLIENTES = [
   {
     id: 'boga',
     nombre: 'BOGA',
-    estado: 'sin confirmar',
-    nota: 'Relación comercial registrada; estado sin confirmar.',
+    estado: 'activo',
+    nota: 'Relación comercial activa.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
   },
   {
     id: 'imf-visions',
     nombre: 'IMF Visions',
-    estado: 'sin confirmar',
-    nota: 'Nombre canónico registrado en el inventario de rutas.',
+    estado: 'activo',
+    nota: 'Relación comercial activa.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
   },
@@ -65,7 +71,7 @@ export const CLIENTES = [
   {
     id: 'amsterdam',
     nombre: 'Amsterdam',
-    estado: 'sin confirmar',
+    estado: 'pausado',
     nota: 'Nombre canónico registrado en el inventario de rutas.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
@@ -73,7 +79,7 @@ export const CLIENTES = [
   {
     id: 'zapatos-shoes',
     nombre: 'Zapatos / Shoes Colombia',
-    estado: 'sin confirmar',
+    estado: 'pausado',
     nota: 'La relación misma está sin confirmar.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
@@ -81,7 +87,7 @@ export const CLIENTES = [
   {
     id: 'turismo-anheyca',
     nombre: 'Turismo Anheyca',
-    estado: 'sin confirmar',
+    estado: 'pausado',
     nota: 'Relación sin documentar.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
@@ -89,7 +95,7 @@ export const CLIENTES = [
   {
     id: 'billares-charly-brown',
     nombre: 'Billares Charly Brown',
-    estado: 'sin confirmar',
+    estado: 'pausado',
     nota: 'Relación sin confirmar.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
@@ -97,16 +103,16 @@ export const CLIENTES = [
   {
     id: 'siraitia',
     nombre: 'Siraitia',
-    estado: 'histórico',
-    nota: 'Cliente histórico; la relación ya no está activa.',
+    estado: 'pausado',
+    nota: 'Cliente histórico en la fuente; la relación ya no está activa.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
   },
   {
     id: 'alma-y-mente',
     nombre: 'Alma_y_Mente',
-    estado: 'histórico',
-    nota: 'Cliente histórico; la relación ya no está activa.',
+    estado: 'pausado',
+    nota: 'Cliente histórico en la fuente; la relación ya no está activa.',
     fuente: '00_RUTAS.md',
     corte: '2026-09-26',
   },
