@@ -15,6 +15,7 @@
     "semillas:contenido": "node scripts/pase-contenido-semillas.mjs",
     "semillas:estado": "node scripts/actualizar-estado-semillas.mjs",
     "fixture:flujos": "node scripts/generar-fixture-flujos.mjs",
+    "carriles:extraer": "node scripts/extraer-carriles.mjs",
     "check": "for f in $(find src scripts -name '*.mjs' -print); do node --check \"$f\" || exit 1; done; npm test && npm run build",
     "verificar:bpmn-edicion": "node scripts/verificar-bpmn-edicion.mjs",
     "verificar:guia": "node scripts/verificar-guia-bpmn.mjs",

@@ -664,3 +664,39 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
 - Cerrar el **mapeo carril → rol** de los 16 diagramas (depende de la respuesta de Rosas sobre los
   nombres de los carriles).
 - Revisar con Rosas las preguntas abiertas de `docs/fusion/PREGUNTAS.md`.
+
+## Bloque 9 · Item 8 (cierre, 2ª parte) · Los carriles de los 16 diagramas ya están en el modelo — 2026-11-02
+
+### Qué se hizo
+- **`src/core/carriles.mjs` (nuevo)**: diccionario **carril → rol** del modelo v5, con la fuente de cada
+  decisión escrita en el archivo. Solo se mapea lo que una fuente de RR respalda:
+  «Dirección» → CEO (mega prompt §6.1 y §6.12), «Dirección Operativa» → Director Operativo (manual de
+  roles), «Finanzas», «Finanzas · Ingresos» y «Finanzas · Egresos» → Bot Fin (Manual de los bots, corte
+  2026-10-24: «CFO automático»), «Legal» → Abogado externo (manual de roles) y «Desarrollo» → Project
+  Manager / Programador (manual de roles; ese rol sigue «sin confirmar»).
+  **Lo que no tiene fuente queda pendiente, no inventado**: Comercial, Contenido, Soporte, Cliente,
+  Bot, Solicitante, Equipo RR y los carriles con coletilla («Equipo RR · Donde se traba»).
+- **`scripts/extraer-carriles.mjs` (nuevo, `npm run carriles:extraer`)**: lee los 16 diagramas de
+  `src/bpmn/seeds/`, saca los nombres de carril y los deja en `src/data/base/procesos.json`:
+  `carriles` (ids de rol), `carrilNombres` (lo que se lee en el diagrama) y `carrilPendientes`.
+  El archivo se parchea por texto (una entidad por línea), así que el diff solo toca las 16 líneas
+  que cambian. Trae `--simular` para ver el plan sin escribir.
+- **Pruebas** (`src/core/carriles.test.mjs`, 4 pruebas): el diccionario solo apunta a roles que
+  existen en la base; la normalización de nombres; la separación entre roles y pendientes; y que los
+  16 procesos con semilla traen los carriles que se leen en el diagrama, sin carriles en los dos
+  lados (mapeado y pendiente a la vez).
+
+### Estado de los checks
+- `npm run check`: **verde** — 232 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, 0 errores y 0 avisos.
+- `npm run verificar:cierre`: **verde** — 27 de 27 (9 flujos × 3 anchos), 0 errores de consola.
+
+### Hallazgos / riesgos
+- Los nombres de carril que se leen en el diagrama («Dirección», «Finanzas») no son los cargos del
+  manual de roles: por eso el diagrama conserva su lectura y el modelo guarda el rol aparte. El
+  cambio de los nombres de carril **depende de la respuesta de Rosas** (queda en `PREGUNTAS.md`).
+- El mapeo es una decisión de lectura, no un dato de RR: por eso cada entrada del diccionario lleva
+  la fuente que la respalda en el comentario del archivo.
+
+### Pendiente del bloque
+- Respuesta de Rosas sobre los nombres de los carriles y el mapa de los que quedaron pendientes.
