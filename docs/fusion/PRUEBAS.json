@@ -1,0 +1,216 @@
+{
+  "fecha": "2026-11-03T01:10:36.893Z",
+  "pruebas": 24,
+  "flujos": [
+    "mapa",
+    "busqueda",
+    "catalogo",
+    "bpmn",
+    "edicion",
+    "guia",
+    "pantalla",
+    "dividido"
+  ],
+  "anchos": [
+    390,
+    768,
+    1440
+  ],
+  "pasar": 24,
+  "fallar": 0,
+  "erroresDeConsola": 0,
+  "resultados": [
+    {
+      "flujo": "mapa",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "71 nodos; el clic abrió «RR Aliados»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-mapa-390.png"
+    },
+    {
+      "flujo": "busqueda",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "«finanzas»: 5 nodos visibles de 71",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-busqueda-390.png"
+    },
+    {
+      "flujo": "catalogo",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "16 procesos en 14 áreas",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-catalogo-390.png"
+    },
+    {
+      "flujo": "bpmn",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "64 formas, lienzo 390×700 px, pantalla completa",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-bpmn-390.png"
+    },
+    {
+      "flujo": "edicion",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "nombre editado («Llega un documento» → «Llega un documento QA»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-edicion-390.png"
+    },
+    {
+      "flujo": "guia",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "guía abierta (2438 caracteres) con aviso «Guía provisional»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-guia-390.png"
+    },
+    {
+      "flujo": "pantalla",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "⛶ divide y vuelve a unir la pantalla",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-pantalla-390.png"
+    },
+    {
+      "flujo": "dividido",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "3 panel(es) de acompañamiento",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-dividido-390.png"
+    },
+    {
+      "flujo": "mapa",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "71 nodos; el clic abrió «RR Aliados»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-mapa-768.png"
+    },
+    {
+      "flujo": "busqueda",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "«finanzas»: 5 nodos visibles de 71",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-busqueda-768.png"
+    },
+    {
+      "flujo": "catalogo",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "16 procesos en 14 áreas",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-catalogo-768.png"
+    },
+    {
+      "flujo": "bpmn",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "64 formas, lienzo 768×880 px, pantalla completa",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-bpmn-768.png"
+    },
+    {
+      "flujo": "edicion",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "nombre editado («3. Crear o actualizar el _CONTEXTO» → «3. Crear o actualizar el _CONTEXTO QA»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-edicion-768.png"
+    },
+    {
+      "flujo": "guia",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "guía abierta (2438 caracteres) con aviso «Guía provisional»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-guia-768.png"
+    },
+    {
+      "flujo": "pantalla",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "⛶ divide y vuelve a unir la pantalla",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-pantalla-768.png"
+    },
+    {
+      "flujo": "dividido",
+      "ancho": 768,
+      "ok": true,
+      "detalle": "3 panel(es) de acompañamiento",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-dividido-768.png"
+    },
+    {
+      "flujo": "mapa",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "71 nodos; el clic abrió «RR Aliados»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-mapa-1440.png"
+    },
+    {
+      "flujo": "busqueda",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "«finanzas»: 5 nodos visibles de 71",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-busqueda-1440.png"
+    },
+    {
+      "flujo": "catalogo",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "16 procesos en 14 áreas",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-catalogo-1440.png"
+    },
+    {
+      "flujo": "bpmn",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "64 formas, lienzo 1440×679 px, pantalla completa",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-bpmn-1440.png"
+    },
+    {
+      "flujo": "edicion",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "nombre editado («5. Registrar el historial» → «5. Registrar el historial QA»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-edicion-1440.png"
+    },
+    {
+      "flujo": "guia",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "guía abierta (2438 caracteres) con aviso «Guía provisional»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-guia-1440.png"
+    },
+    {
+      "flujo": "pantalla",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "⛶ divide y vuelve a unir la pantalla",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-pantalla-1440.png"
+    },
+    {
+      "flujo": "dividido",
+      "ancho": 1440,
+      "ok": true,
+      "detalle": "3 panel(es) de acompañamiento",
+      "errores": [],
+      "captura": "docs/fusion/capturas/cierre-dividido-1440.png"
+    }
+  ]
+}

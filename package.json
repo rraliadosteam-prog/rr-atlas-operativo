@@ -19,7 +19,8 @@
     "verificar:bpmn-edicion": "node scripts/verificar-bpmn-edicion.mjs",
     "verificar:guia": "node scripts/verificar-guia-bpmn.mjs",
     "verificar:pantalla": "node scripts/verificar-pantalla-completa.mjs",
-    "verificar:dividido": "node scripts/verificar-dividido.mjs"
+    "verificar:dividido": "node scripts/verificar-dividido.mjs",
+    "verificar:cierre": "node scripts/verificar-cierre.mjs"
   },
   "dependencies": {
     "bpmn-js": "18.31.1",

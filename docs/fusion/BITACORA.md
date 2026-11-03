@@ -590,3 +590,35 @@ bloqueaban el item 3. Todo queda commiteado y pusheado en la misma rama.
   «Restaurar base», e historial de cambios.
 - **QA final (item D)**: clics reales de todos los flujos a 390, 768 y 1440 px, capturas por ancho en
   `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` y resultado en `docs/fusion/PRUEBAS.md`.
+
+## Bloque 8 · Item D · QA final con clics reales — 2026-11-02
+
+### Qué se hizo
+- **`scripts/verificar-cierre.mjs` (nuevo, `npm run verificar:cierre`)**: QA de cierre con Chrome
+  real (Playwright) sobre `dist/`. Prueba **8 flujos × 3 anchos (390, 768 y 1440 px) = 24
+  pruebas**, con clics de verdad: mapa vivo (clic en un nodo y el editor abre), búsqueda («finanzas»
+  filtra el mapa), catálogo BPMN, apertura de un diagrama (pantalla completa, con formas
+  dibujadas), edición en el diagrama (modo Editar, clic en una forma, cambio de nombre y guardado),
+  guía del diagrama (se abre con el aviso «Guía provisional»), botón de pantalla completa (⛶ divide y
+  vuelve a unir) y pantalla dividida (el panel abre).
+- Cada prueba deja su captura en **`docs/fusion/capturas/cierre-<flujo>-<ancho>.png`** (24
+  capturas) y el resultado crudo en **`docs/fusion/PRUEBAS.json`**.
+- **`docs/fusion/PRUEBAS.md`**: sección del item D con el conteo de pruebas, el resultado por flujo
+  y ancho, el conteo de avisos de lint y las 24 capturas.
+
+### Estado de los checks
+- `npm run verificar:cierre`: **verde** — 24 de 24 pruebas, **0 errores de consola**.
+- `npm run check`: **verde** — 223 tests pass, 0 fail, build ok.
+- `npm run lint:bpmn`: **verde** — 16 semillas, **0 errores y 0 avisos**.
+
+### Hallazgos / riesgos
+- El clic sobre una forma del diagrama tiene que hacerse con coordenadas (centro de la forma):
+  el grupo SVG nunca queda «estable» para el `click()` del locator porque el lienzo está escalado.
+  No es un defecto de la app; queda anotado para que las pruebas futuras no se confundan.
+- Los ocho flujos pasan con **cero errores de consola** en los tres anchos, incluido el modo
+  Editar a 390 px (que antes no se probaba).
+
+### Pendiente del bloque
+- **Item 8 (cierre)**: falta conectar el store v5 a la app (vista Datos `#/datos` con export/import,
+  diff, confirmar y «Restaurar base») y el mapeo de los carriles de los diagramas a los roles del
+  modelo (`carriles` y matriz RACI).

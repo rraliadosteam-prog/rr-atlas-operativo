@@ -103,3 +103,44 @@ Este archivo se actualiza al final de cada fase con las pruebas ejecutadas y sus
 ## Fases posteriores
 
 Se irán agregando conforme avance la fusión.
+
+## Bloque 8 · Item D · QA de cierre (clics reales en 390, 768 y 1440 px)
+
+Script nuevo: `scripts/verificar-cierre.mjs` (`npm run verificar:cierre`). Servye `dist/` con un
+servidor local, abre Chrome real con Playwright y hace **clics de verdad** en los ocho flujos, en
+los tres anchos. Resultado crudo en `docs/fusion/PRUEBAS.json`.
+
+### Conteo de pruebas
+| Dato | Resultado |
+|---|---|
+| Pruebas ejecutadas | **24** (8 flujos × 3 anchos) |
+| En verde | **24** |
+| Con fallo | **0** |
+| Errores de consola | **0** |
+| `npm run check` | **verde** — 223 tests pass, 0 fail, build ok |
+| `npm run lint:bpmn` | **verde** — 16 semillas, **0 errores y 0 avisos** |
+| Capturas | **24** — `docs/fusion/capturas/cierre-<flujo>-<ancho>.png` |
+
+### Los ocho flujos, por ancho
+| Flujo | 390 px | 768 px | 1440 px |
+|---|---|---|---|
+| Mapa vivo | ✔ 71 nodos; el clic abre el editor | ✔ 71 nodos; el clic abre el editor | ✔ 71 nodos; el clic abre el editor |
+| Búsqueda | ✔ «finanzas» deja 5 nodos visibles de 71 | ✔ 5 de 71 | ✔ 5 de 71 |
+| Catálogo BPMN | ✔ 16 procesos | ✔ 16 procesos | ✔ 16 procesos |
+| Abrir diagrama | ✔ 64 formas, lienzo 390×700 px, pantalla completa | ✔ 64 formas, lienzo 768×880 px | ✔ 64 formas, lienzo 1440×679 px |
+| Edición | ✔ nombre editado y guardado | ✔ nombre editado y guardado | ✔ nombre editado y guardado |
+| Guía | ✔ se abre con el aviso «Guía provisional» | ✔ | ✔ |
+| Pantalla completa | ✔ ⛶ divide y vuelve a unir | ✔ | ✔ |
+| Pantalla dividida | ✔ 3 paneles de acompañamiento | ✔ | ✔ |
+
+### Avisos de lint
+- `npm run lint:bpmn`: **0 errores y 0 avisos** en las 16 semillas (antes: 196 avisos). Las dos
+  reglas de contenido del plugin de RR (`rr/lane-es-rol` y `rr/tarea-infinitivo`) quedaron en verde
+  con el pase de contenido (`npm run semillas:contenido`).
+- `deuda-modelado.json` queda con `casos: []`: no queda ninguna compuerta `no-gateway-join-fork`.
+
+### Nota sobre la prueba de edición
+El clic sobre una forma del diagrama se hace con coordenadas (centro de la forma) y no con el
+`click()` del locator: el grupo SVG del diagrama nunca queda «estable» porque el lienzo está
+escalado, y el locator se queda esperando. No es un defecto de la app: es una peculiaridad de
+Playwright con lienzos transformados.
