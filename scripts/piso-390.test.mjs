@@ -3,9 +3,13 @@ import assert from 'node:assert/strict';
 import {
   MODO_ILEGIBLE,
   MODO_LEGIBLE,
+  MODO_NO_TODO,
   MODO_OTRO_DIAGRAMA,
   MODO_SIN_GANCHO,
   MODO_SIN_ZOOM,
+  MODO_TODO_ANCHO,
+  evaluarAncho,
+  evaluarConjunto390,
   evaluarPiso390,
   leerEstadoLienzo,
 } from './piso-390.mjs';
@@ -76,28 +80,93 @@ test('Con gancho que apunta al diagrama pedido: la puerta no lo confunde', () =>
 
 test('La lectura en la página solo reconoce los ganchos que existen', () => {
   const leer = (ventana) => leerEstadoLienzo(ventana);
-  assert.deepEqual(leer({}), { existeGancho: false, zoom: null, proceso: null });
+  assert.deepEqual(leer({}), { existeGancho: false, zoom: null, proceso: null, modo: null, paso: null });
   assert.deepEqual(
     leer({ __rrAtlasZoom: 1.15 }),
-    { existeGancho: true, zoom: 1.15, proceso: null },
+    { existeGancho: true, zoom: 1.15, proceso: null, modo: null, paso: null },
   );
   assert.deepEqual(
     leer({ __rrAtlasBpmn: { estado: () => ({ zoom: 1.2, proceso: 'p1' }) } }),
-    { existeGancho: true, zoom: 1.2, proceso: 'p1' },
+    { existeGancho: true, zoom: 1.2, proceso: 'p1', modo: null, paso: null },
   );
   // El gancho que existe pero no dice nada: la puerta falla (no se puede leer).
   assert.deepEqual(
     leer({ __rrAtlasBpmn: { estado: () => ({}) } }),
-    { existeGancho: true, zoom: null, proceso: null },
+    { existeGancho: true, zoom: null, proceso: null, modo: null, paso: null },
   );
   // Un gancho que lanza al leer el estado tampoco puede certificar nada.
   assert.deepEqual(
     leer({ __rrAtlasBpmn: { estado: () => { throw new Error('roto'); } } }),
-    { existeGancho: true, zoom: null, proceso: null },
+    { existeGancho: true, zoom: null, proceso: null, modo: null, paso: null },
   );
   // El workspace pelado (lo que hay hoy) no es un gancho de estado.
   assert.deepEqual(
     leer({ __rrAtlasBpmn: { get: () => null } }),
-    { existeGancho: false, zoom: null, proceso: null },
+    { existeGancho: false, zoom: null, proceso: null, modo: null, paso: null },
   );
+});
+
+test('La lectura también trae el modo de lectura y el paso actual', () => {
+  const paso = { indice: 0, total: 14, idElemento: 'e_ini', nombre: 'Llega un documento', carril: 'Equipo RR', nota: '' };
+  const lectura = leerEstadoLienzo({
+    __rrAtlasBpmn: { estado: () => ({ zoom: 1.15, proceso: 'gobierno', modo: 'paso', paso }) },
+  });
+  assert.equal(lectura.modo, 'paso');
+  assert.deepEqual(lectura.paso, paso);
+});
+
+test('El conjunto falla si NINGÚN diagrama tiene gancho (el bloque 1B lo exige)', () => {
+  const sinGancho = evaluarPiso390({ existeGancho: false, zoom: null });
+  const conjunto = evaluarConjunto390([sinGancho, sinGancho]);
+  assert.equal(conjunto.ok, false, 'en el bloque 1B el gancho tiene que existir');
+  assert.equal(conjunto.sinGancho, 2);
+  assert.equal(conjunto.diagramas, 2);
+  assert.match(conjunto.mensaje, /el gancho tiene que existir/);
+});
+
+test('El conjunto pasa si algún diagrama tiene gancho', () => {
+  const legible = evaluarPiso390({ existeGancho: true, zoom: 1.15 });
+  const sinGancho = evaluarPiso390({ existeGancho: false, zoom: null });
+  const conjunto = evaluarConjunto390([legible, sinGancho]);
+  assert.equal(conjunto.ok, true);
+  assert.equal(conjunto.sinGancho, 1);
+  assert.match(conjunto.mensaje, /1 de 2 diagramas sin gancho/);
+});
+
+test('El conjunto vacío no falla (no hay diagramas que certificar)', () => {
+  const conjunto = evaluarConjunto390([]);
+  assert.equal(conjunto.ok, true);
+  assert.equal(conjunto.diagramas, 0);
+});
+
+test('En lienzo ancho el diagrama tiene que abrir en «ver el todo»', () => {
+  const veredicto = evaluarAncho({ existeGancho: true, zoom: 0.557, modo: 'todo' });
+  assert.equal(veredicto.modo, MODO_TODO_ANCHO);
+  assert.equal(veredicto.ok, true);
+  assert.equal(veredicto.zoom, 0.557);
+  assert.match(veredicto.mensaje, /modo «todo»/);
+});
+
+test('En lienzo ancho, abrir en modo paso (o en cualquier otro) falla', () => {
+  for (const modo of ['paso', 'paso-ajustado', null, undefined, '']) {
+    const veredicto = evaluarAncho({ existeGancho: true, zoom: 1.15, modo });
+    assert.equal(veredicto.modo, MODO_NO_TODO, `modo ${String(modo)}`);
+    assert.equal(veredicto.ok, false, `modo ${String(modo)}`);
+    assert.match(veredicto.mensaje, /«todo»/);
+  }
+});
+
+test('En lienzo ancho, sin gancho o con otro diagrama, la puerta falla', () => {
+  const sinGancho = evaluarAncho({ existeGancho: false, zoom: null, modo: 'todo' });
+  assert.equal(sinGancho.modo, MODO_SIN_GANCHO);
+  assert.equal(sinGancho.ok, false);
+  const otro = evaluarAncho({
+    existeGancho: true,
+    zoom: 0.5,
+    modo: 'todo',
+    proceso: 'otro_proceso',
+    procesoEsperado: 'proceso_pedido',
+  });
+  assert.equal(otro.modo, MODO_OTRO_DIAGRAMA);
+  assert.equal(otro.ok, false);
 });

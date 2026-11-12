@@ -22,6 +22,15 @@ export const ANCHO_MOVIL_PX = 760;
 /** «Lienzo angosto»: el ancho del **contenedor** del diagrama, no el de la ventana. */
 export const ANCHO_CONTENEDOR_ESTRECHO = 540;
 
+/**
+ * «Lienzo amplio»: a partir de este ancho el diagrama **entero** cabe en
+ * la pantalla. Es el mismo número que `ANCHO_ESTRECHO_PX` (900), pero
+ * medido sobre el **contenedor** del diagrama: en un lienzo amplio el
+ * piso de legibilidad (1,15) no se aplica al encuadre, porque el
+ * diagrama abriría a 1:1 y no se vería entero (solo una esquina).
+ */
+export const ANCHO_CONTENEDOR_AMPLIO = 900;
+
 /** Piso de lectura del mapa en móvil (≤ 760 px): `MOBILE_ZOOM_MIN`. */
 export const PISO_LECTURA_MOVIL = 0.7;
 
@@ -65,6 +74,13 @@ export const esMovil = (anchoVentana) => anchoVentana <= ANCHO_MOVIL_PX;
 
 /** ¿El contenedor del lienzo es angosto (< 540 px)? */
 export const esLienzoAngosto = (anchoContenedor) => anchoContenedor < ANCHO_CONTENEDOR_ESTRECHO;
+
+/**
+ * ¿El contenedor del lienzo es amplio (> 900 px)? En un lienzo amplio el
+ * diagrama entero se ve con margen: el piso de legibilidad (1,15) no
+ * aplica al encuadre (solo al modo paso).
+ */
+export const esLienzoAmplio = (anchoContenedor) => anchoContenedor > ANCHO_CONTENEDOR_AMPLIO;
 
 /**
  * Piso de lectura del mapa vivo, según el ancho de la ventana.
@@ -118,6 +134,53 @@ export const aplicarTecho = (zoom, techo) => (Number.isFinite(zoom) ? Math.min(z
 
 /** Acota un zoom entre un piso y un techo. */
 export const acotarZoom = (zoom, piso, techo) => aplicarTecho(aplicarPiso(zoom, piso), techo);
+
+/**
+ * El zoom del **encuadre**: el ajuste que da `fit-viewport` con el margen
+ * aplicado y, salvo que se fuerce, el piso de legibilidad por debajo.
+ *
+ * `forzar: true` ignora el piso (es lo que necesita el visor pequeño del
+ * panel dividido, que quiere ver el diagrama entero aunque sea diminuto).
+ * Sin `forzar`, el encuadre **nunca** baja de 1,15: por eso el diagrama
+ * abría a 1:4–1:8.
+ *
+ * `anchoContenedor`: el ancho del lienzo donde se aplica. En un lienzo
+ * **amplio** (> 900 px) el diagrama entero cabe con margen, así que el
+ * piso de legibilidad **no** se aplica: el escritorio abre en «ver el
+ * todo» y no en una esquina del diagrama a 1:1. Sin ancho conocido se
+ * aplica el piso (comportamiento de siempre).
+ *
+ * Un zoom que no es un número se devuelve tal cual: la función no inventa
+ * un zoom que nadie ha medido.
+ */
+export const zoomEncuadre = (zoomAjuste, { forzar = false, anchoContenedor = null } = {}) => {
+  if (!Number.isFinite(zoomAjuste)) return zoomAjuste;
+  if (forzar) return zoomAjuste;
+  if (Number.isFinite(anchoContenedor) && esLienzoAmplio(anchoContenedor)) return zoomAjuste;
+  return Math.max(zoomAjuste, PISO_LEGIBILIDAD_DIAGRAMA);
+};
+
+/**
+ * El zoom del botón «+»/«−» (y del pellizco): el factor se aplica al zoom
+ * actual y el resultado se acota entre el **piso manual** y el techo del
+ * diagrama.
+ *
+ * Dos reglas que importan:
+ * · el piso manual queda **por debajo** del piso de legibilidad (0,12/0,20
+ *   contra 1,15), así que «−» **siempre** aleja: nunca agranda;
+ * · ni el piso ni el techo hacen **mover** el zoom que ya hay: si el
+ *   encuadre quedó por encima del techo (un diagrama muy pequeño en un
+ *   lienzo muy grande), «+» no puede reducir la vista.
+ */
+export const zoomManual = (zoomActual, factor, anchoContenedor) => {
+  if (!Number.isFinite(zoomActual) || !Number.isFinite(factor)) return zoomActual;
+  const piso = pisoManualMotor(anchoContenedor);
+  // El techo nunca hace bajar el zoom actual.
+  const techo = Math.max(ZOOM_MAXIMO, zoomActual);
+  // El piso manual nunca hace subir el zoom actual.
+  const limite = factor < 1 ? Math.min(piso, zoomActual) : piso;
+  return acotarZoom(zoomActual * factor, limite, techo);
+};
 
 /** ¿El zoom se puede leer y es legible (≥ 1,15)? */
 export const esZoomLegible = (zoom) => Number.isFinite(zoom) && zoom >= PISO_LEGIBILIDAD_DIAGRAMA;

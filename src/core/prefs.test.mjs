@@ -3,12 +3,17 @@ import assert from 'node:assert/strict';
 import {
   BANDERAS_PREFS,
   CLAVE_PREFS,
+  OVERRIDE_SEGURO,
   PREFERENCIAS_POR_DEFECTO,
   VERSION_PREFS,
   escribirPreferencias,
+  fijarOverrideSesion,
   leerPreferencias,
   marcarAvisoVisto,
   marcarGuiaVista,
+  obtenerPreferenciasVigentes,
+  overrideDesdeQuery,
+  puedeAbrirGuiaAuto,
   preferencia,
   restablecerPreferencias,
 } from './prefs.mjs';
@@ -36,6 +41,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  // El override de sesión es memoria del módulo: se quita entre pruebas.
+  fijarOverrideSesion(null);
   if (original === undefined) delete globalThis.localStorage;
   else globalThis.localStorage = original;
 });
@@ -166,6 +173,84 @@ test('Una clave con texto roto no rompe la app', () => {
   assert.deepEqual(leerPreferencias().avisosVistos, []);
 });
 
+// ── El override de sesión (bloque 1B) ─────────────────────────────────────
+
+test('Sin override, las preferencias vigentes son las guardadas', () => {
+  assert.equal(escribirPreferencias({ modoPaso: false }), true);
+  assert.deepEqual(obtenerPreferenciasVigentes(), leerPreferencias());
+  assert.equal(obtenerPreferenciasVigentes().modoPaso, false);
+});
+
+test('El override de sesión manda sobre lo guardado y no escribe nada', () => {
+  assert.equal(escribirPreferencias({ modoPaso: true }), true);
+  fijarOverrideSesion({ modoPaso: false });
+  assert.equal(obtenerPreferenciasVigentes().modoPaso, false, 'El override manda');
+  assert.equal(leerPreferencias().modoPaso, true, 'Lo guardado no se toca');
+  assert.equal(almacen.length, 1, 'El override no escribe ninguna clave nueva');
+  assert.equal(almacen.getItem(CLAVE_PREFS) !== null, true, 'La clave guardada sigue ahí');
+  fijarOverrideSesion(null);
+  assert.equal(obtenerPreferenciasVigentes().modoPaso, true, 'Sin override manda lo guardado');
+});
+
+test('El override se puede quitar y vuelve a mandar lo guardado', () => {
+  escribirPreferencias({ copiador: false });
+  fijarOverrideSesion({ copiador: true });
+  assert.equal(obtenerPreferenciasVigentes().copiador, true);
+  assert.equal(fijarOverrideSesion(null), null);
+  assert.equal(obtenerPreferenciasVigentes().copiador, false);
+});
+
+test('El override puede volver a encender una preferencia apagada', () => {
+  escribirPreferencias({ modoPaso: false });
+  fijarOverrideSesion({ modoPaso: true });
+  assert.equal(obtenerPreferenciasVigentes().modoPaso, true);
+  assert.equal(leerPreferencias().modoPaso, false, 'Lo guardado sigue apagado');
+});
+
+test('El override solo acepta banderas booleanas y la lista de avisos', () => {
+  fijarOverrideSesion({
+    modoPaso: false,
+    legibilidad: 'no',
+    copiador: 1,
+    guiaVista: true,
+    avisosVistos: ['1.0', 42, null],
+    otraCosa: 'ignorada',
+  });
+  const vigentes = obtenerPreferenciasVigentes();
+  assert.equal(vigentes.modoPaso, false);
+  assert.equal(vigentes.legibilidad, true, 'Un valor que no es booleano se ignora');
+  assert.equal(vigentes.copiador, true);
+  assert.equal(vigentes.guiaVista, true);
+  assert.deepEqual(vigentes.avisosVistos, ['1.0'], 'La lista solo guarda versiones de texto');
+  assert.equal(vigentes.otraCosa, undefined, 'Una clave que no es del contrato no se cuela');
+});
+
+test('El override se fusiona: no borra las banderas que no se mencionan', () => {
+  fijarOverrideSesion({ modoPaso: false });
+  fijarOverrideSesion({ guiaVista: true });
+  const vigentes = obtenerPreferenciasVigentes();
+  assert.equal(vigentes.modoPaso, false, 'La bandera anterior sigue puesta');
+  assert.equal(vigentes.guiaVista, true);
+});
+
+test('Un override que no es un objeto no rompe nada', () => {
+  for (const raro of ['texto', 42, [], true]) {
+    fijarOverrideSesion(raro);
+    assert.equal(obtenerPreferenciasVigentes().modoPaso, true, `Override ${String(raro)}`);
+  }
+});
+
+test('Sin localStorage, las preferencias vigentes son las de fábrica', () => {
+  delete globalThis.localStorage;
+  assert.deepEqual(obtenerPreferenciasVigentes(), {
+    modoPaso: true,
+    legibilidad: true,
+    copiador: true,
+    guiaVista: false,
+    avisosVistos: [],
+  });
+});
+
 test('Volver a los valores de fábrica borra la clave versionada', () => {
   escribirPreferencias({ modoPaso: false, copiador: false });
   assert.equal(almacen.getItem(CLAVE_PREFS) !== null, true);
@@ -173,4 +258,63 @@ test('Volver a los valores de fábrica borra la clave versionada', () => {
   assert.equal(almacen.getItem(CLAVE_PREFS), null);
   assert.equal(preferencia('modoPaso'), true);
   assert.equal(preferencia('copiador'), true);
+});
+
+// ── El apagado de emergencia por URL (bloque 1B · ítem 67) ───────────────
+
+test('Una URL que no pide el modo seguro no pide nada', () => {
+  assert.equal(overrideDesdeQuery(''), null);
+  assert.equal(overrideDesdeQuery('?'), null);
+  assert.equal(overrideDesdeQuery('?atlas=completo'), null);
+  assert.equal(overrideDesdeQuery('?atlas='), null);
+  assert.equal(overrideDesdeQuery('?atlas=seguro2'), null);
+  assert.equal(overrideDesdeQuery('?otro=seguro'), null);
+  assert.equal(overrideDesdeQuery('#/bpmn'), null, 'Un hash no es una query');
+});
+
+test('Una query que no es texto no rompe nada', () => {
+  for (const raro of [undefined, null, 42, true, {}, []]) {
+    assert.equal(overrideDesdeQuery(raro), null, `Query ${String(raro)}`);
+  }
+});
+
+test('?atlas=seguro devuelve el override de emergencia', () => {
+  const esperado = { modoPaso: false, copiador: false, guiaVista: true };
+  assert.deepEqual(overrideDesdeQuery('?atlas=seguro'), esperado);
+  assert.deepEqual(overrideDesdeQuery('atlas=seguro'), esperado, 'El «?» es opcional');
+  assert.deepEqual(overrideDesdeQuery('?foo=1&atlas=seguro&bar=2'), esperado, 'Va con otros parámetros');
+  assert.deepEqual(overrideDesdeQuery(new URLSearchParams('atlas=seguro')), esperado, 'También acepta URLSearchParams');
+  assert.deepEqual(OVERRIDE_SEGURO, esperado);
+});
+
+test('El override de emergencia no toca la legibilidad', () => {
+  const override = overrideDesdeQuery('?atlas=seguro');
+  assert.equal(Object.hasOwn(override, 'legibilidad'), false, 'El piso de 1,15 no se apaga');
+  assert.deepEqual(Object.keys(override).sort(), ['copiador', 'guiaVista', 'modoPaso']);
+});
+
+test('El override de emergencia devuelve un objeto nuevo cada vez', () => {
+  const uno = overrideDesdeQuery('?atlas=seguro');
+  uno.modoPaso = true;
+  uno.avisosVistos = ['1.0'];
+  const otro = overrideDesdeQuery('?atlas=seguro');
+  assert.equal(otro.modoPaso, false, 'Cambiar el resultado no cambia el siguiente');
+  assert.equal(Object.hasOwn(otro, 'avisosVistos'), false);
+});
+
+test('El override de emergencia no escribe nada en el almacén', () => {
+  const override = overrideDesdeQuery('?atlas=seguro');
+  assert.equal(almacen.length, 0, 'La función es pura: no deja rastro');
+  // Y lo que se aplica en memoria tampoco escribe:
+  fijarOverrideSesion(override);
+  assert.equal(almacen.length, 0, 'El override de sesión tampoco escribe');
+  assert.equal(leerPreferencias().modoPaso, true, 'Lo guardado sigue como estaba');
+});
+
+test('Con el override de emergencia, la guía automática no se abre', () => {
+  assert.equal(puedeAbrirGuiaAuto(), true, 'Sin override, la guía puede abrirse sola');
+  fijarOverrideSesion(overrideDesdeQuery('?atlas=seguro'));
+  assert.equal(puedeAbrirGuiaAuto(), false, 'En modo seguro la guía no se abre sola');
+  assert.equal(marcarGuiaVista(), true);
+  assert.equal(puedeAbrirGuiaAuto(), false, 'Con la guía vista, tampoco se abre sola');
 });

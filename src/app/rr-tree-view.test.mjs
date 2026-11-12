@@ -86,7 +86,7 @@ after(async () => {
   if (profile) await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
 });
 
-async function openPage(width, seed = null) {
+async function openPage(width, seed = null, query = '') {
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
   const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
   const evaluate = async (expression) => {
@@ -101,7 +101,7 @@ async function openPage(width, seed = null) {
   await send('Emulation.setDeviceMetricsOverride', { width, height: width < 761 ? 844 : 1000, deviceScaleFactor: 1, mobile: width < 761 }, sessionId);
   await send('Storage.clearDataForOrigin', { origin, storageTypes: 'all' }, sessionId);
   if (seed) await send('Page.addScriptToEvaluateOnNewDocument', { source: `localStorage.setItem('rr-atlas-arbol-v2', ${JSON.stringify(seed)})` }, sessionId);
-  await send('Page.navigate', { url: origin }, sessionId);
+  await send('Page.navigate', { url: `${origin}${query}` }, sessionId);
   for (let attempt = 0; attempt < 100; attempt++) {
     if (await evaluate(`!!document.querySelector('.node-card')`)) break;
     await new Promise((resolve) => setTimeout(resolve, 30));
@@ -324,5 +324,49 @@ test('J8: zoom inicial a 390 px no baja del piso de lectura y la raíz queda a l
     metrics.push({ test: 'J8-zoom-fit-movil', width: 390, fitZoomText, fitZoom });
     assert.ok(fitZoom >= piso, `Zoom tras encuadrar a 390 px debe ser >= ${piso}, fue ${fitZoomText}`);
     assertMovilUsable(await bounds(page), await raizVisible(page), 390);
+  } finally { await page.close(); }
+});
+
+// Bloque 3 · el interruptor visible y el apagado de emergencia (P1.11 ·
+// ítems 67 y 68). Lo que se comprueba aquí es **de interfaz**: el diálogo
+// «Ajustes» abre, sus cuatro interruptores son alcanzables (44 px) y se
+// guardan; y el modo seguro por URL avisa, no escribe nada y deja el modo
+// paso y el copiador apagados **sin tocar la legibilidad**.
+test('Ajustes: el diálogo abre, los cuatro interruptores se tocan y se guardan', async () => {
+  const page = await openPage(1280);
+  try {
+    assert.equal(await page.evaluate(`!!document.querySelector('[data-action="ajustes"]')`), true, 'El botón «Ajustes» está en la barra superior');
+    await page.click('[data-action="ajustes"]');
+    assert.equal(await page.evaluate(`document.querySelector('[data-ajustes]').open`), true, 'El diálogo se abre');
+    const filas = await page.evaluate(`[...document.querySelectorAll('[data-pref]')].map(nodo => ({ pref: nodo.dataset.pref, rol: nodo.getAttribute('role'), estado: nodo.getAttribute('aria-checked'), alto: Math.round(nodo.getBoundingClientRect().height) }))`);
+    assert.deepEqual(filas.map((fila) => fila.pref), ['modoPaso', 'legibilidad', 'copiador', 'guiaVista'], 'Los cuatro interruptores, en orden');
+    assert.ok(filas.every((fila) => fila.rol === 'switch'), 'Los cuatro son role="switch"');
+    assert.ok(filas.every((fila) => fila.alto >= 44), `Los interruptores miden 44 px: ${JSON.stringify(filas)}`);
+    assert.equal(await page.evaluate(`document.querySelector('[data-ajustes-estado]').textContent`), 'Guardado en este navegador', 'El estado de guardado se ve');
+    await page.click('[data-pref="modoPaso"]');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="modoPaso"]').getAttribute('aria-checked')`), 'false', 'El interruptor cambia de estado');
+    assert.equal(await page.evaluate(`JSON.parse(localStorage.getItem('rr-atlas:prefs:v1')).modoPaso`), false, 'El cambio se guarda en el navegador');
+    await page.click('[data-ajustes-listo]');
+    assert.equal(await page.evaluate(`document.querySelector('[data-ajustes]').open`), false, '«Listo» cierra el diálogo');
+    await page.click('[data-action="ajustes"]');
+    await page.click('[data-ajustes-fabrica]');
+    assert.equal(await page.evaluate(`localStorage.getItem('rr-atlas:prefs:v1')`), null, '«Volver a los valores de fábrica» borra la clave');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="modoPaso"]').getAttribute('aria-checked')`), 'true', 'Los interruptores vuelven al valor de fábrica');
+  } finally { await page.close(); }
+});
+
+test('Modo seguro: ?atlas=seguro avisa, no escribe nada y no toca la legibilidad', async () => {
+  const page = await openPage(1280, null, '?atlas=seguro');
+  try {
+    assert.equal(await page.evaluate(`document.querySelector('[data-atlas-seguro]').hidden`), false, 'El aviso de modo seguro se ve');
+    assert.match(await page.evaluate(`document.querySelector('[data-atlas-seguro]').textContent`), /Modo seguro/, 'El aviso dice «Modo seguro (solo este enlace)»');
+    assert.equal(await page.evaluate(`localStorage.getItem('rr-atlas:prefs:v1')`), null, 'El modo seguro no escribe nada en el navegador');
+    assert.equal(await page.evaluate(`document.querySelector('[data-help-dialog]').open`), false, 'La guía no se abre sola');
+    await page.click('[data-action="ajustes"]');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="modoPaso"]').getAttribute('aria-checked')`), 'false', 'El modo paso aparece apagado');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="copiador"]').getAttribute('aria-checked')`), 'false', 'El copiador aparece apagado');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="guiaVista"]').getAttribute('aria-checked')`), 'true', 'La guía aparece como vista');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="legibilidad"]').getAttribute('aria-checked')`), 'true', 'La legibilidad no se toca');
+    assert.equal(await page.evaluate(`document.querySelector('[data-pref="modoPaso"]').disabled`), true, 'En modo seguro los interruptores quedan bloqueados');
   } finally { await page.close(); }
 });

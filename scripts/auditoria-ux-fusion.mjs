@@ -286,6 +286,28 @@ for (const vp of VIEWPORTS) {
       titulo: document.querySelector('[data-bpmn-title]')?.textContent?.trim(),
       informe: document.querySelector('[data-bpmn-report]')?.textContent?.trim().slice(0, 120),
       lienzo: (() => { const e = document.querySelector('.bpmn-canvas'); const r = e.getBoundingClientRect(); return { ancho: Math.round(r.width), alto: Math.round(r.height) }; })(),
+      // Bloque 1B (P1.9): el zoom legible que dice el gancho de depuración y
+      // la banda de lectura del paso (si se ve y qué dice).
+      zoom: (() => {
+        const estadoLienzo = window.__rrAtlasBpmn?.estado?.();
+        const zoom = estadoLienzo && typeof estadoLienzo === 'object' ? estadoLienzo.zoom : null;
+        return Number.isFinite(zoom) ? zoom : null;
+      })(),
+      modo: window.__rrAtlasBpmn?.estado?.()?.modo ?? null,
+      banda: (() => {
+        const banda = document.querySelector('[data-bpmn-banda]');
+        if (!banda) return { existe: false, visible: false, posicion: '', nombre: '', carril: '' };
+        const caja = banda.getBoundingClientRect();
+        const estilo = getComputedStyle(banda);
+        return {
+          existe: true,
+          visible: !banda.hidden && estilo.display !== 'none' && estilo.visibility !== 'hidden' && caja.width > 0 && caja.height > 0,
+          posicion: (document.querySelector('[data-bpmn-banda-posicion]')?.textContent ?? '').trim(),
+          nombre: (document.querySelector('[data-bpmn-banda-nombre]')?.textContent ?? '').trim(),
+          carril: (document.querySelector('[data-bpmn-banda-carril]')?.textContent ?? '').trim(),
+          alto: Math.round(caja.height),
+        };
+      })(),
     }));
     // clic en un elemento -> inspector
     // Las semillas usan ids tipo t_*, e_*, g_*, part_*, lane_* (no Activity_).

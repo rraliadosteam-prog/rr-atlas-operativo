@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-03T16:56:27.610Z",
+  "fecha": "2026-11-03T21:57:27.215Z",
   "anchos": [
     390,
     360
@@ -10,15 +10,15 @@
     "diagrama",
     "datos"
   ],
-  "pruebas": 10,
-  "pasar": 10,
+  "pruebas": 23,
+  "pasar": 23,
   "fallar": 0,
   "resultados": [
     {
       "ruta": "mapa",
       "ancho": 390,
       "ok": true,
-      "detalle": "50 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "51 controles ≥ 44 px, sin cortes, solapes ni desbordes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-mapa-390.png"
     },
@@ -26,7 +26,7 @@
       "ruta": "hoja",
       "ancho": 390,
       "ok": true,
-      "detalle": "hoja del inspector: 134 controles ≥ 44 px, sin cortes ni solapes",
+      "detalle": "hoja del inspector: 135 controles ≥ 44 px, sin cortes ni solapes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-hoja-390.png"
     },
@@ -34,7 +34,7 @@
       "ruta": "catalogo",
       "ancho": 390,
       "ok": true,
-      "detalle": "48 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "50 controles ≥ 44 px, sin cortes, solapes ni desbordes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-catalogo-390.png"
     },
@@ -42,7 +42,55 @@
       "ruta": "diagrama",
       "ancho": 390,
       "ok": true,
-      "detalle": "33 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "35 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-legible",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-banda",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "la banda dice «Paso 1 de 14 · Llega un documento»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-lienzo",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "el lienzo conserva 627.8 px útiles (la banda, 55.4 px, vive fuera)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-zoom-menos",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "el botón «−» se ve en la primera fila de la barra (x 219–263 de 390 px, en la misma fila que «Anterior»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-inicio",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "el evento de inicio y su etiqueta caben en el lienzo (161 px de ancho; márgenes 90/139/237/306 px)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "diagrama-entra",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "la palabra «entra» aparece una sola vez (1) y sin sombra encima",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-diagrama-390.png"
     },
@@ -50,7 +98,7 @@
       "ruta": "datos",
       "ancho": 390,
       "ok": true,
-      "detalle": "11 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "12 controles ≥ 44 px, sin cortes, solapes ni desbordes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-datos-390.png"
     },
@@ -58,7 +106,7 @@
       "ruta": "mapa",
       "ancho": 360,
       "ok": true,
-      "detalle": "50 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "51 controles ≥ 44 px, sin cortes, solapes ni desbordes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-mapa-360.png"
     },
@@ -66,7 +114,7 @@
       "ruta": "hoja",
       "ancho": 360,
       "ok": true,
-      "detalle": "hoja del inspector: 134 controles ≥ 44 px, sin cortes ni solapes",
+      "detalle": "hoja del inspector: 135 controles ≥ 44 px, sin cortes ni solapes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-hoja-360.png"
     },
@@ -74,7 +122,7 @@
       "ruta": "catalogo",
       "ancho": 360,
       "ok": true,
-      "detalle": "48 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "50 controles ≥ 44 px, sin cortes, solapes ni desbordes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-catalogo-360.png"
     },
@@ -82,7 +130,55 @@
       "ruta": "diagrama",
       "ancho": 360,
       "ok": true,
-      "detalle": "33 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "35 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-legible",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "abre a zoom 1.15 (piso de legibilidad 1.15)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-banda",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "la banda dice «Paso 1 de 14 · Llega un documento»",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-lienzo",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "el lienzo conserva 523.8 px útiles (la banda, 55.4 px, vive fuera)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-zoom-menos",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "el botón «−» se ve en la primera fila de la barra (x 219–263 de 360 px, en la misma fila que «Anterior»)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-inicio",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "el evento de inicio y su etiqueta caben en el lienzo (161 px de ancho; márgenes 75/124/185/254 px)",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "diagrama-entra",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "la palabra «entra» aparece una sola vez (1) y sin sombra encima",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-diagrama-360.png"
     },
@@ -90,9 +186,17 @@
       "ruta": "datos",
       "ancho": 360,
       "ok": true,
-      "detalle": "11 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "detalle": "12 controles ≥ 44 px, sin cortes, solapes ni desbordes",
       "errores": [],
       "captura": "docs/fusion/capturas/movil-datos-360.png"
+    },
+    {
+      "ruta": "diagrama-sin-banda",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "con «modo paso» apagado la banda de lectura no se ve y el diagrama sigue legible (zoom 1.15; la preferencia está en rr-atlas:prefs:v1)",
+      "errores": [],
+      "captura": null
     }
   ]
 }

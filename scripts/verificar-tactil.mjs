@@ -14,6 +14,10 @@
 //   4. pellizco-mapa → pellizco con dos dedos en el tablero.
 //   5. pan-mapa   → arrastre con un dedo en el tablero.
 //   6. pellizco-diagrama → pellizco con dos dedos en el diagrama BPMN.
+//   7. banda      → la banda de lectura del paso se ve, dice en qué paso se
+//                    está y sus objetivos (los botones que tenga) miden 44 px.
+//   8. zoom-menos → el botón «−» **reduce** el zoom (el bug B2: «−» que
+//                    agrandaba nunca tuvo una prueba que lo detectara).
 //
 // Salidas: docs/fusion/capturas/tactil-<flujo>-<ancho>.png y
 // docs/fusion/TACTIL.json.
@@ -274,6 +278,82 @@ async function gestoDiagrama(page) {
   return { ok: true, detalle: `pellizco en el diagrama: la forma pasó de ${antes} px a ${despues} px` };
 }
 
+/** El zoom que dice el gancho de depuración (o `null` si no se puede leer). */
+async function leerZoom(page) {
+  return page.evaluate(() => {
+    const estado = window.__rrAtlasBpmn?.estado?.();
+    const zoom = estado && typeof estado === 'object' ? estado.zoom : null;
+    return Number.isFinite(zoom) ? zoom : null;
+  });
+}
+
+/** 7 · La banda de lectura del paso: se ve y sus objetivos son táctiles. */
+async function flujoBanda(page) {
+  await page.waitForSelector('[data-bpmn-canvas] .djs-visual', { timeout: 20000 });
+  await page.waitForTimeout(900);
+  const info = await page.evaluate(() => {
+    const banda = document.querySelector('[data-bpmn-banda]');
+    if (!banda) return null;
+    const caja = banda.getBoundingClientRect();
+    const estilo = getComputedStyle(banda);
+    const visible = !banda.hidden && estilo.display !== 'none' && estilo.visibility !== 'hidden'
+      && caja.width > 0 && caja.height > 0;
+    const objetivos = [...banda.querySelectorAll('button, a[href], input, select, textarea, [role="button"]')]
+      .map((elemento) => {
+        const c = elemento.getBoundingClientRect();
+        return {
+          etiqueta: (elemento.getAttribute('aria-label') || elemento.innerText || elemento.tagName).trim().slice(0, 32),
+          ancho: Math.round(c.width * 10) / 10,
+          alto: Math.round(c.height * 10) / 10,
+        };
+      });
+    return {
+      visible,
+      posicion: (document.querySelector('[data-bpmn-banda-posicion]')?.textContent ?? '').trim(),
+      nombre: (document.querySelector('[data-bpmn-banda-nombre]')?.textContent ?? '').trim(),
+      alto: Math.round(caja.height * 10) / 10,
+      objetivos,
+    };
+  });
+  if (!info) return { ok: false, detalle: 'no se encontró la banda de lectura' };
+  if (!info.visible) return { ok: false, detalle: 'la banda de lectura no se ve' };
+  if (!info.posicion || !info.nombre) {
+    return { ok: false, detalle: `la banda no dice en qué paso se está («${info.posicion}» · «${info.nombre}»)` };
+  }
+  const bajos = info.objetivos.filter((objetivo) => objetivo.alto < 43.5);
+  if (bajos.length) {
+    return {
+      ok: false,
+      detalle: `objetivos de la banda por debajo de 44 px: ${bajos.map((o) => `${o.etiqueta} ${o.ancho}×${o.alto}`).join(', ')}`,
+    };
+  }
+  return {
+    ok: true,
+    detalle: `la banda dice «${info.posicion} · ${info.nombre}» (${info.alto} px de alto) y `
+      + (info.objetivos.length
+        ? `sus ${info.objetivos.length} objetivos miden 44 px o más`
+        : 'no tiene botones propios que medir'),
+  };
+}
+
+/** 8 · El botón «−» reduce el zoom (bug B2). */
+async function flujoZoomMenos(page) {
+  await page.waitForSelector('[data-bpmn-canvas] .djs-visual', { timeout: 20000 });
+  await page.waitForTimeout(900);
+  const antes = await leerZoom(page);
+  if (!Number.isFinite(antes)) return { ok: false, detalle: 'no se pudo leer el zoom por el gancho' };
+  const boton = page.locator('[data-bpmn-accion="alejar"]');
+  await boton.scrollIntoViewIfNeeded({ timeout: 8000 });
+  await boton.click({ timeout: 8000 });
+  await page.waitForTimeout(700);
+  const despues = await leerZoom(page);
+  if (!Number.isFinite(despues)) return { ok: false, detalle: 'no se pudo leer el zoom después de pulsar «−»' };
+  if (despues >= antes) {
+    return { ok: false, detalle: `el botón «−» no reduce el zoom (${antes} → ${despues})` };
+  }
+  return { ok: true, detalle: `el botón «−» reduce el zoom (${antes} → ${despues})` };
+}
+
 /** Envuelve un flujo: si truena, el fallo queda registrado y la QA sigue. */
 async function intentar(fn) {
   try {
@@ -343,6 +423,32 @@ for (const medida of MEDIDAS) {
     const res = await intentar(() => gestoDiagrama(page));
     const captura = await capturar(page, 'pellizco-diagrama', medida.nombre);
     await registrar('pellizco-diagrama', medida.ancho, res.ok, res.detalle, errores, captura);
+    await page.close();
+  }
+
+  // 7 · La banda de lectura del paso
+  {
+    const { page, errores } = await abrirPagina(context, '#/bpmn');
+    await page.waitForSelector('[data-bpmn-catalog] .bpmn-card', { timeout: 15000 });
+    await page.locator('[data-bpmn-catalog] .bpmn-card').first().click();
+    await page.waitForSelector('[data-bpmn-canvas] svg', { timeout: 20000 });
+    await page.waitForTimeout(900);
+    const res = await intentar(() => flujoBanda(page));
+    const captura = await capturar(page, 'banda', medida.nombre);
+    await registrar('banda', medida.ancho, res.ok, res.detalle, errores, captura);
+    await page.close();
+  }
+
+  // 8 · El botón «−» reduce el zoom
+  {
+    const { page, errores } = await abrirPagina(context, '#/bpmn');
+    await page.waitForSelector('[data-bpmn-catalog] .bpmn-card', { timeout: 15000 });
+    await page.locator('[data-bpmn-catalog] .bpmn-card').first().click();
+    await page.waitForSelector('[data-bpmn-canvas] svg', { timeout: 20000 });
+    await page.waitForTimeout(900);
+    const res = await intentar(() => flujoZoomMenos(page));
+    const captura = await capturar(page, 'zoom-menos', medida.nombre);
+    await registrar('zoom-menos', medida.ancho, res.ok, res.detalle, errores, captura);
     await page.close();
   }
 
