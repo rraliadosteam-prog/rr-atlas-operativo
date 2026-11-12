@@ -426,7 +426,9 @@ export function createBpmnWorkspace({ container, onReport, onElement, onChange }
   }
 
   function pila() {
-    return viewer?.get('commandStack') || null;
+    // En modo lectura (NavigatedViewer) no existe «commandStack»: sin el
+    // `false`, get() lanza «No provider for commandStack» al pulsar Deshacer.
+    return viewer?.get('commandStack', false) || null;
   }
 
   function puedeDeshacer() {
