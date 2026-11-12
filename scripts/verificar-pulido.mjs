@@ -14,6 +14,12 @@
 //                  línea que separa la banda.
 //   c) inicio    → la etiqueta «entra» no se monta sobre el ícono del evento
 //                  de inicio.
+//   d) legibilidad → el diagrama abre a un zoom legible: el gancho de
+//                  depuración se lee y el zoom tiene que estar en el piso
+//                  declarado (1,15). Mientras el gancho no exista (bloque 1A,
+//                  antes de que se fusione el PR #7) la puerta lo dice
+//                  (`modo: 'sin-gancho'`) y **no** falla: una puerta no puede
+//                  fallar por lo que todavía no se ha escrito.
 //
 // Salidas: docs/fusion/PULIDO.json y docs/fusion/capturas/pulido-<flujo>-390.png.
 
@@ -21,6 +27,8 @@ import { chromium } from 'playwright-core';
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
+import { PISO_LEGIBILIDAD_DIAGRAMA } from '../src/core/zoom.mjs';
+import { evaluarPiso390, leerEstadoLienzo } from './piso-390.mjs';
 
 const RAIZ = resolve(import.meta.dirname, '..');
 const DIST = resolve(RAIZ, 'dist');
@@ -149,9 +157,14 @@ for (const proceso of catalogo.procesos) {
       inicio: a(inicio),
       circulo: a(circulo),
       entra: a(entra),
-      zoom: window.__rrAtlasBpmn?.get?.('canvas')?.zoom?.() ?? null,
     };
   });
+
+  // (d) Legibilidad: el zoom se lee por el gancho de depuración, no por el
+  // workspace pelado (que nunca expone `get`). El veredicto lo decide
+  // `scripts/piso-390.mjs` (función pura, probada en `npm test`).
+  const estado = await page.evaluate(leerEstadoLienzo);
+  const veredicto = evaluarPiso390({ ...estado, procesoEsperado: proceso.id });
 
   // (a) Encadre: todo el diagrama dentro del lienzo y centrado.
   const dentro = medido.contenido.x >= medido.lienzo.x - 1
@@ -201,9 +214,10 @@ for (const proceso of catalogo.procesos) {
     encuadre ? 'encuadrado y centrado' : (dentro ? 'dentro pero descentrado' : 'se sale del lienzo'),
     poolOk ? 'título del pool sin tachón' : 'el título del pool lo cruza una línea',
     entraOk ? '«entra» libre del ícono' : '«entra» sobre el ícono',
+    `legibilidad: ${veredicto.mensaje}`,
   ].join(' · ');
 
-  const ok = encuadre && poolOk && entraOk && !errores.length;
+  const ok = encuadre && poolOk && entraOk && !errores.length && veredicto.ok;
   resultados.push({
     proceso: proceso.id,
     titulo: proceso.titulo,
@@ -212,7 +226,8 @@ for (const proceso of catalogo.procesos) {
     centrado,
     poolOk,
     entraOk,
-    zoom: medido.zoom,
+    modo: veredicto.modo,
+    zoom: veredicto.zoom,
     detalle,
     errores,
     captura,
@@ -230,6 +245,8 @@ const resumen = {
   ancho: ANCHO,
   diagramas: resultados.length,
   conOk: resultados.filter((r) => r.ok).length,
+  pisoLegibilidad: PISO_LEGIBILIDAD_DIAGRAMA,
+  modos: [...new Set(resultados.map((r) => r.modo))],
   fallos,
   resultados,
 };

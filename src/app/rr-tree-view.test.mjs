@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { createRRGraph } from '../data/rr-tree.mjs';
 import { layoutRRGraph } from '../core/rr-tree.mjs';
+import { pisoLecturaMapaVigente } from '../core/zoom.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const baseline = process.env.ATLAS_VIEW_BASE;
@@ -145,11 +146,16 @@ function assertFit(result) {
 }
 
 // Item 7 · en tablet y celular el mapa no se encoge hasta volverse ilegible:
-// el zoom se queda en 45 % o más y la raíz del Atlas queda a la vista para
-// poder tocarla (antes el grafo completo quedaba en 9 % y los nodos medían
-// 23×12 px: era imposible hacer clic).
-function assertMovilUsable(result, raiz) {
-  assert.ok(parseInt(result.zoom, 10) / 100 >= 0.45, `Zoom móvil >= 0.45: ${result.zoom}`);
+// el zoom se queda en el piso de lectura que declara `src/core/zoom.mjs` y la
+// raíz del Atlas queda a la vista para poder tocarla (antes el grafo completo
+// quedaba en 9 % y los nodos medían 23×12 px: era imposible hacer clic).
+// El piso **vigente** es el que el mapa vivo garantiza hoy: el piso móvil
+// nuevo (0,70) lo adopta `src/app/rr-tree.mjs` en el bloque 1C (ítem 6 del
+// diseño), así que aquí no se sube el listón por encima de lo que la app
+// todavía garantiza, pero tampoco se baja.
+function assertMovilUsable(result, raiz, width = 390) {
+  const piso = pisoLecturaMapaVigente(width);
+  assert.ok(parseInt(result.zoom, 10) / 100 >= piso, `Zoom móvil >= ${piso}: ${result.zoom}`);
   assert.ok(raiz && raiz.visible, `La raíz del Atlas queda a la vista: ${JSON.stringify(raiz)}`);
   assert.ok(raiz.ancho >= 90 && raiz.alto >= 44, `La raíz se puede tocar: ${JSON.stringify(raiz)}`);
 }
@@ -204,24 +210,25 @@ for (const width of [390, 1440]) {
     const page = await openPage(width);
     try {
       const initial = await bounds(page); metrics.push({ test: 'P2', width, initial });
+      const piso = pisoLecturaMapaVigente(width);
       if (width < 761) {
-        assert.ok(parseInt(initial.zoom, 10) / 100 >= 0.45, `Zoom inicial móvil >= 0.45: ${initial.zoom}`);
-        assertMovilUsable(initial, await raizVisible(page));
+        assert.ok(parseInt(initial.zoom, 10) / 100 >= piso, `Zoom inicial móvil >= ${piso}: ${initial.zoom}`);
+        assertMovilUsable(initial, await raizVisible(page), width);
       } else {
         assertFit(initial);
       }
       await page.resize(width === 390 ? 430 : 1000, 900);
       const resized = await bounds(page);
-      if (width < 761) { assert.ok(parseInt(resized.zoom, 10) / 100 >= 0.45, `Zoom resize móvil >= 0.45: ${resized.zoom}`); assertMovilUsable(resized, await raizVisible(page)); }
+      if (width < 761) { assert.ok(parseInt(resized.zoom, 10) / 100 >= piso, `Zoom resize móvil >= ${piso}: ${resized.zoom}`); assertMovilUsable(resized, await raizVisible(page), width); }
       else assertFit(resized);
       await page.click('[data-rail-panel] > summary');
       const toggled = await bounds(page);
-      if (width < 761) { assert.ok(parseInt(toggled.zoom, 10) / 100 >= 0.45, `Zoom rail móvil >= 0.45: ${toggled.zoom}`); assertMovilUsable(toggled, await raizVisible(page)); }
+      if (width < 761) { assert.ok(parseInt(toggled.zoom, 10) / 100 >= piso, `Zoom rail móvil >= ${piso}: ${toggled.zoom}`); assertMovilUsable(toggled, await raizVisible(page), width); }
       else assertFit(toggled);
       await page.evaluate(`(() => { const select=document.querySelector('[data-filter="type"]'); select.value='process'; select.dispatchEvent(new Event('change')); })()`);
       await page.click('[data-action="fit"]');
       const wide = await bounds(page); metrics.push({ test: 'P2-amplio', width, wide });
-      if (width < 761) { assert.ok(parseInt(wide.zoom, 10) / 100 >= 0.45, `Zoom fit filtro móvil >= 0.45: ${wide.zoom}`); assertMovilUsable(wide, await raizVisible(page)); }
+      if (width < 761) { assert.ok(parseInt(wide.zoom, 10) / 100 >= piso, `Zoom fit filtro móvil >= ${piso}: ${wide.zoom}`); assertMovilUsable(wide, await raizVisible(page), width); }
       else assertFit(wide);
       assert.equal(await page.evaluate(`localStorage.getItem('rr-atlas-arbol-v2')`), null, 'Encuadrar y filtrar no guardan geometría');
     } finally { await page.close(); }
@@ -302,19 +309,20 @@ for (const width of [390, 1440]) {
   });
 }
 
-test('J8: zoom inicial a 390 px no baja de 45% y la raíz queda a la vista', async () => {
+test('J8: zoom inicial a 390 px no baja del piso de lectura y la raíz queda a la vista', async () => {
   const page = await openPage(390);
   try {
+    const piso = pisoLecturaMapaVigente(390);
     const zoomText = await page.evaluate(`document.querySelector('[data-zoom]').textContent`);
     const zoom = parseInt(zoomText, 10) / 100;
     metrics.push({ test: 'J8-zoom-inicial-movil', width: 390, zoomText, zoom });
-    assert.ok(zoom >= 0.45, `Zoom inicial a 390 px debe ser >= 0.45, fue ${zoomText}`);
-    assertMovilUsable(await bounds(page), await raizVisible(page));
+    assert.ok(zoom >= piso, `Zoom inicial a 390 px debe ser >= ${piso}, fue ${zoomText}`);
+    assertMovilUsable(await bounds(page), await raizVisible(page), 390);
     await page.click('[data-action="fit"]');
     const fitZoomText = await page.evaluate(`document.querySelector('[data-zoom]').textContent`);
     const fitZoom = parseInt(fitZoomText, 10) / 100;
     metrics.push({ test: 'J8-zoom-fit-movil', width: 390, fitZoomText, fitZoom });
-    assert.ok(fitZoom >= 0.45, `Zoom tras encuadrar a 390 px debe ser >= 0.45, fue ${fitZoomText}`);
-    assertMovilUsable(await bounds(page), await raizVisible(page));
+    assert.ok(fitZoom >= piso, `Zoom tras encuadrar a 390 px debe ser >= ${piso}, fue ${fitZoomText}`);
+    assertMovilUsable(await bounds(page), await raizVisible(page), 390);
   } finally { await page.close(); }
 });

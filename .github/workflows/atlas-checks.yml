@@ -25,3 +25,40 @@ jobs:
         run: npm run check
       - name: Validar diagramas BPMN
         run: npm run lint:bpmn
+
+  # Diseño v3 · bloque 1A · ítem 49 · P1.10: las cinco puertas con Chrome
+  # real no estaban en el CI (la CI solo corría `npm run check` + el lint).
+  # Un CI verde no dice nada del comportamiento real, y una puerta que no
+  # corre sola no vigila.
+  puertas:
+    name: Puertas de navegador (Chrome)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Instalar Chromium de Playwright
+        run: |
+          npx playwright-core install --with-deps chromium
+          echo "CHROME_BIN=$(node -e "console.log(require('playwright-core').chromium.executablePath())")" >> "$GITHUB_ENV"
+      - name: Construir el Atlas
+        run: npm run build
+      - name: Puertas de navegador (390 / 360 / 768 / 1440 px)
+        run: |
+          npm run verificar:movil
+          npm run verificar:tactil
+          npm run verificar:pulido
+          node scripts/verificar-pulido.mjs 768
+          node scripts/verificar-pulido.mjs 1440
+          npm run verificar:cierre
+          npm run audit:ux
+      - name: Puerta de cierre (estática)
+        run: npm run verificar:cierre:final
+      - name: QA final
+        run: npm run verificar:qa-final
