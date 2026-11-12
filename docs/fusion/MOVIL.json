@@ -1,0 +1,98 @@
+{
+  "fecha": "2026-11-03T03:13:18.908Z",
+  "anchos": [
+    390,
+    360
+  ],
+  "rutas": [
+    "mapa",
+    "catalogo",
+    "diagrama",
+    "datos"
+  ],
+  "pruebas": 10,
+  "pasar": 10,
+  "fallar": 0,
+  "resultados": [
+    {
+      "ruta": "mapa",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "50 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-mapa-390.png"
+    },
+    {
+      "ruta": "hoja",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "hoja del inspector: 134 controles ≥ 44 px, sin cortes ni solapes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-hoja-390.png"
+    },
+    {
+      "ruta": "catalogo",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "48 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-catalogo-390.png"
+    },
+    {
+      "ruta": "diagrama",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "33 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-390.png"
+    },
+    {
+      "ruta": "datos",
+      "ancho": 390,
+      "ok": true,
+      "detalle": "11 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-datos-390.png"
+    },
+    {
+      "ruta": "mapa",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "50 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-mapa-360.png"
+    },
+    {
+      "ruta": "hoja",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "hoja del inspector: 134 controles ≥ 44 px, sin cortes ni solapes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-hoja-360.png"
+    },
+    {
+      "ruta": "catalogo",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "48 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-catalogo-360.png"
+    },
+    {
+      "ruta": "diagrama",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "33 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-diagrama-360.png"
+    },
+    {
+      "ruta": "datos",
+      "ancho": 360,
+      "ok": true,
+      "detalle": "11 controles ≥ 44 px, sin cortes, solapes ni desbordes",
+      "errores": [],
+      "captura": "docs/fusion/capturas/movil-datos-360.png"
+    }
+  ]
+}

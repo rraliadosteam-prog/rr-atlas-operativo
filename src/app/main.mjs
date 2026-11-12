@@ -1,4 +1,4 @@
-import { STORAGE_KEY, createLocalRepository } from '../core/atlas-state.mjs?v=media-7';
+import { STORAGE_KEY, PALETTE_COLORS, createLocalRepository } from '../core/atlas-state.mjs?v=media-7';
 import { DEFAULT_GRAPH } from '../data/default-graph.mjs?v=media-7';
 import { DIRECTUS_GRAPH } from '../data/directus-graph.mjs?v=media-7';
 import { KNOWN_LINKS } from '../data/known-links.mjs?v=media-7';

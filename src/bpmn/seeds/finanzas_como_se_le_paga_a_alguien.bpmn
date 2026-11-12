@@ -10,15 +10,16 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · El acuerdo">
+      <bpmn:lane id="lane_1" name="Dirección">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_trabajo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_valor</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · El pago">
+      <bpmn:lane id="lane_2" name="Finanzas">
         <bpmn:flowNodeRef>t_entrega</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_emite</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_firma</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_firma_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_firma</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_paga</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
@@ -28,12 +29,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_trabajo" name="1. Hay un trabajo que hacer">
+    <bpmn:task id="t_trabajo" name="1. Detectar el trabajo pendiente">
       <bpmn:documentation>Alguien lo hace. 5 personas con rol fijo y 2 cargos sin llenar.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_valor" name="2. Se acuerda el valor">
+    <bpmn:task id="t_valor" name="2. Acordar el valor">
       <bpmn:documentation>Cuánto se paga. NO hay política escrita: cada acuerdo es distinto. Nadie sabe si es por hora, por entrega o por mes.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
@@ -44,28 +45,32 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
         <bpmn:targetRef>prop_t_valor</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_entrega" name="3. Se entrega el trabajo">
+    <bpmn:task id="t_entrega" name="3. Entregar el trabajo">
       <bpmn:documentation>Y el cliente lo aprueba. Sin aprobación no hay pago.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_emite" name="4. Se emite la Cuenta de Cobro">
+    <bpmn:task id="t_emite" name="4. Emitir la cuenta de cobro">
       <bpmn:documentation>Es RR Aliados documentando lo que le debe a su propio colaborador. 20 documentos en total.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
     </bpmn:task>
     <bpmn:exclusiveGateway id="g_firma" name="5. ¿La firmó?">
-      <bpmn:incoming>sf_5</bpmn:incoming>
-      <bpmn:incoming>sf_8</bpmn:incoming>
+      <bpmn:incoming>sf_g_firma_join</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_firma" name="Se persigue la firma">
+    <bpmn:exclusiveGateway id="g_firma_join">
+      <bpmn:incoming>sf_5</bpmn:incoming>
+      <bpmn:incoming>sf_8</bpmn:incoming>
+      <bpmn:outgoing>sf_g_firma_join</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_firma" name="Persistir la firma">
       <bpmn:documentation>3 sin firmar: PERSONA_4 [CIFRA], PERSONA_3 [CIFRA], PERSONA_2 [CIFRA]. Sin seguimiento.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_paga" name="Se paga">
+    <bpmn:task id="t_paga" name="Pagar el valor acordado">
       <bpmn:documentation>17 de 20 firmadas: [CIFRA]. 3 sin firmar: [CIFRA]. Fuente: captura.json.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
@@ -78,14 +83,15 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
       <bpmn:documentation>Dice cuentas POR PAGAR: RR Aliados le debe a sus colaboradores. Que el documento se llame Cuenta de Cobro es el nombre del papel, no la dirección del dinero.</bpmn:documentation>
     </bpmn:dataObjectReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_trabajo"/>
-    <bpmn:sequenceFlow id="sf_2" sourceRef="t_trabajo" targetRef="t_valor" name="se acuerda"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="t_valor" targetRef="t_entrega" name="se entrega"/>
+    <bpmn:sequenceFlow id="sf_2" sourceRef="t_trabajo" targetRef="t_valor"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="t_valor" targetRef="t_entrega"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="t_entrega" targetRef="t_emite"/>
-    <bpmn:sequenceFlow id="sf_5" sourceRef="t_emite" targetRef="g_firma"/>
+    <bpmn:sequenceFlow id="sf_5" sourceRef="t_emite" targetRef="g_firma_join"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="g_firma" targetRef="t_firma" name="no"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="g_firma" targetRef="t_paga" name="sí"/>
-    <bpmn:sequenceFlow id="sf_8" sourceRef="t_firma" targetRef="g_firma"/>
+    <bpmn:sequenceFlow id="sf_8" sourceRef="t_firma" targetRef="g_firma_join"/>
     <bpmn:sequenceFlow id="sf_9" sourceRef="t_paga" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_g_firma_join" sourceRef="g_firma_join" targetRef="g_firma"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>ACÁ ESTÁ EL HUECO: el manual de roles no menciona 'colaborador', 'pago' ni 'honorario' ni una vez. Nadie sabe si los firmantes son externos o si la planta también factura.</bpmn:text>
     </bpmn:textAnnotation>
@@ -134,6 +140,9 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
           <dc:Bounds x="1255" y="504" width="140" height="36"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_firma_di_join_di" bpmnElement="g_firma_join" isMarkerVisible="true">
+        <dc:Bounds x="1210" y="450" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t_firma_di" bpmnElement="t_firma" bioc:stroke="#e05252">
         <dc:Bounds x="1460" y="435" width="150" height="80"/>
       </bpmndi:BPMNShape>
@@ -172,6 +181,10 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_5_di" bpmnElement="sf_5">
         <di:waypoint x="1190" y="475"/>
+        <di:waypoint x="1260" y="475"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_g_firma_join_di" bpmnElement="sf_g_firma_join">
+        <di:waypoint x="1260" y="475"/>
         <di:waypoint x="1300" y="475"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_6_di" bpmnElement="sf_6">
@@ -188,7 +201,7 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_se_le_paga_a_alguien.json</bpm
         <di:waypoint x="1535" y="515"/>
         <di:waypoint x="1535" y="728"/>
         <di:waypoint x="1325" y="728"/>
-        <di:waypoint x="1325" y="500"/>
+        <di:waypoint x="1260" y="475"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_9_di" bpmnElement="sf_9">
         <di:waypoint x="1610" y="605"/>

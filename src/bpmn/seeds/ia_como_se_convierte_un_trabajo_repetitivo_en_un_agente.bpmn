@@ -10,15 +10,16 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Antes de automatizar">
+      <bpmn:lane id="lane_1" name="Bot">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_tarea</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_agente</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_skill</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_prueba</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_fuente</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_fuente_join</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · La revisión humana">
+      <bpmn:lane id="lane_2" name="Equipo RR">
         <bpmn:flowNodeRef>g_revision</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_revisar</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_auto</bpmn:flowNodeRef>
@@ -56,16 +57,20 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
     </bpmn:task>
     <bpmn:task id="t_fuente" name="6. Conectar a la fuente">
       <bpmn:documentation>De dónde lee los datos. Solo el perfil principal tiene acceso a Drive.</bpmn:documentation>
-      <bpmn:incoming>sf_5</bpmn:incoming>
-      <bpmn:incoming>sf_9</bpmn:incoming>
+      <bpmn:incoming>sf_t_fuente_join</bpmn:incoming>
       <bpmn:outgoing>sf_6</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_fuente_join">
+      <bpmn:incoming>sf_5</bpmn:incoming>
+      <bpmn:incoming>sf_9</bpmn:incoming>
+      <bpmn:outgoing>sf_t_fuente_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:exclusiveGateway id="g_revision" name="7. ¿Revisó una persona?">
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_revisar" name="Se salta la revisión">
+    <bpmn:task id="t_revisar" name="Omitir la revisión">
       <bpmn:documentation>Ningún agente publica solo. Si se salta este paso, el error se repite solo.</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
@@ -86,12 +91,13 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_tarea" targetRef="t_agente"/>
     <bpmn:sequenceFlow id="sf_3" sourceRef="t_agente" targetRef="t_skill"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="t_skill" targetRef="t_prueba"/>
-    <bpmn:sequenceFlow id="sf_5" sourceRef="t_prueba" targetRef="t_fuente"/>
+    <bpmn:sequenceFlow id="sf_5" sourceRef="t_prueba" targetRef="t_fuente_join"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="t_fuente" targetRef="g_revision"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="g_revision" targetRef="t_revisar" name="no"/>
     <bpmn:sequenceFlow id="sf_8" sourceRef="g_revision" targetRef="t_auto" name="sí"/>
-    <bpmn:sequenceFlow id="sf_9" sourceRef="t_revisar" targetRef="t_fuente"/>
+    <bpmn:sequenceFlow id="sf_9" sourceRef="t_revisar" targetRef="t_fuente_join"/>
     <bpmn:sequenceFlow id="sf_10" sourceRef="t_auto" targetRef="e_fin"/>
+    <bpmn:sequenceFlow id="sf_t_fuente_join" sourceRef="t_fuente_join" targetRef="t_fuente"/>
     <bpmn:textAnnotation id="nota_1">
       <bpmn:text>El paso 7 está marcado en rojo por una razón: ningún agente publica solo. Si se salta, el agente amplifica el error en vez de ahorrar trabajo.</bpmn:text>
     </bpmn:textAnnotation>
@@ -137,6 +143,9 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
       <bpmndi:BPMNShape id="t_fuente_di" bpmnElement="t_fuente">
         <dc:Bounds x="1250" y="105" width="150" height="80"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_fuente_di_join_di" bpmnElement="t_fuente_join" isMarkerVisible="true">
+        <dc:Bounds x="1160" y="265" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="g_revision_di" bpmnElement="g_revision" isMarkerVisible="true">
         <dc:Bounds x="1510" y="450" width="50" height="50"/>
         <bpmndi:BPMNLabel>
@@ -179,7 +188,11 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_5_di" bpmnElement="sf_5">
         <di:waypoint x="1190" y="145"/>
-        <di:waypoint x="1250" y="145"/>
+        <di:waypoint x="1185" y="265"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_fuente_join_di" bpmnElement="sf_t_fuente_join">
+        <di:waypoint x="1185" y="265"/>
+        <di:waypoint x="1325" y="185"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_6_di" bpmnElement="sf_6">
         <di:waypoint x="1400" y="145"/>
@@ -201,7 +214,7 @@ Fuente: _herramientas/esquemas_bpmn/ia_como_se_convierte_un_trabajo_repetitivo_e
         <di:waypoint x="1745" y="515"/>
         <di:waypoint x="1745" y="728"/>
         <di:waypoint x="1325" y="728"/>
-        <di:waypoint x="1325" y="185"/>
+        <di:waypoint x="1185" y="265"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_10_di" bpmnElement="sf_10">
         <di:waypoint x="1820" y="605"/>

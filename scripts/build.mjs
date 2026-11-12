@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { relative, resolve, dirname, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import * as esbuild from 'esbuild';
 
 const DEFAULT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const LOCAL_DATA_PATH = ['src', 'data', 'atlas.local.json'];
@@ -97,6 +98,42 @@ async function copyPublicSource(root, dist) {
   });
 }
 
+// El visor BPMN (bpmn-js, diagram-js y bpmnlint) no se puede cargar como ESM
+// suelto desde el navegador: se empaqueta con esbuild. La licencia de bpmn.io
+// exige que el aviso "Powered by bpmn.io" siga visible, y por eso los CSS
+// oficiales se copian a dist/src/bpmn/vendor.
+async function buildBpmnBundle(root, dist) {
+  const entry = resolve(root, 'src', 'bpmn', 'entry.mjs');
+  try {
+    await stat(entry);
+  } catch {
+    console.log('Atlas shell build: sin motor BPMN en esta raiz; se omite el bundle.');
+    return { bundled: false, vendor: false };
+  }
+  await esbuild.build({
+    entryPoints: [entry],
+    bundle: true,
+    format: 'esm',
+    platform: 'browser',
+    target: ['es2022'],
+    outfile: resolve(dist, 'src', 'bpmn', 'bpmn-bundle.mjs'),
+    legalComments: 'inline',
+    minify: true,
+    banner: {
+      js: '/* Visor BPMN de RR Atlas. bpmn-js se usa bajo la licencia de bpmn.io: el aviso Powered by bpmn.io permanece visible. */',
+    },
+  });
+  const assets = resolve(root, 'node_modules', 'bpmn-js', 'dist', 'assets');
+  try {
+    await stat(assets);
+  } catch {
+    console.log('Atlas shell build: bundle BPMN listo; faltan los CSS de bpmn-js.');
+    return { bundled: true, vendor: false };
+  }
+  await cp(assets, resolve(dist, 'src', 'bpmn', 'vendor'), { recursive: true });
+  return { bundled: true, vendor: true };
+}
+
 export async function findLocalArtifacts(directory, prefix = '') {
   const entries = await readdir(directory, { withFileTypes: true });
   const found = [];
@@ -133,9 +170,10 @@ export async function build(rootOrOptions = DEFAULT_ROOT, maybeOptions = {}) {
   const serialized = local ? JSON.stringify(localData, null, 2) : '{}';
   await writeFile(resolve(dist, ...LOCAL_OVERRIDE_PATH), `export default ${serialized};\n`, 'utf8');
   await cp(resolve(root, 'rr-logo-mark.png'), resolve(dist, 'rr-logo-mark.png'));
+  const bpmn = await buildBpmnBundle(root, dist);
   // Exclusión explícita: ningún *.local.* puede llegar al dist público.
   if (!local) await assertNoLocalArtifacts(dist);
-  console.log('Atlas shell build: modular frontend validated; output dist/index.html');
+  console.log(`Atlas shell build: modular frontend validated; output dist/index.html (BPMN bundle: ${bpmn.bundled ? 'sí' : 'no'}, vendor CSS: ${bpmn.vendor ? 'sí' : 'no'})`);
   return { dist, local };
 }
 

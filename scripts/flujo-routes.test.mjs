@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test, { before, after } from 'node:test';
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { readFile, mkdtemp, rm, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdtemp, rm, mkdir } from 'node:fs/promises';
 import { join, resolve, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -10,7 +10,10 @@ import { build } from './build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 let dist;
-const rutasPath = resolve('/home/deadkiss/rr-encargos/atlas-pro-20261030/ciclo2/pasada-l/rutas-v3.json');
+// Fixtures dentro del repo: la prueba no puede depender de rutas de una maquina
+// concreta (eso rompia CI, donde /home/deadkiss no existe).
+const rutasPath = resolve(root, 'fixtures', 'flujo-rutas.json');
+const flujosFixturePath = resolve(root, 'fixtures', 'flujo-demo.json');
 const binary = [process.env.CHROME_BIN, 'google-chrome', 'chromium', 'chromium-browser']
   .filter(Boolean).find((name) => spawnSync(name, ['--version']).status === 0);
 
@@ -45,6 +48,14 @@ before(async () => {
   dist = resolve(await mkdtemp(join(process.env.TMPDIR || tmpdir(), 'atlas-flujo-dist-')));
   await mkdir(dist, { recursive: true });
   await build(root, { local: true, dist });
+  // El visor de flujos carga /src/data/flujos-v3.local.json. En produccion ese
+  // archivo es local (nunca se sube); para la prueba se sirve el fixture del repo.
+  await mkdir(resolve(dist, 'src', 'data'), { recursive: true });
+  await writeFile(
+    resolve(dist, 'src', 'data', 'flujos-v3.local.json'),
+    await readFile(flujosFixturePath, 'utf8'),
+    'utf8',
+  );
   server = createServer(async (request, response) => {
     try {
       const pathname = new URL(request.url, 'http://local').pathname;
@@ -52,7 +63,7 @@ before(async () => {
       const path = resolve(dist, relative);
       if (!path.startsWith(`${dist}${sep}`)) { response.writeHead(404).end(); return; }
       const body = await readFile(path);
-      const type = relative.endsWith('.mjs') ? 'text/javascript' : relative.endsWith('.css') ? 'text/css' : relative.endsWith('.png') ? 'image/png' : 'text/html';
+      const type = relative.endsWith('.mjs') ? 'text/javascript' : relative.endsWith('.css') ? 'text/css' : relative.endsWith('.json') ? 'application/json' : relative.endsWith('.png') ? 'image/png' : 'text/html';
       response.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-store' }).end(body);
     } catch { response.writeHead(404).end(); }
   });
@@ -95,7 +106,12 @@ after(async () => {
 test('las rutas #flujo/<id> de la carcasa v3 renderizan contenido no vacío', async () => {
   const rutas = JSON.parse(await readFile(rutasPath, 'utf8'));
   const flujoIds = rutas.rutas.filter((r) => r.startsWith('#flujo/')).map((r) => decodeURIComponent(r.slice('#flujo/'.length)));
-  assert.ok(flujoIds.length > 0, 'Se encontraron rutas #flujo en rutas-v3.json');
+  assert.ok(flujoIds.length > 0, 'Se encontraron rutas #flujo en fixtures/flujo-rutas.json');
+
+  // El fixture de flujos debe cubrir exactamente las rutas #flujo auditadas.
+  const fixture = JSON.parse(await readFile(flujosFixturePath, 'utf8'));
+  const fixtureIds = fixture.flujos.map((f) => f.id).sort();
+  assert.deepEqual(fixtureIds, [...flujoIds].sort(), 'fixtures/flujo-demo.json no cubre las rutas #flujo del fixture de rutas');
 
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
   const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
@@ -107,7 +123,8 @@ test('las rutas #flujo/<id> de la carcasa v3 renderizan contenido no vacío', as
     await navigate(url, sessionId);
     const text = await evaluate('document.body.innerText', sessionId);
     assert.ok(text && text.trim().length > 20, `Ruta #flujo/${id} no renderizó contenido`);
-    assert.ok(text.includes('nodos') || text.includes('Volver al árbol'), `Ruta #flujo/${id} no muestra el visor de flujo`);
+    assert.ok(text.includes('nodos'), `Ruta #flujo/${id} no muestra el visor de flujo`);
+    assert.ok(!text.includes('Flujo no encontrado'), `Ruta #flujo/${id} no encontró el flujo en el fixture`);
   }
 
   await send('Target.closeTarget', { targetId });

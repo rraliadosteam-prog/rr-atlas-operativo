@@ -50,24 +50,24 @@ const processRows = [
   ['CP-1', 'Captación y venta de contenido y pauta', 'contenido', 'captacion', 'no-existe', 'Bot Pingui', FALLBACK_STATUS],
   ['CP-2', 'Producción de una pieza y publicación', 'contenido', 'entrega', 'valido', FALLBACK_STATUS, 'Dirección Operativa'],
   ['CP-3', 'Pauta en plataformas de anuncios', 'contenido', 'entrega', 'no-existe', FALLBACK_STATUS, FALLBACK_STATUS],
-  ['CP-5', 'Soporte, informe mensual y post mortem', 'contenido', 'soporte', 'deuda', FALLBACK_STATUS, 'Dirección'],
+  ['CP-5', 'Soporte, informe mensual y post mortem', 'contenido', 'soporte', 'valido', FALLBACK_STATUS, 'Dirección'],
   ['AL-1', 'Alianzas y referidos', 'otras', 'captacion', 'valido', FALLBACK_STATUS, 'Partnerships / Comercial'],
   ['PS-1', 'Paquetes de servicios', 'otras', 'venta', 'no-existe', FALLBACK_STATUS, 'Dirección'],
   ['NU-1', 'NÜMA, producto para locales', 'otras', 'entrega', 'no-existe', FALLBACK_STATUS, 'Dirección técnica'],
-  ['PL-1', 'Playbook comercial por segmento', 'otras', 'venta', 'deuda', FALLBACK_STATUS, 'Comercial'],
+  ['PL-1', 'Playbook comercial por segmento', 'otras', 'venta', 'valido', FALLBACK_STATUS, 'Comercial'],
   ['MD-1', 'Monetización digital', 'otras', 'entrega', 'pausa', FALLBACK_STATUS, FALLBACK_STATUS],
   ['IN-1', 'Cobro y facturación a clientes', 'otras', 'cobro', 'valido', 'Bot Fin + Bot Pingui', 'Finanzas'],
-  ['IN-2', 'Pago a colaboradores', 'otras', 'cobro', 'deuda', 'Bot Fin', 'Dirección'],
-  ['IN-3', 'La quincena y decisión de caja', 'otras', 'cobro', 'deuda', 'Bot Fin', 'Finanzas / Dirección'],
-  ['IN-4', 'Firma de contratos', 'otras', 'venta', 'deuda', FALLBACK_STATUS, 'Admin / Legal'],
-  ['IN-5', 'Onboarding de cliente genérico', 'otras', 'entrega', 'deuda', FALLBACK_STATUS, 'Dirección'],
-  ['IN-6', 'Soporte a clientes', 'otras', 'soporte', 'deuda', FALLBACK_STATUS, FALLBACK_STATUS],
+  ['IN-2', 'Pago a colaboradores', 'otras', 'cobro', 'valido', 'Bot Fin', 'Dirección'],
+  ['IN-3', 'La quincena y decisión de caja', 'otras', 'cobro', 'valido', 'Bot Fin', 'Finanzas / Dirección'],
+  ['IN-4', 'Firma de contratos', 'otras', 'venta', 'valido', FALLBACK_STATUS, 'Admin / Legal'],
+  ['IN-5', 'Onboarding de cliente genérico', 'otras', 'entrega', 'valido', FALLBACK_STATUS, 'Dirección'],
+  ['IN-6', 'Soporte a clientes', 'otras', 'soporte', 'valido', FALLBACK_STATUS, FALLBACK_STATUS],
   ['IN-7', 'Marca RR, contenido propio y redes', 'otras', 'captacion', 'no-existe', 'Bot Marca RR + Bot Pingui', FALLBACK_STATUS],
   ['IN-8', 'Conversión web a lead', 'otras', 'captacion', 'no-existe', 'Bot Captación', FALLBACK_STATUS],
   ['IN-9', 'Enrutamiento de leads entre bots', 'otras', 'captacion', 'borrador', 'Bot Captación + Botardo', 'Dirección'],
   ['IN-10', 'Convertir trabajo repetitivo en un agente', 'otras', 'entrega', 'valido', FALLBACK_STATUS, 'Tecnología / IA'],
   ['IN-11', 'Elegir y usar herramientas de IA', 'otras', 'entrega', 'valido', FALLBACK_STATUS, 'Tecnología / IA'],
-  ['IN-12', 'Gobierno documental', 'otras', 'soporte', 'deuda', FALLBACK_STATUS, 'Gobierno documental'],
+  ['IN-12', 'Gobierno documental', 'otras', 'soporte', 'valido', FALLBACK_STATUS, 'Gobierno documental'],
   ['IN-13', 'De dónde sale una respuesta', 'otras', 'soporte', 'valido', FALLBACK_STATUS, FALLBACK_STATUS],
   ['IN-14', 'Contratación y vinculación de talento', 'otras', 'captacion', 'no-existe', FALLBACK_STATUS, 'Dirección'],
   ['IN-15', 'Normativa y cumplimiento', 'otras', 'soporte', 'no-existe', 'Bot Fin', 'Contadora / Dirección'],
@@ -88,21 +88,26 @@ const safeId = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 
 // Se conservan los IDs de los dos bots que ya eran públicos. Los demás son
 // estables y no dependen de nombres de personas, clientes o proyectos reales.
+// Decisión de Rosas (2026-11-02 19:22): Buen Puente y Becas de Exposición son
+// bots vigentes; Media Manager y Gains quedan «sin confirmar». El resto de la
+// flota sale del «Manual de los bots de RR (oct 2026)», corte 2026-10-24.
+const VIGENTE = 'Vigente';
+const SIN_CONFIRMAR = 'Sin confirmar';
 const botDefinitions = [
-  { id: 'bot-captacion', title: 'Bot Captación' },
-  { id: 'bot-bot-ropa-saas', title: 'Bot Ropa SaaS' },
-  { id: 'bot-bot-resto-saas', title: 'Bot Resto SaaS' },
-  { id: 'bot-bot-buen-puente', title: 'Bot Buen Puente' },
-  { id: 'bot-bot-creadores', title: 'Bot Creadores' },
-  { id: 'bot-marca-rr', title: 'Bot Marca RR' },
-  { id: 'bot-media-manager', title: 'Bot Media Manager' },
-  { id: 'bot-fin', title: 'Bot Fin' },
-  { id: 'bot-gains', title: 'Bot Gains' },
-  { id: 'bot-becas-y-exposicion', title: 'Bot Becas y Exposicion' },
-  { id: 'bot-pingui', title: 'Bot Pingui' },
-  { id: 'bot-secre', title: 'Bot secre' },
-  { id: 'bot-botardo-bot-fin', title: 'Botardo' },
-  { id: 'bot-atlas', title: 'Bot Atlas' },
+  { id: 'bot-captacion', title: 'Bot Captación', estado: VIGENTE },
+  { id: 'bot-bot-ropa-saas', title: 'Bot Ropa SaaS', estado: VIGENTE },
+  { id: 'bot-bot-resto-saas', title: 'Bot Resto SaaS', estado: VIGENTE },
+  { id: 'bot-bot-buen-puente', title: 'Bot Buen Puente', estado: VIGENTE },
+  { id: 'bot-bot-creadores', title: 'Bot Creadores', estado: VIGENTE },
+  { id: 'bot-marca-rr', title: 'Bot Marca RR', estado: VIGENTE },
+  { id: 'bot-media-manager', title: 'Bot Media Manager', estado: SIN_CONFIRMAR },
+  { id: 'bot-fin', title: 'Bot Fin', estado: VIGENTE },
+  { id: 'bot-gains', title: 'Bot Gains', estado: SIN_CONFIRMAR },
+  { id: 'bot-becas-y-exposicion', title: 'Bot Becas y Exposicion', estado: VIGENTE },
+  { id: 'bot-pingui', title: 'Bot Pingui', estado: VIGENTE },
+  { id: 'bot-secre', title: 'Bot secre', estado: VIGENTE },
+  { id: 'bot-botardo-bot-fin', title: 'Botardo', estado: VIGENTE },
+  { id: 'bot-atlas', title: 'Bot Atlas', estado: VIGENTE },
 ];
 
 const crossEvidence = [
@@ -214,7 +219,7 @@ export function createRRGraph(localData = localOverrides) {
   const rootX = 7 * laneWidth / 2 - 135;
   addNode({
     id: 'rr-labs',
-    title: 'RR Labs',
+    title: 'RR Aliados',
     type: 'root',
     level: 0,
     x: rootX,
@@ -236,8 +241,10 @@ export function createRRGraph(localData = localOverrides) {
       x: 150 + index * 220,
       y: 2320,
       color: 'orchid',
-      status: FALLBACK_STATUS,
-      desc: 'Bot interno representado por un rol genérico; solo se enlaza con evidencia de las fuentes.',
+      status: bot.estado ?? FALLBACK_STATUS,
+      desc: bot.estado === SIN_CONFIRMAR
+        ? 'Bot interno representado por un rol genérico. Su estado quedó «sin confirmar» (decisión de Rosas, 2026-11-02).'
+        : 'Bot interno representado por un rol genérico; solo se enlaza con evidencia de las fuentes.',
       owner: 'Rol genérico',
       lineId: 'transversal',
       stage: '',
@@ -380,4 +387,4 @@ export function getInternalTreeCopy(text) {
     .replace(/alcance público/g, 'alcance interno');
 }
 
-export { FALLBACK_STATUS, botDefinitions, lineDefinitions, processRows, stages, statusLabels };
+export { FALLBACK_STATUS, VIGENTE, SIN_CONFIRMAR, botDefinitions, lineDefinitions, processRows, stages, statusLabels };

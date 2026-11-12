@@ -73,6 +73,11 @@ button { cursor: pointer; }
 button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--mustard); outline-offset: 2px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .app { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* El atributo hidden siempre gana. Varias reglas del shell declaran display
+   (.shell es grid, .toast y .button son inline-flex) y anulaban el hidden:
+   el mapa seguía ocupando media pantalla cuando la vista BPMN estaba abierta. */
+[hidden] { display: none !important; }
 .topbar { min-height: 78px; padding: 14px 28px; display: flex; align-items: center; gap: var(--space-6); background: var(--ink); color: var(--cream); position: sticky; top: 0; z-index: 30; box-shadow: 0 2px 0 var(--crema-10); }
 .brand { display: flex; align-items: center; gap: var(--space-3); color: inherit; text-decoration: none; min-width: 220px; }
 .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; background: var(--fuchsia); color: var(--cream); font: 800 16px/1 var(--font-display); letter-spacing: -.08em; overflow: hidden; box-shadow: var(--pixel-border); }
@@ -144,6 +149,26 @@ h1, h2, h3, strong { font-family: var(--font-display); }
 .inspector { position: relative; z-index: 15; background: var(--cream); border-left: 1px solid var(--line); box-shadow: -12px 0 30px var(--ink-06); overflow: auto; }.inspector-head { min-height: 85px; padding: 20px 18px var(--space-3); display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); }.inspector h2 { margin: 5px 0 0; font-size: 22px; line-height: 1; letter-spacing: -.04em; }.inspector-body { padding: 18px; }.empty { color: var(--muted); font-size: 12px; }.empty.small { margin: 10px 0; font-size: 10px; }.inspector-detail { margin: 10px 0 18px; color: var(--muted); font-size: 12px; }.inspector-badge { display: inline-flex; padding: 5px var(--space-2); border-radius: 999px; background: var(--rr-orquidea-12); color: var(--orchid); font: 700 10px var(--font-body); text-transform: uppercase; }.field { display: grid; gap: 6px; margin: var(--space-3) 0; color: var(--muted); font-size: 10px; font-weight: 600; }.field input, .field textarea { width: 100%; min-height: 44px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); resize: vertical; }.field textarea { min-height: 72px; }.inspector-links { margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line); }.section-line { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }.section-line strong { font-size: 15px; }.link-row { min-height: 44px; margin-top: 7px; padding: 5px 5px 5px 9px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); border-radius: 8px; background: var(--sand); font-size: 10px; }.link-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.inspector-actions { margin-top: 22px; }.footer { min-height: 38px; padding: 0 22px; display: flex; align-items: center; justify-content: space-between; color: var(--crema-72); background: var(--ink); font-size: 10px; }.toast { position: fixed; right: 22px; bottom: 22px; z-index: 50; max-width: 320px; padding: 13px var(--space-4); border-radius: 10px; color: var(--cream); background: var(--ink); box-shadow: var(--shadow); font-size: 12px; }.toast[hidden] { display: none; }
 .help-dialog { width: min(440px, calc(100vw - 28px)); padding: 0; border: 0; border-radius: 16px; color: var(--ink); background: var(--cream); box-shadow: var(--shadow); }.help-dialog::backdrop { background: var(--ink-55); backdrop-filter: blur(3px); }.help-dialog form { padding: 22px; }.dialog-head { display: flex; align-items: flex-start; justify-content: space-between; }.help-dialog h2 { margin: var(--space-2) 0 0; font-size: 25px; }.help-dialog ul { margin: 22px 0; padding-left: 20px; color: var(--muted); }.help-dialog li { margin: 10px 0; }
 @media (max-width: 1100px) { .shell { --rail-width: 210px; }.shell:has(.inspector.is-open:not([hidden])) { --editor-width: 290px; } .brand { min-width: 190px; } }
+/* Item 7 · barra superior compacta en tablet: la marca y las acciones bajan de
+   tamaño y «Añadir nodo» se queda en el ícono, pero todos los objetivos
+   táctiles siguen midiendo 44 px o más. */
+@media (max-width: 900px) {
+  .topbar { min-height: 62px; padding: 8px var(--space-3); gap: var(--space-2); }
+  .brand { min-width: auto; gap: var(--space-2); }
+  .brand-mark { width: 34px; height: 34px; border-radius: 10px; }
+  .brand strong { font-size: 14px; }
+  .brand small { margin-top: 1px; font-size: 9px; }
+  .searchbar { max-width: none; }
+  .searchbar input { min-height: 44px; font-size: 13px; }
+  .brand { min-height: 44px; }
+  /* Item A · con el tablero encuadrado al 45 % los botones del nodo quedaban
+     en 19,8 px en pantalla: se compensan con el zoom para que el dedo los
+     alcance sin problema. */
+  .node-controls { transform: scale(var(--zoom-inv, 1)); transform-origin: top right; }
+  .top-actions { gap: 4px; }
+  .top-actions .button { min-height: 44px; min-width: 44px; padding-inline: 10px; }
+  .topbar__texto { display: none; }
+}
 @media (max-width: 760px) {
   .topbar { min-height: 68px; padding: 10px var(--space-3); gap: 10px; flex-wrap: wrap; }.brand { min-width: auto; flex: 1; }.brand-mark { width: 38px; height: 38px; }.brand strong { font-size: 15px; }.brand small { font-size: 9px; }.top-actions .button { padding-inline: 10px; font-size: 11px; }.searchbar { order: 3; flex-basis: 100%; max-width: none; }.searchbar input { min-height: 44px; }
   .shell { display: block; min-height: calc(100vh - 68px); }.rail { display: block; padding: 10px var(--space-3); border-right: 0; border-bottom: 1px solid var(--line); }.rail-panel:not([open]) .rail-content { display: none; }.rail-content { gap: 14px; margin-top: 10px; }.workspace { min-height: calc(100vh - 68px); }.toolbar { min-height: 64px; padding: 9px var(--space-3); align-items: flex-start; }.toolbar-title strong { font-size: 13px; }.toolbar-actions { gap: 5px; }.toolbar-actions .button-small { min-width: 44px; padding-inline: var(--space-2); }.toolbar-actions .button-small[data-action="toggle-minimap"] { display: none; }.canvas-wrap { min-height: calc(100vh - 250px); }.canvas-hint { left: 12px; bottom: 12px; max-width: calc(100vw - 24px); white-space: normal; }.minimap { right: 12px; bottom: 56px; }.inspector { position: fixed; left: 0; right: 0; bottom: 0; max-height: min(67vh, 580px); border: 0; border-top: 4px solid var(--fuchsia); border-radius: 22px 22px 0 0; transform: translateY(calc(100% - 74px)); transition: transform .28s ease, box-shadow .28s ease; box-shadow: 0 -18px 38px var(--ink-18); }.inspector.is-open { transform: translateY(0); box-shadow: 0 -24px 60px var(--ink-24); }.inspector-head { min-height: 70px; padding: 14px var(--space-4) 10px; }.inspector-head::before { content: ''; position: absolute; top: 9px; left: 50%; width: 46px; height: 4px; border-radius: 4px; background: var(--ink-18); }.inspector-body { max-height: calc(67vh - 70px); padding: 14px var(--space-4) 28px; overflow: auto; }.inspector-close { margin-top: 6px; }.footer { padding: 0 var(--space-3); font-size: 9px; }.footer span:last-child { display: none; }
@@ -341,6 +366,10 @@ body::before {
 }
 
 /* Enlace "Volver al hub RR" ---------------------------------------------- */
+/* "hidden" debe ganar a display:flex/inline-flex de los botones. */
+.button-hub[hidden],
+.button[hidden] { display: none; }
+
 .button-hub {
   border: 2px solid var(--ink);
   border-radius: 0;

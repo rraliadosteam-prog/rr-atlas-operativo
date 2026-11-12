@@ -1,0 +1,267 @@
+/* --------------------------------------------------------------------------
+   Atlas RR · vista Datos (esquema v5)
+   Se apoya en el sistema de diseño de B (src/rr-estilo/tokens.css).
+   Regla: ningún color, tipografía ni espaciado propio; solo tokens de marca.
+   -------------------------------------------------------------------------- */
+
+.datos-view {
+  --datos-fondo: var(--rr-crema);
+  --datos-panel: #fffdf5;
+  --datos-linea: rgba(7, 0, 1, 0.13);
+  --datos-texto: var(--rr-negro);
+  --datos-suave: rgba(7, 0, 1, 0.62);
+  --datos-acento: var(--rr-fucsia);
+  --datos-alerta: var(--rr-mostaza);
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--datos-fondo);
+  color: var(--datos-texto);
+  font-family: var(--font-texto);
+  overflow: hidden;
+}
+
+.datos-view[hidden] { display: none; }
+
+.datos-view .button-ghost {
+  color: var(--datos-texto);
+  border-color: rgba(7, 0, 1, 0.28);
+}
+
+.datos-view .button-ghost:hover,
+.datos-view .button-ghost:focus-visible {
+  color: var(--datos-acento);
+  border-color: var(--datos-acento);
+}
+
+.datos-view__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5) var(--space-3);
+  border-bottom: 2px solid var(--datos-linea);
+  background: var(--datos-panel);
+}
+
+.datos-view__identidad {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.datos-view__marca { display: none; }
+
+.datos-view__title {
+  margin: 0;
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+}
+
+.datos-view__hint {
+  margin: var(--space-1) 0 0;
+  font-size: 0.8rem;
+  color: var(--datos-suave);
+  max-width: 70ch;
+}
+
+.datos-view__version {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--datos-linea);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.datos-view__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.datos-view__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--space-4) var(--space-5) var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-content: start;
+}
+
+.datos-panel {
+  background: var(--datos-panel);
+  border: 1px solid var(--datos-linea);
+  border-radius: 6px;
+  padding: var(--space-4);
+  min-width: 0;
+}
+
+.datos-panel--ancho { grid-column: 1 / -1; }
+
+.datos-panel__titulo {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-titulo);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--datos-texto);
+}
+
+.datos__rejilla {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.datos__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--datos-linea);
+}
+
+.datos__etiqueta { font-size: 0.82rem; color: var(--datos-suave); }
+
+.datos__cifra {
+  font-family: var(--font-titulo);
+  font-size: 1.1rem;
+  color: var(--datos-acento);
+}
+
+.datos__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+  max-height: 260px;
+  overflow: auto;
+}
+
+.datos__linea {
+  font-size: 0.84rem;
+  padding: var(--space-1) 0;
+  border-bottom: 1px dashed var(--datos-linea);
+  overflow-wrap: anywhere;
+}
+
+.datos__tipo {
+  display: inline-block;
+  min-width: 58px;
+  margin-right: var(--space-2);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--datos-suave);
+}
+
+.datos__tipo[data-tipo="nuevo"] { color: var(--datos-acento); }
+.datos__tipo[data-tipo="quitado"] { color: var(--datos-alerta); }
+
+.datos__vacio {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--datos-suave);
+}
+
+.datos__ok,
+.datos__mal {
+  margin: 0;
+  font-size: 0.86rem;
+  padding: var(--space-2);
+  border-left: 3px solid var(--datos-acento);
+  background: rgba(190, 7, 109, 0.06);
+}
+
+.datos__mal { border-left-color: var(--datos-alerta); background: rgba(222, 209, 22, 0.14); }
+
+.datos-confirmacion {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--datos-acento);
+  border-radius: 4px;
+  background: rgba(190, 7, 109, 0.05);
+}
+
+.datos-confirmacion[hidden] { display: none; }
+
+.datos-confirmacion__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .datos-view__head {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-3) var(--space-4) var(--space-2);
+  }
+
+  .datos-view__body {
+    padding: var(--space-3) var(--space-3) var(--space-5);
+    grid-template-columns: 1fr;
+  }
+
+  .datos-view__actions .button { min-height: 44px; }
+}
+
+/* ── Lo que falta confirmar (mega prompt §10) ───────────────────────────── */
+
+.datos__intro {
+  margin: 0 0 var(--space-3);
+  font-size: 0.85rem;
+  color: var(--datos-suave);
+  max-width: 80ch;
+}
+
+.datos-pendientes__grupo {
+  margin-bottom: var(--space-3);
+}
+
+.datos-pendientes__titulo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-titulo);
+  font-size: 0.92rem;
+  letter-spacing: -0.01em;
+}
+
+.datos-pendientes__titulo span {
+  font-family: var(--font-texto);
+  font-size: 0.75rem;
+  color: var(--datos-suave);
+}
+
+.datos__detalle {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--datos-suave);
+}
+
+.datos__fuente {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--datos-suave);
+  opacity: 0.85;
+}

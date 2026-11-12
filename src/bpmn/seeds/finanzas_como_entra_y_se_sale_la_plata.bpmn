@@ -10,44 +10,45 @@ Dueno del proceso: DESCONOCIDO (el spec no lo declara)
 KPI: DESCONOCIDO (el spec no lo declara)
 Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json</bpmn:documentation>
     <bpmn:laneSet id="laneset_1">
-      <bpmn:lane id="lane_1" name="1 · Cobrar">
+      <bpmn:lane id="lane_1" name="Comercial">
         <bpmn:flowNodeRef>e_ini</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_cotiza</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_escrito</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_emite</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_entra</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_2" name="2 · Registrar">
+      <bpmn:lane id="lane_2" name="Finanzas">
         <bpmn:flowNodeRef>g_cuadra</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_revisa</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_anota</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_espejo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_persigue</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_informa</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_informa_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>e_fin</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="lane_3" name="3 · La ventana de caja"/>
+      <bpmn:lane id="lane_3" name="Dirección · La ventana de caja"/>
     </bpmn:laneSet>
     <bpmn:startEvent id="e_ini" name="El cliente pide">
       <bpmn:outgoing>sf_1</bpmn:outgoing>
       <bpmn:messageEventDefinition id="ed_e_ini"/>
     </bpmn:startEvent>
-    <bpmn:task id="t_cotiza" name="1. Cotiza o acuerdo">
+    <bpmn:task id="t_cotiza" name="1. Cotizar o cerrar el acuerdo">
       <bpmn:documentation>El cliente pide algo. Hay que ponerle precio.</bpmn:documentation>
       <bpmn:incoming>sf_1</bpmn:incoming>
       <bpmn:outgoing>sf_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_escrito" name="2. Se pone por escrito">
+    <bpmn:task id="t_escrito" name="2. Poner el acuerdo por escrito">
       <bpmn:documentation>Contrato o soporte. Sin esto no se cobra.</bpmn:documentation>
       <bpmn:incoming>sf_2</bpmn:incoming>
       <bpmn:outgoing>sf_3</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_emite" name="3. Se emite la cuenta">
+    <bpmn:task id="t_emite" name="3. Emitir la cuenta de cobro">
       <bpmn:documentation>La factura o Cuenta de Cobro al cliente.</bpmn:documentation>
       <bpmn:incoming>sf_3</bpmn:incoming>
       <bpmn:outgoing>sf_4</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_entra" name="4. Entra la plata">
+    <bpmn:task id="t_entra" name="4. Registrar el ingreso">
       <bpmn:documentation>El cliente paga. CLIENTE_C entra [CIFRA] cada mes.</bpmn:documentation>
       <bpmn:incoming>sf_4</bpmn:incoming>
       <bpmn:outgoing>sf_5</bpmn:outgoing>
@@ -57,12 +58,12 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json<
       <bpmn:outgoing>sf_6</bpmn:outgoing>
       <bpmn:outgoing>sf_7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="t_revisa" name="Se revisa que cuadre">
+    <bpmn:task id="t_revisa" name="Revisar que cuadre">
       <bpmn:documentation>Se comprueba que la plata es la que debía.</bpmn:documentation>
       <bpmn:incoming>sf_6</bpmn:incoming>
       <bpmn:outgoing>sf_8</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_anota" name="6. Se anota">
+    <bpmn:task id="t_anota" name="6. Registrar el movimiento">
       <bpmn:documentation>Todo va a captura.json. En ningún otro archivo.</bpmn:documentation>
       <bpmn:incoming>sf_8</bpmn:incoming>
       <bpmn:outgoing>sf_9</bpmn:outgoing>
@@ -73,22 +74,26 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json<
         <bpmn:targetRef>prop_t_anota</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:task>
-    <bpmn:task id="t_espejo" name="7. Se sube al espejo">
+    <bpmn:task id="t_espejo" name="7. Subir los datos al espejo">
       <bpmn:documentation>sync_corte.py lo publica. El tablero solo muestra: nunca se edita a mano.</bpmn:documentation>
       <bpmn:incoming>sf_9</bpmn:incoming>
       <bpmn:outgoing>sf_12</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_persigue" name="8. Se persigue lo que falta">
+    <bpmn:task id="t_persigue" name="8. Persistir lo que falta">
       <bpmn:documentation>Quién debe y desde cuándo. Cartera vencida hoy: [CIFRA]</bpmn:documentation>
       <bpmn:incoming>sf_7</bpmn:incoming>
       <bpmn:outgoing>sf_10</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_informa" name="9. Se informa">
+    <bpmn:task id="t_informa" name="9. Informar el resultado">
       <bpmn:documentation>Reporte semanal de cartera.</bpmn:documentation>
-      <bpmn:incoming>sf_10</bpmn:incoming>
-      <bpmn:incoming>sf_12</bpmn:incoming>
+      <bpmn:incoming>sf_t_informa_join</bpmn:incoming>
       <bpmn:outgoing>sf_11</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:parallelGateway id="t_informa_join">
+      <bpmn:incoming>sf_10</bpmn:incoming>
+      <bpmn:incoming>sf_12</bpmn:incoming>
+      <bpmn:outgoing>sf_t_informa_join</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:endEvent id="e_fin" name="Cerrado el ciclo">
       <bpmn:incoming>sf_11</bpmn:incoming>
     </bpmn:endEvent>
@@ -100,17 +105,18 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json<
       <bpmn:documentation>Almacén · la única fuente de los números.</bpmn:documentation>
     </bpmn:dataStoreReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_cotiza"/>
-    <bpmn:sequenceFlow id="sf_2" sourceRef="t_cotiza" targetRef="t_escrito" name="se formaliza"/>
-    <bpmn:sequenceFlow id="sf_3" sourceRef="t_escrito" targetRef="t_emite" name="se factura"/>
+    <bpmn:sequenceFlow id="sf_2" sourceRef="t_cotiza" targetRef="t_escrito"/>
+    <bpmn:sequenceFlow id="sf_3" sourceRef="t_escrito" targetRef="t_emite"/>
     <bpmn:sequenceFlow id="sf_4" sourceRef="t_emite" targetRef="t_entra"/>
     <bpmn:sequenceFlow id="sf_5" sourceRef="t_entra" targetRef="g_cuadra"/>
     <bpmn:sequenceFlow id="sf_6" sourceRef="g_cuadra" targetRef="t_revisa" name="sí"/>
     <bpmn:sequenceFlow id="sf_7" sourceRef="g_cuadra" targetRef="t_persigue" name="no: falta plata"/>
     <bpmn:sequenceFlow id="sf_8" sourceRef="t_revisa" targetRef="t_anota"/>
-    <bpmn:sequenceFlow id="sf_9" sourceRef="t_anota" targetRef="t_espejo" name="se publica"/>
-    <bpmn:sequenceFlow id="sf_10" sourceRef="t_persigue" targetRef="t_informa"/>
+    <bpmn:sequenceFlow id="sf_9" sourceRef="t_anota" targetRef="t_espejo"/>
+    <bpmn:sequenceFlow id="sf_10" sourceRef="t_persigue" targetRef="t_informa_join"/>
     <bpmn:sequenceFlow id="sf_11" sourceRef="t_informa" targetRef="e_fin"/>
-    <bpmn:sequenceFlow id="sf_12" sourceRef="t_espejo" targetRef="t_informa" name="y se reporta"/>
+    <bpmn:sequenceFlow id="sf_12" sourceRef="t_espejo" targetRef="t_informa_join"/>
+    <bpmn:sequenceFlow id="sf_t_informa_join" sourceRef="t_informa_join" targetRef="t_informa"/>
     <bpmn:association id="as_1" sourceRef="d_ventana" targetRef="g_cuadra" associationDirection="One">
       <bpmn:documentation>el riesgo</bpmn:documentation>
     </bpmn:association>
@@ -184,6 +190,9 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json<
       <bpmndi:BPMNShape id="t_informa_di" bpmnElement="t_informa">
         <dc:Bounds x="2090" y="305" width="150" height="80"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_informa_di_join_di" bpmnElement="t_informa_join" isMarkerVisible="true">
+        <dc:Bounds x="2000" y="225" width="50" height="50"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="e_fin_di" bpmnElement="e_fin">
         <dc:Bounds x="2357" y="327" width="36" height="36"/>
         <bpmndi:BPMNLabel>
@@ -246,6 +255,10 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json<
         <di:waypoint x="1610" y="475"/>
         <di:waypoint x="2070" y="475"/>
         <di:waypoint x="2070" y="345"/>
+        <di:waypoint x="2050" y="250"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sf_t_informa_join_di" bpmnElement="sf_t_informa_join">
+        <di:waypoint x="2050" y="250"/>
         <di:waypoint x="2090" y="345"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_11_di" bpmnElement="sf_11">
@@ -254,7 +267,7 @@ Fuente: _herramientas/esquemas_bpmn/finanzas_como_entra_y_se_sale_la_plata.json<
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sf_12_di" bpmnElement="sf_12">
         <di:waypoint x="2030" y="345"/>
-        <di:waypoint x="2090" y="345"/>
+        <di:waypoint x="2050" y="250"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="dia_1_di" bpmnElement="dia_1">
         <di:waypoint x="1745" y="650"/>

@@ -1,0 +1,125 @@
+{
+  "cliente": [
+    {
+      "id": "cliente-boga",
+      "nombreCanonico": "BOGA",
+      "nombre": "BOGA",
+      "descripcion": "Cliente activo (decisión de Rosas del 2026-11-02).",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "activo",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-candilejas",
+      "nombreCanonico": "Candilejas + 553",
+      "nombre": "Candilejas + 553",
+      "descripcion": "Sistema multi sede (6 sedes + 553) con pedidos, panel de cocina y meseros y NFC en mesas. Lo absorbe DashWeb (decisión del 2026-09-26).",
+      "fuente": "20_Empresa/proyectos.md · 00_HUECOS",
+      "corte": "2026-10-14",
+      "estado": "activo",
+      "etiquetas": ["cliente", "proyecto"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-imf",
+      "nombreCanonico": "IMF Weddings",
+      "nombre": "IMF Weddings",
+      "descripcion": "Cliente activo. Decisión de Rosas del 2026-11-02: «IMF Weddings» e «IMF Visions» son el mismo cliente; el Atlas usa un solo nombre.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "activo",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-wundeer",
+      "nombreCanonico": "Wundeer",
+      "nombre": "Wundeer",
+      "descripcion": "Desarrollo, contenido y pauta. También escrito Wunder o Wuundeer. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · 20_Empresa/proyectos.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-satiro",
+      "nombreCanonico": "Satiro_Sushi",
+      "nombre": "Satiro_Sushi",
+      "descripcion": "Pausado en la fuente (2026-09-26).",
+      "fuente": "00_RUTAS.md",
+      "corte": "2026-09-26",
+      "estado": "pausado",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-amsterdam",
+      "nombreCanonico": "Amsterdam",
+      "nombre": "Amsterdam",
+      "descripcion": "Sin estado escrito en la fuente. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-zapatos",
+      "nombreCanonico": "Zapatos / Shoes Colombia",
+      "nombre": "Zapatos / Shoes Colombia",
+      "descripcion": "La relación con RR no está confirmada. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente", "relación sin confirmar"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-anheyca",
+      "nombreCanonico": "Turismo Anheyca",
+      "nombre": "Turismo Anheyca",
+      "descripcion": "Sin documentar en la fuente. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-charly-brown",
+      "nombreCanonico": "Billares Charly Brown",
+      "nombre": "Billares Charly Brown",
+      "descripcion": "Sin estado escrito en la fuente. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-siraitia",
+      "nombreCanonico": "Siraitia",
+      "nombre": "Siraitia",
+      "descripcion": "Cliente histórico en la fuente. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente", "histórico"],
+      "actualizadoEn": "2026-11-02"
+    },
+    {
+      "id": "cliente-alma-mente",
+      "nombreCanonico": "Alma_y_Mente",
+      "nombre": "Alma_y_Mente",
+      "descripcion": "Cliente histórico en la fuente. En pausa por decisión del 2026-11-02.",
+      "fuente": "00_RUTAS.md · decisión de Rosas 2026-11-02",
+      "corte": "2026-11-02",
+      "estado": "pausado",
+      "etiquetas": ["cliente", "histórico"],
+      "actualizadoEn": "2026-11-02"
+    }
+  ]
+}

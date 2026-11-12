@@ -3,22 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="RR Labs · Atlas de procesos y bots">
-  <title>RR Labs · Atlas de procesos</title>
+  <meta name="description" content="RR Aliados · Atlas operativo de procesos y bots">
+  <title>RR Aliados · Atlas operativo</title>
   <link rel="icon" type="image/png" href="/src/rr-estilo/logos/simbolo_transparent_mostaza.png">
   <!-- Sistema de diseño único RR (vendorizado desde ~/rr-estilo) -->
   <link rel="stylesheet" href="/src/rr-estilo/tokens.css">
   <link rel="stylesheet" href="/src/rr-estilo/componentes.css">
   <link rel="stylesheet" href="/src/styles/rr-tree.css">
+  <link rel="stylesheet" href="/src/styles/bpmn.css">
+  <link rel="stylesheet" href="/src/styles/datos.css">
+  <link rel="stylesheet" href="/src/bpmn/vendor/diagram-js.css">
+  <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-js.css">
+  <link rel="stylesheet" href="/src/bpmn/vendor/bpmn-font/css/bpmn.css">
 </head>
 <body>
   <div class="app" id="rr-app">
     <header class="topbar">
-      <a class="brand" href="#top" aria-label="RR Labs, inicio">
+      <a class="brand" href="#top" aria-label="RR Aliados, inicio">
         <span class="brand-mark" aria-hidden="true">
           <img class="brand-mark__png" src="/src/rr-estilo/logos/simbolo_transparent_mostaza.png" alt="" width="42" height="42" decoding="async">
         </span>
-        <span><strong>RR LABS</strong><small>Atlas de procesos</small></span>
+        <span><strong>RR ALIADOS</strong><small>Atlas operativo</small></span>
       </a>
       <div class="searchbar" role="search">
         <label class="sr-only" for="node-search">Buscar en el Atlas</label>
@@ -26,9 +31,12 @@
         <button class="icon-button" data-action="search" type="button" aria-label="Buscar">⌕</button>
       </div>
       <div class="top-actions">
-        <a class="button button-hub" data-hub-link href="http://localhost:8081/" rel="noopener" aria-label="Volver al hub RR"><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
+        <!-- "Volver al hub RR" queda oculto hasta que exista la URL real del hub (decisión de Rosas). -->
+        <a class="button button-hub" data-hub-link href="http://localhost:8081/" rel="noopener" aria-label="Volver al hub RR" hidden><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
+        <a class="button button-ghost" data-bpmn-link href="#/bpmn" aria-label="Ver el catálogo BPMN"><span aria-hidden="true">◇</span><span class="hub-label hub-label--full" aria-hidden="true">BPMN</span></a>
+        <a class="button button-ghost" data-datos-link href="#/datos" aria-label="Ver los datos del Atlas" title="Datos del Atlas: exportar, importar y validar"><span aria-hidden="true">⛁</span><span class="hub-label hub-label--full" aria-hidden="true">Datos</span></a>
         <button class="button button-ghost" data-action="help" type="button">Guía</button>
-        <button class="button button-primary" data-action="add-node" type="button">＋ Añadir nodo</button>
+        <button class="button button-primary" data-action="add-node" type="button" aria-label="Añadir nodo" title="Añadir nodo"><span aria-hidden="true">＋</span><span class="topbar__texto">Añadir nodo</span></button>
       </div>
     </header>
 
@@ -57,7 +65,8 @@
           <button class="button button-outline" data-action="focus-branch" type="button">◎ Enfocar rama</button>
           <button class="button button-outline" data-action="order" type="button">↕ Ordenar árbol</button>
           <button class="button button-outline" data-action="toggle-cross" type="button" aria-pressed="false">◇ Mostrar cross</button>
-          <button class="button button-outline" data-action="restore" type="button">↺ Restaurar original</button>
+          <a class="button button-outline" data-bpmn-link-rail href="#/bpmn">◇ Procesos BPMN</a>
+        <button class="button button-outline" data-action="restore" type="button">↺ Restaurar original</button>
           <button class="button button-outline" data-action="export" type="button">↓ Exportar JSON</button>
           <button class="button button-outline" data-action="import" type="button">↑ Importar JSON</button>
           <input data-import-input type="file" accept="application/json,.json" hidden>
@@ -77,7 +86,7 @@
 
       <section class="workspace" aria-label="Editor visual del mapa">
         <div class="toolbar">
-          <div class="toolbar-title"><span class="eyebrow">Vista editorial</span><strong>RR Labs <span>→</span> operación conectada</strong><nav class="breadcrumbs" data-breadcrumbs aria-label="Migas de pan"></nav></div>
+          <div class="toolbar-title"><span class="eyebrow">Vista editorial</span><strong>RR Aliados <span>→</span> Atlas operativo</strong><nav class="breadcrumbs" data-breadcrumbs aria-label="Migas de pan"></nav></div>
           <div class="toolbar-actions">
             <button class="button button-small" data-action="zoom-out" type="button" aria-label="Alejar">−</button>
             <output data-zoom aria-live="polite">100%</output>
@@ -101,6 +110,207 @@
         <div class="inspector-body" data-inspector-body><p class="empty">Selecciona un cuadro del mapa para ver sus detalles.</p></div>
       </aside>
     </main>
+
+    <!-- Vista BPMN: catálogo por áreas + lienzo bpmn-js (ruta #/bpmn) -->
+    <section class="bpmn-view" data-bpmn-view hidden aria-label="Catálogo de procesos BPMN">
+      <div class="bpmn-view__head">
+        <div class="bpmn-view__identidad">
+          <span class="bpmn-view__marca" aria-hidden="true">RR</span>
+          <div>
+            <span class="eyebrow">Procesos</span>
+            <h1 class="bpmn-view__title" data-bpmn-title>Catálogo BPMN</h1>
+            <p class="bpmn-view__hint" data-bpmn-status>Elige un proceso del catálogo para verlo en el lienzo.</p>
+          </div>
+        </div>
+        <div class="bpmn-view__actions">
+          <button class="button button-ghost" type="button" data-bpmn-accion="dividir" aria-pressed="false" title="Dividir la pantalla: diagrama y panel al lado"><span aria-hidden="true">▥</span><span class="bpmn-accion__texto">Dividir</span></button>
+          <a class="button button-ghost" href="#/bpmn" data-bpmn-catalog-link aria-label="Ver el catálogo de procesos" title="Ver el catálogo de procesos"><span aria-hidden="true">☰</span><span class="bpmn-accion__texto">Procesos</span></a>
+          <a class="button button-ghost" href="#top" data-bpmn-back aria-label="Volver al mapa vivo" title="Volver al mapa vivo"><span aria-hidden="true">←</span><span class="bpmn-accion__texto">Volver al mapa</span></a>
+        </div>
+      </div>
+      <div class="bpmn-view__body">
+        <aside class="bpmn-catalog" aria-label="Catálogo por áreas">
+          <div class="bpmn-catalog__search">
+            <label class="sr-only" for="bpmn-search">Buscar proceso BPMN</label>
+            <input id="bpmn-search" type="search" data-bpmn-search placeholder="Buscar proceso" autocomplete="off">
+          </div>
+          <div data-bpmn-catalog></div>
+        </aside>
+        <section class="bpmn-stage" aria-label="Lienzo BPMN">
+          <div class="bpmn-toolbar" role="toolbar" aria-label="Controles del proceso BPMN">
+            <!-- Item 7 · en celular los controles menos usados van en un menú «⋯»
+                 que queda fijo a la izquierda de la barra deslizable. -->
+            <details class="bpmn-menu bpmn-menu--mas" data-bpmn-menu-mas>
+              <summary class="button button-small" aria-label="Más acciones del diagrama" title="Más acciones del diagrama">⋯</summary>
+              <div class="bpmn-menu__lista">
+                <button class="button button-small" type="button" data-bpmn-accion="deshacer">↶ Deshacer</button>
+                <button class="button button-small" type="button" data-bpmn-accion="rehacer">↷ Rehacer</button>
+                <button class="button button-small" type="button" data-bpmn-accion="guardar">Guardar copia</button>
+                <button class="button button-small" type="button" data-bpmn-accion="restaurar">Restaurar semilla</button>
+                <button class="button button-small" type="button" data-bpmn-accion="bpmn">Exportar .bpmn</button>
+                <button class="button button-small" type="button" data-bpmn-accion="svg">Exportar SVG</button>
+                <button class="button button-small" type="button" data-bpmn-accion="png">Exportar PNG</button>
+              </div>
+            </details>
+            <button class="button button-small" type="button" data-bpmn-accion="pantalla" aria-pressed="false" title="Abrir el diagrama a pantalla completa">⛶ Pantalla completa</button>
+            <button class="button button-small bpmn-toolbar__dividir" type="button" data-bpmn-accion="dividir" aria-pressed="false" title="Dividir la pantalla: diagrama y panel al lado">▥ Dividir</button>
+            <button class="button button-small" type="button" data-bpmn-accion="modo" aria-pressed="false">Editar</button>
+            <button class="button button-small" type="button" data-bpmn-accion="anterior">Anterior</button>
+            <button class="button button-small" type="button" data-bpmn-accion="siguiente">Siguiente</button>
+            <button class="button button-small" type="button" data-bpmn-accion="acercar" aria-label="Acercar">＋</button>
+            <button class="button button-small" type="button" data-bpmn-accion="alejar" aria-label="Alejar">−</button>
+            <button class="button button-small" type="button" data-bpmn-accion="encuadrar">Encuadrar</button>
+            <button class="button button-small" type="button" data-bpmn-accion="guia" aria-pressed="false" aria-controls="bpmn-guia">Guía del diagrama</button>
+            <details class="bpmn-menu">
+              <summary class="button button-small">＋ Añadir</summary>
+              <div class="bpmn-menu__lista">
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-tarea">Tarea</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-tarea-usuario">Tarea de usuario</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-compuerta">Compuerta</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-evento">Evento de inicio</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-evento-fin">Evento de fin</button>
+                <button class="button button-small" type="button" data-bpmn-accion="agregar-carril">Carril</button>
+              </div>
+            </details>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="deshacer">Deshacer</button>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="rehacer">Rehacer</button>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="guardar">Guardar copia</button>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="restaurar">Restaurar semilla</button>
+            <span class="bpmn-badge bpmn-badge--info" data-bpmn-insignia>Semilla</span>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="bpmn">Exportar .bpmn</button>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="svg">Exportar SVG</button>
+            <button class="button button-small bpmn-secundario" type="button" data-bpmn-accion="png">Exportar PNG</button>
+          </div>
+          <div class="bpmn-canvas-wrap">
+            <div class="bpmn-canvas" data-bpmn-canvas></div>
+            <div class="bpmn-empty" data-bpmn-empty><strong>Selecciona un proceso</strong><span>Las semillas viven en src/bpmn/seeds.</span></div>
+            <aside class="bpmn-inspector" data-bpmn-inspector hidden aria-label="Detalle del elemento">
+              <h2 data-bpmn-element-title>Elemento</h2>
+              <p data-bpmn-element-meta></p>
+              <form class="bpmn-form" data-bpmn-form hidden>
+                <label class="bpmn-form__campo">Nombre
+                  <input type="text" data-bpmn-campo="nombre" autocomplete="off" spellcheck="false">
+                </label>
+                <label class="bpmn-form__campo">Carril
+                  <select data-bpmn-campo="carril"></select>
+                </label>
+                <label class="bpmn-form__campo">Color RR
+                  <select data-bpmn-campo="color"></select>
+                </label>
+                <label class="bpmn-form__campo">Notas
+                  <textarea data-bpmn-campo="notas" rows="3"></textarea>
+                </label>
+                <label class="bpmn-form__campo">Fuente
+                  <input type="text" data-bpmn-campo="fuente" autocomplete="off" spellcheck="false">
+                </label>
+                <label class="bpmn-form__campo">Corte
+                  <input type="text" data-bpmn-campo="corte" autocomplete="off" spellcheck="false">
+                </label>
+                <div class="bpmn-form__acciones">
+                  <button class="button button-small button-primary" type="button" data-bpmn-accion="aplicar">Aplicar</button>
+                  <button class="button button-small button-danger" type="button" data-bpmn-accion="eliminar">Eliminar</button>
+                </div>
+              </form>
+              <p class="bpmn-inspector__pista" data-bpmn-pista></p>
+            </aside>
+          </div>
+        </section>
+        <aside class="bpmn-split" data-bpmn-split hidden aria-label="Panel dividido">
+          <div class="bpmn-split__head">
+            <div class="bpmn-split__tabs" role="tablist" aria-label="Qué se ve al lado del diagrama">
+              <button class="bpmn-split__tab" type="button" role="tab" data-bpmn-panel="diagrama" aria-selected="true" id="bpmn-tab-diagrama" aria-controls="bpmn-panel-diagrama">Otro diagrama</button>
+              <button class="bpmn-split__tab" type="button" role="tab" data-bpmn-panel="esquema" aria-selected="false" id="bpmn-tab-esquema" aria-controls="bpmn-panel-esquema">Esquema</button>
+              <button class="bpmn-split__tab" type="button" role="tab" data-bpmn-panel="inicio" aria-selected="false" id="bpmn-tab-inicio" aria-controls="bpmn-panel-inicio">Inicio</button>
+            </div>
+            <button class="icon-button" type="button" data-bpmn-accion="cerrar-split" aria-label="Cerrar el panel dividido">×</button>
+          </div>
+          <div class="bpmn-split__body">
+            <section class="bpmn-split__pane" id="bpmn-panel-diagrama" role="tabpanel" aria-labelledby="bpmn-tab-diagrama" data-bpmn-pane="diagrama">
+              <div class="bpmn-split__picker">
+                <label class="sr-only" for="bpmn-split-proceso">Proceso del segundo diagrama</label>
+                <select id="bpmn-split-proceso" data-bpmn-split-proceso></select>
+              </div>
+              <div class="bpmn-split__lienzo">
+                <div class="bpmn-canvas bpmn-canvas--mini" data-bpmn-split-canvas></div>
+                <p class="bpmn-split__vacio" data-bpmn-split-vacio>Elige un proceso para verlo al lado.</p>
+              </div>
+            </section>
+            <section class="bpmn-split__pane" id="bpmn-panel-esquema" role="tabpanel" aria-labelledby="bpmn-tab-esquema" data-bpmn-pane="esquema" hidden>
+              <div class="bpmn-split__scroll" data-bpmn-esquema></div>
+            </section>
+            <section class="bpmn-split__pane" id="bpmn-panel-inicio" role="tabpanel" aria-labelledby="bpmn-tab-inicio" data-bpmn-pane="inicio" hidden>
+              <div class="bpmn-split__scroll" data-bpmn-inicio></div>
+            </section>
+          </div>
+        </aside>
+        <aside class="bpmn-guia" id="bpmn-guia" data-bpmn-guia hidden aria-label="Guía del diagrama">
+          <div class="bpmn-guia__head">
+            <div>
+              <span class="eyebrow">Guía del diagrama</span>
+              <h2 data-bpmn-guia-titulo>Qué busca este diagrama</h2>
+            </div>
+            <button class="icon-button" type="button" data-bpmn-accion="cerrar-guia" aria-label="Cerrar la guía">×</button>
+          </div>
+          <div class="bpmn-guia__body" data-bpmn-guia-cuerpo></div>
+        </aside>
+      </div>
+      <div class="bpmn-report" data-bpmn-report role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Vista Datos: export/import del modelo v5, validador e historial (ruta #/datos) -->
+    <section class="datos-view" data-datos-view hidden aria-label="Datos del Atlas">
+      <header class="datos-view__head">
+        <div class="datos-view__identidad">
+          <span class="datos-view__marca" aria-hidden="true">RR</span>
+          <div>
+            <span class="eyebrow">Datos</span>
+            <h1 class="datos-view__title">Datos del Atlas</h1>
+            <p class="datos-view__hint">Todo lo que hay en el Atlas en un solo archivo: base del repo + cambios de este equipo. <span class="datos-view__version" data-datos-version>Esquema v5</span></p>
+          </div>
+        </div>
+        <div class="datos-view__actions">
+          <button class="button button-ghost" type="button" data-datos-accion="exportar">↓ Exportar JSON</button>
+          <button class="button button-ghost" type="button" data-datos-accion="importar">↑ Importar JSON</button>
+          <button class="button button-ghost" type="button" data-datos-accion="restaurar">↺ Restaurar base</button>
+          <button class="button button-ghost" type="button" data-datos-accion="validar">✓ Validar</button>
+          <a class="button button-ghost" href="#top" data-datos-back aria-label="Volver al mapa vivo" title="Volver al mapa vivo"><span aria-hidden="true">←</span><span class="datos-accion__texto">Volver al mapa</span></a>
+          <input type="file" accept="application/json,.json" data-datos-archivo hidden>
+        </div>
+      </header>
+      <div class="datos-view__body">
+        <section class="datos-panel" aria-label="Resumen del modelo">
+          <h2 class="datos-panel__titulo">Qué hay en el Atlas</h2>
+          <ul class="datos__rejilla" data-datos-resumen></ul>
+        </section>
+        <section class="datos-panel" aria-label="Cambios locales">
+          <h2 class="datos-panel__titulo">Cambios locales</h2>
+          <div data-datos-diff></div>
+          <div class="datos-confirmacion" data-datos-confirmacion hidden>
+            <div data-datos-confirmacion-cuerpo></div>
+            <div class="datos-confirmacion__acciones">
+              <button class="button button-primary" type="button" data-datos-accion="confirmar">Sobrescribir con el archivo</button>
+              <button class="button button-ghost" type="button" data-datos-accion="cancelar">Cancelar</button>
+            </div>
+          </div>
+        </section>
+        <section class="datos-panel" aria-label="Validación del modelo">
+          <h2 class="datos-panel__titulo">Validador</h2>
+          <div data-datos-validacion></div>
+        </section>
+        <section class="datos-panel" aria-label="Historial de cambios">
+          <h2 class="datos-panel__titulo">Historial</h2>
+          <div data-datos-historial></div>
+        </section>
+        <section class="datos-panel datos-panel--ancho" aria-label="Fuentes y cortes">
+          <h2 class="datos-panel__titulo">Fuentes y cortes</h2>
+          <div data-datos-fuentes></div>
+        </section>
+        <section class="datos-panel datos-panel--ancho" aria-label="Lo que falta confirmar">
+          <h2 class="datos-panel__titulo">Lo que falta confirmar</h2>
+          <div data-datos-pendientes></div>
+        </section>
+      </div>
+    </section>
 
     <footer class="footer"><span>RR ALIADOS · Atlas operativo</span><span>Edición local · se guarda en este navegador</span></footer>
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
