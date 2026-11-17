@@ -10,7 +10,11 @@ import { build } from './build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 let dist;
-const rutasPath = resolve('/home/deadkiss/rr-encargos/atlas-pro-20261030/ciclo2/pasada-l/rutas-v3.json');
+// Fixture versionado en el repo (antes apuntaba a una ruta local de un solo equipo).
+// RUTAS_V3_JSON permite probar contra otro rutas-v3.json completo.
+const rutasPath = process.env.RUTAS_V3_JSON
+  ? resolve(process.env.RUTAS_V3_JSON)
+  : fileURLToPath(new URL('./fixtures/rutas-flujo-v3.json', import.meta.url));
 const binary = [process.env.CHROME_BIN, 'google-chrome', 'chromium', 'chromium-browser']
   .filter(Boolean).find((name) => spawnSync(name, ['--version']).status === 0);
 
