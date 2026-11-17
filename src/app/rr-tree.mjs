@@ -668,7 +668,9 @@ function render() {
   renderBreadcrumbs();
   setTransform();
   applySelectionClasses();
-  $('[data-node-count]').textContent = String(visible.nodes.length);
+  // El contador dice "nodos en el mapa": el total del grafo (no solo los que
+  // se ven en el encuadre). El build escribe el mismo número en el HTML.
+  $('[data-node-count]').textContent = String(state.graph.nodes.length);
   $('[data-process-count]').textContent = String(processRows.length);
   canvas.classList.toggle('linking', state.linkMode);
   updateSaveStatus();

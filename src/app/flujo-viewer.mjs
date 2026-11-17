@@ -1,11 +1,20 @@
 // Visor de flujos v3 integrado en atlas-arbol-pro.
-// Los datos se cargan desde /src/data/flujos-v3.local.json solo en builds --local;
-// en builds públicos el visor existe pero no tiene flujos cargados.
+// Orden de carga:
+//  1. /src/data/flujos-v3.local.json (solo en builds --local; nunca en producción).
+//  2. El dataset público `src/data/flujos-publicos.mjs`, incluido en el build
+//     de producción: los flujos públicos se ven sin depender de ningún *.local.*.
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
 let cache = null;
+
+// El dataset público se carga bajo demanda: el build de producción no debe
+// pagar 60 KB de flujos en la primera carga si el usuario no abre un flujo.
+async function loadFlujosPublicos() {
+  const modulo = await import('../data/flujos-publicos.mjs');
+  return modulo.flujosPublicos;
+}
 
 export async function loadFlujos() {
   if (cache) return cache;
@@ -13,9 +22,11 @@ export async function loadFlujos() {
     const res = await fetch('/src/data/flujos-v3.local.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    cache = data?.flujos ?? [];
+    const flujos = Array.isArray(data) ? data : data?.flujos ?? [];
+    cache = flujos.length ? flujos : await loadFlujosPublicos();
   } catch {
-    cache = [];
+    // Sin archivo local (build de producción): el dataset público cubre el visor.
+    cache = await loadFlujosPublicos();
   }
   return cache;
 }
