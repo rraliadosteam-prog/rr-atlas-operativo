@@ -82,7 +82,7 @@ Fuente: _herramientas/esquemas_bpmn/clientes_que_pasa_despues_de_entregar.json</
     </bpmn:endEvent>
     <bpmn:dataObject id="do_d_ex"/>
     <bpmn:dataObjectReference id="d_ex" dataObjectRef="do_d_ex" name="ex_clientes.md">
-      <bpmn:documentation>Siraitia: no debe nada, no es cliente. Alma: ex cliente. 5 personas en la lista, sin motivo registrado.</bpmn:documentation>
+      <bpmn:documentation>Cliente M: no debe nada, no es cliente. Cliente L: ex cliente. 5 personas en la lista, sin motivo registrado.</bpmn:documentation>
     </bpmn:dataObjectReference>
     <bpmn:sequenceFlow id="sf_1" sourceRef="e_ini" targetRef="t_informe"/>
     <bpmn:sequenceFlow id="sf_2" sourceRef="t_informe" targetRef="t_post"/>
