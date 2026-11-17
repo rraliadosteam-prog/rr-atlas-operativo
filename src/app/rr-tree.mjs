@@ -1,6 +1,7 @@
 import { HUB_LABEL, hubUrlFrom } from '../data/hub-link.mjs';
 import { createRRGraph, getInternalTreeCopy, processRows, statusLabels } from '../data/rr-tree.mjs';
 import { navigateToFlujo, showFlujoView } from './flujo-viewer.mjs';
+import { montarPortada } from './portada-hoy.mjs';
 import {
   CARD_SIZES,
   RR_TREE_STORAGE_KEY,
@@ -45,6 +46,7 @@ const PROCESS_TO_FLUJO = {
   'RO-3': 'clientes_que_pasa_despues_de_que_firman',
 };
 const MOBILE_ZOOM_MIN = 0.7;
+const DESKTOP_ZOOM_MIN = 0.55;
 const isMobileViewport = () => window.innerWidth <= 760;
 
 const app = $('#rr-app');
@@ -699,10 +701,19 @@ function centerOn(node) {
 function fitBounds(bounds = getGraphBounds(state.visibleGraph)) {
   const { width, height } = viewportSize();
   const padding = Math.min(44, width / 4, height / 4);
-  const zoomMin = isMobileViewport() ? MOBILE_ZOOM_MIN : 0.001;
-  state.zoom = Math.max(zoomMin, Math.min((width - padding * 2) / bounds.width, (height - padding * 2) / bounds.height, 1.25));
-  state.panX = Math.round((width - bounds.width * state.zoom) / 2 - bounds.left * state.zoom);
-  state.panY = Math.round((height - bounds.height * state.zoom) / 2 - bounds.top * state.zoom);
+  // 17-nov-2026: en escritorio el encuadre total dejaba el árbol al 20 %,
+  // ilegible. Ahora nunca baja de un zoom legible; si el árbol no cabe, se
+  // muestra desde arriba (la raíz y las líneas) y se recorre arrastrando.
+  const zoomMin = isMobileViewport() ? MOBILE_ZOOM_MIN : DESKTOP_ZOOM_MIN;
+  const ajuste = Math.min((width - padding * 2) / bounds.width, (height - padding * 2) / bounds.height, 1.25);
+  state.zoom = Math.max(zoomMin, ajuste);
+  if (ajuste < zoomMin) {
+    state.panX = Math.round(width / 2 - (bounds.left + bounds.width / 2) * state.zoom);
+    state.panY = Math.round(padding - bounds.top * state.zoom);
+  } else {
+    state.panX = Math.round((width - bounds.width * state.zoom) / 2 - bounds.left * state.zoom);
+    state.panY = Math.round((height - bounds.height * state.zoom) / 2 - bounds.top * state.zoom);
+  }
   setTransform();
 }
 
@@ -948,4 +959,5 @@ function applyHashRoute() {
   showFlujoView(false);
 }
 window.addEventListener('hashchange', applyHashRoute);
+montarPortada();
 applyHashRoute();

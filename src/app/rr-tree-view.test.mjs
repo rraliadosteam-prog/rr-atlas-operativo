@@ -100,7 +100,7 @@ async function openPage(width, seed = null) {
   await send('Emulation.setDeviceMetricsOverride', { width, height: width < 761 ? 844 : 1000, deviceScaleFactor: 1, mobile: width < 761 }, sessionId);
   await send('Storage.clearDataForOrigin', { origin, storageTypes: 'all' }, sessionId);
   if (seed) await send('Page.addScriptToEvaluateOnNewDocument', { source: `localStorage.setItem('rr-atlas-arbol-v2', ${JSON.stringify(seed)})` }, sessionId);
-  await send('Page.navigate', { url: origin }, sessionId);
+  await send('Page.navigate', { url: `${origin}/#mapa` }, sessionId); // 17-nov: la raíz abre la portada Hoy; el mapa vive en #mapa
   for (let attempt = 0; attempt < 100; attempt++) {
     if (await evaluate(`!!document.querySelector('.node-card')`)) break;
     await new Promise((resolve) => setTimeout(resolve, 30));
@@ -136,6 +136,16 @@ async function bounds(page) {
       centerX: (left+right-wrap.left-wrap.right)/2, centerY: (top+bottom-wrap.top-wrap.bottom)/2,
       width: wrap.width, height: wrap.height, zoom: document.querySelector('[data-zoom]').textContent };
   })()`);
+}
+
+// 17-nov-2026: en escritorio el mapa nunca baja de 55 % (antes abría al 20 %,
+// ilegible). Si el árbol no cabe a ese zoom, se ancla arriba con la raíz visible.
+function assertFitOLegible(result) {
+  const zoom = parseInt(result.zoom, 10) / 100;
+  if (zoom > 0.555) return assertFit(result);
+  assert.ok(zoom >= 0.55, `Zoom legible >= 55 %: ${result.zoom}`);
+  assert.ok(result.count > 0);
+  assert.ok(result.top >= 20, `Raíz visible arriba: ${JSON.stringify(result)}`);
 }
 
 function assertFit(result) {
@@ -186,21 +196,21 @@ for (const width of [390, 1440]) {
       if (width < 761) {
         assert.ok(parseInt(initial.zoom, 10) / 100 >= 0.6, `Zoom inicial móvil >= 0.6: ${initial.zoom}`);
       } else {
-        assertFit(initial);
+        assertFitOLegible(initial);
       }
       await page.resize(width === 390 ? 430 : 1000, 900);
       const resized = await bounds(page);
       if (width < 761) assert.ok(parseInt(resized.zoom, 10) / 100 >= 0.6, `Zoom resize móvil >= 0.6: ${resized.zoom}`);
-      else assertFit(resized);
+      else assertFitOLegible(resized);
       await page.click('[data-rail-panel] > summary');
       const toggled = await bounds(page);
       if (width < 761) assert.ok(parseInt(toggled.zoom, 10) / 100 >= 0.6, `Zoom rail móvil >= 0.6: ${toggled.zoom}`);
-      else assertFit(toggled);
+      else assertFitOLegible(toggled);
       await page.evaluate(`(() => { const select=document.querySelector('[data-filter="type"]'); select.value='process'; select.dispatchEvent(new Event('change')); })()`);
       await page.click('[data-action="fit"]');
       const wide = await bounds(page); metrics.push({ test: 'P2-amplio', width, wide });
       if (width < 761) assert.ok(parseInt(wide.zoom, 10) / 100 >= 0.6, `Zoom fit filtro móvil >= 0.6: ${wide.zoom}`);
-      else assertFit(wide);
+      else assertFitOLegible(wide);
       assert.equal(await page.evaluate(`localStorage.getItem('rr-atlas-arbol-v2')`), null, 'Encuadrar y filtrar no guardan geometría');
     } finally { await page.close(); }
   });
