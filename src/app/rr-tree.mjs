@@ -811,9 +811,8 @@ function restoreOriginal() {
 }
 
 function bindActions() {
-  const hubLink = $('[data-hub-link]');
-  if (hubLink) {
-    const target = hubUrlFrom({ hubUrl: document.documentElement.dataset.hubUrl });
+  const target = hubUrlFrom({ hubUrl: document.documentElement.dataset.hubUrl });
+  for (const hubLink of document.querySelectorAll('[data-hub-link]')) {
     hubLink.href = target;
     hubLink.title = `${HUB_LABEL} · ${target}`;
   }
