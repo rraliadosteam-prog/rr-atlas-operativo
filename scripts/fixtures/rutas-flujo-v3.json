@@ -1,0 +1,21 @@
+{
+  "_nota": "Rutas #flujo/<id> de la carcasa v3 (copiadas de rutas-v3.json, pasada L del ciclo 2, 31-oct-2026). Solo se guardan las rutas de flujo que usa scripts/flujo-routes.test.mjs.",
+  "rutas": [
+    "#flujo/alianzas_como_nace_una_alianza",
+    "#flujo/clientes_que_pasa_despues_de_entregar",
+    "#flujo/clientes_que_pasa_despues_de_que_firman",
+    "#flujo/desarrollo_como_llega_un_producto_de_software_a_produccion",
+    "#flujo/finanzas_como_entra_un_peso_a_la_cuenta",
+    "#flujo/finanzas_como_entra_y_se_sale_la_plata",
+    "#flujo/finanzas_como_se_le_paga_a_alguien",
+    "#flujo/finanzas_la_quincena",
+    "#flujo/gobierno_como_se_gobierna_la_documentacion",
+    "#flujo/ia_como_se_convierte_un_trabajo_repetitivo_en_un_agente",
+    "#flujo/ia_como_se_usa_la_ia_en_rr_aliados",
+    "#flujo/informacion_de_donde_sale_la_respuesta",
+    "#flujo/legal_como_se_firma_un_contrato",
+    "#flujo/produccion_como_se_hace_una_pieza",
+    "#flujo/soporte_como_se_resuelve_un_problema_de_un_cliente",
+    "#flujo/ventas_como_una_oportunidad_se_convierte_en_cliente"
+  ]
+}
