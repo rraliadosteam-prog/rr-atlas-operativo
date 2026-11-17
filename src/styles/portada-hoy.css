@@ -1,0 +1,38 @@
+/* Portada «Hoy» del Atlas (17-nov-2026). Marca: crema, negro, fucsia para la acción. */
+#rr-app[data-vista="hoy"] main.shell { display: none; }
+.portada-hoy { max-width: 1180px; margin: 0 auto; padding: 28px 24px 96px; color: #070001; font-family: "Lexend", "Inter Tight", system-ui, sans-serif; }
+.portada-hoy[hidden] { display: none; }
+.ph-cabecera { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 14px; }
+.ph-eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #973d8f; margin: 0 0 6px; font-weight: 600; }
+.portada-hoy h1 { font-family: "Inter Tight", system-ui, sans-serif; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; margin: 0; letter-spacing: -.01em; }
+.ph-sub { margin: 8px 0 0; color: #4b3f48; max-width: 640px; font-size: 15px; }
+.ph-boton { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #be076d; color: #fffff3; font-weight: 600; text-decoration: none; }
+.ph-boton:hover, .ph-boton:focus-visible { background: #8f0552; }
+.ph-franja-corte { margin: 0 0 18px; padding: 6px 12px; border-left: 4px solid #ded116; background: #fbf7d6; border-radius: 6px; font-size: 13px; }
+.ph-franja { background: #fff; border: 1px solid rgba(7,0,1,.1); border-radius: 18px; padding: 18px 20px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(7,0,1,.05); }
+.ph-franja h2 { font-family: "Inter Tight", system-ui, sans-serif; font-size: 20px; margin: 0 0 10px; display: flex; gap: 8px; align-items: center; }
+.ph-num { display: inline-flex; min-width: 28px; justify-content: center; padding: 2px 9px; border-radius: 999px; background: #070001; color: #fffff3; font-size: 13px; font-weight: 600; }
+.ph-cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.ph-col { background: #fffff3; border: 1px solid rgba(7,0,1,.08); border-radius: 12px; padding: 12px; }
+.ph-col h3 { font-size: 14px; margin: 0 0 8px; display: flex; justify-content: space-between; align-items: center; }
+.ph-col .ph-num { background: #f1eadb; color: #070001; font-size: 12px; }
+.ph-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 15px; }
+.ph-vacio, .ph-nota { color: #5e5059; font-size: 14px; margin: 0 0 10px; }
+.ph-devs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 8px; }
+.ph-dev { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(7,0,1,.1); background: #fffff3; }
+.ph-dev--rojo { border-color: rgba(180,35,24,.35); }
+.ph-dev__nombre { font-weight: 600; flex: 1 1 140px; }
+.ph-chip { font-size: 12px; padding: 2px 9px; border-radius: 999px; border: 1px solid; }
+.ph-chip--verde { background: #eaf4ea; color: #1e5a22; border-color: rgba(46,125,50,.4); }
+.ph-chip--mostaza { background: #fbf7d6; color: #070001; border-color: #ded116; }
+.ph-chip--rojo { background: #fdecea; color: #7a1a12; border-color: rgba(180,35,24,.4); }
+.ph-link { color: #be076d; font-weight: 600; font-size: 14px; text-decoration: none; }
+.ph-link:hover { text-decoration: underline; }
+.ph-flujos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.ph-flujo { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(7,0,1,.1); background: #fffff3; color: #070001; text-decoration: none; min-height: 44px; }
+.ph-flujo:hover, .ph-flujo:focus-visible { border-color: #be076d; }
+.ph-flujo__area { font-size: 12px; color: #973d8f; font-weight: 600; grid-column: 1; }
+.ph-flujo__titulo { font-size: 15px; grid-column: 1; }
+.ph-flujo__flecha { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: #be076d; font-weight: 700; }
+@media (max-width: 900px) { .ph-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .portada-hoy { padding: 18px 14px 88px; } .ph-cols { grid-template-columns: 1fr 1fr; } .ph-devs { grid-template-columns: 1fr; } .ph-boton { width: 100%; justify-content: center; } }

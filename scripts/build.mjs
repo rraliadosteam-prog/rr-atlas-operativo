@@ -1,11 +1,39 @@
 import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { relative, resolve, dirname, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRRGraph } from '../src/data/rr-tree.mjs';
 
 const DEFAULT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const LOCAL_DATA_PATH = ['src', 'data', 'atlas.local.json'];
 const LOCAL_FLUJOS_PATH = ['src', 'data', 'flujos-v3.local.json'];
 const LOCAL_OVERRIDE_PATH = ['src', 'data', 'local-overrides.mjs'];
+
+/**
+ * Los contadores del rail se escriben en el build, no en el HTML fuente.
+ * Antes el HTML traía "0" fijo: cualquier lectura sin JavaScript (un curl, un
+ * auditor de producción) veía "0 nodos visibles de 49 procesos" y concluía que
+ * el mapa estaba vacío. El placeholder hace imposible ese "0".
+ */
+export function fillCounters(html, { nodos, procesos }) {
+  if (typeof html !== 'string') throw new TypeError('El shell debe ser texto');
+  const counters = [
+    { placeholder: '{{NODOS_MAPA}}', marker: 'data-node-count', value: String(nodos) },
+    { placeholder: '{{PROCESOS_INVENTARIADOS}}', marker: 'data-process-count', value: String(procesos) },
+  ];
+  let output = html;
+  for (const { placeholder, marker, value } of counters) {
+    if (output.includes(placeholder)) {
+      output = output.split(placeholder).join(value);
+      continue;
+    }
+    // Un shell sin contadores (el fixture mínimo de las pruebas) es válido;
+    // un shell CON contador y sin placeholder es un error: significaría
+    // volver a publicar un número escrito a mano (el "0" de siempre).
+    if (html.includes(marker)) throw new Error(`Falta el placeholder ${placeholder} en el shell`);
+  }
+  if (output.includes('{{')) throw new Error('Quedaron placeholders sin reemplazar en el shell');
+  return output;
+}
 
 export function validateShell(html) {
   if (typeof html !== 'string' || !/^<!doctype html>/i.test(html.trim())) throw new Error('Invalid HTML shell');
@@ -119,7 +147,12 @@ export async function assertNoLocalArtifacts(dist) {
 export async function build(rootOrOptions = DEFAULT_ROOT, maybeOptions = {}) {
   const { root, local, dist: customDist } = normalizeBuildOptions(rootOrOptions, maybeOptions);
   const input = await readFile(resolve(root, 'index.html'), 'utf8');
-  const output = validateShell(input);
+  const shell = validateShell(input);
+  const graph = createRRGraph();
+  const output = fillCounters(shell, {
+    nodos: graph.nodes.length,
+    procesos: graph.nodes.filter((node) => node.type === 'process').length,
+  });
   const localData = local ? await readLocalData(root) : {};
   const dist = customDist ?? resolve(root, 'dist');
 

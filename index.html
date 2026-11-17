@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/src/rr-estilo/tokens.css">
   <link rel="stylesheet" href="/src/rr-estilo/componentes.css">
   <link rel="stylesheet" href="/src/styles/rr-tree.css">
+  <link rel="stylesheet" href="/src/styles/portada-hoy.css">
 </head>
 <body>
   <div class="app" id="rr-app">
@@ -26,9 +27,9 @@
         <button class="icon-button" data-action="search" type="button" aria-label="Buscar">⌕</button>
       </div>
       <div class="top-actions">
-        <a class="button button-hub" data-hub-link href="http://localhost:8081/" rel="noopener" aria-label="Volver al hub RR"><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
+        <a class="button button-hub" data-hub-link href="https://rr-aliados-mega-dashboard.vercel.app/" rel="noopener" aria-label="Volver al hub RR Aliados"><span aria-hidden="true">←</span><span class="hub-label hub-label--full" aria-hidden="true">Volver al hub RR</span><span class="hub-label hub-label--short" aria-hidden="true">Hub</span></a>
         <button class="button button-ghost" data-action="help" type="button">Guía</button>
-        <button class="button button-primary" data-action="add-node" type="button">＋ Añadir nodo</button>
+        <button class="button button-ghost" data-action="add-node" type="button">＋ Añadir nodo</button>
       </div>
     </header>
 
@@ -51,7 +52,7 @@
           <span><i class="legend-line legend-hierarchy"></i>Jerarquía</span>
           <span><i class="legend-line legend-cross"></i>Enlace cross</span>
         </div>
-        <div class="rail-stats"><strong data-node-count>0</strong><span>nodos visibles</span><strong data-process-count>49</strong><span>procesos inventariados</span></div>
+        <div class="rail-stats"><strong data-node-count>{{NODOS_MAPA}}</strong><span>nodos en el mapa</span><strong data-process-count>{{PROCESOS_INVENTARIADOS}}</strong><span>procesos inventariados</span></div>
         <div class="rail-actions">
           <button class="button button-outline" data-action="fit" type="button">⌗ Encuadrar mapa</button>
           <button class="button button-outline" data-action="focus-branch" type="button">◎ Enfocar rama</button>
@@ -102,7 +103,7 @@
       </aside>
     </main>
 
-    <footer class="footer"><span>RR ALIADOS · Atlas operativo</span><span>Edición local · se guarda en este navegador</span></footer>
+    <footer class="footer"><span>RR ALIADOS · Atlas operativo</span><span>Edición local · se guarda en este navegador</span><a class="footer-hub" data-hub-link href="https://rr-aliados-mega-dashboard.vercel.app/" rel="noopener" title="Abrir el hub RR Aliados (Mega Dashboard)">Hub RR Aliados ↗</a></footer>
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
     <dialog class="help-dialog" data-help-dialog>
       <form method="dialog"><div class="dialog-head"><div><span class="eyebrow">Cómo usarlo</span><h2>Mapa editable, sin secretos</h2></div><button class="icon-button" value="cancel" type="submit" aria-label="Cerrar guía">×</button></div><ul><li>Arrastra un nodo; el historial toma la instantánea antes del movimiento.</li><li>Usa el manejador ◇ para conectar arrastrando, o <strong>Enlazar</strong> desde el editor.</li><li>Doble clic en el título para editar en línea. Shift permite multiselección.</li><li><strong>Supr</strong> elimina; <strong>Ctrl/Cmd+Z</strong> deshace; <strong>Ctrl/Cmd+Shift+Z</strong> rehace.</li><li><strong>F</strong> encuadra, <strong>/</strong> enfoca búsqueda y las flechas mueven el foco.</li><li>Exporta JSON versionado antes de compartir. Restaurar original descarta cambios locales.</li></ul><button class="button button-primary" value="cancel" type="submit">Entendido</button></form>

@@ -477,6 +477,15 @@ body::before {
   text-transform: uppercase;
   background: var(--ink);
 }
+/* Enlace visible al hub RR Aliados (Mega Dashboard) ---------------------- */
+.footer-hub {
+  color: var(--mustard);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid var(--mustard);
+}
+.footer-hub:hover,
+.footer-hub:focus-visible { color: var(--cream); border-bottom-color: var(--cream); }
 .minimap { border-width: 2px; box-shadow: var(--atlas-hard-2); }
 .toast { border: 2px solid var(--mustard); box-shadow: 4px 4px 0 var(--rr-fucsia-25); }
 .help-dialog { border: var(--atlas-frame) solid var(--fuchsia); box-shadow: var(--atlas-hard-3); }
